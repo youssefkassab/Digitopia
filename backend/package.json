@@ -1,0 +1,24 @@
+{
+  "name": "digitopia",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youssefkassab/Digitopia.git"
+  },
+  "author": "youssef kassab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youssefkassab/Digitopia/issues"
+  },
+  "homepage": "https://github.com/youssefkassab/Digitopia#readme",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.1.0",
+    "mysql": "^2.18.1"
+  }
+}
