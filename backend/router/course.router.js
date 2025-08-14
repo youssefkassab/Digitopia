@@ -1,0 +1,11 @@
+const express = require('express');
+const router = express.Router();
+const courseController = require('../controller/course.Controller');
+const limit = require('../middleware/limit.middleware');
+const { roleAuth ,ROLE} = require('../middleware/auth.middleware');
+router.post('/create',limit, courseController.createCourse);
+router.get('/all', courseController.getAllCourses);
+router.get('/:id', courseController.getCourseById);
+router.put('/:id', roleAuth(ROLE.TEACHER),courseController.updateCourse);
+router.delete('/:id', roleAuth(ROLE.TEACHER),courseController.deleteCourse);
+module.exports = router;
