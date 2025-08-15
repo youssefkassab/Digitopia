@@ -14,6 +14,15 @@ const createCourse = (req, res) => {
     });
 }
 const getAllCourses = (req, res) => {
+    let quer = `SELECT * FROM courses`;
+    db.query(quer, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Internal server error.' });
+        }
+        return res.status(200).json(results);
+    });
+}
+const getAllTeacherCourses = (req, res) => {
     let quer = `SELECT * FROM courses WHERE teacher_id = ?`;
     if (req.user.role === 'admin') {
         quer = `SELECT * FROM courses`;
@@ -30,7 +39,7 @@ const getCourseById = (req, res) => {
     if (req.user.role === 'admin') {
         quer = `SELECT * FROM courses WHERE id = ?`;   
     }
-    db.query(quer, [req.params.id, req.user.id || req.user.role === 'admin'], (err, results) => {
+    db.query(quer, [req.body.id, req.user.id || req.user.role === 'admin'], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Internal server error.' });
         }
@@ -43,7 +52,7 @@ const updateCourse = (req, res) => {
     if (req.user.role === 'admin') {
         quer = `UPDATE courses SET ? WHERE id = ?`;
     }
-    db.query(quer, [courseData, req.params.id, req.user.id || req.user.role === 'admin'], (err, results) => {
+    db.query(quer, [courseData, req.body.id, req.user.id || req.user.role === 'admin'], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Internal server error.' });
         }
@@ -55,7 +64,7 @@ const deleteCourse = (req, res) => {
     if (req.user.role === 'admin') {
         quer = `DELETE FROM courses WHERE id = ?`;
     }
-    db.query(quer, [req.params.id, req.user.id || req.user.role === 'admin'], (err, results) => {
+    db.query(quer, [req.body.id, req.user.id || req.user.role === 'admin'], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Internal server error.' });
         }
@@ -65,6 +74,7 @@ const deleteCourse = (req, res) => {
 module.exports = {
     createCourse,
     getAllCourses,
+    getAllTeacherCourses,
     getCourseById,
     updateCourse,
     deleteCourse
