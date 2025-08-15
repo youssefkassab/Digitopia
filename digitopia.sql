@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2025 at 09:53 PM
+-- Generation Time: Aug 15, 2025 at 03:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `quest`
+-- Database: `digitopia`
 --
 
 -- --------------------------------------------------------
@@ -59,11 +59,19 @@ CREATE TABLE `posts` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` char(50) NOT NULL,
-  `emali` char(50) NOT NULL,
-  `password` char(30) NOT NULL,
+  `email` char(50) NOT NULL,
+  `password` char(200) NOT NULL,
   `national_number` char(30) NOT NULL,
-  `status` char(20) NOT NULL
+  `role` char(20) NOT NULL,
+  `Grade` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `national_number`, `role`, `Grade`) VALUES
+(1, '', 'youssefkassab2008@gmail.com', '$2b$10$iOHcYSBF2NDolWwkmm91ceNHmFzhnA6cU8i0mPUUQ/s1nuI/eaWo.', '', 'admin', NULL);
 
 --
 -- Indexes for dumped tables
@@ -108,7 +116,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

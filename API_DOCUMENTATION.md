@@ -672,6 +672,113 @@ api.interceptors.response.use(
 - `X-RateLimit-Reset`: When the rate limit resets (UTC timestamp)
 - `Retry-After`: Seconds to wait before retrying (when rate limited)
 
+## Testing Guide
+
+### Prerequisites
+1. Install [Postman](https://www.postman.com/downloads/)
+2. Set up the following environment variables in Postman:
+   - `base_url`: `http://localhost:3000/api`
+   - `token`: (Will be set after login)
+
+### Test Cases
+
+#### 1. User Registration
+**Endpoint**: `POST /users/signup`
+
+**Test Case 1.1: Successful Registration**
+- **Request**:
+  ```http
+  POST {{base_url}}/users/signup
+  Content-Type: application/json
+  
+  {
+    "email": "testuser@example.com",
+    "password": "TestPass123",
+    "name": "Test User",
+    "national_number": "1234567890"
+  }
+  ```
+- **Expected Response**: 201 Created
+- **Verification**:
+  - Check if user is created in database
+  - Verify password is hashed
+  - Verify role defaults to 'user' if not specified
+
+**Test Case 1.2: Duplicate Email**
+- **Request**: Same as above with existing email
+- **Expected Response**: 400 Bad Request
+- **Verification**: Error message should indicate email exists
+
+#### 2. User Login
+**Endpoint**: `POST /users/login`
+
+**Test Case 2.1: Successful Login**
+- **Request**:
+  ```http
+  POST {{base_url}}/users/login
+  Content-Type: application/json
+  
+  {
+    "email": "testuser@example.com",
+    "password": "TestPass123"
+  }
+  ```
+- **Expected Response**: 200 OK with JWT token
+- **Verification**:
+  - Save token to environment variable `token`
+  - Token should be valid JWT
+  - Response should include user details (without password)
+
+**Test Case 2.2: Invalid Credentials**
+- **Request**: Wrong email/password
+- **Expected Response**: 401 Unauthorized
+- **Verification**: Error message should be generic
+
+#### 3. Get Current User
+**Endpoint**: `GET /users/user`
+
+**Test Case 3.1: With Valid Token**
+- **Request**:
+  ```http
+  GET {{base_url}}/users/user
+  Authorization: Bearer {{token}}
+  ```
+- **Expected Response**: 200 OK with user data
+- **Verification**:
+  - Response should match test user data
+  - Should not include password hash
+
+**Test Case 3.2: Without Token**
+- **Request**: Same as above without Authorization header
+- **Expected Response**: 401 Unauthorized
+
+### Postman Collection Setup
+1. **Import Collection**:
+   - Click "Import" in Postman
+   - Select "Raw text" and paste the collection JSON
+   - Set up environment variables as shown above
+
+2. **Running Tests**:
+   - Open the collection in Postman
+   - Run the collection runner
+   - All tests should pass
+
+### Common Issues & Solutions
+1. **401 Unauthorized**
+   - Check if token is expired
+   - Verify token is in correct format: `Bearer <token>`
+   - Ensure token is being sent in the Authorization header
+
+2. **500 Internal Server Error**
+   - Check server logs for detailed error
+   - Verify database connection
+   - Ensure all environment variables are set
+
+3. **Validation Errors**
+   - Check request body against API documentation
+   - Verify all required fields are present
+   - Ensure data types match expected format
+
 ## Best Practices
 
 ### Security
@@ -687,11 +794,6 @@ api.interceptors.response.use(
 3. Compress responses
 4. Implement request debouncing
 
-## Support
-For additional help, please contact:
-- Email: support@digitopia.com
-- Documentation: https://docs.digitopia.com
-- Status Page: https://status.digitopia.com
 
 ---
 
