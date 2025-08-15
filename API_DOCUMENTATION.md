@@ -1,63 +1,67 @@
-# Digitopia API - Usage Guide & Restrictions
+# Digitopia API Documentation
 
-## Access Requirements
+## Table of Contents
+- [Base URL & Headers](#base-url--headers)
+- [Rate Limits](#rate-limits)
+- [Authentication](#authentication)
+- [User Roles & Permissions](#user-roles--permissions)
+- [API Endpoints](#api-endpoints)
+  - [Authentication](#authentication-endpoints)
+    - [Login](#login)
+    - [Signup](#signup)
+    - [Logout](#logout)
+  - [User Management](#user-management)
+    - [Get Current User](#get-current-user)
+  - [Course Management](#course-management)
+    - [Create Course](#create-course)
+    - [Get All Courses](#get-all-courses)
+    - [Get Teacher's Courses](#get-teachers-courses)
+    - [Find Course by ID](#find-course-by-id)
+    - [Update Course](#update-course)
+    - [Delete Course](#delete-course)
+- [Database Schema](#database-schema)
+- [Error Handling](#error-handling)
+- [Testing Guide](#testing-guide)
+
+## Base URL & Headers
 
 ### Base URL
 All API requests must be made to: `http://localhost:3000/api`
 
 ### Required Headers
-- `Content-Type: application/json` for all requests with body
-- `Authorization: Bearer <token>` for protected routes
+- `Content-Type: application/json` (for requests with body)
+- `Authorization: Bearer <token>` (for protected routes)
 
-## Rate Limits & Quotas
+## Rate Limits
 
-### Authentication Endpoints
-- **Rate Limit**: 5 requests per 15 minutes per IP
-- **Affected Routes**:
-  - `POST /users/login`
-  - `POST /users/signup`
-
-### API Endpoints
-- **Default Rate Limit**: 100 requests per minute per IP
-- **Upload/Download Limits**: 10MB per request
+| Endpoint Type       | Rate Limit           | Notes                             |
+|---------------------|---------------------|-----------------------------------|
+| Authentication      | 5 req/15 min/IP     | Applies to login/signup endpoints |
+| API Endpoints       | 100 req/min/IP      | Applies to all other endpoints    |
+| File Uploads        | 10MB max per request| For future file upload features   |
 
 ## Authentication
 
 ### Obtaining a Token
 1. Make a POST request to `/users/login` with email and password
-2. Store the received token securely (e.g., in localStorage for web apps)
+2. Store the received token securely (e.g., in localStorage)
 3. Include the token in the `Authorization` header for subsequent requests
 
 ### Token Expiration
 - Tokens expire after 1 hour of inactivity
-- No automatic refresh mechanism - user must log in again
+- No automatic refresh - user must log in again
 
-## Role-Based Access Control
+## User Roles & Permissions
 
-### Available Roles
-1. **Admin** (`admin`)
-   - Full access to all resources
-   - Can manage users and courses
+| Role      | Description                          | Course Access           | User Management |
+|-----------|--------------------------------------|-------------------------|-----------------|
+| Admin     | Full system access                   | Full CRUD on all courses| Full access     |
+| Teacher   | Can manage own courses               | CRUD on own courses     | None            |
+| User      | Basic access                         | Read-only access        | None            |
 
-2. **Teacher** (`teacher`)
-   - Can create/update/delete their own courses
-   - Can view all courses
+## API Endpoints
 
-3. **User** (`user`)
-   - Can view courses
-   - Cannot modify any resources
-
-### Endpoint Restrictions
-| Endpoint                | User | Teacher | Admin |
-|-------------------------|------|---------|-------|
-| GET /courses            | ✓   | ✓       | ✓     |
-| POST /courses/create    | ✗   | ✓       | ✓     |
-| PUT/DELETE /courses/:id | ✗   |Owner only| ✓    |
-| GET /users              | ✗   | ✗       | ✓     |
-
-## API Endpoints Reference
-
-### Authentication
+### Authentication Endpoints
 
 #### Login
 ```http
@@ -70,26 +74,18 @@ Content-Type: application/json
 }
 ```
 
-**Response (Success - 200 OK)**
+**Success Response (200 OK)**
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MjgxMjM0NTYsImV4cCI6MTYyODEyNzA1Nn0.abc123...",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "id": 1
 }
 ```
 
-**Response (Error - 401 Unauthorized)**
-```json
-{
-  "error": "Invalid email or password",
-  "code": "INVALID_CREDENTIALS"
-}
-```
-
-**Restrictions**:
-- Max 5 attempts per 15 minutes
-- Account locked for 15 minutes after 5 failed attempts
-- Token expires in 1 hour
+**Error Responses**
+- `400 Bad Request`: Missing required fields
+- `401 Unauthorized`: Invalid credentials
+- `429 Too Many Requests`: Rate limit exceeded
 
 ---
 
@@ -105,7 +101,7 @@ Content-Type: application/json
 }
 ```
 
-**Response (Success - 201 Created)**
+**Success Response (201 Created)**
 ```json
 {
   "message": "User created successfully",
@@ -113,115 +109,87 @@ Content-Type: application/json
 }
 ```
 
-**Response (Error - 400 Bad Request)**
-```json
-{
-  "error": "Email already registered",
-  "code": "EMAIL_TAKEN"
-}
-```
-
-**Restrictions**:
-- Email must be unique
-- Password must be at least 8 characters with letters and numbers
-- Role must be one of: 'admin', 'teacher', 'user' (default: 'user')
-
-## User Management Endpoints
-
-### Get Current User
-Retrieves the currently authenticated user's information. The user ID is automatically extracted from the JWT token in the Authorization header.
-
-```http
-GET /api/users/user
-Authorization: Bearer <your_jwt_token>
-```
-
-#### How it works:
-1. The JWT token is verified by the authentication middleware
-2. The user ID is extracted from the token and added to `req.user.id`
-3. The user data is fetched from the database using this ID
-
-#### Example Request
-```bash
-curl -X GET http://localhost:3000/api/users/user \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-```
-
-**Response (Success - 200 OK)**
-```json
-{
-  "id": 1,
-  "name": "",
-  "email": "user@example.com",
-  "national_number": "",
-  "role": "user",
-  "created_at": "2025-08-15T06:00:00.000Z"
-}
-```
-
-**Response (Error - 401 Unauthorized)**
-```json
-{
-  "error": "Authentication required",
-  "code": "AUTH_REQUIRED"
-}
-```
+**Error Responses**
+- `400 Bad Request`: Email already registered
+- `403 Forbidden`: Invalid role specified
 
 ---
 
-### Logout
+#### Logout
 ```http
 POST /users/logout
 Authorization: Bearer <token>
 ```
 
-**Response (Success - 200 OK)**
+**Success Response (200 OK)**
 ```json
 {
   "message": "Successfully logged out"
 }
 ```
 
-## Course Management Endpoints
+### User Management
 
-### Create Course
+#### Get Current User
 ```http
-POST /courses/create
+GET /api/users/user
+Authorization: Bearer <token>
+```
+
+**Success Response (200 OK)**
+```json
+{
+  "id": 1,
+  "name": "",
+  "email": "user@example.com",
+  "national_number": "",
+  "role": "user"
+}
+```
+
+**Error Responses**
+- `401 Unauthorized`: Invalid or missing token
+
+### Course Management
+
+#### Create Course
+```http
+POST /api/courses/create
 Authorization: Bearer <token>
 Content-Type: application/json
 
 {
   "name": "Advanced JavaScript",
   "description": "Deep dive into modern JavaScript",
-  "price": 99.99
+  "price": 99.99,
+  "teacher_id": 2
 }
 ```
 
-**Response (Success - 201 Created)**
+**Success Response (201 Created)**
 ```json
 {
-  "message": "Course created successfully",
-  "courseId": 1
+  "id": 1,
+  "name": "Advanced JavaScript",
+  "description": "Deep dive into modern JavaScript",
+  "price": 99.99,
+  "teacher_id": 2
 }
 ```
 
-**Response (Error - 403 Forbidden)**
-```json
-{
-  "error": "Insufficient permissions",
-  "code": "ACCESS_DENIED"
-}
-```
+**Required Fields**
+- `name`: String
+- `price`: Number
+- `teacher_id`: Number
 
 ---
 
-### Get All Courses
+#### Get All Courses
 ```http
-GET /courses/all
-Authorization: Bearer <token>
+GET /api/courses/all
 ```
 
-**Response (Success - 200 OK)**
+**Success Response (200 OK)**
 ```json
 [
   {
@@ -229,97 +197,95 @@ Authorization: Bearer <token>
     "name": "Advanced JavaScript",
     "description": "Deep dive into modern JavaScript",
     "price": 99.99,
-    "teacher_id": 2,
-    "created_at": "2025-08-15T06:05:00.000Z"
-  },
-  {
-    "id": 2,
-    "name": "Web Development Basics",
-    "description": "Learn HTML, CSS, and JavaScript",
-    "price": 49.99,
-    "teacher_id": 3,
-    "created_at": "2025-08-14T10:30:00.000Z"
+    "teacher_id": 2
   }
 ]
 ```
 
 ---
 
-### Get Course by ID
+#### Get Teacher's Courses
 ```http
-GET /courses/1
+GET /api/courses/teacher/mycourses
 Authorization: Bearer <token>
 ```
 
-**Response (Success - 200 OK)**
+**Success Response (200 OK)**
+```json
+[
+  {
+    "id": 1,
+    "name": "Advanced JavaScript",
+    "description": "Deep dive into modern JavaScript",
+    "price": 99.99,
+    "teacher_id": 2
+  }
+]
+```
+
+---
+
+#### Find Course by ID
+```http
+GET /api/courses/find
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "id": 1
+}
+```
+
+**Success Response (200 OK)**
 ```json
 {
   "id": 1,
   "name": "Advanced JavaScript",
   "description": "Deep dive into modern JavaScript",
   "price": 99.99,
-  "teacher_id": 2,
-  "created_at": "2025-08-15T06:05:00.000Z"
-}
-```
-
-**Response (Error - 404 Not Found)**
-```json
-{
-  "error": "Course not found",
-  "code": "COURSE_NOT_FOUND"
+  "teacher_id": 2
 }
 ```
 
 ---
 
-### Update Course
+#### Update Course
 ```http
-PUT /courses/1
+PUT /api/courses/update
 Authorization: Bearer <token>
 Content-Type: application/json
 
 {
+  "id": 1,
   "name": "Advanced JavaScript 2025",
   "price": 109.99
 }
 ```
 
-**Response (Success - 200 OK)**
+**Success Response (200 OK)**
 ```json
 {
   "message": "Course updated successfully"
 }
 ```
 
-**Response (Error - 403 Forbidden)**
-```json
+---
+
+#### Delete Course
+```http
+DELETE /api/courses/delete
+Authorization: Bearer <token>
+Content-Type: application/json
+
 {
-  "error": "You can only update your own courses",
-  "code": "ACCESS_DENIED"
+  "id": 1
 }
 ```
 
----
-
-### Delete Course
-```http
-DELETE /courses/1
-Authorization: Bearer <token>
-```
-
-**Response (Success - 200 OK)**
+**Success Response (200 OK)**
 ```json
 {
   "message": "Course deleted successfully"
-}
-```
-
-**Response (Error - 404 Not Found)**
-```json
-{
-  "error": "Course not found",
-  "code": "COURSE_NOT_FOUND"
 }
 ```
 
@@ -336,10 +302,112 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 ```
-**Restrictions**:
-- Email must be unique across all users
-- Password is hashed before storage
-- Default role is 'user'
+
+### Courses Table
+```sql
+CREATE TABLE courses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) NOT NULL,
+    teacher_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (teacher_id) REFERENCES users(id)
+);
+```
+
+## Error Handling
+
+### Common Error Responses
+
+#### 400 Bad Request
+```json
+{
+  "error": "Validation error message",
+  "code": "VALIDATION_ERROR"
+}
+```
+
+#### 401 Unauthorized
+```json
+{
+  "error": "Authentication required",
+  "code": "AUTH_REQUIRED"
+}
+```
+
+#### 403 Forbidden
+```json
+{
+  "error": "Insufficient permissions",
+  "code": "ACCESS_DENIED"
+}
+```
+
+#### 404 Not Found
+```json
+{
+  "error": "Resource not found",
+  "code": "NOT_FOUND"
+}
+```
+
+#### 500 Internal Server Error
+```json
+{
+  "error": "Internal server error",
+  "code": "INTERNAL_ERROR"
+}
+```
+
+## Testing Guide
+
+### Prerequisites
+- Install [Postman](https://www.postman.com/downloads/) or similar API testing tool
+- Ensure the backend server is running
+
+### Test Cases
+
+#### 1. User Registration
+1. Send POST request to `/api/users/signup`
+2. Verify successful creation (201)
+3. Verify duplicate email prevention (400)
+
+#### 2. User Login
+1. Send POST request to `/api/users/login`
+2. Verify token is returned (200)
+3. Test invalid credentials (401)
+
+#### 3. Course Management
+1. Login as teacher
+2. Create a new course
+3. Verify course appears in teacher's courses
+4. Update course details
+5. Delete course
+6. Verify course is removed
+
+### Testing with cURL
+
+#### Login Example
+```bash
+curl -X POST http://localhost:3000/api/users/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"teacher@example.com","password":"password123"}'
+```
+
+#### Create Course Example
+```bash
+curl -X POST http://localhost:3000/api/courses/create \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{"name":"New Course","price":99.99,"teacher_id":1}'
+```
+
+### Common Issues
+- **Token Expired**: Login again to get a new token
+- **CORS Issues**: Ensure frontend is making requests to the correct origin
+- **Validation Errors**: Check request body matches required schema
 
 ### Courses Table
 ```sql
@@ -672,6 +740,113 @@ api.interceptors.response.use(
 - `X-RateLimit-Reset`: When the rate limit resets (UTC timestamp)
 - `Retry-After`: Seconds to wait before retrying (when rate limited)
 
+## Testing Guide
+
+### Prerequisites
+1. Install [Postman](https://www.postman.com/downloads/)
+2. Set up the following environment variables in Postman:
+   - `base_url`: `http://localhost:3000/api`
+   - `token`: (Will be set after login)
+
+### Test Cases
+
+#### 1. User Registration
+**Endpoint**: `POST /users/signup`
+
+**Test Case 1.1: Successful Registration**
+- **Request**:
+  ```http
+  POST {{base_url}}/users/signup
+  Content-Type: application/json
+  
+  {
+    "email": "testuser@example.com",
+    "password": "TestPass123",
+    "name": "Test User",
+    "national_number": "1234567890"
+  }
+  ```
+- **Expected Response**: 201 Created
+- **Verification**:
+  - Check if user is created in database
+  - Verify password is hashed
+  - Verify role defaults to 'user' if not specified
+
+**Test Case 1.2: Duplicate Email**
+- **Request**: Same as above with existing email
+- **Expected Response**: 400 Bad Request
+- **Verification**: Error message should indicate email exists
+
+#### 2. User Login
+**Endpoint**: `POST /users/login`
+
+**Test Case 2.1: Successful Login**
+- **Request**:
+  ```http
+  POST {{base_url}}/users/login
+  Content-Type: application/json
+  
+  {
+    "email": "testuser@example.com",
+    "password": "TestPass123"
+  }
+  ```
+- **Expected Response**: 200 OK with JWT token
+- **Verification**:
+  - Save token to environment variable `token`
+  - Token should be valid JWT
+  - Response should include user details (without password)
+
+**Test Case 2.2: Invalid Credentials**
+- **Request**: Wrong email/password
+- **Expected Response**: 401 Unauthorized
+- **Verification**: Error message should be generic
+
+#### 3. Get Current User
+**Endpoint**: `GET /users/user`
+
+**Test Case 3.1: With Valid Token**
+- **Request**:
+  ```http
+  GET {{base_url}}/users/user
+  Authorization: Bearer {{token}}
+  ```
+- **Expected Response**: 200 OK with user data
+- **Verification**:
+  - Response should match test user data
+  - Should not include password hash
+
+**Test Case 3.2: Without Token**
+- **Request**: Same as above without Authorization header
+- **Expected Response**: 401 Unauthorized
+
+### Postman Collection Setup
+1. **Import Collection**:
+   - Click "Import" in Postman
+   - Select "Raw text" and paste the collection JSON
+   - Set up environment variables as shown above
+
+2. **Running Tests**:
+   - Open the collection in Postman
+   - Run the collection runner
+   - All tests should pass
+
+### Common Issues & Solutions
+1. **401 Unauthorized**
+   - Check if token is expired
+   - Verify token is in correct format: `Bearer <token>`
+   - Ensure token is being sent in the Authorization header
+
+2. **500 Internal Server Error**
+   - Check server logs for detailed error
+   - Verify database connection
+   - Ensure all environment variables are set
+
+3. **Validation Errors**
+   - Check request body against API documentation
+   - Verify all required fields are present
+   - Ensure data types match expected format
+
 ## Best Practices
 
 ### Security
@@ -687,11 +862,6 @@ api.interceptors.response.use(
 3. Compress responses
 4. Implement request debouncing
 
-## Support
-For additional help, please contact:
-- Email: support@digitopia.com
-- Documentation: https://docs.digitopia.com
-- Status Page: https://status.digitopia.com
 
 ---
 
