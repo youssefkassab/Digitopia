@@ -48,12 +48,12 @@ All API requests must be made to: `http://localhost:3000/api`
    - Cannot modify any resources
 
 ### Endpoint Restrictions
-| Endpoint | User | Teacher | Admin |
-|----------|------|---------|-------|
-| GET /courses | ✓ | ✓ | ✓ |
-| POST /courses/create | ✗ | ✓ | ✓ |
-| PUT/DELETE /courses/:id | ✗ | Owner only | ✓ |
-| GET /users | ✗ | ✗ | ✓ |
+| Endpoint                | User | Teacher | Admin |
+|-------------------------|------|---------|-------|
+| GET /courses            | ✓   | ✓       | ✓     |
+| POST /courses/create    | ✗   | ✓       | ✓     |
+| PUT/DELETE /courses/:id | ✗   |Owner only| ✓    |
+| GET /users              | ✗   | ✗       | ✓     |
 
 ## API Endpoints Reference
 
@@ -62,19 +62,251 @@ All API requests must be made to: `http://localhost:3000/api`
 #### Login
 ```http
 POST /users/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "SecurePass123!"
+}
 ```
+
+**Response (Success - 200 OK)**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MjgxMjM0NTYsImV4cCI6MTYyODEyNzA1Nn0.abc123...",
+  "id": 1
+}
+```
+
+**Response (Error - 401 Unauthorized)**
+```json
+{
+  "error": "Invalid email or password",
+  "code": "INVALID_CREDENTIALS"
+}
+```
+
 **Restrictions**:
 - Max 5 attempts per 15 minutes
 - Account locked for 15 minutes after 5 failed attempts
+- Token expires in 1 hour
+
+---
 
 #### Signup
 ```http
 POST /users/signup
+Content-Type: application/json
+
+{
+  "email": "newuser@example.com",
+  "password": "SecurePass123!",
+  "role": "user"
+}
 ```
+
+**Response (Success - 201 Created)**
+```json
+{
+  "message": "User created successfully",
+  "userId": 2
+}
+```
+
+**Response (Error - 400 Bad Request)**
+```json
+{
+  "error": "Email already registered",
+  "code": "EMAIL_TAKEN"
+}
+```
+
 **Restrictions**:
 - Email must be unique
 - Password must be at least 8 characters with letters and numbers
-- Role must be one of: 'admin', 'teacher', 'user'
+- Role must be one of: 'admin', 'teacher', 'user' (default: 'user')
+
+## User Management Endpoints
+
+### Get Current User
+```http
+GET /users/user
+Authorization: Bearer <token>
+```
+
+**Response (Success - 200 OK)**
+```json
+{
+  "id": 1,
+  "email": "user@example.com",
+  "role": "user",
+  "created_at": "2025-08-15T06:00:00.000Z"
+}
+```
+
+**Response (Error - 401 Unauthorized)**
+```json
+{
+  "error": "Authentication required",
+  "code": "AUTH_REQUIRED"
+}
+```
+
+---
+
+### Logout
+```http
+POST /users/logout
+Authorization: Bearer <token>
+```
+
+**Response (Success - 200 OK)**
+```json
+{
+  "message": "Successfully logged out"
+}
+```
+
+## Course Management Endpoints
+
+### Create Course
+```http
+POST /courses/create
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Advanced JavaScript",
+  "description": "Deep dive into modern JavaScript",
+  "price": 99.99
+}
+```
+
+**Response (Success - 201 Created)**
+```json
+{
+  "message": "Course created successfully",
+  "courseId": 1
+}
+```
+
+**Response (Error - 403 Forbidden)**
+```json
+{
+  "error": "Insufficient permissions",
+  "code": "ACCESS_DENIED"
+}
+```
+
+---
+
+### Get All Courses
+```http
+GET /courses/all
+Authorization: Bearer <token>
+```
+
+**Response (Success - 200 OK)**
+```json
+[
+  {
+    "id": 1,
+    "name": "Advanced JavaScript",
+    "description": "Deep dive into modern JavaScript",
+    "price": 99.99,
+    "teacher_id": 2,
+    "created_at": "2025-08-15T06:05:00.000Z"
+  },
+  {
+    "id": 2,
+    "name": "Web Development Basics",
+    "description": "Learn HTML, CSS, and JavaScript",
+    "price": 49.99,
+    "teacher_id": 3,
+    "created_at": "2025-08-14T10:30:00.000Z"
+  }
+]
+```
+
+---
+
+### Get Course by ID
+```http
+GET /courses/1
+Authorization: Bearer <token>
+```
+
+**Response (Success - 200 OK)**
+```json
+{
+  "id": 1,
+  "name": "Advanced JavaScript",
+  "description": "Deep dive into modern JavaScript",
+  "price": 99.99,
+  "teacher_id": 2,
+  "created_at": "2025-08-15T06:05:00.000Z"
+}
+```
+
+**Response (Error - 404 Not Found)**
+```json
+{
+  "error": "Course not found",
+  "code": "COURSE_NOT_FOUND"
+}
+```
+
+---
+
+### Update Course
+```http
+PUT /courses/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Advanced JavaScript 2025",
+  "price": 109.99
+}
+```
+
+**Response (Success - 200 OK)**
+```json
+{
+  "message": "Course updated successfully"
+}
+```
+
+**Response (Error - 403 Forbidden)**
+```json
+{
+  "error": "You can only update your own courses",
+  "code": "ACCESS_DENIED"
+}
+```
+
+---
+
+### Delete Course
+```http
+DELETE /courses/1
+Authorization: Bearer <token>
+```
+
+**Response (Success - 200 OK)**
+```json
+{
+  "message": "Course deleted successfully"
+}
+```
+
+**Response (Error - 404 Not Found)**
+```json
+{
+  "error": "Course not found",
+  "code": "COURSE_NOT_FOUND"
+}
+```
 
 ## Database Schema
 

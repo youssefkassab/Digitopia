@@ -7,7 +7,7 @@ const db=mysql.createPool({
     database:"digitopia"
 })
 
-db.connect((err)=>{
+db.getConnection((err)=>{
     if(err) throw err;
     console.log("Connected!");
 })
