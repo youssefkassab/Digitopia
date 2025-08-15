@@ -24,14 +24,14 @@ const auth = (req, res, next) => {
     const decoded = jwt.verify(token, env.JWT_SECRET);
     
     // Ensure the decoded token has the required user data
-    if (!decoded.user || !decoded.role) {
+    if (!decoded.id || !decoded.role) {
       return res.status(401).json({ message: 'Invalid token payload' });
     }
     
     // Set user data from the decoded token
     req.user = {
       id: decoded.id,
-      email: decoded.user,
+      email: decoded.email,
       role: decoded.role
     };
     

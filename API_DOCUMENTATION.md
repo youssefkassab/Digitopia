@@ -129,16 +129,31 @@ Content-Type: application/json
 ## User Management Endpoints
 
 ### Get Current User
+Retrieves the currently authenticated user's information. The user ID is automatically extracted from the JWT token in the Authorization header.
+
 ```http
-GET /users/user
-Authorization: Bearer <token>
+GET /api/users/user
+Authorization: Bearer <your_jwt_token>
+```
+
+#### How it works:
+1. The JWT token is verified by the authentication middleware
+2. The user ID is extracted from the token and added to `req.user.id`
+3. The user data is fetched from the database using this ID
+
+#### Example Request
+```bash
+curl -X GET http://localhost:3000/api/users/user \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
 **Response (Success - 200 OK)**
 ```json
 {
   "id": 1,
+  "name": "",
   "email": "user@example.com",
+  "national_number": "",
   "role": "user",
   "created_at": "2025-08-15T06:00:00.000Z"
 }
