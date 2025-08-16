@@ -2,16 +2,30 @@ const db = require('../config/db');
 
 const createCourse = (req, res) => {
     const courseData = req.body;
-    if (!courseData.name || !courseData.description || !courseData.price) {
-        return res.status(400).json({ error: 'Name, description, and price are required.' });
-    }
-    const quer = `INSERT INTO courses SET ?`;
-    db.query(quer, courseData, (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Internal server error.' });
+    if (req.user.role === 'admin') {
+        if (!courseData.name || !courseData.description || !courseData.price || !courseData.teacher_id) {
+            return res.status(400).json({ error: 'Name, description, price, and teacher id are required.' });
         }
-        return res.status(201).json({ message: 'Course created successfully.' });
-    });
+        const quer = `INSERT INTO courses SET ?`;
+        db.query(quer, courseData, (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Internal server error.' });
+            }
+            return res.status(201).json({ message: 'Course created successfully.' });
+        });
+    }else{
+        if (!courseData.name || !courseData.description || !courseData.price) {
+            return res.status(400).json({ error: 'Name, description, and price are required.' });
+        }
+        const quer = `INSERT INTO courses SET ?`;
+        db.query(quer,[courseData,req.user.id], (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Internal server error.' });
+            }
+            return res.status(201).json({ message: 'Course created successfully.' });
+        });
+    }
+   
 }
 const getAllCourses = (req, res) => {
     let quer = `SELECT * FROM courses`;

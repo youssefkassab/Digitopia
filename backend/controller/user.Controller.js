@@ -8,7 +8,8 @@ function isValidEmail(email) {
 }
 
 function isStrongPassword(password) {
-  return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+  // Minimum 8 characters, at least one letter and one number, allows special characters
+  return /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password);
 }
 //TODO: ask karim about user data sending with the login or creat a api for it
 const login = (req, res) => {
