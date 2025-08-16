@@ -1,0 +1,29 @@
+/* Tiny repeated icons in the background */
+.floating-icons-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+
+  /* Dense tiled tiny icons */
+  background-image: url("../assets/FloatingIcons/tiny-icons.png");
+  background-repeat: repeat;
+  background-size: 12px 12px; /* very dense */
+  animation: floatBG 60s linear infinite;
+  opacity: 0.1; /* subtle */
+}
+
+@keyframes floatBG {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: -300px -200px;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
