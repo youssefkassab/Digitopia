@@ -137,6 +137,7 @@ const Signup = () => {
       password: formData.password,
       role: formData.role === "student" ? "user" : "teacher",
       national_number: formData.nationalId,
+      Grade: formData.grade,
     };
 
     setLoading(true);
