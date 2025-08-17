@@ -8,7 +8,8 @@ function isValidEmail(email) {
 }
 
 function isStrongPassword(password) {
-  return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+  // Minimum 8 characters, at least one letter and one number, allows special characters
+  return /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password);
 }
 //TODO: ask karim about user data sending with the login or creat a api for it
 const login = (req, res) => {
@@ -93,7 +94,7 @@ const signup = (req, res) => {
       if (err) {
         return res.status(500).json({ error: 'Internal server error. ' + err });
       }
-      db.query(quer, {email: userData.email, password: hash , role: userData.role}, (err, results) => {
+      db.query(quer, {email: userData.email, password: hash , role: userData.role, name: userData.name, national_number: userData.national_number,Grade: userData.Grade}, (err, results) => {
         if (err) {
           return res.status(500).json({ error: 'Internal server error. ' + err });
         }
@@ -111,7 +112,7 @@ const logout = (req, res) => {
   return res.status(200).json({ message: 'User logged out successfully' });
 }
 const user = (req, res) => {
-  const quer = `SELECT id ,name , email ,national_number , role FROM users WHERE id = ?`;
+  const quer = `SELECT id ,name , email ,national_number , role ,Grade FROM users WHERE id = ?`;
   db.query(quer, [req.user.id], (err, results) => {
     if (err) {
       return res.status(500).json({ error: 'Internal server error. ' + err });
