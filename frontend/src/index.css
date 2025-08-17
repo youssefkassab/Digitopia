@@ -1,0 +1,198 @@
+/* General page styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  color: #1d1d1f;
+}
+
+/* Navbar container */
+.navbar {
+  text-align: center;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.2); /* translucent */
+  backdrop-filter: blur(10px); /* blur behind */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* translucent border */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  font-size: 13px;
+  height: 60px;
+}
+
+.navbar a {
+  color: #1d1d1f;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 0 15px;
+  transition: color 0.3s ease;
+}
+
+/* Navbar links container */
+.nav-links {
+  color: #1d1d1f;
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Individual link */
+.nav-link {
+  color: #1d1d1f;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #3a3a3c;
+}
+
+/* Page container */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 80px); /* subtract navbar height if fixed */
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #007aff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #005fcc;
+}
+
+/* Card / form container */
+.card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  z-index: 999;
+  margin-top: 75px;
+}
+
+/* Form elements */
+.form-group {
+  margin-bottom: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4a148c;
+  box-shadow: 0 0 0 3px rgba(74, 20, 140, 0.2);
+}
+
+/* Floating Icons */
+.floating-icons {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* don't block clicks */
+  z-index: -1; /* stay behind everything */
+  overflow: hidden;
+}
+
+.icon {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  opacity: 0.8;
+}
+
+.icon1 {
+  top: 20%;
+  left: 10%;
+  animation: float1 12s ease-in-out infinite;
+}
+.icon2 {
+  top: 40%;
+  left: 70%;
+  animation: float2 15s ease-in-out infinite;
+}
+.icon3 {
+  top: 70%;
+  left: 30%;
+  animation: float3 18s ease-in-out infinite;
+}
+.icon4 {
+  top: 10%;
+  left: 80%;
+  animation: float4 20s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, -30px);
+  }
+}
+
+@keyframes float2 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-30px, 20px);
+  }
+}
+
+@keyframes float3 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(25px, 25px);
+  }
+}
+
+@keyframes float4 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-25px, -25px);
+  }
+}
