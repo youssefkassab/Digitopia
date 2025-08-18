@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2025 at 07:14 PM
+-- Generation Time: Aug 15, 2025 at 03:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -33,22 +33,6 @@ CREATE TABLE `courses` (
   `description` text DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `teacher_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `messages`
---
-
-CREATE TABLE `messages` (
-  `id` int(11) NOT NULL,
-  `sender` varchar(100) NOT NULL,
-  `receiver` varchar(100) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `message_date` date DEFAULT NULL,
-  `message_time` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -87,7 +71,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `national_number`, `role`, `Grade`) VALUES
-(10, 'Ahmed Noaman Ahmed Noaman', 'ahmednoaman00001@gmail.com', '$2b$10$tBs4jnmN4FyGuqbs8sWVTO6AdBkqDsyZwTc0yvKfsfivCMN1rAadC', '30807130105373', 'user', '12');
+(1, '', 'youssefkassab2008@gmail.com', '$2b$10$iOHcYSBF2NDolWwkmm91ceNHmFzhnA6cU8i0mPUUQ/s1nuI/eaWo.', '', 'admin', NULL);
 
 --
 -- Indexes for dumped tables
@@ -99,12 +83,6 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `national_number`, `role
 ALTER TABLE `courses`
   ADD PRIMARY KEY (`id`),
   ADD KEY `teacher_id` (`teacher_id`);
-
---
--- Indexes for table `messages`
---
-ALTER TABLE `messages`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `posts`
@@ -129,12 +107,6 @@ ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `messages`
---
-ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
@@ -144,7 +116,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
