@@ -29,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     national_number: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
+       unique: true 
     },
     role: {
       type: DataTypes.STRING(20),

@@ -2,7 +2,15 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {}
+  class Post extends Model {
+    static associate(models) {
+      // A Post can have many Tags
+      Post.belongsToMany(models.Tag, { 
+        through: 'post_tags', 
+        foreignKey: 'postId' 
+      });
+    }
+  }
 
   Post.init({
     id: {
