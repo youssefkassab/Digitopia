@@ -25,14 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.DECIMAL(10, 2)
     },
-     date: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
-    },
-    time: {
-      type: DataTypes.TIME,
-      allowNull: false
-    },
     teacher_id: {
       type: DataTypes.INTEGER
     }
