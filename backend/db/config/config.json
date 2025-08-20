@@ -4,20 +4,23 @@
     "password": "",
     "database": "digitopia",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "+02:00"
   },
   "test": {
     "username": "root",
     "password": "",
     "database": "digitopia",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "+02:00"
   },
   "production": {
    "username": "root",
     "password": "",
     "database": "digitopia",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "+02:00"
   }
 }
