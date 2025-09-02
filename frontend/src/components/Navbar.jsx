@@ -1,9 +1,30 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/Logos/3Q-Logo.svg";
+import { getStoredUser, getCurrentUser, logout } from "../services/auth";
 
 const Navbar = () => {
   const [query, setQuery] = useState("");
+  const [user, setUser] = useState(getStoredUser());
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Verify token with API to refresh user data
+    const verifyUser = async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          setUser(currentUser);
+          localStorage.setItem("user", JSON.stringify(currentUser));
+        } else {
+          setUser(null);
+        }
+      } catch {
+        setUser(null);
+      }
+    };
+    verifyUser();
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -11,17 +32,28 @@ const Navbar = () => {
     // Add your search logic here
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } finally {
+      setUser(null);
+      navigate("/"); // redirect to home
+    }
+  };
+
   return (
     <nav className="navbar">
       <div></div>
+
       {/* Logo */}
-      <a href="../App.jsx">
+      <Link to="/">
         <img
           src={Logo}
           alt="Website Logo"
           style={{ width: "120px", height: "120px" }}
         />
-      </a>
+      </Link>
+
       {/* Search bar */}
       <form className="nav-search" onSubmit={handleSearch}>
         <input
@@ -56,9 +88,30 @@ const Navbar = () => {
         <Link to="/Contact" className="nav-link">
           Contact Us
         </Link>
-        <Link to="/Signup" className="nav-link">
-          Sign Up
-        </Link>
+
+        {user ? (
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <span>Hi, {user.name || user.email}</span>
+            <button
+              onClick={handleLogout}
+              className="btn btn-small"
+              style={{
+                padding: "6px 12px",
+                backgroundColor: "#ff4d4f",
+                color: "#fff",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <Link to="/Signup" className="nav-link">
+            Sign Up
+          </Link>
+        )}
       </div>
     </nav>
   );
