@@ -14,6 +14,7 @@ import Community from "./components/Community";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
 import Signup from "./components/Signup";
+import Login from "./components/Login";
 import Footer from "./components/Footer";
 
 function AnimatedRoutes() {
@@ -22,14 +23,19 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <FloatingIcons />
       <Routes location={location} key={location.pathname}>
-        {/* Show slider on homepage */}
-        <Route path="/App.jsx" element={<PosterSlider />} />
+        {/* Landing page */}
+        <Route path="/" element={<PosterSlider />} />
+
+        {/* Main routes */}
         <Route path="/Classroom" element={<Classroom />} />
         <Route path="/Courses" element={<Courses />} />
         <Route path="/Community" element={<Community />} />
         <Route path="/About" element={<AboutUs />} />
         <Route path="/Contact" element={<ContactUs />} />
+
+        {/* Auth routes */}
         <Route path="/Signup" element={<Signup />} />
+        <Route path="/Login" element={<Login />} />
       </Routes>
       <Footer />
     </AnimatePresence>
