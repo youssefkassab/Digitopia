@@ -20,25 +20,27 @@ import Footer from "./components/Footer";
 function AnimatedRoutes() {
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait">
+    <>
       <FloatingIcons />
-      <Routes location={location} key={location.pathname}>
-        {/* Landing page */}
-        <Route path="/" element={<PosterSlider />} />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {/* Landing page */}
+          <Route path="/" element={<PosterSlider />} />
 
-        {/* Main routes */}
-        <Route path="/Classroom" element={<Classroom />} />
-        <Route path="/Courses" element={<Courses />} />
-        <Route path="/Community" element={<Community />} />
-        <Route path="/About" element={<AboutUs />} />
-        <Route path="/Contact" element={<ContactUs />} />
+          {/* Main routes */}
+          <Route path="/Classroom" element={<Classroom />} />
+          <Route path="/Courses" element={<Courses />} />
+          <Route path="/Community" element={<Community />} />
+          <Route path="/About" element={<AboutUs />} />
+          <Route path="/Contact" element={<ContactUs />} />
 
-        {/* Auth routes */}
-        <Route path="/Signup" element={<Signup />} />
-        <Route path="/Login" element={<Login />} />
-      </Routes>
-      <Footer />
-    </AnimatePresence>
+          {/* Auth routes */}
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/Login" element={<Login />} />
+        </Routes>
+        <Footer />
+      </AnimatePresence>
+    </>
   );
 }
 
