@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../assets/3Q-Logo.svg";
+import Logo from "../assets/Logos/3Q-Logo.svg";
 
 const Navbar = () => {
   const [query, setQuery] = useState("");
@@ -15,12 +15,13 @@ const Navbar = () => {
     <nav className="navbar">
       <div></div>
       {/* Logo */}
-      <img
-        src={Logo}
-        alt="Website Logo"
-        style={{ width: "120px", height: "120px" }}
-      />
-
+      <a href="../App.jsx">
+        <img
+          src={Logo}
+          alt="Website Logo"
+          style={{ width: "120px", height: "120px" }}
+        />
+      </a>
       {/* Search bar */}
       <form className="nav-search" onSubmit={handleSearch}>
         <input
@@ -40,19 +41,22 @@ const Navbar = () => {
 
       {/* Navigation links */}
       <div className="nav-links">
-        <Link to="/" className="nav-link">
-          tab1
+        <Link to="/Classroom" className="nav-link">
+          Classroom
         </Link>
-        <Link to="/" className="nav-link">
-          tab2
+        <Link to="/Courses" className="nav-link">
+          Courses
         </Link>
-        <Link to="/" className="nav-link">
-          tab3
+        <Link to="/Community" className="nav-link">
+          Community
         </Link>
-        <Link to="/" className="nav-link">
-          tab4
+        <Link to="/About" className="nav-link">
+          About Us
         </Link>
-        <Link to="/signup" className="nav-link">
+        <Link to="/Contact" className="nav-link">
+          Contact Us
+        </Link>
+        <Link to="/Signup" className="nav-link">
           Sign Up
         </Link>
       </div>
