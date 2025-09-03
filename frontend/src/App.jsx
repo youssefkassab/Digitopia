@@ -13,8 +13,10 @@ import Courses from "./components/Courses";
 import Community from "./components/Community";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
+import Dashboard from "./components/Dashboard";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import Footer from "./components/Footer";
 
 function AnimatedRoutes() {
@@ -33,6 +35,7 @@ function AnimatedRoutes() {
           <Route path="/Community" element={<Community />} />
           <Route path="/About" element={<AboutUs />} />
           <Route path="/Contact" element={<ContactUs />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
 
           {/* Auth routes */}
           <Route path="/Signup" element={<Signup />} />
