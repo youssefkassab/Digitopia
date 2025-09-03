@@ -2,16 +2,32 @@ const db = require('../config/db');
 
 const createCourse = (req, res) => {
     const courseData = req.body;
-    if (!courseData.name || !courseData.description || !courseData.price) {
-        return res.status(400).json({ error: 'Name, description, and price are required.' });
-    }
-    const quer = `INSERT INTO courses SET ?`;
-    db.query(quer, courseData, (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Internal server error.' });
+    if (req.user.role === 'admin') {
+        if (!courseData.name || !courseData.description || !courseData.price || !courseData.teacher_id) {
+            return res.status(400).json({ error: 'Name, description, price, and teacher id are required.' });
         }
-        return res.status(201).json({ message: 'Course created successfully.' });
-    });
+        const quer = `INSERT INTO courses SET ?`;
+        db.query(quer, courseData, (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Internal server error.' });
+            }
+            return res.status(201).json({ message: 'Course created successfully.' });
+        });
+    } else {
+        if (!courseData.name || !courseData.description || !courseData.price) {
+            return res.status(400).json({ error: 'Name, description, and price are required.' });
+        }
+        // Set teacher_id for non-admin users
+        courseData.teacher_id = req.user.id;
+        const quer = `INSERT INTO courses SET ?`;
+        db.query(quer, courseData, (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Internal server error.' });
+            }
+            return res.status(201).json({ message: 'Course created successfully.' });
+        });
+    }
+
 }
 const getAllCourses = (req, res) => {
     let quer = `SELECT * FROM courses`;
@@ -37,7 +53,7 @@ const getAllTeacherCourses = (req, res) => {
 const getCourseById = (req, res) => {
     let quer = `SELECT * FROM courses WHERE id = ? AND teacher_id = ?`;
     if (req.user.role === 'admin') {
-        quer = `SELECT * FROM courses WHERE id = ?`;   
+        quer = `SELECT * FROM courses WHERE id = ?`;
     }
     db.query(quer, [req.body.id, req.user.id || req.user.role === 'admin'], (err, results) => {
         if (err) {
