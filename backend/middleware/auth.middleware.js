@@ -51,14 +51,15 @@ const roleAuth = (allowedRole) => {
       return res.status(401).json({ message: 'Authentication required' });
     }
     
-    // Check if user has the required role or is an admin
-    if (req.user.role === allowedRole || req.user.role === ROLE.ADMIN) {
+    // Support array or single role
+    const roles = Array.isArray(allowedRole) ? allowedRole : [allowedRole];
+    if (roles.includes(req.user.role) || req.user.role === ROLE.ADMIN) {
       return next();
     }
     
     // Forbidden - user is authenticated but doesn't have the required role
     return res.status(403).json({ 
-      message: `Access denied. Requires role: ${allowedRole}` 
+      message: `Access denied. Requires role: ${roles.join(', ')}` 
     });
   };
 };

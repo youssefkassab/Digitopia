@@ -51,6 +51,12 @@ All API requests must be made to: `http://localhost:3000/api`
 - Tokens expire after 1 hour of inactivity
 - No automatic refresh - user must log in again
 
+### Request Headers
+For authenticated requests, include the following header:
+```
+Authorization: Bearer <your_token_here>
+```
+
 ## User Roles & Permissions
 
 | Role      | Description                          | Course Access           | User Management |
@@ -58,6 +64,35 @@ All API requests must be made to: `http://localhost:3000/api`
 | Admin     | Full system access                   | Full CRUD on all courses| Full access     |
 | Teacher   | Can manage own courses               | CRUD on own courses     | None            |
 | User      | Basic access                         | Read-only access        | None            |
+
+## Data Models
+
+### User
+```typescript
+interface User {
+  id: number;
+  email: string;
+  name?: string;
+  national_number?: string;
+  role: 'admin' | 'teacher' | 'user';
+  Grade?: string;
+  created_at: string; // ISO date string
+  updated_at: string; // ISO date string
+}
+```
+
+### Course
+```typescript
+interface Course {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  teacher_id: number;
+  created_at: string; // ISO date string
+  updated_at: string; // ISO date string
+}
+```
 
 ## API Endpoints
 
@@ -77,15 +112,21 @@ Content-Type: application/json
 **Success Response (200 OK)**
 ```json
 {
+  "message": "Login successful",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "id": 1
+  "user": {
+    "id": 1,
+    "email": "user@example.com",
+    "role": "user"
+  }
 }
 ```
 
 **Error Responses**
-- `400 Bad Request`: Missing required fields
+- `400 Bad Request`: Missing or invalid fields
 - `401 Unauthorized`: Invalid credentials
 - `429 Too Many Requests`: Rate limit exceeded
+- `500 Internal Server Error`: Server error
 
 ---
 
@@ -97,7 +138,32 @@ Content-Type: application/json
 {
   "email": "newuser@example.com",
   "password": "SecurePass123!",
-  "role": "user"
+  "role": "user",
+  "name": "John Doe",
+  "national_number": "1234567890",
+  "Grade": "A"
+}
+```
+
+**Request Fields**
+- `email` (required): Must be a valid email format
+- `password` (required): Must be at least 8 characters long and contain at least one letter and one number (special characters allowed)
+- `role` (required): Must be one of: 'admin', 'teacher', 'user'
+- `name` (optional): User's full name
+- `national_number` (optional): National identification number
+- `Grade` (optional): User's grade/level
+
+**Success Response (201 Created)**
+```json
+{
+  "message": "User created successfully."
+}
+```
+
+**Error Responses**
+- `400 Bad Request`: Missing required fields or invalid data
+- `409 Conflict`: User already exists
+- `500 Internal Server Error`: Server error
 }
 ```
 
@@ -158,22 +224,32 @@ POST /api/courses/create
 Authorization: Bearer <token>
 Content-Type: application/json
 
+// Admin request
 {
-  "name": "Advanced JavaScript",
-  "description": "Deep dive into modern JavaScript",
+  "name": "Introduction to Programming",
+  "description": "Learn the basics of programming",
   "price": 99.99,
   "teacher_id": 2
 }
+
+// Teacher request (teacher_id is set automatically)
+{
+  "name": "Advanced Web Development",
+  "description": "Master modern web technologies",
+  "price": 149.99
+}
 ```
+
+**Required Fields**
+- `name`: Course title
+- `description`: Course description
+- `price`: Course price (number)
+- `teacher_id`: Required only for admin users (to assign to specific teacher)
 
 **Success Response (201 Created)**
 ```json
 {
-  "id": 1,
-  "name": "Advanced JavaScript",
-  "description": "Deep dive into modern JavaScript",
-  "price": 99.99,
-  "teacher_id": 2
+  "message": "Course created successfully."
 }
 ```
 
@@ -189,18 +265,27 @@ Content-Type: application/json
 GET /api/courses/all
 ```
 
+**Notes**:
+- Public endpoint (no authentication required)
+- Returns all available courses
+
 **Success Response (200 OK)**
 ```json
 [
   {
     "id": 1,
-    "name": "Advanced JavaScript",
-    "description": "Deep dive into modern JavaScript",
+    "name": "Introduction to Programming",
+    "description": "Learn the basics of programming",
     "price": 99.99,
-    "teacher_id": 2
+    "teacher_id": 1,
+    "created_at": "2023-01-01T00:00:00.000Z",
+    "updated_at": "2023-01-01T00:00:00.000Z"
   }
 ]
 ```
+
+**Error Responses**
+- `500 Internal Server Error`: Server error
 
 ---
 
@@ -215,13 +300,19 @@ Authorization: Bearer <token>
 [
   {
     "id": 1,
-    "name": "Advanced JavaScript",
-    "description": "Deep dive into modern JavaScript",
-    "price": 99.99,
-    "teacher_id": 2
+    "name": "Advanced Web Development",
+    "description": "Master modern web technologies",
+    "price": 149.99,
+    "teacher_id": 2,
+    "created_at": "2023-01-01T00:00:00.000Z",
+    "updated_at": "2023-01-01T00:00:00.000Z"
   }
 ]
 ```
+
+**Error Responses**
+- `401 Unauthorized`: No token provided
+- `403 Forbidden`: Insufficient permissions
 
 ---
 
@@ -240,12 +331,21 @@ Content-Type: application/json
 ```json
 {
   "id": 1,
-  "name": "Advanced JavaScript",
-  "description": "Deep dive into modern JavaScript",
+  "name": "Introduction to Programming",
+  "description": "Learn the basics of programming",
   "price": 99.99,
-  "teacher_id": 2
+  "teacher_id": 1,
+  "created_at": "2023-01-01T00:00:00.000Z",
+  "updated_at": "2023-01-01T00:00:00.000Z"
 }
 ```
+
+**Error Responses**
+- `400 Bad Request`: Missing course ID
+- `401 Unauthorized`: No token provided
+- `403 Forbidden`: Insufficient permissions
+- `404 Not Found`: Course not found
+- `500 Internal Server Error`: Server error
 
 ---
 
@@ -257,17 +357,30 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "name": "Advanced JavaScript 2025",
-  "price": 109.99
+  "name": "Updated Course Title",
+  "description": "Updated course description",
+  "price": 129.99
 }
 ```
+
+**Notes**:
+- Teachers can only update their own courses
+- Admins can update any course
+- Only include fields that need to be updated
 
 **Success Response (200 OK)**
 ```json
 {
-  "message": "Course updated successfully"
+  "message": "Course updated successfully."
 }
 ```
+
+**Error Responses**
+- `400 Bad Request`: Missing course ID or invalid data
+- `401 Unauthorized`: No token provided
+- `403 Forbidden`: Insufficient permissions
+- `404 Not Found`: Course not found or not accessible
+- `500 Internal Server Error`: Server error
 
 ---
 

@@ -1,0 +1,120 @@
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "../assets/Logos/3Q-Logo.svg";
+import { getStoredUser, getCurrentUser, logout } from "../services/auth";
+
+const Navbar = () => {
+  const [query, setQuery] = useState("");
+  const [user, setUser] = useState(getStoredUser());
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Verify token with API to refresh user data
+    const verifyUser = async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          setUser(currentUser);
+          localStorage.setItem("user", JSON.stringify(currentUser));
+        } else {
+          setUser(null);
+        }
+      } catch {
+        setUser(null);
+      }
+    };
+    verifyUser();
+  }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log("Searching for:", query);
+    // Add your search logic here
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } finally {
+      setUser(null);
+      navigate("/"); // redirect to home
+    }
+  };
+
+  return (
+    <nav className="navbar">
+      <div></div>
+
+      {/* Logo */}
+      <Link to="/">
+        <img
+          src={Logo}
+          alt="Website Logo"
+          style={{ width: "120px", height: "120px" }}
+        />
+      </Link>
+
+      {/* Search bar */}
+      <form className="nav-search" onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          style={{
+            borderRadius: "8px",
+            border: "1px solid #ddd",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+            padding: "16px",
+            width: "300px",
+          }}
+        />
+      </form>
+
+      {/* Navigation links */}
+      <div className="nav-links">
+        <Link to="/Classroom" className="nav-link">
+          Classroom
+        </Link>
+        <Link to="/Courses" className="nav-link">
+          Courses
+        </Link>
+        <Link to="/Community" className="nav-link">
+          Community
+        </Link>
+        <Link to="/About" className="nav-link">
+          About Us
+        </Link>
+        <Link to="/Contact" className="nav-link">
+          Contact Us
+        </Link>
+
+        {user ? (
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <span>Hi, {user.name || user.email}</span>
+            <button
+              onClick={handleLogout}
+              className="btn btn-small"
+              style={{
+                padding: "6px 12px",
+                backgroundColor: "#ff4d4f",
+                color: "#fff",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <Link to="/Signup" className="nav-link">
+            Sign Up
+          </Link>
+        )}
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
