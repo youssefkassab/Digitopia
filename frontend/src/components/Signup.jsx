@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { signup, login } from "../services/auth";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -108,9 +109,7 @@ const Signup = () => {
     }
 
     if (!validateEmail(formData.email)) {
-      setError(
-        "Enter A Vaild Email Address"
-      );
+      setError("Enter A Vaild Email Address");
       return;
     }
 
@@ -266,6 +265,15 @@ const Signup = () => {
           </button>
         </form>
       </div>
+      <p style={{ marginTop: "1rem", textAlign: "center" }}>
+        Already have an account?{" "}
+        <a
+          href="/Login"
+          style={{ color: "#007aff", fontWeight: "bold", cursor: "pointer" }}
+        >
+          Login here
+        </a>
+      </p>
     </motion.div>
   );
 };
