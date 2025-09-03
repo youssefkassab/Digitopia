@@ -1,13 +1,30 @@
-This Is The Project Frontend Section
+# Frontend Section
 
-Here You Can Find:
+This is the **frontend section** of the project.
 
-The Assets
-The Components
+## Overview
 
-This Frontend Was Made Using Vite + React JS & CSS (Used For Styling)
+Inside the `src/` directory, you will find:
+- **assets/** – images, icons, and other static resources  
+- **components/** – reusable UI components used throughout the application  
+- **services/** – API and utility service files for data handling  
 
-And To Run The Frontend:
+The frontend is built using:  
+- **Vite** – for fast development and optimized builds  
+- **React.js** – for building dynamic user interfaces  
+- **CSS** – for styling and layout  
 
+## Getting Started
+
+To run the frontend locally:
+
+```bash
 npm i
 npm run dev
+
+frontend/
+├── src/
+│   ├── assets/       # Static files such as images, icons, and fonts
+│   ├── components/   # Reusable React components
+│   └── services/     # API calls and utility services
+└── ...               # Configuration and other project files
