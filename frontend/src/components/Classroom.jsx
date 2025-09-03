@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-const Courses = () => {
+const Classroom = () => {
   return (
     <motion.div
       className="page-container"
@@ -11,11 +11,10 @@ const Courses = () => {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="card">
-        <h1>Coming Soon</h1>
-        <strong>THE STRONGEST COURSES EVER</strong>
+        <h1>Meet EduDev Experts</h1>
       </div>
     </motion.div>
   );
 };
 
-export default Courses;
+export default Classroom;
