@@ -43,7 +43,6 @@ function AppRoutes() {
           <Route path="/Contact" element={<ContactUs />} />
           <Route path="/Dashboard" element={<Dashboard />} />
 
-
           {/* Auth routes */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
