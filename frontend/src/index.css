@@ -208,6 +208,69 @@ main {
   box-shadow: 0 0 0 3px rgba(74, 20, 140, 0.2);
 }
 
+/* Courses */
+.page-container {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+#card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+}
+
+.course-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.course-item {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.course-form {
+  margin-top: 2rem;
+}
+
+.course-form input,
+.course-form textarea,
+.course-form button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.course-form button {
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+.course-form button:disabled {
+  background: #ccc;
+}
+
+.error {
+  color: #d9534f;
+  margin-top: 0.5rem;
+}
+
+.success {
+  color: #5cb85c;
+  margin-top: 0.5rem;
+}
+
 /* Footer */
 footer {
   color: #6e6e73;
