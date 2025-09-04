@@ -35,7 +35,6 @@ function AppRoutes() {
           <Route path="/" element={<PosterSlider />} />
 
           {/* Main routes */}
-
           <Route path="/Classroom" element={<Classroom />} />
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Community" element={<Community />} />
@@ -54,20 +53,23 @@ function AppRoutes() {
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
         </Routes>
       </AnimatePresence>
-      <Footer />
     </>
   );
 }
 
-// Root component with Router + Navbar
+// Root component with Router + Navbar + Footer
 function App() {
   return (
     <Router>
-      <Navbar />
-      <AppRoutes />
+      <div className="app-wrapper">
+        <Navbar />
+        <main>
+          <AppRoutes />
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
 
 export default App;
-

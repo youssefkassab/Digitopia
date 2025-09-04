@@ -1,3 +1,20 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full height of screen */
+}
+
+main {
+  flex: 1; /* pushes footer down */
+}
+
 /* Prevent horizontal scrollbar (added) */
 html,
 body {
@@ -208,17 +225,133 @@ main {
   box-shadow: 0 0 0 3px rgba(74, 20, 140, 0.2);
 }
 
+/* Courses */
+.page-container {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  padding: 300px;
+}
+
+#card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Course Grid */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Individual Course Card */
+.course-card {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.course-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.course-card .description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.course-card .price {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #007bff;
+}
+
+/* Enroll Button */
+.enroll-btn {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.enroll-btn:hover {
+  background: #218838;
+}
+
+.course-item {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.course-form {
+  margin-top: 2rem;
+}
+
+.course-form input,
+.course-form textarea,
+.course-form button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.course-form button {
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+.course-form button:disabled {
+  background: #ccc;
+}
+
+.error {
+  color: #d9534f;
+  margin-top: 0.5rem;
+}
+
+.success {
+  color: #5cb85c;
+  margin-top: 0.5rem;
+}
+
 /* Footer */
 footer {
   color: #6e6e73;
   background-color: #f5f5f7;
   font-size: small;
   text-align: center;
-  padding: 15px;
+  padding: 20px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 }
 
 .footer-wrapper {
@@ -413,4 +546,251 @@ footer {
   50% {
     transform: translate(-25px, -25px);
   }
+}
+
+/* Transition for smooth theme switching */
+body,
+.card,
+.navbar,
+.course-card,
+footer {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Light Theme (Default) */
+body {
+  background-color: #f9f9f9;
+  color: #1d1d1f;
+}
+
+.navbar {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.course-card,
+.card {
+  background: #ffffff;
+  color: #1d1d1f;
+}
+
+footer {
+  background-color: #f5f5f7;
+  color: #6e6e73;
+}
+
+/* 🌙 Dark Mode */
+body.dark-mode {
+  background-color: #121212;
+  color: #e4e4e7;
+}
+
+body.dark-mode .navbar {
+  background-color: rgba(20, 20, 20, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .nav-link {
+  color: #e4e4e7;
+}
+
+body.dark-mode .nav-link:hover {
+  color: #a5b4fc;
+}
+
+body.dark-mode .course-card,
+body.dark-mode .card {
+  background: #1e1e1e;
+  color: #e4e4e7;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode footer {
+  background-color: #1a1a1a;
+  color: #9ca3af;
+}
+
+/* 🌗 Toggle Switch */
+.theme-toggle {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  background: #ccc;
+  border-radius: 50px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.theme-toggle .toggle-circle {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle.active {
+  background: #4f46e5;
+}
+
+.theme-toggle.active .toggle-circle {
+  transform: translateX(24px);
+}
+
+/* General */
+body.dark-mode {
+  background-color: #121212;
+  color: #e4e4e7;
+}
+
+/* Navbar */
+body.dark-mode .navbar {
+  background-color: rgba(20, 20, 20, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .nav-links,
+body.dark-mode .nav-link,
+body.dark-mode .navbar a {
+  color: #e4e4e7;
+}
+
+body.dark-mode .nav-link:hover,
+body.dark-mode .navbar a:hover {
+  color: #a5b4fc; /* soft indigo */
+}
+
+/* Cards */
+body.dark-mode .card,
+body.dark-mode #card,
+body.dark-mode .course-card {
+  background: #1e1e1e;
+  color: #e4e4e7;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .course-card h3 {
+  color: #fafafa;
+}
+
+body.dark-mode .course-card .description {
+  color: #cbd5e1;
+}
+
+body.dark-mode .course-card .price {
+  color: #60a5fa; /* bright blue */
+}
+
+/* Buttons */
+body.dark-mode .btn {
+  background-color: #2563eb; /* deep blue */
+  color: #f9fafb;
+}
+
+body.dark-mode .btn:hover {
+  background-color: #1e40af;
+}
+
+body.dark-mode .enroll-btn {
+  background: #34d399; /* teal green */
+  color: #f9fafb;
+}
+
+body.dark-mode .enroll-btn:hover {
+  background: #059669;
+}
+
+body.dark-mode .poster-button {
+  background: #2563eb;
+  color: #f9fafb;
+}
+
+body.dark-mode .poster-button:hover {
+  background: #1e40af;
+}
+
+/* Forms */
+body.dark-mode .form-input {
+  background: #1e1e1e;
+  color: #f9fafb;
+  border: 1px solid #3f3f46;
+}
+
+body.dark-mode .form-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Contact */
+body.dark-mode .contact-wrapper {
+  background: #18181b;
+}
+
+body.dark-mode .email-link {
+  color: #60a5fa;
+}
+
+body.dark-mode .social-icons a {
+  color: #9ca3af;
+}
+
+body.dark-mode .social-icons a:hover {
+  color: #60a5fa;
+}
+
+/* Footer */
+body.dark-mode footer {
+  background-color: #1a1a1a;
+  color: #9ca3af;
+}
+
+body.dark-mode .footer-wrapper {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Slider */
+body.dark-mode .poster-slider {
+  background-color: #0f0f0f;
+}
+
+body.dark-mode .poster-slide {
+  color: #f3f4f6;
+}
+
+body.dark-mode .poster-bottom {
+  background-color: rgba(20, 20, 20, 0.8);
+}
+
+body.dark-mode .poster-description {
+  color: #d1d5db;
+}
+
+body.dark-mode .poster-dot {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .poster-dot.active {
+  background-color: #60a5fa;
+}
+
+body.dark-mode .poster-arrow {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e5e7eb;
+}
+
+body.dark-mode .poster-arrow:hover {
+  background-color: rgba(96, 165, 250, 0.3);
+}
+
+/* Floating Icons */
+body.dark-mode .icon {
+  opacity: 0.5;
+  filter: brightness(0.8);
 }

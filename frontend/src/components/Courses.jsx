@@ -100,14 +100,16 @@ const Courses = () => {
         {courses.length === 0 ? (
           <p>No courses available yet.</p>
         ) : (
-          <ul className="course-list">
+          <div className="courses-grid">
             {courses.map((course) => (
-              <li key={course.id} className="course-item">
-                <strong>{course.name}</strong> – ${course.price}
-                <p>{course.description}</p>
-              </li>
+              <div key={course.id} className="course-card">
+                <h3>{course.name}</h3>
+                <p className="description">{course.description}</p>
+                <p className="price">${course.price}</p>
+                <button className="enroll-btn">Enroll</button>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
 
         {isTeacher && (
