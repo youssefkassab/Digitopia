@@ -5,6 +5,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import PosterSlider from "./components/PosterSlider";
 import FloatingIcons from "./components/FloatingIcons";
@@ -16,9 +17,13 @@ import ContactUs from "./components/ContactUs";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
+import AdminPage from "./AdminPage";
+import AdminRoute from "./components/AdminRoute";
 
-function AnimatedRoutes() {
+// Handles all routes
+function AppRoutes() {
   const location = useLocation();
+
   return (
     <>
       <FloatingIcons />
@@ -28,27 +33,37 @@ function AnimatedRoutes() {
           <Route path="/" element={<PosterSlider />} />
 
           {/* Main routes */}
-          <Route path="/Classroom" element={<Classroom />} />
-          <Route path="/Courses" element={<Courses />} />
-          <Route path="/Community" element={<Community />} />
-          <Route path="/About" element={<AboutUs />} />
-          <Route path="/Contact" element={<ContactUs />} />
+          <Route path="/classroom" element={<Classroom />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
 
           {/* Auth routes */}
-          <Route path="/Signup" element={<Signup />} />
-          <Route path="/Login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+
+          {/* Admin route (protected) */}
+          <Route path="/admin" element={<AdminPage />} />
+
+          {/* Catch-all route */}
+          <Route path="*" element={<h2>404 - Page Not Found</h2>} />
         </Routes>
-        <Footer />
       </AnimatePresence>
+      <Footer />
     </>
   );
 }
 
-const App = () => (
-  <Router>
-    <Navbar />
-    <AnimatedRoutes />
-  </Router>
-);
+// Root component with Router + Navbar
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <AppRoutes />
+    </Router>
+  );
+}
 
 export default App;
+
