@@ -14,8 +14,10 @@ import Courses from "./components/Courses";
 import Community from "./components/Community";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
+import Dashboard from "./components/Dashboard";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import Footer from "./components/Footer";
 import AdminPage from "./AdminPage";
 import AdminRoute from "./components/AdminRoute";
@@ -33,11 +35,14 @@ function AppRoutes() {
           <Route path="/" element={<PosterSlider />} />
 
           {/* Main routes */}
-          <Route path="/classroom" element={<Classroom />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/contact" element={<ContactUs />} />
+
+          <Route path="/Classroom" element={<Classroom />} />
+          <Route path="/Courses" element={<Courses />} />
+          <Route path="/Community" element={<Community />} />
+          <Route path="/About" element={<AboutUs />} />
+          <Route path="/Contact" element={<ContactUs />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+
 
           {/* Auth routes */}
           <Route path="/signup" element={<Signup />} />
