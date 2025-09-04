@@ -11,7 +11,7 @@ const Classroom = () => {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="card">
-        <h1>Meet EduDev Experts</h1>
+        <h1>Coming Soon</h1>
       </div>
     </motion.div>
   );
