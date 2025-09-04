@@ -3,14 +3,30 @@ import React, { useState, useEffect } from "react";
 export default function Community() {
   const [posts, setPosts] = useState([]);
   const [postText, setPostText] = useState("");
-  const [postImage, setPostImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
+  const [postFiles, setPostFiles] = useState([]); // multiple files
+  const [filePreviews, setFilePreviews] = useState([]);
   const [likedPosts, setLikedPosts] = useState({});
+  const [hideUpload, setHideUpload] = useState(false); // control vanish
   const currentUser = "Anonymous";
 
-  // Fake loader — just clears posts
+  // 🔹 Viewer states
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [viewerFiles, setViewerFiles] = useState([]);
+  const [viewerIndex, setViewerIndex] = useState(0);
+
+  function openViewer(files, index) {
+    setViewerFiles(files);
+    setViewerIndex(index);
+    setViewerOpen(true);
+  }
+
+  function closeViewer() {
+    setViewerOpen(false);
+    setViewerFiles([]);
+    setViewerIndex(0);
+  }
+
   async function loadPosts() {
-    // Backend removed: would fetch("") here
     setPosts([]);
   }
 
@@ -18,27 +34,42 @@ export default function Community() {
     loadPosts();
   }, []);
 
-  function handleImageChange(e) {
-    const file = e.target.files[0];
-    setPostImage(file || null);
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (ev) => setImagePreview(ev.target.result);
-      reader.readAsDataURL(file);
+  function handleFileChange(e) {
+    const files = Array.from(e.target.files);
+    setPostFiles(files);
+
+    if (files.length > 0) {
+      const previews = files.map((file) => {
+        if (file.type.startsWith("image/") || file.type.startsWith("video/")) {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (ev) =>
+              resolve({ file, preview: ev.target.result });
+            reader.readAsDataURL(file);
+          });
+        }
+        return Promise.resolve({ file, preview: null });
+      });
+
+      Promise.all(previews).then((results) => setFilePreviews(results));
+
+      // trigger vanish animation
+      setHideUpload(true);
     } else {
-      setImagePreview("");
+      setPostFiles([]);
+      setFilePreviews([]);
+      setHideUpload(false);
     }
   }
 
-  // Create a new post locally (no server)
   async function handlePost() {
-    if (!postText.trim() && !postImage) return;
+    if (!postText.trim() && postFiles.length === 0) return;
 
     const newPost = {
       id: Date.now(),
       username: currentUser,
       text: postText.trim(),
-      image: imagePreview || null,
+      files: filePreviews, // array of {file, preview}
       likes: 0,
       comments: [],
       time: new Date().toISOString(),
@@ -46,10 +77,9 @@ export default function Community() {
 
     setPosts((prev) => [...prev, newPost]);
     setPostText("");
-    setPostImage(null);
-    setImagePreview("");
-
-    // Backend removed: would POST to "" here
+    setPostFiles([]);
+    setFilePreviews([]);
+    setHideUpload(false); // reset upload button after posting
   }
 
   const [openComments, setOpenComments] = useState({});
@@ -71,8 +101,6 @@ export default function Community() {
     post.likes++;
     setLikedPosts({ ...likedPosts, [likedKey]: true });
     setPosts(updated);
-
-    // Backend removed: would PUT to "" here
   }
 
   async function addComment(postId, text) {
@@ -83,8 +111,6 @@ export default function Community() {
 
     post.comments.push({ user: currentUser, text: text.trim() });
     setPosts(updated);
-
-    // Backend removed: would PUT to "" here
   }
 
   return (
@@ -92,6 +118,8 @@ export default function Community() {
       <style>{`
         @keyframes fadeSlideIn {from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
         .animate-post {animation: fadeSlideIn 0.4s ease-out;}
+        .fade-out {opacity:1;transition:opacity 0.6s ease;}
+        .fade-out.hidden {opacity:0;pointer-events:none;}
         .post-creator {text-align:center;margin:2rem auto;max-width:900px;}
         .post-creator textarea {width:100%;height:100px;padding:1rem;border-radius:12px;border:1px solid #ccc;resize:none;font-size:1rem;transition:box-shadow 0.3s ease;}
         .post-creator textarea:focus {box-shadow:0 0 10px #007bff;outline:none;}
@@ -111,7 +139,7 @@ export default function Community() {
         .comment-input {display:flex;gap:0.5rem;margin-top:0.5rem;}
         .comment-input input {flex:1;padding:0.5rem;border:1px solid #ccc;border-radius:8px;}
         .comment-input button {padding:0.5rem 1rem;background-color:#007bff;border:none;color:white;border-radius:8px;cursor:pointer;}
-        #imagePreview {display:block;margin-top:1rem;max-width:100%;border-radius:10px;}
+        #previewMedia {display:block;margin-top:1rem;max-width:100%;border-radius:10px;}
       `}</style>
 
       <header>
@@ -123,20 +151,56 @@ export default function Community() {
       <main>
         <section className="post-creator">
           <textarea
+            className="community_txt_area"
             value={postText}
             onChange={(e) => setPostText(e.target.value)}
             placeholder="What's on your mind?"
             maxLength={280}
           />
+
+          {/* Upload Button */}
+          <label
+            htmlFor="file-upload"
+            className={`btn fade-out ${hideUpload ? "hidden" : ""}`}
+            style={{ marginTop: "100px", marginRight: "100px" }}
+          >
+            Choose Files
+          </label>
           <input
+            id="file-upload"
             type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ marginTop: "1rem" }}
+            accept="*/*"
+            multiple
+            onChange={handleFileChange}
+            style={{ display: "none" }}
           />
-          {imagePreview && (
-            <img id="imagePreview" src={imagePreview} alt="Preview" />
+
+          {/* Preview media if applicable */}
+          {filePreviews.length > 0 && (
+            <div style={{ marginTop: "1rem" }}>
+              {filePreviews.map((item, idx) =>
+                item.file.type.startsWith("image/") ? (
+                  <img
+                    key={idx}
+                    id="previewMedia"
+                    src={item.preview}
+                    alt="Preview"
+                  />
+                ) : item.file.type.startsWith("video/") ? (
+                  <video
+                    key={idx}
+                    id="previewMedia"
+                    src={item.preview}
+                    controls
+                    style={{ maxHeight: "300px" }}
+                  />
+                ) : (
+                  <p key={idx}>File ready: {item.file.name}</p>
+                )
+              )}
+            </div>
           )}
+
           <button id="postBtn" onClick={handlePost}>
             Post
           </button>
@@ -157,18 +221,78 @@ export default function Community() {
                 </div>
                 <div className="post-content">
                   {post.text}
-                  {post.image && (
-                    <img
-                      src={post.image} // already base64 or local preview
-                      style={{
-                        maxWidth: "100%",
-                        marginTop: "1rem",
-                        borderRadius: "8px",
-                      }}
-                      alt=""
-                    />
-                  )}
+
+                  {/* 🔹 Show only first 3 thumbnails */}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                      marginTop: "1rem",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {post.files.slice(0, 3).map((item, idx) => {
+                      const isLast = idx === 2 && post.files.length > 3;
+                      return (
+                        <div
+                          key={idx}
+                          style={{ position: "relative", cursor: "pointer" }}
+                          onClick={() => openViewer(post.files, idx)}
+                        >
+                          {item.file.type.startsWith("image/") ? (
+                            <img
+                              src={item.preview}
+                              alt=""
+                              style={{
+                                width: "120px",
+                                height: "120px",
+                                objectFit: "cover",
+                                borderRadius: "8px",
+                              }}
+                            />
+                          ) : item.file.type.startsWith("video/") ? (
+                            <video
+                              src={item.preview}
+                              style={{
+                                width: "120px",
+                                height: "120px",
+                                objectFit: "cover",
+                                borderRadius: "8px",
+                              }}
+                            />
+                          ) : (
+                            <p style={{ width: "120px", height: "120px" }}>
+                              {item.file.name}
+                            </p>
+                          )}
+
+                          {isLast && (
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                background: "rgba(0,0,0,0.6)",
+                                borderRadius: "8px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                color: "#fff",
+                                fontSize: "1.5rem",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              +{post.files.length - 3}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
+
                 <div className="post-actions">
                   <button disabled={liked} onClick={() => likePost(post.id)}>
                     👍 {post.likes}
@@ -212,6 +336,52 @@ export default function Community() {
           })}
         </section>
       </main>
+
+      {/* 🔹 Fullscreen viewer */}
+      {viewerOpen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(0,0,0,0.9)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+          onClick={closeViewer}
+        >
+          {viewerFiles[viewerIndex].file.type.startsWith("image/") ? (
+            <img
+              src={viewerFiles[viewerIndex].preview}
+              alt=""
+              style={{
+                maxWidth: "90%",
+                maxHeight: "90%",
+                borderRadius: "10px",
+              }}
+            />
+          ) : viewerFiles[viewerIndex].file.type.startsWith("video/") ? (
+            <video
+              src={viewerFiles[viewerIndex].preview}
+              controls
+              autoPlay
+              style={{
+                maxWidth: "90%",
+                maxHeight: "90%",
+                borderRadius: "10px",
+              }}
+            />
+          ) : (
+            <p style={{ color: "white" }}>
+              {viewerFiles[viewerIndex].file.name}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
