@@ -126,6 +126,17 @@ main {
   color: #3a3a3c;
 }
 
+.search_txt_area {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  width: 300px;
+  background-color: #fff;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
 /* Page container */
 .page-container {
   display: flex;
@@ -650,6 +661,16 @@ body.dark-mode {
   color: #e4e4e7;
 }
 
+body.dark-mode .community_txt_area {
+  background-color: #1e1e1e;
+  color: #e4e4e7;
+}
+
+body.dark-mode .search_txt_area {
+  background-color: #1e1e1e;
+  color: #e4e4e7;
+}
+
 /* Navbar */
 body.dark-mode .navbar {
   background-color: rgba(20, 20, 20, 0.85);
@@ -665,6 +686,13 @@ body.dark-mode .navbar a {
 body.dark-mode .nav-link:hover,
 body.dark-mode .navbar a:hover {
   color: #a5b4fc; /* soft indigo */
+}
+
+body.dark-mode .search_txt_area {
+  background-color: #222; /* darker background */
+  color: #f5f5f5; /* light text */
+  border: 1px solid #444;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); /* stronger shade */
 }
 
 /* Cards */
