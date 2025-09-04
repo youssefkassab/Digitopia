@@ -236,88 +236,135 @@ main {
   box-shadow: 0 0 0 3px rgba(74, 20, 140, 0.2);
 }
 
-/* Courses */
+/* Page container */
 .page-container {
-  padding: 2rem;
+  padding: 4rem 2rem; /* More breathing room inside */
+  margin-top: 10rem; /* Pushes content below header */
+  margin-bottom: 6rem; /* Pushes content above footer */
   display: flex;
   justify-content: center;
-  padding: 300px;
+  min-height: 100vh; /* Ensures full-page height */
+  box-sizing: border-box;
 }
 
+/* Card wrapper */
 #card {
-  background: #ffffff;
   padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
+  background: #ffffff;
 }
 
-/* Course Grid */
+/* Page title */
+.page-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+/* Empty message */
+.empty-msg {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #777;
+}
+
+/* Courses grid */
 .courses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
-/* Individual Course Card */
+/* Course card */
 .course-card {
-  background: #ffffff;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Thumbnail */
+.course-thumbnail img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Info */
+.course-info {
+  padding: 1rem 1.25rem;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.course-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
-
-.course-card h3 {
+.course-info h3 {
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
-  font-size: 1.25rem;
   color: #333;
+  font-weight: 600;
 }
 
-.course-card .description {
+.course-info .description {
   font-size: 0.95rem;
   color: #555;
-  margin-bottom: 0.75rem;
-}
-
-.course-card .price {
-  font-weight: bold;
   margin-bottom: 1rem;
-  color: #007bff;
+  line-height: 1.4;
 }
 
-/* Enroll Button */
+/* Footer */
+.course-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.course-info .price {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ff5722;
+}
+
+/* Enroll button */
 .enroll-btn {
-  background: #28a745;
+  background: #34d399;
   color: #fff;
   border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.6rem;
   cursor: pointer;
-  transition: background 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .enroll-btn:hover {
-  background: #218838;
+  background: #059669;
+  transform: translateY(-2px);
 }
 
-.course-item {
-  padding: 0.75rem;
-  border-bottom: 1px solid #ddd;
-}
-
+/* Teacher form */
 .course-form {
-  margin-top: 2rem;
+  margin-top: 3rem;
+  background: #fafafa;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.course-form h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.5rem;
 }
 
 .course-form input,
@@ -325,21 +372,29 @@ main {
 .course-form button {
   display: block;
   width: 100%;
-  padding: 0.75rem;
-  margin: 0.5rem 0;
+  padding: 0.9rem;
+  margin: 0.7rem 0;
   font-size: 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid #ddd;
+}
+
+.course-form textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .course-form button {
-  background: #007bff;
+  background: linear-gradient(135deg, #ff9800, #ff5722);
   color: white;
   border: none;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 0.5rem;
 }
 
 .course-form button:disabled {
   background: #ccc;
+  cursor: not-allowed;
 }
 
 .error {
@@ -348,7 +403,7 @@ main {
 }
 
 .success {
-  color: #5cb85c;
+  color: #28a745;
   margin-top: 0.5rem;
 }
 
@@ -382,7 +437,9 @@ footer {
   overflow: hidden;
   background-color: black;
   border-radius: 12px;
-  margin-top: 80px;
+  margin-top: 180px;
+  margin-bottom: 180px;
+  padding: 100px;
 }
 
 .poster-slide {
