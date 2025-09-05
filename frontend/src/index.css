@@ -576,6 +576,13 @@ footer {
   background-color: white;
 }
 
+/* Blur Text */
+.BlurText {
+  padding: 100px;
+  font-size: 85px;
+  justify-content: center;
+}
+
 /* Floating Icons */
 .floating-icons {
   position: fixed;
@@ -748,6 +755,8 @@ body.dark-mode footer {
 .theme-toggle.active .toggle-circle {
   transform: translateX(24px);
 }
+
+/* Floating Icons Dark */
 
 /* General */
 body.dark-mode {
