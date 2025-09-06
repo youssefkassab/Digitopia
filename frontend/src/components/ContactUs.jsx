@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import TextType from "../assets/Animations/TextType";
 import {
   Mail,
   Facebook,
@@ -103,6 +104,14 @@ const ContactUs = () => {
       exit={{ opacity: 0, y: -50 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
+      <TextType
+        text={["Get In Touch Through"]}
+        typingSpeed={75}
+        pauseDuration={1500}
+        showCursor={true}
+        cursorCharacter="|"
+        className="TextType"
+      />
       <div
         className="contact-wrapper"
         style={{ display: "flex", justifyContent: "center" }}
@@ -113,8 +122,6 @@ const ContactUs = () => {
           animate={{ scale: 1 }}
           transition={{ duration: 0.4 }}
         >
-          <h2 style={{ textAlign: "center" }}>Get In Touch Through</h2>
-
           {/* Email link */}
           <a href="mailto:edudevexperts@email.com" className="email-link">
             <Mail size={20} />
