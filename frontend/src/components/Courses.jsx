@@ -64,26 +64,25 @@ const Courses = () => {
     setSuccessMsg("");
 
     try {
-      const form = new FormData();
-      form.append("name", formData.name);
-      form.append("description", formData.description);
-      form.append("price", formData.price);
-      form.append("teacher_id", user.id);
-      if (formData.video) {
-        form.append("video", formData.video);
-      }
+      // Build plain JSON, not FormData
+      const payload = {
+        name: formData.name,
+        description: formData.description,
+        price: formData.price,
+        teacher_id: user.id, // required for admin, ignored for teacher
+      };
 
-      const { data } = await api.post("/courses/create", form, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const { data } = await api.post("/courses/create", payload, {
+        headers: { "Content-Type": "application/json" },
       });
 
-      setSuccessMsg(`Course "${data.name}" created successfully!`);
+      setSuccessMsg(`Course "${payload.name}" created successfully!`);
       setFormData({ name: "", description: "", price: "", video: null });
-      setCourses([...courses, data]);
-      setShowForm(false); // collapse form after success
+      setCourses([...courses, payload]); // append locally
+      setShowForm(false);
     } catch (error) {
       console.error("Course creation failed:", error);
-      setErrorMsg(error?.error || "Failed to create course.");
+      setErrorMsg(error?.response?.data?.error || "Failed to create course.");
     } finally {
       setLoading(false);
     }
