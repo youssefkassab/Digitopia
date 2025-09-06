@@ -3,11 +3,14 @@ import React, { useState, useEffect } from "react";
 export default function Community() {
   const [posts, setPosts] = useState([]);
   const [postText, setPostText] = useState("");
-  const [postFiles, setPostFiles] = useState([]); // multiple files
+  const [postFiles, setPostFiles] = useState([]);
   const [filePreviews, setFilePreviews] = useState([]);
   const [likedPosts, setLikedPosts] = useState({});
-  const [hideUpload, setHideUpload] = useState(false); // control vanish
-  const currentUser = "Anonymous";
+  const [hideUpload, setHideUpload] = useState(false);
+
+  // get current user from localStorage, fallback to "Anonymous"
+  const storedUser = JSON.parse(localStorage.getItem("user")) || null;
+  const currentUser = storedUser?.name || storedUser?.email || "Anonymous";
 
   // 🔹 Viewer states
   const [viewerOpen, setViewerOpen] = useState(false);
@@ -24,6 +27,16 @@ export default function Community() {
     setViewerOpen(false);
     setViewerFiles([]);
     setViewerIndex(0);
+  }
+
+  function prevFile(e) {
+    e.stopPropagation();
+    setViewerIndex((prev) => (prev === 0 ? viewerFiles.length - 1 : prev - 1));
+  }
+
+  function nextFile(e) {
+    e.stopPropagation();
+    setViewerIndex((prev) => (prev === viewerFiles.length - 1 ? 0 : prev + 1));
   }
 
   async function loadPosts() {
@@ -115,33 +128,6 @@ export default function Community() {
 
   return (
     <div className="community-wrapper">
-      <style>{`
-        @keyframes fadeSlideIn {from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-        .animate-post {animation: fadeSlideIn 0.4s ease-out;}
-        .fade-out {opacity:1;transition:opacity 0.6s ease;}
-        .fade-out.hidden {opacity:0;pointer-events:none;}
-        .post-creator {text-align:center;margin:2rem auto;max-width:900px;}
-        .post-creator textarea {width:100%;height:100px;padding:1rem;border-radius:12px;border:1px solid #ccc;resize:none;font-size:1rem;transition:box-shadow 0.3s ease;}
-        .post-creator textarea:focus {box-shadow:0 0 10px #007bff;outline:none;}
-        #postBtn {margin-top:1rem;padding:0.5rem 1.5rem;border:none;background-color:#007bff;color:white;font-size:1rem;border-radius:8px;cursor:pointer;transition:background-color 0.3s ease;}
-        #postBtn:hover {background-color:#0056b3;}
-        .posts-feed {max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem;padding-bottom:4rem;}
-        .post-card {background-color:#fff;padding:1rem 1.5rem;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:transform 0.3s ease;}
-        .post-card:hover {transform:scale(1.01);}
-        .post-header {font-weight:bold;margin-bottom:0.5rem;}
-        .post-time {color:gray;font-size:0.85rem;}
-        .post-content {margin:1rem 0;white-space:pre-wrap;}
-        .post-actions {display:flex;gap:1rem;align-items:center;}
-        .post-actions button {background:none;border:none;cursor:pointer;color:#007bff;transition:transform 0.2s ease;}
-        .post-actions button:hover {transform:scale(1.1);}
-        .comments-container {margin-top:1rem;padding-left:1rem;border-left:2px solid #ddd;display:flex;flex-direction:column;gap:0.5rem;animation:fadeSlideIn 0.3s ease forwards;}
-        .comment {background:#f9f9f9;padding:0.5rem 1rem;border-radius:8px;}
-        .comment-input {display:flex;gap:0.5rem;margin-top:0.5rem;}
-        .comment-input input {flex:1;padding:0.5rem;border:1px solid #ccc;border-radius:8px;}
-        .comment-input button {padding:0.5rem 1rem;background-color:#007bff;border:none;color:white;border-radius:8px;cursor:pointer;}
-        #previewMedia {display:block;margin-top:1rem;max-width:100%;border-radius:10px;}
-      `}</style>
-
       <header>
         <div style={{ textAlign: "center" }}>
           <p style={{ marginTop: "1rem" }}>Hi, {currentUser}</p>
@@ -337,7 +323,7 @@ export default function Community() {
         </section>
       </main>
 
-      {/* 🔹 Fullscreen viewer */}
+      {/* 🔹 Fullscreen viewer with arrows */}
       {viewerOpen && (
         <div
           style={{
@@ -354,6 +340,24 @@ export default function Community() {
           }}
           onClick={closeViewer}
         >
+          {/* Left Arrow */}
+          <button
+            onClick={prevFile}
+            style={{
+              position: "absolute",
+              left: "30px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "none",
+              border: "none",
+              color: "white",
+              fontSize: "2.5rem",
+              cursor: "pointer",
+            }}
+          >
+            ‹
+          </button>
+
           {viewerFiles[viewerIndex].file.type.startsWith("image/") ? (
             <img
               src={viewerFiles[viewerIndex].preview}
@@ -380,6 +384,24 @@ export default function Community() {
               {viewerFiles[viewerIndex].file.name}
             </p>
           )}
+
+          {/* Right Arrow */}
+          <button
+            onClick={nextFile}
+            style={{
+              position: "absolute",
+              right: "30px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "none",
+              border: "none",
+              color: "white",
+              fontSize: "2.5rem",
+              cursor: "pointer",
+            }}
+          >
+            ›
+          </button>
         </div>
       )}
     </div>
