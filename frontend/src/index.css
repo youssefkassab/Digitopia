@@ -73,6 +73,245 @@ main {
 .txt-banner {
 }
 
+/* === Signup Base === */
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  min-height: 100vh;
+  transition: background 0.4s ease;
+}
+
+.signup-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  animation: popIn 0.6s ease forwards;
+  transform: scale(0.95);
+}
+
+.signup-card h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  animation: fadeSlide 0.6s ease;
+}
+
+.highlight {
+  color: #007aff;
+  font-weight: bold;
+}
+
+/* === Stepper === */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.step {
+  flex: 1;
+  height: 6px;
+  margin: 0 4px;
+  background: #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.step::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: #007aff;
+  transition: width 0.4s ease;
+}
+
+.step.active::after {
+  width: 100%;
+}
+
+/* === Inputs === */
+form input,
+form select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.4);
+}
+
+.pw-strength {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #666;
+  animation: fadeIn 0.3s ease;
+}
+
+/* === Feedback Messages === */
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  animation: shake 0.3s ease;
+}
+
+.success {
+  color: green;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* === Buttons === */
+.stepper-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn {
+  background: #007aff;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #005bb5;
+  box-shadow: 0 0 12px rgba(0, 122, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn.secondary {
+  background: #ccc;
+  color: #333;
+}
+
+.btn.secondary:hover {
+  background: #bbb;
+}
+
+.login-link {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  animation: fadeIn 0.5s ease;
+}
+
+/* === Dark Mode === */
+body.dark-mode .signup-card {
+  background: #1e293b;
+  color: #e2e8f0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .step {
+  background: #334155;
+}
+
+body.dark-mode .step::after {
+  background: #38bdf8;
+}
+
+body.dark-mode form input,
+body.dark-mode form select {
+  background: #0f172a;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+}
+
+body.dark-mode form input:focus,
+body.dark-mode form select:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+}
+
+body.dark-mode .btn {
+  background: #38bdf8;
+}
+
+body.dark-mode .btn:hover {
+  background: #0284c7;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+}
+
+body.dark-mode .btn.secondary {
+  background: #475569;
+  color: #cbd5e1;
+}
+
+body.dark-mode .login-link a {
+  color: #38bdf8;
+}
+
+/* === Animations === */
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
 /* Community */
 @keyframes fadeSlideIn {
   from {
@@ -660,22 +899,104 @@ html.dark .dark-only {
 
 /* Footer */
 footer {
-  color: #6e6e73;
-  background-color: #f5f5f7;
-  font-size: small;
+  color: #444;
+  background: linear-gradient(135deg, #f5f5f7, #e9ebee);
+  font-size: 0.9rem;
   text-align: center;
-  padding: 20px;
+  padding: 40px 20px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .footer-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 20px;
+}
+
+.footer-card {
+  background: transparent;
+  text-align: left;
+}
+
+.footer-card h2 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #222;
+  position: relative;
+}
+
+.footer-card h2::after {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 2px;
+  background: #0077ff;
+  margin-top: 5px;
+  border-radius: 2px;
+}
+
+.footer-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-card ul li {
+  margin: 8px 0;
+}
+
+.footer-card a {
+  text-decoration: none;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.footer-card a:hover {
+  color: #0077ff;
+}
+
+.footer-lang {
+  margin: 5px 0;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-lang:hover {
+  color: #0077ff;
+}
+
+.social-icons {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 20px;
+  gap: 15px;
+  font-size: 1.3rem;
+}
+
+.social-icons a {
+  color: #555;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+  color: #0077ff;
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: #666;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.brand {
+  font-weight: bold;
+  color: #0077ff;
 }
 
 /* Slider */
@@ -912,7 +1233,7 @@ footer {
 
 /* 🌙 Dark Mode */
 body.dark-mode {
-  background-color: #121212;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
   color: #e4e4e7;
 }
 
@@ -1160,6 +1481,49 @@ body.dark-mode .poster-arrow {
 
 body.dark-mode .poster-arrow:hover {
   background-color: rgba(96, 165, 250, 0.3);
+}
+
+/* Footer Dark Mode */
+.dark-mode footer {
+  color: #ddd;
+  background: linear-gradient(135deg, #1a1a1d, #2a2a2f);
+}
+
+.dark-mode .footer-card h2 {
+  color: #f1f1f1;
+}
+
+.dark-mode .footer-card a {
+  color: #aaa;
+}
+
+.dark-mode .footer-card a:hover {
+  color: #4da6ff;
+}
+
+.dark-mode .footer-lang {
+  color: #bbb;
+}
+
+.dark-mode .footer-lang:hover {
+  color: #4da6ff;
+}
+
+.dark-mode .social-icons a {
+  color: #aaa;
+}
+
+.dark-mode .social-icons a:hover {
+  color: #4da6ff;
+}
+
+.dark-mode .footer-bottom {
+  color: #999;
+  border-top: 1px solid #333;
+}
+
+.dark-mode .brand {
+  color: #4da6ff;
 }
 
 /* Floating Icons */
