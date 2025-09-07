@@ -64,7 +64,7 @@ export const getCurrentUser = async () => {
     const token = localStorage.getItem("token");
     if (!token) return null;
 
-    const { data } = await api.get("/api/users/user", {
+    const { data } = await api.get("/users/user", {
       headers: { Authorization: `Bearer ${token}` },
     });
     return data; // { id, name, email, national_number, role }

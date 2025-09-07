@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/Logos/3Q-Logo.svg";
+import DarkLogo from "../assets/Logos/Dark_3lm_Quest_Logo.png";
 import { getStoredUser, getCurrentUser, logout } from "../services/auth";
 
 const Navbar = () => {
   const [query, setQuery] = useState("");
   const [user, setUser] = useState(getStoredUser());
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verify token with API to refresh user data
+    // Apply saved theme on mount
+    document.body.classList.toggle("dark-mode", darkMode);
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+
+    // Verify token with API
     const verifyUser = async () => {
       try {
         const currentUser = await getCurrentUser();
@@ -24,12 +32,11 @@ const Navbar = () => {
       }
     };
     verifyUser();
-  }, []);
+  }, [darkMode]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Searching for:", query);
-    // Add your search logic here
   };
 
   const handleLogout = async () => {
@@ -43,31 +50,31 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <div></div>
-
       {/* Logo */}
       <Link to="/">
-        <img
-          src={Logo}
-          alt="Website Logo"
-          style={{ width: "120px", height: "120px" }}
-        />
+        {darkMode ? (
+          <img
+            src={DarkLogo}
+            alt="Dark Website Logo"
+            style={{ width: "80px", height: "80px" }}
+          />
+        ) : (
+          <img
+            src={Logo}
+            alt="Website Logo"
+            style={{ width: "80px", height: "80px" }}
+          />
+        )}
       </Link>
 
       {/* Search bar */}
       <form className="nav-search" onSubmit={handleSearch}>
         <input
+          className="search_txt_area"
           type="text"
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          style={{
-            borderRadius: "8px",
-            border: "1px solid #ddd",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-            padding: "16px",
-            width: "300px",
-          }}
         />
       </form>
 
@@ -89,6 +96,16 @@ const Navbar = () => {
           Contact Us
         </Link>
 
+        {/* Dark mode toggle */}
+        <button
+          className={`theme-toggle ${darkMode ? "active" : ""}`}
+          onClick={() => setDarkMode(!darkMode)}
+          aria-label="Toggle dark mode"
+        >
+          <span className="toggle-circle"></span>
+        </button>
+
+        {/* Auth buttons */}
         {user ? (
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <span>Hi, {user.name || user.email}</span>
