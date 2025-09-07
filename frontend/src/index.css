@@ -73,6 +73,384 @@ main {
 .txt-banner {
 }
 
+/* === Signup Base === */
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  min-height: 100vh;
+  transition: background 0.4s ease;
+}
+
+.signup-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  animation: popIn 0.6s ease forwards;
+  transform: scale(0.95);
+}
+
+.signup-card h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  animation: fadeSlide 0.6s ease;
+}
+
+.highlight {
+  color: #007aff;
+  font-weight: bold;
+}
+
+/* === Stepper === */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.step {
+  flex: 1;
+  height: 6px;
+  margin: 0 4px;
+  background: #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.step::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: #007aff;
+  transition: width 0.4s ease;
+}
+
+.step.active::after {
+  width: 100%;
+}
+
+/* === Inputs === */
+form input,
+form select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.4);
+}
+
+.pw-strength {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #666;
+  animation: fadeIn 0.3s ease;
+}
+
+/* === Feedback Messages === */
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  animation: shake 0.3s ease;
+}
+
+.success {
+  color: green;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* === Buttons === */
+.stepper-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn {
+  background: #007aff;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #005bb5;
+  box-shadow: 0 0 12px rgba(0, 122, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn.secondary {
+  background: #ccc;
+  color: #333;
+}
+
+.btn.secondary:hover {
+  background: #bbb;
+}
+
+.login-link {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  animation: fadeIn 0.5s ease;
+}
+
+/* === Dark Mode === */
+body.dark-mode .signup-card {
+  background: #1e293b;
+  color: #e2e8f0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .step {
+  background: #334155;
+}
+
+body.dark-mode .step::after {
+  background: #38bdf8;
+}
+
+body.dark-mode form input,
+body.dark-mode form select {
+  background: #0f172a;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+}
+
+body.dark-mode form input:focus,
+body.dark-mode form select:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+}
+
+body.dark-mode .btn {
+  background: #38bdf8;
+}
+
+body.dark-mode .btn:hover {
+  background: #0284c7;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+}
+
+body.dark-mode .btn.secondary {
+  background: #475569;
+  color: #cbd5e1;
+}
+
+body.dark-mode .login-link a {
+  color: #38bdf8;
+}
+
+/* === Animations === */
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Community */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-post {
+  animation: fadeSlideIn 0.4s ease-out;
+}
+.fade-out {
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+.fade-out.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.post-creator {
+  text-align: center;
+  margin: 2rem auto;
+  max-width: 900px;
+}
+.post-creator textarea {
+  width: 100%;
+  height: 100px;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  resize: none;
+  font-size: 1rem;
+  transition: box-shadow 0.3s ease;
+}
+.post-creator textarea:focus {
+  box-shadow: 0 0 10px #007bff;
+  outline: none;
+}
+#postBtn {
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#postBtn:hover {
+  background-color: #0056b3;
+}
+.posts-feed {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 4rem;
+}
+.post-card {
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+.post-card:hover {
+  transform: scale(1.01);
+}
+.post-header {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.post-time {
+  color: gray;
+  font-size: 0.85rem;
+}
+.post-content {
+  margin: 1rem 0;
+  white-space: pre-wrap;
+}
+.post-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.post-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  transition: transform 0.2s ease;
+}
+.post-actions button:hover {
+  transform: scale(1.1);
+}
+.comments-container {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: fadeSlideIn 0.3s ease forwards;
+}
+.comment {
+  background: #f9f9f9;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+.comment-input {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.comment-input input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.comment-input button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#previewMedia {
+  display: block;
+  margin-top: 1rem;
+  max-width: 100%;
+  border-radius: 10px;
+}
 /* Community Wrapper */
 .community-wrapper {
   padding: 150px;
@@ -126,6 +504,17 @@ main {
   color: #3a3a3c;
 }
 
+.search_txt_area {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  width: 300px;
+  background-color: #fff;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
 /* Page container */
 .page-container {
   display: flex;
@@ -170,7 +559,18 @@ main {
   justify-content: center; /* center horizontally */
   align-items: center; /* center vertically */
   height: 100vh; /* full page height */
-  background: #f9f9f9; /* optional background */
+  padding: 2rem;
+  width: 100%;
+  max-width: 1200px; /* wider wrapper */
+  margin: 0 auto;
+}
+
+.ContactCard {
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px; /* wider card */
 }
 
 .email-link {
@@ -178,9 +578,10 @@ main {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  margin: 1rem 0;
+  text-decoration: none;
   color: #2563eb; /* blue */
   font-weight: 500;
-  text-decoration: none;
 }
 
 .email-link:hover {
@@ -192,6 +593,7 @@ main {
   justify-content: center;
   gap: 16px;
   padding: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .social-icons a {
@@ -201,6 +603,68 @@ main {
 
 .social-icons a:hover {
   color: #2563eb; /* hover color */
+}
+
+.message-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 700px; /* wider form */
+  margin: 0 auto;
+}
+
+.message-form input,
+.message-form textarea {
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border 0.3s;
+  width: 100%;
+}
+
+.message-form input:focus,
+.message-form textarea:focus {
+  border: 1px solid #007bff;
+  outline: none;
+}
+
+.send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+}
+
+.send-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.feedback {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.feedback.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.feedback.error {
+  background: #f8d7da;
+  color: #721c24;
 }
 
 /* Form container */
@@ -225,88 +689,133 @@ main {
   box-shadow: 0 0 0 3px rgba(74, 20, 140, 0.2);
 }
 
-/* Courses */
+/* Page container */
 .page-container {
-  padding: 2rem;
+  padding: 4rem 2rem; /* More breathing room inside */
+  margin-top: 10rem; /* Pushes content below header */
+  margin-bottom: 6rem; /* Pushes content above footer */
   display: flex;
   justify-content: center;
-  padding: 300px;
+  min-height: 100vh; /* Ensures full-page height */
+  box-sizing: border-box;
 }
 
+/* Card wrapper */
 #card {
-  background: #ffffff;
   padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
+  background: #ffffff;
 }
 
-/* Course Grid */
+/* Page title */
+.page-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+/* Empty message */
+.empty-msg {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #777;
+}
+
+/* Courses grid */
 .courses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
-/* Individual Course Card */
+/* Course card */
 .course-card {
-  background: #ffffff;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Thumbnail */
+.course-thumbnail img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Info */
+.course-info {
+  padding: 1rem 1.25rem;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.course-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
-
-.course-card h3 {
+.course-info h3 {
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
-  font-size: 1.25rem;
   color: #333;
+  font-weight: 600;
 }
 
-.course-card .description {
+.course-info .description {
   font-size: 0.95rem;
   color: #555;
-  margin-bottom: 0.75rem;
-}
-
-.course-card .price {
-  font-weight: bold;
   margin-bottom: 1rem;
-  color: #007bff;
+  line-height: 1.4;
 }
 
-/* Enroll Button */
+/* Footer */
+.course-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.course-info .price {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ff5722;
+}
+
+/* Enroll button */
 .enroll-btn {
-  background: #28a745;
+  background: #34d399;
   color: #fff;
   border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.6rem;
   cursor: pointer;
-  transition: background 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .enroll-btn:hover {
-  background: #218838;
+  background: #059669;
+  transform: translateY(-2px);
 }
 
-.course-item {
-  padding: 0.75rem;
-  border-bottom: 1px solid #ddd;
-}
-
+/* Teacher form */
 .course-form {
-  margin-top: 2rem;
+  margin-top: 3rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.course-form h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
 }
 
 .course-form input,
@@ -314,21 +823,68 @@ main {
 .course-form button {
   display: block;
   width: 100%;
-  padding: 0.75rem;
-  margin: 0.5rem 0;
+  padding: 0.9rem;
+  margin: 0.7rem 0;
   font-size: 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid #ddd;
+}
+
+.course-form textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .course-form button {
-  background: #007bff;
-  color: white;
+  background: linear-gradient(135deg, #ff9800, #ff5722);
   border: none;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 0.5rem;
 }
 
 .course-form button:disabled {
   background: #ccc;
+  cursor: not-allowed;
+}
+
+.add-course-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.add-course-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.plus-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+  transition: transform 0.2s ease-in-out;
+}
+.plus-icon:hover {
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* Theme switching */
+.light-only {
+  display: block;
+}
+.dark-only {
+  display: none;
+}
+
+html.dark .light-only {
+  display: none;
+}
+html.dark .dark-only {
+  display: block;
 }
 
 .error {
@@ -337,28 +893,110 @@ main {
 }
 
 .success {
-  color: #5cb85c;
+  color: #28a745;
   margin-top: 0.5rem;
 }
 
 /* Footer */
 footer {
-  color: #6e6e73;
-  background-color: #f5f5f7;
-  font-size: small;
+  color: #444;
+  background: linear-gradient(135deg, #f5f5f7, #e9ebee);
+  font-size: 0.9rem;
   text-align: center;
-  padding: 20px;
+  padding: 40px 20px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .footer-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 20px;
+}
+
+.footer-card {
+  background: transparent;
+  text-align: left;
+}
+
+.footer-card h2 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #222;
+  position: relative;
+}
+
+.footer-card h2::after {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 2px;
+  background: #0077ff;
+  margin-top: 5px;
+  border-radius: 2px;
+}
+
+.footer-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-card ul li {
+  margin: 8px 0;
+}
+
+.footer-card a {
+  text-decoration: none;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.footer-card a:hover {
+  color: #0077ff;
+}
+
+.footer-lang {
+  margin: 5px 0;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-lang:hover {
+  color: #0077ff;
+}
+
+.social-icons {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 20px;
+  gap: 15px;
+  font-size: 1.3rem;
+}
+
+.social-icons a {
+  color: #555;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+  color: #0077ff;
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: #666;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.brand {
+  font-weight: bold;
+  color: #0077ff;
 }
 
 /* Slider */
@@ -371,7 +1009,9 @@ footer {
   overflow: hidden;
   background-color: black;
   border-radius: 12px;
-  margin-top: 80px;
+  margin-top: 180px;
+  margin-bottom: 180px;
+  padding: 100px;
 }
 
 .poster-slide {
@@ -469,6 +1109,18 @@ footer {
 
 .poster-dot.active {
   background-color: white;
+}
+
+/* Animations */
+.BlurText {
+  padding: 100px;
+  font-size: 85px;
+  justify-content: center;
+}
+
+.TextType {
+  font-size: 80px;
+  padding: 50px;
 }
 
 /* Floating Icons */
@@ -581,7 +1233,7 @@ footer {
 
 /* 🌙 Dark Mode */
 body.dark-mode {
-  background-color: #121212;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
   color: #e4e4e7;
 }
 
@@ -644,9 +1296,21 @@ body.dark-mode footer {
   transform: translateX(24px);
 }
 
+/* Floating Icons Dark */
+
 /* General */
 body.dark-mode {
   background-color: #121212;
+  color: #e4e4e7;
+}
+
+body.dark-mode .community_txt_area {
+  background-color: #1e1e1e;
+  color: #e4e4e7;
+}
+
+body.dark-mode .search_txt_area {
+  background-color: #1e1e1e;
   color: #e4e4e7;
 }
 
@@ -665,6 +1329,18 @@ body.dark-mode .navbar a {
 body.dark-mode .nav-link:hover,
 body.dark-mode .navbar a:hover {
   color: #a5b4fc; /* soft indigo */
+}
+
+body.dark-mode .search_txt_area {
+  background-color: #222; /* darker background */
+  color: #f5f5f5; /* light text */
+  border: 1px solid #444;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); /* stronger shade */
+}
+
+/* Community */
+body.dark-mode .post-card {
+  background-color: #1e1e1e;
 }
 
 /* Cards */
@@ -686,6 +1362,13 @@ body.dark-mode .course-card .description {
 
 body.dark-mode .course-card .price {
   color: #60a5fa; /* bright blue */
+}
+
+body.dark-mode .course-form input,
+.course-form textarea,
+.course-form button {
+  background-color: #1e1e1e;
+  color: #f5f5f5;
 }
 
 /* Buttons */
@@ -745,6 +1428,17 @@ body.dark-mode .social-icons a:hover {
   color: #60a5fa;
 }
 
+body.dark-mode .message-form input,
+body.dark-mode .message-form textarea,
+body.dark-mode .message-form input:focus,
+body.dark-mode .message-form textarea:focus {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .send-btn {
+  color: black;
+}
+
 /* Footer */
 body.dark-mode footer {
   background-color: #1a1a1a;
@@ -787,6 +1481,49 @@ body.dark-mode .poster-arrow {
 
 body.dark-mode .poster-arrow:hover {
   background-color: rgba(96, 165, 250, 0.3);
+}
+
+/* Footer Dark Mode */
+.dark-mode footer {
+  color: #ddd;
+  background: linear-gradient(135deg, #1a1a1d, #2a2a2f);
+}
+
+.dark-mode .footer-card h2 {
+  color: #f1f1f1;
+}
+
+.dark-mode .footer-card a {
+  color: #aaa;
+}
+
+.dark-mode .footer-card a:hover {
+  color: #4da6ff;
+}
+
+.dark-mode .footer-lang {
+  color: #bbb;
+}
+
+.dark-mode .footer-lang:hover {
+  color: #4da6ff;
+}
+
+.dark-mode .social-icons a {
+  color: #aaa;
+}
+
+.dark-mode .social-icons a:hover {
+  color: #4da6ff;
+}
+
+.dark-mode .footer-bottom {
+  color: #999;
+  border-top: 1px solid #333;
+}
+
+.dark-mode .brand {
+  color: #4da6ff;
 }
 
 /* Floating Icons */

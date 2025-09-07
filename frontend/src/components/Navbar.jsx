@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/Logos/3Q-Logo.svg";
+import DarkLogo from "../assets/Logos/Dark_3lm_Quest_Logo.png";
 import { getStoredUser, getCurrentUser, logout } from "../services/auth";
 
 const Navbar = () => {
@@ -51,27 +52,29 @@ const Navbar = () => {
     <nav className="navbar">
       {/* Logo */}
       <Link to="/">
-        <img
-          src={Logo}
-          alt="Website Logo"
-          style={{ width: "120px", height: "120px" }}
-        />
+        {darkMode ? (
+          <img
+            src={DarkLogo}
+            alt="Dark Website Logo"
+            style={{ width: "80px", height: "80px" }}
+          />
+        ) : (
+          <img
+            src={Logo}
+            alt="Website Logo"
+            style={{ width: "80px", height: "80px" }}
+          />
+        )}
       </Link>
 
       {/* Search bar */}
       <form className="nav-search" onSubmit={handleSearch}>
         <input
+          className="search_txt_area"
           type="text"
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          style={{
-            borderRadius: "8px",
-            border: "1px solid #ddd",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-            padding: "16px",
-            width: "300px",
-          }}
         />
       </form>
 
