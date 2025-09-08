@@ -1111,6 +1111,122 @@ footer {
   background-color: white;
 }
 
+/* Dashboard */
+/* General container */
+.dashboard-container {
+  display: flex;
+  gap: 18px;
+  padding: 24px;
+  padding-top: 100px;
+  min-height: 100vh;
+  align-items: flex-start; /* align top edges so the right card sits at tSop */
+  justify-content: center;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Theme variables */
+:root {
+  --bg: #f5f7fa;
+  --card-bg: #ffffff;
+  --text: #222;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Card base */
+.dashboard-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 24px var(--shadow);
+  padding: 22px;
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1),
+    background 0.28s ease;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+body.dark-mode .dashboard-card {
+  background-color: #2a2a2a;
+}
+
+/* Right card (was tall — now WIDE) */
+.card-large {
+  /* swapped aspect ratio so card becomes wider than tall */
+  width: clamp(360px, 34vw, 876px); /* min, flexible, max */
+  aspect-ratio: 1031 / 634; /* swapped to make it wide (approx 1.63) */
+  height: 625px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Top-left wide card */
+.card-top {
+  width: clamp(420px, 46vw, 1018px);
+  aspect-ratio: 1198 / 367; /* wide banner-like card */
+  margin-bottom: 14px;
+}
+
+/* Bottom-left two squares */
+.dashboard-bottom {
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.card-square {
+  width: clamp(240px, 22vw, 489px);
+  aspect-ratio: 1 / 1; /* keep perfect square */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Left column */
+.dashboard-left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Hover/interaction polish */
+.dashboard-card:hover {
+  transform: translateY(-6px) scale(1.01);
+}
+
+/* Loading & error states */
+.loading-card,
+.error-card {
+  font-size: 1.05rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Small screens: stack vertically for narrow viewports */
+@media (max-width: 1100px) {
+  .dashboard-container {
+    flex-direction: column;
+    padding: 18px;
+    gap: 14px;
+    align-items: center;
+  }
+
+  /* make each card take up most of viewport width */
+  .card-top,
+  .card-large,
+  .card-square {
+    width: min(94vw, 900px);
+  }
+
+  .dashboard-bottom {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card-square {
+    width: min(44vw, 420px);
+  }
+}
+
 /* Animations */
 .BlurText {
   padding: 100px;

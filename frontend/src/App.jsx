@@ -15,6 +15,7 @@ import Community from "./components/Community";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
 import Dashboard from "./components/Dashboard";
+import Banner1 from "./components/Banner1";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
@@ -32,7 +33,15 @@ function AppRoutes() {
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           {/* Landing page */}
-          <Route path="/" element={<PosterSlider />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <PosterSlider />
+                <Banner1 />
+              </>
+            }
+          />
 
           {/* Main routes */}
           <Route path="/Classroom" element={<Classroom />} />
