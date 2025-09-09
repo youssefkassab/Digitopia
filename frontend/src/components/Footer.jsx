@@ -12,7 +12,7 @@ const Footer = () => {
         <div className="borderless-card">
             <h2>Pages</h2>
             <nav>
-                <a href="./App.jsx">Home</a>
+                <a href="./">Home</a>
                 <a href="Classroom"></a>
                 <a href="Courses"></a>
                 <a href="About Us"></a>

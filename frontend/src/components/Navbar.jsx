@@ -6,10 +6,17 @@ import { getStoredUser, getCurrentUser, logout } from "../services/auth";
 const Navbar = () => {
   const [query, setQuery] = useState("");
   const [user, setUser] = useState(getStoredUser());
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verify token with API to refresh user data
+    // Apply saved theme on mount
+    document.body.classList.toggle("dark-mode", darkMode);
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+
+    // Verify token with API
     const verifyUser = async () => {
       try {
         const currentUser = await getCurrentUser();
@@ -24,12 +31,11 @@ const Navbar = () => {
       }
     };
     verifyUser();
-  }, []);
+  }, [darkMode]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Searching for:", query);
-    // Add your search logic here
   };
 
   const handleLogout = async () => {
@@ -43,8 +49,6 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <div></div>
-
       {/* Logo */}
       <Link to="/">
         <img
@@ -89,6 +93,16 @@ const Navbar = () => {
           Contact Us
         </Link>
 
+        {/* Dark mode toggle */}
+        <button
+          className={`theme-toggle ${darkMode ? "active" : ""}`}
+          onClick={() => setDarkMode(!darkMode)}
+          aria-label="Toggle dark mode"
+        >
+          <span className="toggle-circle"></span>
+        </button>
+
+        {/* Auth buttons */}
         {user ? (
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <span>Hi, {user.name || user.email}</span>
