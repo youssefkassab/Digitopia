@@ -45,9 +45,9 @@ export default function PosterSlider() {
             />
           </div>
           <div className="poster-bottom">
-            <button className="poster-button">...</button>
+            <button className="poster-button">Join Now</button>
             <p className="poster-description">
-              <span className="poster-genre">{posters[index].genre}</span> ·{" "}
+              <span className="poster-genre">{posters[index].genre}</span> {" "}
               {posters[index].description}
             </p>
           </div>
