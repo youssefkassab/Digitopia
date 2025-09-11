@@ -21,7 +21,8 @@ import Logout from "./components/Logout";
 import Footer from "./components/Footer";
 import AdminPage from "./AdminPage";
 import AdminLessons from "./components/AdminLessons";
-
+import AdminStudents from "./components/AdminStudents";
+import AdminDashboard from "./components/AdminDashboard";
 // Handles all routes
 function AppRoutes() {
   const location = useLocation();
@@ -56,6 +57,8 @@ function AppRoutes() {
           {/* Admin route */}
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/lessons" element={<AdminLessons />} />
+          <Route path="/admin/students" element={<AdminStudents />} />
+          <Route path="/admin/dashborad" element={<AdminDashboard />} />
           {/* Catch-all route */}
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
         </Routes>

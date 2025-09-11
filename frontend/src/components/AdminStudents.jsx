@@ -1,61 +1,61 @@
 import React, { useEffect, useState } from "react";
 import AdminNavbar from "./AdminNavbar";
 import FloatingIcons from "./FloatingIcons";
-import "./AdminTable.css"; // Import the CSS file
+import "./AdminTable.css"; // ✅ reuse the same styling
 
-const AdminLessons = () => {
-  const [courses, setCourses] = useState([]);
+const AdminStudents = () => {
+  const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editingCourse, setEditingCourse] = useState(null);
+  const [editingStudent, setEditingStudent] = useState(null);
   const [formData, setFormData] = useState({
     id: "",
     name: "",
-    description: "",
-    price: "",
-    teacher_id: "",
+    email: "",
+    national_number: "",
+    role: "",
   });
 
-  // ✅ Fetch all courses
-  const fetchCourses = async () => {
+  // ✅ Fetch all students
+  const fetchStudents = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/courses/all");
+      const res = await fetch("http://localhost:3000/api/users/user");
       const data = await res.json();
-      setCourses(data);
+      setStudents(Array.isArray(data) ? data : [data]); // handle single object or array
       setLoading(false);
     } catch (err) {
-      console.error("Error fetching courses:", err);
+      console.error("Error fetching students:", err);
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCourses();
+    fetchStudents();
   }, []);
 
-  // ✅ Delete course
+  // ✅ Delete student
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this course?")) return;
+    if (!window.confirm("Are you sure you want to delete this student?")) return;
     try {
-      await fetch("http://localhost:3000/api/courses/delete", {
+      await fetch("http://localhost:3000/api/users/delete", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
       });
-      setCourses(courses.filter((c) => c.id !== id));
+      setStudents(students.filter((s) => s.id !== id));
     } catch (err) {
       console.error("Delete failed:", err);
     }
   };
 
   // ✅ Start editing
-  const handleEdit = (course) => {
-    setEditingCourse(course.id);
+  const handleEdit = (student) => {
+    setEditingStudent(student.id);
     setFormData({
-      id: course.id,
-      name: course.name,
-      description: course.description,
-      price: course.price,
-      teacher_id: course.teacher_id,
+      id: student.id,
+      name: student.name,
+      email: student.email,
+      national_number: student.national_number,
+      role: student.role,
     });
   };
 
@@ -68,18 +68,18 @@ const AdminLessons = () => {
   // ✅ Save update
   const handleUpdate = async () => {
     try {
-      await fetch("http://localhost:3000/api/courses/update", {
+      await fetch("http://localhost:3000/api/users/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      setCourses(
-        courses.map((c) =>
-          c.id === formData.id ? { ...c, ...formData } : c
+      setStudents(
+        students.map((s) =>
+          s.id === formData.id ? { ...s, ...formData } : s
         )
       );
-      setEditingCourse(null);
+      setEditingStudent(null);
     } catch (err) {
       console.error("Update failed:", err);
     }
@@ -91,34 +91,32 @@ const AdminLessons = () => {
       <AdminNavbar />
 
       <div className="admin-lessons-content">
-        <h1 className="page-title">Courses Management</h1>
+        <h1 className="page-title">Students Management</h1>
 
         {loading ? (
-          <p>Loading courses...</p>
-        ) : courses.length === 0 ? (
-          <p>No courses found.</p>
+          <p>Loading students...</p>
+        ) : students.length === 0 ? (
+          <p>No students found.</p>
         ) : (
           <table className="admin-table">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Teacher ID</th>
-                <th>Created</th>
-                <th>Updated</th>
+                <th>Email</th>
+                <th>National Number</th>
+                <th>Role</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {courses.map((course) => (
-                <tr key={course.id}>
-                  <td>{course.id}</td>
+              {students.map((student) => (
+                <tr key={student.id}>
+                  <td>{student.id}</td>
 
                   {/* Editable fields */}
                   <td>
-                    {editingCourse === course.id ? (
+                    {editingStudent === student.id ? (
                       <input
                         type="text"
                         name="name"
@@ -127,68 +125,68 @@ const AdminLessons = () => {
                         className="input-edit"
                       />
                     ) : (
-                      course.name
+                      student.name
                     )}
                   </td>
                   <td>
-                    {editingCourse === course.id ? (
+                    {editingStudent === student.id ? (
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="input-edit"
+                      />
+                    ) : (
+                      student.email
+                    )}
+                  </td>
+                  <td>
+                    {editingStudent === student.id ? (
                       <input
                         type="text"
-                        name="description"
-                        value={formData.description}
+                        name="national_number"
+                        value={formData.national_number}
                         onChange={handleChange}
                         className="input-edit"
                       />
                     ) : (
-                      course.description
+                      student.national_number
                     )}
                   </td>
                   <td>
-                    {editingCourse === course.id ? (
-                      <input
-                        type="number"
-                        name="price"
-                        value={formData.price}
+                    {editingStudent === student.id ? (
+                      <select
+                        name="role"
+                        value={formData.role}
                         onChange={handleChange}
                         className="input-edit"
-                      />
+                      >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        <option value="teacher">Teacher</option>
+                      </select>
                     ) : (
-                      `$${course.price}`
+                      student.role
                     )}
                   </td>
-                  <td>
-                    {editingCourse === course.id ? (
-                      <input
-                        type="number"
-                        name="teacher_id"
-                        value={formData.teacher_id}
-                        onChange={handleChange}
-                        className="input-edit"
-                      />
-                    ) : (
-                      course.teacher_id
-                    )}
-                  </td>
-
-                  <td>{new Date(course.created_at).toLocaleDateString()}</td>
-                  <td>{new Date(course.updated_at).toLocaleDateString()}</td>
 
                   {/* Actions */}
                   <td className="actions">
-                    {editingCourse === course.id ? (
+                    {editingStudent === student.id ? (
                       <button onClick={handleUpdate} className="btn save">
                         Save
                       </button>
                     ) : (
                       <button
-                        onClick={() => handleEdit(course)}
+                        onClick={() => handleEdit(student)}
                         className="btn edit"
                       >
                         Edit
                       </button>
                     )}
                     <button
-                      onClick={() => handleDelete(course.id)}
+                      onClick={() => handleDelete(student.id)}
                       className="btn delete"
                     >
                       Delete
@@ -204,4 +202,4 @@ const AdminLessons = () => {
   );
 };
 
-export default AdminLessons;
+export default AdminStudents;
