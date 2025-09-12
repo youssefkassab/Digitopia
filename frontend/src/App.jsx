@@ -1,14 +1,9 @@
 import { AnimatePresence } from "framer-motion";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 import Navbar from "./components/Navbar";
 import PosterSlider from "./components/PosterSlider";
-import FloatingIcons from "./components/FloatingIcons";
 import Classroom from "./components/Classroom";
 import Courses from "./components/Courses";
 import Community from "./components/Community";
@@ -18,66 +13,64 @@ import Dashboard from "./components/Dashboard";
 import Banner1 from "./components/Banner1";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import Logout from "./components/Logout";
 import Footer from "./components/Footer";
 import AdminPage from "./AdminPage";
-import AdminRoute from "./components/AdminRoute";
 
-// Handles all routes
 function AppRoutes() {
   const location = useLocation();
 
   return (
-    <>
-      <FloatingIcons />
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          {/* Landing page */}
-          <Route
-            path="/"
-            element={
-              <>
-                <PosterSlider />
-                <Banner1 />
-              </>
-            }
-          />
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Landing page */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Helmet>
+                <title>Home | 3lm Quest</title>
+                <meta
+                  name="description"
+                  content="Welcome to the homepage of My App"
+                />
+              </Helmet>
+              <PosterSlider />
+              <Banner1 />
+            </>
+          }
+        />
 
-          {/* Main routes */}
-          <Route path="/Classroom" element={<Classroom />} />
-          <Route path="/Courses" element={<Courses />} />
-          <Route path="/Community" element={<Community />} />
-          <Route path="/About" element={<AboutUs />} />
-          <Route path="/Contact" element={<ContactUs />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
+        {/* Main routes */}
+        <Route path="/Classroom" element={<Classroom />} />
+        <Route path="/Courses" element={<Courses />} />
+        <Route path="/Community" element={<Community />} />
+        <Route path="/About" element={<AboutUs />} />
+        <Route path="/Contact" element={<ContactUs />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
 
-          {/* Auth routes */}
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+        {/* Auth routes */}
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
 
-          {/* Admin route (protected) */}
-          <Route path="/admin" element={<AdminPage />} />
+        {/* Admin route */}
+        <Route path="/admin" element={<AdminPage />} />
 
-          {/* Catch-all route */}
-          <Route path="*" element={<h2>404 - Page Not Found</h2>} />
-        </Routes>
-      </AnimatePresence>
-    </>
+        {/* Catch-all */}
+        <Route path="*" element={<h2>404 - Page Not Found</h2>} />
+      </Routes>
+    </AnimatePresence>
   );
 }
 
-// Root component with Router + Navbar + Footer
 function App() {
   return (
-    <Router>
-      <div className="app-wrapper">
-        <Navbar />
-        <main>
-          <AppRoutes />
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <div className="app-wrapper">
+      <Navbar />
+      <main>
+        <AppRoutes />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
