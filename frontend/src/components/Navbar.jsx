@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../assets/Logos/3Q-Logo.svg";
 import DarkLogo from "../assets/Logos/Dark_3lm_Quest_Logo.png";
 import { getStoredUser, getCurrentUser, logout } from "../services/auth";
+import { FaSearch, FaUserCircle } from "react-icons/fa";
+import { FiSun, FiMoon } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [query, setQuery] = useState("");
@@ -10,14 +13,14 @@ const Navbar = () => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
   );
+  const [showSearchOverlay, setShowSearchOverlay] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    // Apply saved theme on mount
     document.body.classList.toggle("dark-mode", darkMode);
     localStorage.setItem("theme", darkMode ? "dark" : "light");
 
-    // Verify token with API
     const verifyUser = async () => {
       try {
         const currentUser = await getCurrentUser();
@@ -37,6 +40,7 @@ const Navbar = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Searching for:", query);
+    setShowSearchOverlay(false);
   };
 
   const handleLogout = async () => {
@@ -44,93 +48,142 @@ const Navbar = () => {
       await logout();
     } finally {
       setUser(null);
-      navigate("/"); // redirect to home
+      navigate("/");
     }
   };
 
   return (
-    <nav className="navbar">
-      {/* Logo */}
-      <Link to="/">
-        {darkMode ? (
+    <>
+      {/* Navbar */}
+      <nav className="glassy-navbar">
+        {/* Logo */}
+        <Link to="/" className="nav-logo">
           <img
-            src={DarkLogo}
-            alt="Dark Website Logo"
-            style={{ width: "80px", height: "80px" }}
-          />
-        ) : (
-          <img
-            src={Logo}
+            src={darkMode ? DarkLogo : Logo}
             alt="Website Logo"
-            style={{ width: "80px", height: "80px" }}
+            className="logo-img"
           />
-        )}
-      </Link>
-
-      {/* Search bar */}
-      <form className="nav-search" onSubmit={handleSearch}>
-        <input
-          className="search_txt_area"
-          type="text"
-          placeholder="Search..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </form>
-
-      {/* Navigation links */}
-      <div className="nav-links">
-        <Link to="/Classroom" className="nav-link">
-          Classroom
-        </Link>
-        <Link to="/Courses" className="nav-link">
-          Courses
-        </Link>
-        <Link to="/Community" className="nav-link">
-          Community
-        </Link>
-        <Link to="/About" className="nav-link">
-          About Us
-        </Link>
-        <Link to="/Contact" className="nav-link">
-          Contact Us
         </Link>
 
-        {/* Dark mode toggle */}
-        <button
-          className={`theme-toggle ${darkMode ? "active" : ""}`}
-          onClick={() => setDarkMode(!darkMode)}
-          aria-label="Toggle dark mode"
-        >
-          <span className="toggle-circle"></span>
-        </button>
-
-        {/* Auth buttons */}
-        {user ? (
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <span>Hi, {user.name || user.email}</span>
-            <button
-              onClick={handleLogout}
-              className="btn btn-small"
-              style={{
-                padding: "6px 12px",
-                backgroundColor: "#ff4d4f",
-                color: "#fff",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
+        {/* Navigation links */}
+        <ul className="nav-bar">
+          <li>
+            <Link
+              to="/Classroom"
+              className={location.pathname === "/Classroom" ? "active" : ""}
             >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <Link to="/Signup" className="nav-link">
-            Sign Up
-          </Link>
+              Classroom
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Courses"
+              className={location.pathname === "/Courses" ? "active" : ""}
+            >
+              Courses
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Community"
+              className={location.pathname === "/Community" ? "active" : ""}
+            >
+              Community
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/About"
+              className={location.pathname === "/About" ? "active" : ""}
+            >
+              About Us
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Contact"
+              className={location.pathname === "/Contact" ? "active" : ""}
+            >
+              Contact Us
+            </Link>
+          </li>
+        </ul>
+
+        {/* Right-side controls */}
+        <div className="nav-actions">
+          {/* Search Button */}
+          <button
+            className="glass-btn round-btn"
+            onClick={() => setShowSearchOverlay(true)}
+          >
+            <FaSearch size={18} />
+          </button>
+
+          {/* Dark mode toggle */}
+          <button
+            className={`glass-btn round-btn theme-toggle ${
+              darkMode ? "active" : ""
+            }`}
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
+          </button>
+
+          {/* Auth buttons */}
+          {user ? (
+            <div className="user-controls">
+              {/* User icon → Dashboard */}
+              <button
+                className="glass-btn round-btn"
+                onClick={() => navigate("/Dashboard")}
+              >
+                <FaUserCircle size={20} />
+              </button>
+              <button onClick={handleLogout} className="glass-btn logout-btn">
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link to="/Signup" className="signup-btn">
+              Sign Up
+            </Link>
+          )}
+        </div>
+      </nav>
+
+      {/* Search Overlay */}
+      <AnimatePresence>
+        {showSearchOverlay && (
+          <motion.div
+            className="search-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.form
+              onSubmit={handleSearch}
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="search-form"
+            >
+              <input
+                type="text"
+                placeholder="Search..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                autoFocus
+              />
+              <button type="button" onClick={() => setShowSearchOverlay(false)}>
+                ✕
+              </button>
+            </motion.form>
+          </motion.div>
         )}
-      </div>
-    </nav>
+      </AnimatePresence>
+    </>
   );
 };
 
