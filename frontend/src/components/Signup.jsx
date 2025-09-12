@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { signup, login } from "../services/auth";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const steps = ["Name", "Email", "Password", "Role", "National ID", "Grade"];
 
-// === Step-specific messages ===
 const stepMessages = [
   "Let's start with your Full Name (4 words required).",
   "Great! Now enter your Email address.",
@@ -13,6 +13,16 @@ const stepMessages = [
   "Choose your Role: Student or Teacher.",
   "Enter your 14-digit National ID.",
   "Finally, tell us your Grade (students only).",
+];
+
+// === Temp mail domains (extendable) ===
+const tempMailDomains = [
+  "tempmail.com",
+  "10minutemail.com",
+  "guerrillamail.com",
+  "mailinator.com",
+  "dispostable.com",
+  "yopmail.com",
 ];
 
 const Signup = () => {
@@ -32,8 +42,47 @@ const Signup = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
 
   // === VALIDATIONS ===
-  const validateName = (name) => name.trim().split(/\s+/).length === 4;
+  const validateName = (name) => {
+    const words = name.trim().split(/\s+/);
+    if (words.length === 1) {
+      setError("Your full name must have 4 words, not just 1.");
+      return false;
+    }
+    if (words.length === 2) {
+      setError("Almost there! Your full name needs 4 words, not 2.");
+      return false;
+    }
+    if (words.length === 3) {
+      setError("Good! Add 1 more word to complete your 4-word full name.");
+      return false;
+    }
+    if (words.length === 4) {
+      return true;
+    }
+    if (words.length > 4) {
+      setError("Please enter exactly 4 words for your full name.");
+      return false;
+    }
+    return false;
+  };
+
   const validateEmail = (email) => {
+    // Basic format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return false;
+    }
+
+    const parts = email.split("@");
+    if (parts.length !== 2) return false;
+    const domain = parts[1].toLowerCase();
+
+    if (tempMailDomains.includes(domain)) {
+      setError("Temporary emails are not allowed. Please use a valid one.");
+      return false;
+    }
+
     const allowedDomains = [
       "gmail.com",
       "hotmail.com",
@@ -41,25 +90,34 @@ const Signup = () => {
       "outlook.com",
       "live.com",
     ];
-    const parts = email.split("@");
-    return (
-      parts.length === 2 && allowedDomains.includes(parts[1].toLowerCase())
-    );
+
+    if (!allowedDomains.includes(domain)) {
+      setError("Only Gmail, Hotmail, Yahoo, Outlook, and Live are accepted.");
+      return false;
+    }
+
+    return true;
   };
+
   const validatePassword = (pw) =>
-    /\d/.test(pw) &&
-    /[^A-Za-z0-9]/.test(pw) &&
     pw.length >= 8 &&
-    pw.length <= 50;
-  const calcPwStrength = (pw) =>
-    [
-      pw.length >= 8,
-      /\d/.test(pw),
-      /[^A-Za-z0-9]/.test(pw),
-      pw.length > 12,
-    ].filter(Boolean).length;
+    /\d/.test(pw) &&
+    /[A-Z]/.test(pw) &&
+    /[^A-Za-z0-9]/.test(pw);
+
+  const calcPwStrength = (pw) => {
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (/\d/.test(pw)) score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    if (pw.length > 12) score++; // bonus
+    return score;
+  };
+
   const validateNationalId = (id) =>
     /^\d{14}$/.test(id) && (id[0] === "2" || id[0] === "3");
+
   const validateGrade = (grade) => {
     const num = parseInt(grade, 10);
     return (
@@ -81,13 +139,15 @@ const Signup = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setError("");
-    if (name === "password") setPasswordStrength(calcPwStrength(value));
+
+    if (name === "password") {
+      setPasswordStrength(calcPwStrength(value));
+    }
   };
 
   const nextStep = () => {
     if (!validations[step]()) {
-      setError(`Invalid ${steps[step]}`);
-      return;
+      return; // error already set
     }
     setError("");
     setStep(step + 1);
@@ -137,7 +197,48 @@ const Signup = () => {
     }
   };
 
-  // === Stepper Form Fields ===
+  // === Keyboard Navigation (Enter, Left Arrow, Right Arrow) ===
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (step < steps.length - 1) {
+          nextStep();
+        } else {
+          handleSubmit(e);
+        }
+      }
+      if (e.key === "ArrowLeft" && step > 0) {
+        prevStep();
+      }
+      if (e.key === "ArrowRight" && step < steps.length - 1) {
+        nextStep();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [step, formData]);
+
+  // === Password Checklist ===
+  const renderPasswordChecklist = () => {
+    const pw = formData.password;
+    return (
+      <ul className="pw-checklist">
+        <li className={pw.length >= 8 ? "valid" : ""}>
+          ✓ Minimum 8 characters
+        </li>
+        <li className={/[A-Z]/.test(pw) ? "valid" : ""}>
+          ✓ At least one uppercase letter
+        </li>
+        <li className={/\d/.test(pw) ? "valid" : ""}>✓ At least one number</li>
+        <li className={/[^A-Za-z0-9]/.test(pw) ? "valid" : ""}>
+          ✓ At least one symbol
+        </li>
+      </ul>
+    );
+  };
+
+  // === Step Renderer ===
   const renderStep = () => {
     switch (step) {
       case 0:
@@ -170,12 +271,18 @@ const Signup = () => {
               value={formData.password}
               onChange={handleChange}
             />
-            <div className="pw-strength">
-              Strength:{" "}
-              {["Weak", "Medium", "Strong", "Very Strong"][
+            {renderPasswordChecklist()}
+            <div className="pw-strength-bar">
+              <div
+                className={`pw-strength-fill strength-${passwordStrength}`}
+                style={{ width: `${(passwordStrength / 5) * 100}%` }}
+              ></div>
+            </div>
+            <p className="pw-strength-label">
+              {["Very Weak", "Weak", "Medium", "Strong", "Very Strong"][
                 passwordStrength - 1
               ] || "Very Weak"}
-            </div>
+            </p>
           </>
         );
       case 3:
@@ -213,89 +320,87 @@ const Signup = () => {
     }
   };
 
-  // === Handle Enter key ===
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (step < steps.length - 1) {
-        nextStep();
-      } else {
-        handleSubmit(e);
-      }
-    }
-  };
-
   return (
-    <motion.div
-      className="signup-container"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <div className="signup-card">
-        <div className="stepper">
-          {steps.map((s, i) => (
-            <div key={i} className={`step ${i <= step ? "active" : ""}`}></div>
-          ))}
-        </div>
+    <>
+      <Helmet>
+        <title>Sign Up | 3lm Quest</title>
+      </Helmet>
+      <motion.div
+        className="signup-container"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <div className="signup-card">
+          <div className="stepper">
+            {steps.map((s, i) => (
+              <div
+                key={i}
+                className={`step ${i <= step ? "active" : ""}`}
+              ></div>
+            ))}
+          </div>
 
-        {/* Dynamic Step Message with Animation */}
-        <AnimatePresence mode="wait">
-          <motion.h2
-            key={step}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.3 }}
-          >
-            {stepMessages[step]}{" "}
-            <span className="highlight">
-              (Step {step + 1} of {steps.length})
-            </span>
-          </motion.h2>
-        </AnimatePresence>
-
-        <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
           <AnimatePresence mode="wait">
-            <motion.div
+            <motion.h2
               key={step}
-              initial={{ x: 100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -100, opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.3 }}
             >
-              {renderStep()}
-            </motion.div>
+              {stepMessages[step]}{" "}
+              <span className="highlight">
+                (Step {step + 1} of {steps.length})
+              </span>
+            </motion.h2>
           </AnimatePresence>
 
-          {error && <p className="error">{error}</p>}
-          {success && <p className="success">{success}</p>}
-
-          <div className="stepper-buttons">
-            {step > 0 && (
-              <button
-                type="button"
-                className="btn secondary"
-                onClick={prevStep}
+          <form onSubmit={handleSubmit}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={step}
+                initial={{ x: 100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -100, opacity: 0 }}
+                transition={{ duration: 0.4 }}
               >
-                Back
-              </button>
-            )}
-            {step < steps.length - 1 ? (
-              <button type="button" className="btn" onClick={nextStep}>
-                Next
-              </button>
-            ) : (
-              <button type="submit" className="btn" disabled={loading}>
-                {loading ? "Creating..." : "Create Account"}
-              </button>
-            )}
-          </div>
-        </form>
-        <p className="login-link">
-          Already have an account? <Link to="/login">Login here</Link>
-        </p>
-      </div>
-    </motion.div>
+                {renderStep()}
+              </motion.div>
+            </AnimatePresence>
+
+            {error && <p className="error">{error}</p>}
+            {success && <p className="success">{success}</p>}
+
+            <div className="stepper-buttons">
+              {step > 0 && (
+                <button
+                  type="button"
+                  className="btn secondary"
+                  onClick={prevStep}
+                >
+                  Back
+                </button>
+              )}
+              {step < steps.length - 1 ? (
+                <button type="button" className="btn" onClick={nextStep}>
+                  Next
+                </button>
+              ) : (
+                <button type="submit" className="btn" disabled={loading}>
+                  {loading ? "Creating..." : "Create Account"}
+                </button>
+              )}
+            </div>
+          </form>
+          <p className="login-link">
+            Already have an account?{" "}
+            <Link to="/login" className="LoginLink">
+              Login here
+            </Link>
+          </p>
+        </div>
+      </motion.div>
+    </>
   );
 };
 
