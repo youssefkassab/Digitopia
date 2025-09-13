@@ -7,6 +7,8 @@ const limit = require('./middleware/limit.middleware');
 const userRoutes = require('./router/user.router');
 const courseRoutes = require('./router/course.router');
 const messageRoutes = require('./router/message.router');
+// Import Sequelize models to trigger DB sync and logging
+require('./db/models');
 app.use(express.json());
 app.use(cors());
 
