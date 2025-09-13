@@ -20,15 +20,23 @@ import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Footer from "./components/Footer";
 import AdminPage from "./AdminPage";
-import AdminRoute from "./components/AdminRoute";
-
+import AdminLessons from "./components/AdminLessons";
+import AdminStudents from "./components/AdminStudents";
+import AdminDashboard from "./components/AdminDashboard";
 // Handles all routes
 function AppRoutes() {
   const location = useLocation();
 
+  // Check if we are inside /admin
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
     <>
       <FloatingIcons />
+
+      {/* Only show Navbar + Footer if NOT admin */}
+      {!isAdminRoute && <Navbar />}
+
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           {/* Landing page */}
@@ -46,9 +54,11 @@ function AppRoutes() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
-          {/* Admin route (protected) */}
+          {/* Admin route */}
           <Route path="/admin" element={<AdminPage />} />
-
+          <Route path="/admin/lessons" element={<AdminLessons />} />
+          <Route path="/admin/students" element={<AdminStudents />} />
+          <Route path="/admin/dashborad" element={<AdminDashboard />} />
           {/* Catch-all route */}
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
         </Routes>
