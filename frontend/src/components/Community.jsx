@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { FaThumbsUp, FaComment } from "react-icons/fa";
 
 export default function Community() {
   const [posts, setPosts] = useState([]);
@@ -288,10 +289,12 @@ export default function Community() {
 
                   <div className="post-actions">
                     <button disabled={liked} onClick={() => likePost(post.id)}>
-                      👍 {post.likes}
+                      <FaThumbsUp size={20} color=" rgba(0, 0, 0, 0.16)" />{" "}
+                      {post.likes}
                     </button>
                     <button onClick={() => toggleComments(post.id)}>
-                      💬 {post.comments.length}
+                      <FaComment size={20} color=" rgba(0, 0, 0, 0.16)" />{" "}
+                      {post.comments.length}
                     </button>
                   </div>
                   {openComments[post.id] && (
