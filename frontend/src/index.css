@@ -45,7 +45,15 @@ main {
   flex: 1; /* Push footer down */
 }
 
-/* Public Styles */
+a {
+  text-decoration: none;
+  color: #1d1d1f;
+}
+
+body.dark-mode a {
+  color: white;
+}
+
 /* Card */
 .card {
   background-color: white;
@@ -69,8 +77,254 @@ main {
   margin-top: 75px;
 }
 
-/* Text Banner */
-.txt-banner {
+/* === Glassy Navbar === */
+.glassy-navbar {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 85%;
+  max-width: 1100px;
+  padding: 8px 18px; /* reduced */
+  border-radius: 40px; /* slightly tighter curve */
+  background: rgba(0, 0, 0, 0.16);
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: none;
+  z-index: 1000;
+}
+
+/* Logo */
+.nav-logo .logo-img {
+  width: 52px; /* smaller */
+  height: 52px; /* smaller */
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px; /* reduced */
+  backdrop-filter: blur(8px);
+  border: none;
+}
+
+/* Nav links */
+.nav-bar {
+  list-style: none;
+  display: flex;
+  gap: 18px; /* tighter gap */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-bar li a {
+  text-decoration: none;
+  font-family: Montserrat, sans-serif;
+  font-size: 13px; /* smaller font */
+  color: #1d1d1f;
+  padding: 6px 12px; /* smaller padding */
+  border-radius: 18px;
+  transition: all 0.3s ease;
+}
+
+.nav-bar li a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Actions */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* reduced gap */
+}
+
+/* Glass buttons */
+.glass-btn {
+  padding: 6px 12px; /* smaller */
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: Montserrat, sans-serif;
+  font-size: 12px;
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Round buttons (smaller) */
+.round-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* Search field */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-container form input {
+  padding: 5px 10px; /* smaller */
+  border-radius: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  transition: 0.3s;
+  font-size: 13px;
+}
+
+.search-container form input:focus {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* User controls */
+.user-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* smaller */
+}
+
+.user-name {
+  font-size: 13px;
+}
+
+/* Auth buttons */
+.signup-btn {
+  background: #007aff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 6px 12px; /* smaller */
+  border-radius: 40px;
+  font-size: 12px;
+}
+
+.signup-btn:hover {
+  background: #005bb5;
+  box-shadow: 0 0 10px rgba(0, 122, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.logout-btn {
+  background: #ff4d4f;
+  color: #fff;
+}
+
+/* === Glassy Navbar (Dark Mode) === */
+body.dark-mode .glassy-navbar {
+  background: rgba(15, 23, 42, 0.5); /* slate-ish translucent */
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .nav-bar li a {
+  color: #e2e8f0; /* light gray text */
+}
+
+body.dark-mode .nav-bar li a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+body.dark-mode .glass-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+}
+
+body.dark-mode .glass-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* Dark mode logo glow */
+body.dark-mode .nav-logo .logo-img {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+/* Active tab styling */
+.nav-bar li a.active {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.35s ease-in-out;
+  transform: scale(1.05);
+  font-weight: 600;
+}
+
+/* Smooth revert when inactive */
+.nav-bar li a {
+  transition: all 0.35s ease-in-out;
+}
+
+/* Dark mode active tab */
+body.dark-mode .nav-bar li a.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+}
+
+/* Search Overlay */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.search-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 16px 30px;
+  border-radius: 60px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border: none;
+}
+
+.search-form input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 22px;
+  color: white;
+  width: 600px;
+  max-width: 80vw; /* responsive for smaller screens */
+}
+
+.search-form button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-form button:hover {
+  transform: scale(1.2);
 }
 
 /* === Signup Base === */
@@ -85,7 +339,7 @@ main {
 
 .signup-card {
   background: #fff;
-  padding: 30px;
+  padding: 50px;
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   max-width: 400px;
@@ -209,10 +463,156 @@ form select:focus {
   background: #bbb;
 }
 
+.LoginLink {
+  color: #0056b3;
+  font-weight: bold;
+}
+
 .login-link {
   margin-top: 15px;
   font-size: 0.9rem;
   animation: fadeIn 0.5s ease;
+}
+
+/* === Password Checklist === */
+.pw-checklist {
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.95rem;
+}
+
+.pw-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #e74c3c;
+  margin-bottom: 6px;
+  transition: color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+}
+
+.pw-checklist li::before {
+  content: "✗";
+  font-size: 0.9rem;
+  color: #e74c3c;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.pw-checklist li.valid {
+  color: #2ecc71;
+  transform: translateX(4px);
+}
+
+.pw-checklist li.valid::before {
+  content: "✓";
+  color: #2ecc71;
+  transform: scale(1.2);
+}
+
+/* === Password Strength Bar === */
+.pw-strength-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 50px;
+  background: linear-gradient(to right, #ddd, #eee);
+  margin: 12px 0;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pw-strength-fill {
+  height: 100%;
+  transition: width 0.4s ease, background 0.4s ease;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ff4d4d, #ff9966);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.strength-1 {
+  background: linear-gradient(90deg, #ff4d4d, #ff6b6b); /* red shades */
+}
+.strength-2 {
+  background: linear-gradient(90deg, #ff8c42, #ffb347); /* orange shades */
+}
+.strength-3 {
+  background: linear-gradient(90deg, #ffd633, #ffe066); /* yellow shades */
+}
+.strength-4 {
+  background: linear-gradient(90deg, #36d1dc, #5b86e5); /* cyan-blue gradient */
+}
+.strength-5 {
+  background: linear-gradient(90deg, #00b09b, #96c93d); /* green gradient */
+}
+
+/* === Password Strength Label === */
+.pw-strength-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 6px;
+  text-align: right;
+  letter-spacing: 0.5px;
+  color: #444;
+  transition: color 0.3s ease;
+}
+
+.strength-1 ~ .pw-strength-label {
+  color: #e74c3c;
+}
+.strength-2 ~ .pw-strength-label {
+  color: #ff8c42;
+}
+.strength-3 ~ .pw-strength-label {
+  color: #d4ac0d;
+}
+.strength-4 ~ .pw-strength-label {
+  color: #3498db;
+}
+.strength-5 ~ .pw-strength-label {
+  color: #2ecc71;
+}
+
+/* === Dark Mode for Password Checklist === */
+body.dark-mode .pw-checklist li {
+  color: #ff6b6b; /* softer red for dark bg */
+}
+body.dark-mode .pw-checklist li::before {
+  color: #ff6b6b;
+}
+body.dark-mode .pw-checklist li.valid {
+  color: #2ecc71;
+}
+body.dark-mode .pw-checklist li.valid::before {
+  color: #2ecc71;
+}
+
+/* === Dark Mode for Password Strength Bar === */
+body.dark-mode .pw-strength-bar {
+  background: linear-gradient(to right, #222, #333);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05);
+}
+body.dark-mode .pw-strength-fill {
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+/* === Dark Mode for Password Strength Label === */
+body.dark-mode .pw-strength-label {
+  color: #ddd;
+}
+body.dark-mode .strength-1 ~ .pw-strength-label {
+  color: #ff6b6b;
+}
+body.dark-mode .strength-2 ~ .pw-strength-label {
+  color: #ff9e57;
+}
+body.dark-mode .strength-3 ~ .pw-strength-label {
+  color: #ffdb4d;
+}
+body.dark-mode .strength-4 ~ .pw-strength-label {
+  color: #5dade2;
+}
+body.dark-mode .strength-5 ~ .pw-strength-label {
+  color: #58d68d;
 }
 
 /* === Dark Mode === */
@@ -456,65 +856,6 @@ body.dark-mode .login-link a {
   padding: 150px;
 }
 
-/* Navbar container */
-.navbar {
-  text-align: center;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background-color: rgba(255, 255, 255, 0.2); /* translucent */
-  backdrop-filter: blur(10px); /* blur behind */
-  -webkit-backdrop-filter: blur(10px); /* Safari support */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* translucent border */
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  font-size: 13px;
-  height: 60px;
-}
-
-.navbar a {
-  color: #1d1d1f;
-  text-decoration: none;
-  font-weight: 500;
-  margin: 0 15px;
-  transition: color 0.3s ease;
-}
-
-/* Navbar links container */
-.nav-links {
-  color: #1d1d1f;
-  display: flex;
-  gap: 1.5rem;
-}
-
-/* Individual link */
-.nav-link {
-  color: #1d1d1f;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-  color: #3a3a3c;
-}
-
-.search_txt_area {
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  width: 300px;
-  background-color: #fff;
-  color: #000;
-  transition: all 0.3s ease;
-}
-
 /* Page container */
 .page-container {
   display: flex;
@@ -544,15 +885,123 @@ body.dark-mode .login-link a {
 }
 
 /* About Us */
+/* Wrapper */
 .about-wrapper {
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
+  padding: 40px;
+  min-height: 70vh;
+  flex-direction: column;
 }
 
-.txt-banner {
+/* Intro + Team Big Card */
+.intro-card,
+.team-big-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(18px);
+  padding: 40px;
+  border-radius: 24px;
+  text-align: center;
+  width: 80vw; /* responsive scaling */
+  max-width: 960px; /* 1920x1080 ratio scaled down */
+  aspect-ratio: 16 / 9; /* keep 16:9 ratio */
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+/* Card Text */
+.team-big-card h1 {
+  font-size: 2.6rem;
+  margin-bottom: 14px;
+}
+
+.team-big-card h2 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.team-big-card p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+/* Slider container for card + arrows */
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+/* Arrows */
+.arrow-btn {
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  color: #007aff;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.3s;
+  z-index: 2;
+}
+
+.arrow-btn:hover {
+  transform: scale(1.2);
+  color: #005bb5;
+}
+
+.left-arrow {
+  position: absolute;
+  left: -60px; /* outside card */
+}
+
+.right-arrow {
+  position: absolute;
+  right: -60px; /* outside card */
+}
+
+/* Progress Bar */
+.progress-bar-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  gap: 12px;
+}
+
+.progress-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.16);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.progress-dot.active {
+  background: #007aff;
+  transform: scale(1.2);
+}
+
+/* Intro Button */
+.intro-btn {
+  background: #007aff;
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.intro-btn:hover {
+  background: #005bb5;
+}
+
 /* Contact Us */
 .contact-wrapper {
   display: flex;
@@ -725,6 +1174,7 @@ body.dark-mode .login-link a {
   color: #777;
 }
 
+/* Courses */
 /* Courses grid */
 .courses-grid {
   display: grid;
@@ -872,6 +1322,78 @@ body.dark-mode .login-link a {
   transform: rotate(90deg) scale(1.1);
 }
 
+/* Layout with sidebar */
+.courses-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr; /* sidebar + content */
+  gap: 2rem;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Sidebar */
+.sidebar {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  height: fit-content;
+  position: sticky;
+  top: 100px; /* keeps it visible while scrolling */
+  align-self: start;
+}
+
+body.dark-mode .sidebar {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+}
+
+.filter-section {
+  margin-bottom: 2rem;
+}
+
+.filter-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: #333;
+}
+
+body.dark-mode .filter-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: white;
+}
+
+.filter-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.filter-section ul li {
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.filter-section ul li:hover {
+  color: #ff5722;
+}
+
+.filter-section select,
+.filter-section input[type="range"] {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+}
+
 /* Theme switching */
 .light-only {
   display: block;
@@ -900,7 +1422,11 @@ html.dark .dark-only {
 /* Footer */
 footer {
   color: #444;
-  background: linear-gradient(135deg, #f5f5f7, #e9ebee);
+  background: rgba(0, 0, 0, 0.16);
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: none;
   font-size: 0.9rem;
   text-align: center;
   padding: 40px 20px 20px;
@@ -1111,10 +1637,126 @@ footer {
   background-color: white;
 }
 
+/* Dashboard */
+/* General container */
+.dashboard-container {
+  display: flex;
+  gap: 18px;
+  padding: 24px;
+  padding-top: 125px;
+  min-height: 100vh;
+  align-items: flex-start; /* align top edges so the right card sits at tSop */
+  justify-content: center;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Theme variables */
+:root {
+  --bg: #f5f7fa;
+  --card-bg: #ffffff;
+  --text: #222;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Card base */
+.dashboard-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 24px var(--shadow);
+  padding: 22px;
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1),
+    background 0.28s ease;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+body.dark-mode .dashboard-card {
+  background-color: #2a2a2a;
+}
+
+/* Right card (was tall — now WIDE) */
+.card-large {
+  /* swapped aspect ratio so card becomes wider than tall */
+  width: clamp(360px, 34vw, 876px); /* min, flexible, max */
+  aspect-ratio: 1031 / 634; /* swapped to make it wide (approx 1.63) */
+  height: 625px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Top-left wide card */
+.card-top {
+  width: clamp(420px, 46vw, 1018px);
+  aspect-ratio: 1198 / 367; /* wide banner-like card */
+  margin-bottom: 14px;
+}
+
+/* Bottom-left two squares */
+.dashboard-bottom {
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.card-square {
+  width: clamp(240px, 22vw, 489px);
+  aspect-ratio: 1 / 1; /* keep perfect square */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Left column */
+.dashboard-left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Hover/interaction polish */
+.dashboard-card:hover {
+  transform: translateY(-6px) scale(1.01);
+}
+
+/* Loading & error states */
+.loading-card,
+.error-card {
+  font-size: 1.05rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Small screens: stack vertically for narrow viewports */
+@media (max-width: 1100px) {
+  .dashboard-container {
+    flex-direction: column;
+    padding: 18px;
+    gap: 14px;
+    align-items: center;
+  }
+
+  /* make each card take up most of viewport width */
+  .card-top,
+  .card-large,
+  .card-square {
+    width: min(94vw, 900px);
+  }
+
+  .dashboard-bottom {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card-square {
+    width: min(44vw, 420px);
+  }
+}
+
 /* Animations */
 .BlurText {
   padding: 100px;
-  font-size: 85px;
+  font-size: 55px;
   justify-content: center;
 }
 
@@ -1347,7 +1989,7 @@ body.dark-mode .post-card {
 body.dark-mode .card,
 body.dark-mode #card,
 body.dark-mode .course-card {
-  background: #1e1e1e;
+  background: rgba(255, 255, 255, 0.05);
   color: #e4e4e7;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
@@ -1401,7 +2043,7 @@ body.dark-mode .poster-button:hover {
 
 /* Forms */
 body.dark-mode .form-input {
-  background: #1e1e1e;
+  background: rgba(255, 255, 255, 0.05);
   color: #f9fafb;
   border: 1px solid #3f3f46;
 }
@@ -1412,8 +2054,8 @@ body.dark-mode .form-input:focus {
 }
 
 /* Contact */
-body.dark-mode .contact-wrapper {
-  background: #18181b;
+body.dark-mode .ContactCard {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 body.dark-mode .email-link {
@@ -1441,12 +2083,12 @@ body.dark-mode .send-btn {
 
 /* Footer */
 body.dark-mode footer {
-  background-color: #1a1a1a;
+  background-color: rgba(15, 23, 42, 0.5);
   color: #9ca3af;
 }
 
 body.dark-mode .footer-wrapper {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* Slider */

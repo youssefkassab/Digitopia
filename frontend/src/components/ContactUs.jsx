@@ -9,6 +9,7 @@ import {
   Linkedin,
   Send,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 // Use the backend server URL directly (default: http://localhost:3000)
 const API_BASE =
@@ -97,122 +98,127 @@ const ContactUs = () => {
   };
 
   return (
-    <motion.div
-      className="page-container"
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -50 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <TextType
-        text={["Get In Touch Through"]}
-        typingSpeed={75}
-        pauseDuration={1500}
-        showCursor={true}
-        cursorCharacter="|"
-        className="TextType"
-      />
-      <div
-        className="contact-wrapper"
-        style={{ display: "flex", justifyContent: "center" }}
+    <>
+      <Helmet>
+        <title>Contact Us | 3lm Quest</title>
+      </Helmet>
+      <motion.div
+        className="page-container"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <motion.div
-          className="ContactCard"
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.4 }}
+        <TextType
+          text={["Get In Touch Through"]}
+          typingSpeed={75}
+          pauseDuration={1500}
+          showCursor={true}
+          cursorCharacter="|"
+          className="TextType"
+        />
+        <div
+          className="contact-wrapper"
+          style={{ display: "flex", justifyContent: "center" }}
         >
-          {/* Email link */}
-          <a href="mailto:edudevexperts@email.com" className="email-link">
-            <Mail size={20} />
-            edudevexperts@gmail.com
-          </a>
-
-          {/* Social Icons */}
-          <div className="social-icons">
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Facebook size={24} />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Twitter size={24} />
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Instagram size={24} />
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin size={24} />
-            </a>
-          </div>
-
-          {/* Send Message Form */}
-          <motion.form
-            onSubmit={handleSubmit}
-            className="message-form"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+          <motion.div
+            className="ContactCard"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.4 }}
           >
-            <label htmlFor="email">Your Email</label>
-            <input
-              type="email"
-              id="email"
-              value={senderEmail}
-              onChange={(e) => setSenderEmail(e.target.value.trim())}
-              placeholder="Enter your email"
-              required
-            />
+            {/* Email link */}
+            <a href="mailto:edudevexperts@email.com" className="email-link">
+              <Mail size={20} />
+              edudevexperts@gmail.com
+            </a>
 
-            <label htmlFor="content">Your Message</label>
-            <textarea
-              id="content"
-              rows="5"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Write your message..."
-              required
-            />
+            {/* Social Icons */}
+            <div className="social-icons">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Facebook size={24} />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Twitter size={24} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram size={24} />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Linkedin size={24} />
+              </a>
+            </div>
 
-            <motion.button
-              type="submit"
-              className="send-btn"
-              disabled={loading}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 300 }}
+            {/* Send Message Form */}
+            <motion.form
+              onSubmit={handleSubmit}
+              className="message-form"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
             >
-              {loading ? "Sending..." : "Send Message"} <Send size={18} />
-            </motion.button>
-          </motion.form>
+              <label htmlFor="email">Your Email</label>
+              <input
+                type="email"
+                id="email"
+                value={senderEmail}
+                onChange={(e) => setSenderEmail(e.target.value.trim())}
+                placeholder="Enter your email"
+                required
+              />
 
-          {/* Feedback message */}
-          {feedback.message && (
-            <motion.div
-              className={`feedback ${feedback.type}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              {feedback.message}
-            </motion.div>
-          )}
-        </motion.div>
-      </div>
-    </motion.div>
+              <label htmlFor="content">Your Message</label>
+              <textarea
+                id="content"
+                rows="5"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Write your message..."
+                required
+              />
+
+              <motion.button
+                type="submit"
+                className="send-btn"
+                disabled={loading}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                {loading ? "Sending..." : "Send Message"} <Send size={18} />
+              </motion.button>
+            </motion.form>
+
+            {/* Feedback message */}
+            {feedback.message && (
+              <motion.div
+                className={`feedback ${feedback.type}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {feedback.message}
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+      </motion.div>
+    </>
   );
 };
 
