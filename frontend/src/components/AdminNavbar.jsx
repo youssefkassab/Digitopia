@@ -1,63 +1,40 @@
-import React, {  useState } from "react";
-import { Link} from "react-router-dom";
+
+import { Link } from "react-router-dom";
 import Logo from "../assets/Logos/3Q-Logo.svg";
 
-const Navbar = () => {
-  const [query, setQuery] = useState("");
-  
-
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Searching for:", query);
-    // Add your search logic here
-  };
-
+const AdminNavbar = () => {
 
 
   return (
     <nav className="navbar">
-<h2>Welcome Admin</h2>
+      <div></div>
+
       {/* Logo */}
-      <Link to="/">
+      <Link to="/admin">
         <img
           src={Logo}
-          alt="Website Logo"
+          alt="Admin Logo"
           style={{ width: "120px", height: "120px" }}
         />
       </Link>
 
-      {/* Search bar */}
-      <form className="nav-search" onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          style={{
-            borderRadius: "8px",
-            border: "1px solid #ddd",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-            padding: "16px",
-            width: "300px",
-          }}
-        />
-      </form>
-
       {/* Navigation links */}
       <div className="nav-links">
-        <Link to="/" className="nav-link">
-          Manage Students
+        <Link to="/admin" className="nav-link">
+          Dashboard
         </Link>
-        <Link to="/" className="nav-link">
-          Manage Lessons
+        <Link to="/admin/students" className="nav-link">
+          Students
         </Link>
-        <Link to="/" className="nav-link">
-          Manage Games
+        <Link to="/admin/lessons" className="nav-link">
+          Lessons
+        </Link>
+        <Link to="/admin/ai" className="nav-link">
+          AI Tools
         </Link>
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default AdminNavbar;
