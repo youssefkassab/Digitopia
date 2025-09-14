@@ -41,4 +41,15 @@ if (Post && Tag && PostTag) {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+
+// Automatically sync models with the database (not recommended for production)
+console.log('Starting database sync (sequelize.sync)...');
+sequelize.sync()
+  .then(() => {
+    console.log('Database & tables synced successfully!');
+  })
+  .catch((err) => {
+    console.error('Error syncing database:', err);
+  });
+
 module.exports = db;

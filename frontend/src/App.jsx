@@ -15,6 +15,9 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import AdminPage from "./AdminPage";
+import AdminLessons from "./components/AdminLessons";
+import AdminStudents from "./components/AdminStudents";
+import AdminDashboard from "./components/AdminDashboard";
 
 function AppRoutes() {
   const location = useLocation();
@@ -52,8 +55,11 @@ function AppRoutes() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Admin route */}
-        <Route path="/admin" element={<AdminPage />} />
+         {/* Admin route */}
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/lessons" element={<AdminLessons />} />
+          <Route path="/admin/students" element={<AdminStudents />} />
+          <Route path="/admin/dashborad" element={<AdminDashboard />} />
 
         {/* Catch-all */}
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
