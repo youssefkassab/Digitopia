@@ -1,0 +1,238 @@
+/* Root container */
+.ai-page {
+  display: flex;
+  height: calc(100vh - 64px); /* Full height minus navbar */
+  margin-top: 64px;           /* Push below navbar */
+  background: #f9fafb;
+  color: #111;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Dark mode */
+.ai-page.dark {
+  background: #1a1a1a;
+  color: #f9fafb;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.ai-page.dark .sidebar {
+  background: #111;
+  border-color: #333;
+}
+
+.sidebar h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.sidebar button {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #f3f4f6;
+  transition: background 0.2s;
+}
+.sidebar button:hover {
+  background: #e5e7eb;
+}
+.ai-page.dark .sidebar button {
+  background: #222;
+}
+.ai-page.dark .sidebar button:hover {
+  background: #333;
+}
+
+/* Chat history */
+.chat-history {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chat-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #f3f4f6;
+  transition: background 0.2s;
+}
+.chat-history-item:hover {
+  background: #e5e7eb;
+}
+.ai-page.dark .chat-history-item {
+  background: #222;
+}
+.ai-page.dark .chat-history-item:hover {
+  background: #333;
+}
+.chat-history-item.active {
+  background: #2563eb;
+  color: white;
+}
+
+.chat-history-item input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+/* Chat actions */
+.chat-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.chat-actions button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.chat-actions .edit-btn:hover {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.chat-actions .delete-btn:hover {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.ai-page.dark .chat-actions .edit-btn:hover {
+  background: #064e3b;
+  color: #a7f3d0;
+}
+.ai-page.dark .chat-actions .delete-btn:hover {
+  background: #7f1d1d;
+  color: #fecaca;
+}
+
+/* Chat area */
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: inherit;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* Header */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.ai-page.dark .chat-header {
+  border-color: #333;
+}
+.chat-header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Messages */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 0;
+}
+.message {
+  margin-bottom: 0.75rem;
+  max-width: 75%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.message.user {
+  margin-left: auto;
+  background: #2563eb;
+  color: white;
+}
+.message.ai {
+  margin-right: auto;
+  background: #e5e7eb;
+  color: #111;
+}
+.ai-page.dark .message.ai {
+  background: #333;
+  color: #f9fafb;
+}
+
+/* Input area */
+.input-area {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+.ai-page.dark .input-area {
+  border-color: #333;
+}
+.input-area input {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: white;
+}
+.input-area input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+.ai-page.dark .input-area input {
+  background: #111;
+  border-color: #333;
+  color: #f9fafb;
+}
+.input-area button {
+  background: #2563eb;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.1s;
+}
+.input-area button:hover {
+  background: #1e40af;
+}
+.input-area button:active {
+  transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
