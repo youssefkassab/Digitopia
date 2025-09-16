@@ -1,58 +1,68 @@
-import React, { useState } from "react";
-import AdminNavbar from "./components/AdminNavbar";
-import FloatingIcons from "./components/FloatingIcons";
-import AdminDashboard from "./components/AdminDashboard";
-const AdminPage = () => {
-  const [activeSection] = useState("dashboard");
+import { AnimatePresence } from "framer-motion";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
-  // Sections content
-  const renderSection = () => {
-    switch (activeSection) {
-     case "dashboard":
-  return <AdminDashboard />;;
-      case "students":
-        return (
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-2">Manage Students</h2>
-            <p>Here you can view, add, or remove students.</p>
-          </div>
-        );
-      case "lessons":
-        return (
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-2">Manage Lessons</h2>
-            <p>Here you can create and organize lessons.</p>
-          </div>
-        );
-      case "ai":
-        return (
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-2">AI Tools</h2>
-            <p>Manage AI features, models, and settings.</p>
-          </div>
-        );
-      default:
-        return (
-          <div className="p-6">
-            <h2 className="text-2xl font-bold">Welcome Admin</h2>
-            <p>Select a section from the navigation.</p>
-          </div>
-        );
-    }
-  };
+import AdminNavbar from "./AdminComponents/AdminNavbar";
+import Footer from "./components/Footer";
+import AdminDashboard from "./AdminComponents/AdminDashboard";
+import Students from "./AdminComponents/Students";
+import Teachers from "./AdminComponents/Teachers";
+import Messages from "./AdminComponents/Messages";
+import CoursesManage from "./AdminComponents/CoursesManage";
+import AdminCommunity from "./AdminComponents/AdminCommunity";
+import Admins from "./AdminComponents/Admins";
+import "./AdminPage.css";
+
+// Defining admin routes here
+function AdminRoutes() {
+  const location = useLocation();
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-gray-50">
-      {/* Floating background */}
-      <FloatingIcons />
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Landing page */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Helmet>
+                <title>Admin | 3lm Quest</title>
+                <meta
+                  name="description"
+                  content="Welcome to the Admin Dashboard of 3lm Quest"
+                />
+              </Helmet>
+              <h1>Welcome, Admin 🚀</h1>
+              {/* Dashboard Components */}
+              <AdminDashboard />
+            </>
+          }
+        />
 
-      {/* Navbar */}
+        {/* Admin routes */}
+        <Route path="/Admin/Students" element={<Students />} />
+        <Route path="/Admin/Teachers" element={<Teachers />} />
+        <Route path="/Admin/Courses" element={<CoursesManage />} />
+        <Route path="/Admin/Messages" element={<Messages />} />
+        <Route path="/Admin/Community" element={<AdminCommunity />} />
+        <Route path="/Admin/Admins" element={<Admins />} />
+
+        {/* Catch-all */}
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+// Main AdminPage layout
+export default function AdminPage() {
+  return (
+    <div className="app-wrapper">
       <AdminNavbar />
-
-      {/* Content */}
-      <main className="flex-1 mt-6">{renderSection()}</main>
+      <main>
+        {/* AdminRoutes */}
+        <AdminRoutes />
+      </main>
+      <Footer />
     </div>
   );
-};
-
-export default AdminPage;
+}

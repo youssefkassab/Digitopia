@@ -14,10 +14,6 @@ import Banner1 from "./components/Banner1";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
-import AdminPage from "./AdminPage";
-import AdminLessons from "./components/AdminLessons";
-import AdminStudents from "./components/AdminStudents";
-import AdminDashboard from "./components/AdminDashboard";
 import AIpage from "./components/AI-UI";
 
 function AppRoutes() {
@@ -66,12 +62,6 @@ function AppRoutes() {
         {/* Auth routes */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-
-        {/* Admin routes */}
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/lessons" element={<AdminLessons />} />
-        <Route path="/admin/students" element={<AdminStudents />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
         {/* Catch-all */}
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
