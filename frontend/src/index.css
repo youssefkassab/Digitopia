@@ -327,6 +327,92 @@ body.dark-mode .nav-bar li a.active {
   transform: scale(1.2);
 }
 
+/* Banner1 */
+.phases-title {
+  font-size: 50px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.banner-container {
+  position: relative;
+  width: 80%; /* not full page, smaller card */
+  max-width: 1280px; /* less than 1920px */
+  height: 550px; /* smaller than full vh */
+  margin: 4rem auto; /* center the card */
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.banner-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* keeps video quality */
+  border-radius: 20px;
+  border: none;
+}
+
+.cards-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;
+  margin: 2rem auto;
+  max-width: calc(280px * 3);
+}
+
+.banner-card {
+  position: relative;
+  width: 280px;
+  height: 550px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  margin: 10px;
+  margin-bottom: 100px;
+}
+
+/* Textarea */
+.card-textarea {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 50px;
+  text-align: center;
+}
+
+/* Middle card lowered */
+.middle-card {
+  transform: translateY(28px);
+  z-index: 2;
+}
+
+.dark-vid {
+  display: none;
+}
+/* If parent has dark class, swap */
+body.dark-mode .light-vid {
+  display: none;
+}
+body.dark-mode .dark-vid {
+  display: block;
+}
+body.dark-mode .banner-card {
+  background: black;
+}
+body.dark-mode .middle-card {
+  background: black;
+}
+body.dark-mode .banner-content {
+  background: black;
+}
+
 /* === Signup Base === */
 .signup-container {
   display: flex;
