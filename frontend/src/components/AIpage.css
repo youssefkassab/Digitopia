@@ -1,71 +1,75 @@
-/* Root container */
 .ai-page {
   display: flex;
-  height: calc(100vh - 64px); /* Full height minus navbar */
-  margin-top: 64px;           /* Push below navbar */
-  background: #f9fafb;
-  color: #111;
+  height: calc(100vh - 64px); 
+  margin-top: 64px;           
+  font-family: sans-serif;
   transition: background 0.3s, color 0.3s;
-}
-
-/* Dark mode */
-.ai-page.dark {
-  background: #1a1a1a;
+}page.dark {
+  background: #111;
   color: #f9fafb;
 }
 
 /* Sidebar */
 .sidebar {
   width: 260px;
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  background: #f9fafb;
+  border-right: 1px solid #ddd;
   display: flex;
   flex-direction: column;
   padding: 1rem;
 }
 .ai-page.dark .sidebar {
-  background: #111;
-  border-color: #333;
+  background: #1a1a1a;
+  border-color: #f7f0f0;
 }
 
-.sidebar h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 }
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.username {
+  font-weight: bold;
+}
 
-.sidebar button {
+.new-chat-btn {
+  margin-bottom: 1rem;
   padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  border: none;
+  background: #2563eb;
+  color: white;
   border-radius: 8px;
-  font-size: 0.9rem;
-  background: #f3f4f6;
+  cursor: pointer;
   transition: background 0.2s;
 }
-.sidebar button:hover {
-  background: #e5e7eb;
-}
-.ai-page.dark .sidebar button {
-  background: #222;
-}
-.ai-page.dark .sidebar button:hover {
-  background: #333;
+.new-chat-btn:hover {
+  background: #1d4ed8;
 }
 
-/* Chat history */
 .chat-history {
-  margin-top: 1rem;
+  flex: 1;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .chat-history-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
-  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
   cursor: pointer;
   background: #f3f4f6;
   transition: background 0.2s;
@@ -73,51 +77,44 @@
 .chat-history-item:hover {
   background: #e5e7eb;
 }
+.chat-history-item.active {
+  background: #2563eb;
+  color: white;
+}
 .ai-page.dark .chat-history-item {
   background: #222;
 }
 .ai-page.dark .chat-history-item:hover {
   background: #333;
 }
-.chat-history-item.active {
-  background: #2563eb;
-  color: white;
-}
-
-.chat-history-item input {
+.rename-input {
   flex: 1;
   border: none;
-  outline: none;
-  padding: 0.25rem;
+  padding: 0.3rem;
   border-radius: 4px;
+  font-size: 0.9rem;
 }
 
-/* Chat actions */
 .chat-actions {
   display: flex;
   gap: 0.25rem;
 }
-
 .chat-actions button {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.2rem;
   font-size: 0.85rem;
   border-radius: 4px;
-  transition: background 0.2s;
 }
-
 .chat-actions .edit-btn:hover {
   background: #d1fae5;
   color: #065f46;
 }
-
 .chat-actions .delete-btn:hover {
   background: #fee2e2;
   color: #991b1b;
 }
-
 .ai-page.dark .chat-actions .edit-btn:hover {
   background: #064e3b;
   color: #a7f3d0;
@@ -127,55 +124,60 @@
   color: #fecaca;
 }
 
-/* Chat area */
-.chat-area {
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.sidebar-actions button {
+  padding: 0.4rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #e5e7eb;
+  transition: background 0.2s;
+}
+.sidebar-actions button:hover {
+  background: #d1d5db;
+}
+.ai-page.dark .sidebar-actions button {
+  background: #333;
+  color: #f9fafb;
+}
+.ai-page.dark .sidebar-actions button:hover {
+  background: #444;
+}
+
+/* Chat Section */
+.chat-section {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: inherit;
   padding: 1rem;
-  overflow: hidden;
 }
-
-/* Header */
-.chat-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-.ai-page.dark .chat-header {
-  border-color: #333;
-}
-.chat-header h1 {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-/* Messages */
-.messages {
+.chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 .message {
-  margin-bottom: 0.75rem;
-  max-width: 75%;
-  padding: 0.75rem 1rem;
+  max-width: 70%;
+  padding: 0.6rem 0.9rem;
   border-radius: 12px;
   font-size: 0.95rem;
   line-height: 1.4;
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.2s ease-in;
 }
 .message.user {
-  margin-left: auto;
+  align-self: flex-end;
   background: #2563eb;
   color: white;
 }
 .message.ai {
-  margin-right: auto;
+  align-self: flex-start;
   background: #e5e7eb;
   color: #111;
 }
@@ -184,52 +186,52 @@
   color: #f9fafb;
 }
 
-/* Input area */
-.input-area {
+/* Input Area */
+.chat-input-area {
   display: flex;
   gap: 0.5rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid #e5e7eb;
+  padding-top: 0.5rem;
+  border-top: 1px solid #ddd;
 }
-.ai-page.dark .input-area {
-  border-color: #333;
-}
-.input-area input {
+.chat-input-area input {
   flex: 1;
-  padding: 0.75rem;
+  padding: 0.6rem;
   border-radius: 8px;
-  border: 1px solid #d1d5db;
-  background: white;
-}
-.input-area input:focus {
+  border: 1px solid #ccc;
   outline: none;
-  border-color: #2563eb;
 }
-.ai-page.dark .input-area input {
-  background: #111;
-  border-color: #333;
-  color: #f9fafb;
-}
-.input-area button {
+.chat-input-area button {
+  padding: 0.6rem 1.2rem;
+  border: none;
   background: #2563eb;
   color: white;
-  padding: 0.75rem 1rem;
   border-radius: 8px;
-  font-weight: 500;
-  transition: background 0.2s, transform 0.1s;
+  cursor: pointer;
+  transition: background 0.2s;
 }
-.input-area button:hover {
-  background: #1e40af;
-}
-.input-area button:active {
-  transform: scale(0.95);
+.chat-input-area button:hover {
+  background: #1d4ed8;
 }
 
-/* Animations */
+.ai-page.dark .chat-input-area {
+  border-color: #333;
+}
+.ai-page.dark .chat-input-area input {
+  background: #222;
+  border-color: #444;
+  color: #f9fafb;
+}
+.ai-page.dark .chat-input-area button {
+  background: #3b82f6;
+}
+.ai-page.dark .chat-input-area button:hover {
+  background: #2563eb;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(5px);
   }
   to {
     opacity: 1;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./AIChatPage.css";
+import "./AIPage.css";
 
 export default function AIChatPage() {
   const [messages, setMessages] = useState([]);
@@ -82,7 +82,7 @@ export default function AIChatPage() {
       <aside className="sidebar">
         <div className="user-profile">
           <div className="avatar">👤</div>
-          <span className="username">John Doe</span>
+          <span className="username">Ahmed Noaman</span>
         </div>
 
         <button className="new-chat-btn" onClick={handleNewChat}>
