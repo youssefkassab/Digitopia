@@ -92,6 +92,8 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
+          </li>
+          <li>
             <Link
               to="/About"
               className={location.pathname === "/About" ? "active" : ""}
@@ -107,6 +109,12 @@ const Navbar = () => {
               Contact Us
             </Link>
           </li>
+              <Link
+              to="/AI"
+              className={location.pathname === "/AI" ? "active" : ""}
+            >
+              Talk With (AI)
+            </Link>
         </ul>
 
         {/* Right-side controls */}

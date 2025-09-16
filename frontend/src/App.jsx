@@ -18,6 +18,7 @@ import AdminPage from "./AdminPage";
 import AdminLessons from "./components/AdminLessons";
 import AdminStudents from "./components/AdminStudents";
 import AdminDashboard from "./components/AdminDashboard";
+import AIpage from "./components/AI-UI";
 
 function AppRoutes() {
   const location = useLocation();
@@ -34,7 +35,7 @@ function AppRoutes() {
                 <title>Home | 3lm Quest</title>
                 <meta
                   name="description"
-                  content="Welcome to the homepage of My App"
+                  content="Welcome to the homepage of 3lm Quest"
                 />
               </Helmet>
               <PosterSlider />
@@ -44,22 +45,33 @@ function AppRoutes() {
         />
 
         {/* Main routes */}
-        <Route path="/Classroom" element={<Classroom />} />
+        <Route
+          path="/Classroom"
+          element={
+            <>
+              <Helmet>
+                <title>Classroom | 3lm Quest</title>
+              </Helmet>
+              <Classroom />
+            </>
+          }
+        />
         <Route path="/Courses" element={<Courses />} />
         <Route path="/Community" element={<Community />} />
         <Route path="/About" element={<AboutUs />} />
         <Route path="/Contact" element={<ContactUs />} />
         <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/AI" element={<AIpage />} />
 
         {/* Auth routes */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
 
-         {/* Admin route */}
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/admin/lessons" element={<AdminLessons />} />
-          <Route path="/admin/students" element={<AdminStudents />} />
-          <Route path="/admin/dashborad" element={<AdminDashboard />} />
+        {/* Admin routes */}
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/lessons" element={<AdminLessons />} />
+        <Route path="/admin/students" element={<AdminStudents />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
         {/* Catch-all */}
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
@@ -68,7 +80,7 @@ function AppRoutes() {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <div className="app-wrapper">
       <Navbar />
@@ -79,5 +91,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
