@@ -1,14 +1,37 @@
-const express = require('express');
+// backend/router/message.router.js
+const express = require("express");
 const router = express.Router();
-const messageController = require('../controller/message.Controller');
-const limit = require('../middleware/limit.middleware');
-const { auth, roleAuth, ROLE } = require('../middleware/auth.middleware');
+const MessageController = require("../controller/message.Controller");
+const { auth, roleAuth, ROLE } = require("../middleware/auth.middleware");
 
-router.post('/send', limit, messageController.createMessage);
-router.get('/receiveAll', auth, roleAuth(ROLE.ADMIN), messageController.getAllMessages);
-router.get('/MyMessages', auth, messageController.getAllUserMessages);
-router.patch('/update', auth, roleAuth(ROLE.USER, ROLE.TEACHER), messageController.updateMessage);
-router.patch('/seen', auth, roleAuth(ROLE.ADMIN), messageController.MarkAsSeen);
-router.delete('/delete', auth, messageController.deleteMessage);
+// === User Side ===
+router.post("/send", MessageController.createMessage);
+router.get("/my", auth, MessageController.getAllUserMessages);
+
+// === Admin Side ===
+router.get(
+  "/all",
+  auth,
+  roleAuth(ROLE.ADMIN),
+  MessageController.getAllMessages
+);
+router.post(
+  "/reply/:id",
+  auth,
+  roleAuth(ROLE.ADMIN),
+  MessageController.replyToMessage
+);
+router.patch(
+  "/seen/:id",
+  auth,
+  roleAuth(ROLE.ADMIN),
+  MessageController.MarkAsSeen
+);
+router.delete(
+  "/:id",
+  auth,
+  roleAuth(ROLE.ADMIN),
+  MessageController.deleteMessage
+);
 
 module.exports = router;

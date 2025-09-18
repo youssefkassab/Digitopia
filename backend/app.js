@@ -1,21 +1,23 @@
-require('dotenv').config();
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
 const app = express();
-const cors = require('cors');
-const Auth = require('./middleware/auth.middleware');
-const limit = require('./middleware/limit.middleware'); 
-const userRoutes = require('./router/user.router');
-const courseRoutes = require('./router/course.router');
-const messageRoutes = require('./router/message.router');
+const cors = require("cors");
+const Auth = require("./middleware/auth.middleware");
+const limit = require("./middleware/limit.middleware");
+const userRoutes = require("./router/user.router");
+const courseRoutes = require("./router/course.router");
+const messageRoutes = require("./router/message.router");
+const adminRoutes = require("./router/admin.router");
 // Import Sequelize models to trigger DB sync and logging
-require('./db/models');
+require("./db/models");
 app.use(express.json());
 app.use(cors());
 
-app.use('/api/users',userRoutes);
-app.use('/api/courses',courseRoutes);
-app.use('/api/messages',messageRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/courses", courseRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+  console.log("Server is running on port 3000");
 });
