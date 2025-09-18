@@ -1,0 +1,144 @@
+/* === Glassy Navbar === */
+.glassy-navbar {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 85%;
+  max-width: 1100px;
+  padding: 8px 18px; /* reduced */
+  border-radius: 40px; /* slightly tighter curve */
+  background: rgba(0, 0, 0, 0.16);
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: none;
+  z-index: 1000;
+}
+
+/* Logo */
+.nav-logo .logo-img {
+  width: 52px; /* smaller */
+  height: 52px; /* smaller */
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px; /* reduced */
+  backdrop-filter: blur(8px);
+  border: none;
+}
+
+/* Nav links */
+.nav-bar {
+  list-style: none;
+  display: flex;
+  gap: 18px; /* tighter gap */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-bar li a {
+  text-decoration: none;
+  font-family: Montserrat, sans-serif;
+  font-size: 13px; /* smaller font */
+  color: #1d1d1f;
+  padding: 6px 12px; /* smaller padding */
+  border-radius: 18px;
+  transition: all 0.3s ease;
+}
+
+.nav-bar li a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Actions */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* reduced gap */
+}
+
+/* Glass buttons */
+.glass-btn {
+  padding: 6px 12px; /* smaller */
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: Montserrat, sans-serif;
+  font-size: 12px;
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Round buttons (smaller) */
+.round-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* Search field */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-container form input {
+  padding: 5px 10px; /* smaller */
+  border-radius: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  transition: 0.3s;
+  font-size: 13px;
+}
+
+.search-container form input:focus {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* User controls */
+.user-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* smaller */
+}
+
+.user-name {
+  font-size: 13px;
+}
+
+/* Auth buttons */
+.signup-btn {
+  background: #007aff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 6px 12px; /* smaller */
+  border-radius: 40px;
+  font-size: 12px;
+}
+
+.signup-btn:hover {
+  background: #005bb5;
+  box-shadow: 0 0 10px rgba(0, 122, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.logout-btn {
+  background: #ff4d4f;
+  color: #fff;
+}

@@ -6,8 +6,9 @@ import { getStoredUser, getCurrentUser, logout } from "../services/auth";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { FiSun, FiMoon } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import "../AdminPage.css";
 
-const Navbar = () => {
+const AdminNavbar = () => {
   const [query, setQuery] = useState("");
   const [user, setUser] = useState(getStoredUser());
   const [darkMode, setDarkMode] = useState(
@@ -57,7 +58,7 @@ const Navbar = () => {
       {/* Navbar */}
       <nav className="glassy-navbar">
         {/* Logo */}
-        <Link to="/" className="nav-logo">
+        <Link to="/admin" className="nav-logo">
           <img
             src={darkMode ? DarkLogo : Logo}
             alt="Website Logo"
@@ -69,64 +70,60 @@ const Navbar = () => {
         <ul className="nav-bar">
           <li>
             <Link
-              to="/Classroom"
-              className={location.pathname === "/Classroom" ? "active" : ""}
+              to="/Admin/Admins"
+              className={location.pathname === "/Admins" ? "active" : ""}
             >
-              Classroom
+              Admins
             </Link>
           </li>
           <li>
             <Link
-              to="/Courses"
-              className={location.pathname === "/Courses" ? "active" : ""}
+              to="/Admin/Teachers"
+              className={location.pathname === "/Teachers" ? "active" : ""}
+            >
+              Teachers
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Admin/Students"
+              className={location.pathname === "/Students" ? "active" : ""}
+            >
+              Students
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Admin/Community"
+              className={
+                location.pathname === "/AdminCommunity" ? "active" : ""
+              }
+            >
+              Community
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Admin/Courses"
+              className={
+                location.pathname === "/Courses Manage" ? "active" : ""
+              }
             >
               Courses
             </Link>
           </li>
           <li>
             <Link
-              to="/Community"
-              className={location.pathname === "/Community" ? "active" : ""}
+              to="/Admin/Messages"
+              className={location.pathname === "/Messages" ? "active" : ""}
             >
-              Community
+              Messages
             </Link>
           </li>
-          <li>
-          </li>
-          <li>
-            <Link
-              to="/About"
-              className={location.pathname === "/About" ? "active" : ""}
-            >
-              About Us
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/Contact"
-              className={location.pathname === "/Contact" ? "active" : ""}
-            >
-              Contact Us
-            </Link>
-          </li>
-              <Link
-              to="/AI"
-              className={location.pathname === "/AI" ? "active" : ""}
-            >
-              Talk With (AI)
-            </Link>
         </ul>
 
         {/* Right-side controls */}
         <div className="nav-actions">
-          {/* Search Button */}
-          <button
-            className="glass-btn round-btn"
-            onClick={() => setShowSearchOverlay(true)}
-          >
-            <FaSearch size={18} />
-          </button>
-
           {/* Dark mode toggle */}
           <button
             className={`glass-btn round-btn theme-toggle ${
@@ -152,47 +149,11 @@ const Navbar = () => {
                 Logout
               </button>
             </div>
-          ) : (
-            <Link to="/Signup" className="signup-btn">
-              Sign Up
-            </Link>
-          )}
+          ) : null}
         </div>
       </nav>
-
-      {/* Search Overlay */}
-      <AnimatePresence>
-        {showSearchOverlay && (
-          <motion.div
-            className="search-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.form
-              onSubmit={handleSearch}
-              initial={{ y: -50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 50, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="search-form"
-            >
-              <input
-                type="text"
-                placeholder="Search..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                autoFocus
-              />
-              <button type="button" onClick={() => setShowSearchOverlay(false)}>
-                ✕
-              </button>
-            </motion.form>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 };
 
-export default Navbar;
+export default AdminNavbar;

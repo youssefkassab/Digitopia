@@ -14,7 +14,7 @@ import Banner1 from "./components/Banner1";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
-import AdminPage from "./AdminPage";
+import AIpage from "./components/AI-UI";
 
 function AppRoutes() {
   const location = useLocation();
@@ -31,7 +31,7 @@ function AppRoutes() {
                 <title>Home | 3lm Quest</title>
                 <meta
                   name="description"
-                  content="Welcome to the homepage of My App"
+                  content="Welcome to the homepage of 3lm Quest"
                 />
               </Helmet>
               <PosterSlider />
@@ -41,19 +41,27 @@ function AppRoutes() {
         />
 
         {/* Main routes */}
-        <Route path="/Classroom" element={<Classroom />} />
+        <Route
+          path="/Classroom"
+          element={
+            <>
+              <Helmet>
+                <title>Classroom | 3lm Quest</title>
+              </Helmet>
+              <Classroom />
+            </>
+          }
+        />
         <Route path="/Courses" element={<Courses />} />
         <Route path="/Community" element={<Community />} />
         <Route path="/About" element={<AboutUs />} />
         <Route path="/Contact" element={<ContactUs />} />
         <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/AI" element={<AIpage />} />
 
         {/* Auth routes */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-
-        {/* Admin route */}
-        <Route path="/admin" element={<AdminPage />} />
 
         {/* Catch-all */}
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
@@ -62,7 +70,7 @@ function AppRoutes() {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <div className="app-wrapper">
       <Navbar />
@@ -73,5 +81,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
