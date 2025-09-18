@@ -1,6 +1,6 @@
 import api from "./api";
 
-// Signup (POST /users/signup)
+// === Signup (POST /users/signup) ===
 export const signup = async (userData) => {
   try {
     const { data } = await api.post("/users/signup", userData, {
@@ -13,7 +13,7 @@ export const signup = async (userData) => {
   }
 };
 
-// Login (POST /users/login)
+// === Login (POST /users/login) ===
 export const login = async (email, password) => {
   try {
     const { data } = await api.post(
@@ -22,7 +22,7 @@ export const login = async (email, password) => {
       { headers: { "Content-Type": "application/json" } }
     );
     // data = { message, token, user: {id, email, role} }
-    localStorage.setItem("token", data.token);
+    localStorage.setItem("token", data.token); // user-only key
     localStorage.setItem("user", JSON.stringify(data.user));
     return data;
   } catch (error) {
@@ -30,7 +30,7 @@ export const login = async (email, password) => {
   }
 };
 
-// Logout (POST /users/logout)
+// === Logout (POST /users/logout) ===
 export const logout = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -58,7 +58,7 @@ export const logout = async () => {
   }
 };
 
-// Get current user (GET /api/users/user)
+// === Get current logged-in user (GET /api/users/user) ===
 export const getCurrentUser = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -73,7 +73,7 @@ export const getCurrentUser = async () => {
   }
 };
 
-// Utility to read user info locally (no API call)
+// === Utility: read user info from localStorage ===
 export const getStoredUser = () => {
   const userStr = localStorage.getItem("user");
   return userStr ? JSON.parse(userStr) : null;

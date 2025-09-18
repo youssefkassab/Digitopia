@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import TextType from "../assets/Animations/TextType";
 import {
@@ -11,11 +11,9 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
-// Use the backend server URL directly (default: http://localhost:3000)
 const API_BASE =
   import.meta.env.VITE_API_URL || "http://localhost:3000/api/messages";
 
-// Allowed email domains
 const ALLOWED_DOMAINS = [
   "gmail.com",
   "yahoo.com",
@@ -29,28 +27,39 @@ const ContactUs = () => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
+  const [chatMessages, setChatMessages] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
-  // Validation before sending
+  // === Fetch chat history (user’s own messages + admin replies) ===
+  const fetchMyMessages = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/my`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // user must be logged in
+        },
+      });
+      if (!res.ok) throw new Error("Failed to load chat history");
+      const data = await res.json();
+      setChatMessages(data);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchMyMessages();
+  }, [refresh]);
+
+  // === Validation before sending ===
   const validateInput = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!senderEmail || !content) {
-      return "All Fields Are Required";
-    }
-
-    if (!emailRegex.test(senderEmail)) {
-      return "Invalid Email Format";
-    }
-
+    if (!senderEmail || !content) return "All Fields Are Required";
+    if (!emailRegex.test(senderEmail)) return "Invalid Email Format";
     const domain = senderEmail.split("@")[1]?.toLowerCase();
-    if (!ALLOWED_DOMAINS.includes(domain)) {
-      return "Enter A Valid Email Address";
-    }
-
-    if (content.length < 10) {
+    if (!ALLOWED_DOMAINS.includes(domain)) return "Enter A Valid Email Address";
+    if (content.length < 10)
       return "Message Should Be At Least 10 Characters Long";
-    }
-
     return null;
   };
 
@@ -59,13 +68,10 @@ const ContactUs = () => {
     setFeedback({ type: "", message: "" });
 
     const errorMsg = validateInput();
-    if (errorMsg) {
-      return setFeedback({ type: "error", message: errorMsg });
-    }
+    if (errorMsg) return setFeedback({ type: "error", message: errorMsg });
 
     try {
       setLoading(true);
-
       const response = await fetch(`${API_BASE}/send`, {
         method: "POST",
         headers: {
@@ -74,7 +80,6 @@ const ContactUs = () => {
         body: JSON.stringify({ senderEmail, content }),
       });
 
-      // Safely parse JSON only if there is content
       let data = {};
       try {
         const text = await response.text();
@@ -83,13 +88,13 @@ const ContactUs = () => {
         data = {};
       }
 
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(data.error || `Failed (${response.status})`);
-      }
 
       setFeedback({ type: "success", message: "Message Sent Successfully!" });
       setSenderEmail("");
       setContent("");
+      setRefresh(!refresh); // refresh chat history
     } catch (err) {
       setFeedback({ type: "error", message: err.message });
     } finally {
@@ -117,6 +122,8 @@ const ContactUs = () => {
           cursorCharacter="|"
           className="TextType"
         />
+
+        {/* Contact Info & Form */}
         <div
           className="contact-wrapper"
           style={{ display: "flex", justifyContent: "center" }}
@@ -127,13 +134,10 @@ const ContactUs = () => {
             animate={{ scale: 1 }}
             transition={{ duration: 0.4 }}
           >
-            {/* Email link */}
             <a href="mailto:edudevexperts@email.com" className="email-link">
-              <Mail size={20} />
-              edudevexperts@gmail.com
+              <Mail size={20} /> edudevexperts@gmail.com
             </a>
 
-            {/* Social Icons */}
             <div className="social-icons">
               <a
                 href="https://facebook.com"
@@ -165,7 +169,6 @@ const ContactUs = () => {
               </a>
             </div>
 
-            {/* Send Message Form */}
             <motion.form
               onSubmit={handleSubmit}
               className="message-form"
@@ -205,7 +208,6 @@ const ContactUs = () => {
               </motion.button>
             </motion.form>
 
-            {/* Feedback message */}
             {feedback.message && (
               <motion.div
                 className={`feedback ${feedback.type}`}
@@ -217,6 +219,41 @@ const ContactUs = () => {
             )}
           </motion.div>
         </div>
+
+        {/* === Chat Banner Section === */}
+        <motion.div
+          className="chat-banner"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <h3 className="chat-title">💬 Support Chat</h3>
+          <div className="chat-messages">
+            {chatMessages.length === 0 ? (
+              <p className="empty-chat">
+                No messages yet. Start the conversation!
+              </p>
+            ) : (
+              chatMessages.map((msg) => (
+                <motion.div
+                  key={msg.id}
+                  className={`chat-bubble ${
+                    msg.admin_reply ? "admin" : "user"
+                  }`}
+                  initial={{ opacity: 0, x: msg.admin_reply ? 50 : -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <p>
+                    <strong>{msg.admin_reply ? "Admin" : "You"}:</strong>{" "}
+                    {msg.admin_reply || msg.content}
+                  </p>
+                  <small>{new Date(msg.message_date).toLocaleString()}</small>
+                </motion.div>
+              ))
+            )}
+          </div>
+        </motion.div>
       </motion.div>
     </>
   );
