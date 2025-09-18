@@ -43,9 +43,9 @@ pause
 exit /b 1
 )
 
-REM Install frontend dependencies
+REM Install frontend dependencies with a flag to bypass dependency conflicts
 echo Installing frontend dependencies...
-call npm install
+call npm install --legacy-peer-deps
 if %errorlevel% neq 0 (
 echo Error: 'npm install' failed in frontend. Aborting.
 pause
