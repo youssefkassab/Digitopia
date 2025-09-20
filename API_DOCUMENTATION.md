@@ -181,6 +181,134 @@ Content-Type: application/json
 
 ---
 
+### Course Tag Endpoints
+
+#### Create Tag
+```http
+POST /api/courses/tag
+Content-Type: application/json
+
+{
+  "name": "Math"
+}
+```
+**Success Response (200 OK)**
+```json
+{
+  "message": "Tag created successfully."
+}
+```
+
+#### Get All Tags
+```http
+GET /api/courses/tags
+```
+**Success Response (200 OK)**
+```json
+[
+  { "id": 1, "name": "Math" },
+  { "id": 2, "name": "Science" }
+]
+```
+
+---
+
+### Message Endpoints
+
+#### Send Message
+```http
+POST /api/messages/send
+Content-Type: application/json
+
+{
+  "senderEmail": "user@example.com",
+  "content": "Hello!"
+}
+```
+**Success Response (201 Created)**
+```json
+{
+  "id": 1,
+  "sender": "user@example.com",
+  "content": "Hello!",
+  "seen": false,
+  "message_date": "2025-09-20",
+  "message_time": "12:00:00"
+}
+```
+
+#### Get All Messages (Admin)
+```http
+GET /api/messages/receiveAll
+Authorization: Bearer <token>
+```
+**Success Response (200 OK)**
+```json
+[ { "id": 1, "sender": "user@example.com", "content": "Hello!", ... } ]
+```
+
+#### Get My Messages
+```http
+GET /api/messages/MyMessages
+Authorization: Bearer <token>
+```
+**Success Response (200 OK)**
+```json
+[ { "id": 1, "sender": "user@example.com", "content": "Hello!", ... } ]
+```
+
+#### Update Message
+```http
+PATCH /api/messages/update
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "id": 1,
+  "content": "Updated message"
+}
+```
+**Success Response (200 OK)**
+```json
+{
+  "message": "Message updated successfully."
+}
+
+#### Mark Message as Seen (Admin)
+```http
+PATCH /api/messages/seen
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "id": 1
+}
+```
+**Success Response (200 OK)**
+```json
+{
+  "id": 1,
+  "seen": true
+}
+
+#### Delete Message
+```http
+DELETE /api/messages/delete
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "id": 1
+}
+```
+**Success Response (200 OK)**
+```json
+{
+  "message": "Message deleted successfully."
+}
+
+---
+
 #### Logout
 ```http
 POST /users/logout
@@ -230,6 +358,7 @@ Content-Type: application/json
   "description": "Learn the basics of programming",
   "price": 99.99,
   "teacher_id": 2
+  "tags": [1, 2] // Array of tag IDs
 }
 
 // Teacher request (teacher_id is set automatically)
@@ -237,14 +366,12 @@ Content-Type: application/json
   "name": "Advanced Web Development",
   "description": "Master modern web technologies",
   "price": 149.99
+  "tags": [2, 3] // Array of tag IDs
 }
 ```
 
 **Required Fields**
-- `name`: Course title
-- `description`: Course description
-- `price`: Course price (number)
-- `teacher_id`: Required only for admin users (to assign to specific teacher)
+- `tags`: (optional) Array of tag IDs to associate with the course
 
 **Success Response (201 Created)**
 ```json
@@ -360,13 +487,14 @@ Content-Type: application/json
   "name": "Updated Course Title",
   "description": "Updated course description",
   "price": 129.99
+  "tags": [1, 2, 3] // Array of tag IDs to update course tags
 }
 ```
 
 **Notes**:
-- Teachers can only update their own courses
-- Admins can update any course
-- Only include fields that need to be updated
+- To update course tags, include a `tags` array with the tag IDs. This will replace all existing tags for the course.
+- If `tags` is omitted, existing tags will remain unchanged.
+- If `tags` is an empty array, all tags will be removed from the course.
 
 **Success Response (200 OK)**
 ```json
@@ -564,18 +692,8 @@ const api = axios.create({
 
 // Add request interceptor for auth token
 api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
     return config;
   },
-  (error) => Promise.reject(error)
-);
-
-// Add response interceptor for error handling
-api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
