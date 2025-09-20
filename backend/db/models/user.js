@@ -5,7 +5,15 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       // A user (teacher) can have many courses
-      User.hasMany(models.Course, { foreignKey: 'teacher_id' });
+      User.hasMany(models.Course, { foreignKey: 'teacher_id', as: 'teachingCourses' });
+
+      // Many-to-Many: users <-> courses (students)
+      User.belongsToMany(models.Course, {
+        through: 'course_users',
+        foreignKey: 'user_id',
+        otherKey: 'course_id',
+        as: 'enrolledCourses'
+      });
     }
   }
 
@@ -30,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     national_number: {
       type: DataTypes.STRING(30),
       allowNull: false,
-       unique: true 
+      unique: true 
     },
     role: {
       type: DataTypes.STRING(20),

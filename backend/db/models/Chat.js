@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 
   Chat.associate = (models) => {
     Chat.belongsTo(models.User, {
-      foreignKey: "userId",  // FK in Chats
-      targetKey: "id",       // PK in User
+      foreignKey: "userId",  
+      targetKey: "id",       
       as: "user",
       onDelete: "CASCADE"
     });
