@@ -3,24 +3,33 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "users", 
+        key: "id",
+      },
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     lastMessages: {
       type: DataTypes.JSON,
-      allowNull: true
-    }
+      allowNull: true,
+    },
   });
 
   Chat.associate = (models) => {
     Chat.belongsTo(models.User, {
-      foreignKey: "userId",  
-      targetKey: "id",       
+      foreignKey: "userId",
+      targetKey: "id",
       as: "user",
-      onDelete: "CASCADE"
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     });
   };
 
