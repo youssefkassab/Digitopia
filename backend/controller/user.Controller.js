@@ -81,6 +81,9 @@ const signup = (req, res) => {
   if (!isStrongPassword(userData.password)) {
     return res.status(400).json({ error: 'Password must be at least 8 characters and contain letters and numbers.' });
   }
+  if (userData.role == 'admin') {
+    return res.status(400).json({ error: 'Unauthorised' });
+  }
   const quer = `INSERT INTO users SET ?`;
   const quer2 = `SELECT * FROM users WHERE email = ?`;
   db.query(quer2, [userData.email], (err, results) => {
@@ -120,9 +123,19 @@ const user = (req, res) => {
     return res.status(200).json(results[0]); 
   });
 }
+const upgradeRole = (req, res) => {
+  const quer = `UPDATE users SET role = ? WHERE id = ?`;
+  db.query(quer, [req.body.role, req.user.id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error. ' + err });
+    }
+    return res.status(200).json({ message: 'User role updated successfully.' });
+  });
+}
 module.exports = {
   login,
   signup,
   logout,
-  user
+  user,
+  upgradeRole
 }

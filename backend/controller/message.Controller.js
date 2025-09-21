@@ -15,7 +15,7 @@ class MessageController {
     if (err) {
       return res.status(500).json({ error: 'Failed to create message' });
     }
-    res.status(201).json({ id: this.lastID, ...messageData });
+    res.status(201).json({ id: results.insertId, ...messageData });
   });
 };
 static getAllMessages = (req, res) => {
@@ -42,7 +42,7 @@ static MarkAsSeen = (req, res) => {
         if (err) {
             return res.status(500).json({ error: 'Internal server error.' });
         }
-        return res.status(200).json(results[0]);
+        return res.status(200).json(results[0] + ' Message marked as seen successfully.');
     });
 };
 static updateMessage = (req, res) => {
@@ -56,15 +56,14 @@ static updateMessage = (req, res) => {
         if (err) {
             return res.status(500).json({ error: 'Internal server error.' + err });
         }
-        return res.status(200).json({ message: 'Message updated successfully.' });
+        return res.status(200).json(results[0] + ' Message updated successfully.');
     });
 };
 static deleteMessage = (req, res) => {
-    let quer = `DELETE FROM messages WHERE id = ? AND sender = ?`;
-    if (req.user.role === 'admin') {
-        quer = `DELETE FROM messages WHERE id = ?`;
-    }
-    db.query(quer, [req.body.id, req.user.email || req.user.role === 'admin'], (err, results) => {
+    const isAdmin = req.user.role === 'admin';
+const quer = isAdmin ? 'DELETE FROM messages WHERE id = ?' : 'DELETE FROM messages WHERE id = ? AND sender = ?';
+const params = isAdmin ? [req.body.id] : [req.body.id, req.user.email];
+    db.query(quer, params, (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Internal server error.' });
         }

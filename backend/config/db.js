@@ -1,11 +1,11 @@
-const env = require('dotenv').config();
+const config = require('../config/config');
 const mysql = require('mysql');
 const db = mysql.createPool({
-    host: process.env.DB_HOST || "localhost",
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "",
-    database: process.env.DB_NAME|| "digitopia",
-    port: process.env.DB_PORT
+    host: config.DB_HOST || "localhost",
+    user: config.DB_USER || "root",
+    password: config.DB_PASSWORD || "",
+    database: config.DB_NAME || "digitopia",
+    port: config.DB_PORT ,
 });
 
 db.getConnection((err)=>{

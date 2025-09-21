@@ -392,6 +392,14 @@ Content-Type: application/json
 GET /api/courses/all
 ```
 
+**Error Response Example:**
+```json
+{
+  "error": "Validation error: Invalid tag ID(s)",
+  "code": "VALIDATION_ERROR"
+}
+```
+
 **Notes**:
 - Public endpoint (no authentication required)
 - Returns all available courses
@@ -420,6 +428,14 @@ GET /api/courses/all
 ```http
 GET /api/courses/teacher/mycourses
 Authorization: Bearer <token>
+```
+
+**Error Response Example:**
+```json
+{
+  "error": "Validation error: Invalid tag ID(s)",
+  "code": "VALIDATION_ERROR"
+}
 ```
 
 **Success Response (200 OK)**

@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 const createCourse = (req, res) => {
     const courseData = req.body;
-    const tags = req.body.tags; // Array of tag names
+    const tags = req.body.tags; // Array of tag id
     delete courseData.tags;
     if (req.user.role === 'admin') {
         if (!courseData.name || !courseData.description || !courseData.price || !courseData.teacher_id) {
@@ -45,11 +45,16 @@ const getAllCourses = (req, res) => {
     });
 }
 const getAllTeacherCourses = (req, res) => {
-    let quer = `SELECT * FROM courses WHERE teacher_id = ? GROUP_CONCAT(t.name SEPARATOR',')AS tags FROM courses AS C LEFT JOIN courses_tags AS ct ON c.id =ct.course_id LEFT JOIN tags AS t ON ct.tag_id=t.id GROUP BY c.id;`;
-    if (req.user.role === 'admin') {
-        quer = `SELECT * FROM courses GROUP_CONCAT(t.name SEPARATOR',')AS tags FROM courses AS C LEFT JOIN courses_tags AS ct ON c.id =ct.course_id LEFT JOIN tags AS t ON ct.tag_id=t.id GROUP BY c.id;`;
-    }
-    db.query(quer, [req.user.id || req.user.role === 'admin'], (err, results) => {
+    const baseSelect = `
+  SELECT c.id, c.name, c.description, c.price, c.teacher_id,
+         GROUP_CONCAT(t.name SEPARATOR ',') AS tags
+  FROM courses AS c
+  LEFT JOIN courses_tags AS ct ON c.id = ct.course_id
+  LEFT JOIN tags AS t ON ct.tag_id = t.id
+`;
+    const quer = req.user.role === 'admin' ? `${baseSelect} GROUP BY c.id`: `${baseSelect} WHERE c.teacher_id = ? GROUP BY c.id`;
+    const params = req.user.role === 'admin' ? [] : [req.user.id];
+    db.query(quer, params, (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Internal server error.' });
         }
@@ -57,11 +62,11 @@ const getAllTeacherCourses = (req, res) => {
     });
 }
 const getCourseById = (req, res) => {
-    let quer = `SELECT * FROM courses WHERE id = ? AND teacher_id = ? GROUP_CONCAT(t.name SEPARATOR',')AS tags FROM courses AS C LEFT JOIN courses_tags AS ct ON c.id =ct.course_id LEFT JOIN tags AS t ON ct.tag_id=t.id GROUP BY c.id;`;
-    if (req.user.role === 'admin') {
-        quer = `SELECT * FROM courses WHERE id = ? GROUP_CONCAT(t.name SEPARATOR',')AS tags FROM courses AS C LEFT JOIN courses_tags AS ct ON c.id =ct.course_id LEFT JOIN tags AS t ON ct.tag_id=t.id GROUP BY c.id;`;
-    }
-    db.query(quer, [req.body.id, req.user.id || req.user.role === 'admin'], (err, results) => {
+    const baseSelect = `SELECT c.id,  c.name,  c.description,  c.price,  c.teacher_id,  GROUP_CONCAT(t.name SEPARATOR ',') AS tags FROM courses AS c LEFT JOIN courses_tags AS ct ON c.id = ct.course_id LEFT JOIN tags AS t ON ct.tag_id = t.id;
+`;
+    const quer = req.user.role === 'admin' ? `${baseSelect} GROUP BY c.id`: `${baseSelect} WHERE c.teacher_id = ? GROUP BY c.id`;
+    const params = req.user.role === 'admin' ? [] : [req.body.id];
+    db.query(quer, params, (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Internal server error.' });
         }
