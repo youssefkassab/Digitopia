@@ -5,14 +5,15 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class CoursesTags extends Model {
     static associate(models) {
-      // Adjust to match model names `course` and `tag`
       CoursesTags.belongsTo(models.course, {
         foreignKey: "course_id",
         onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       });
       CoursesTags.belongsTo(models.tag, {
         foreignKey: "tag_id",
         onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       });
     }
   }
@@ -37,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "courses_tags",
       tableName: "courses_tags",
-      timestamps: true,
+      timestamps: true, 
     }
   );
 
