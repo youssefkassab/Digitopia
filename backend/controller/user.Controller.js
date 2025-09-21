@@ -1,7 +1,8 @@
 const env = require( '../config/config')
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
-const db = require('../config/db');
+const { sequelize, Sequelize } = require('../db/models');
+const { QueryTypes } = Sequelize;
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -26,48 +27,32 @@ const login = (req, res) => {
 
   // Get user from database
   const query = `SELECT * FROM users WHERE email = ?`;
-  db.query(query, [email], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-    
-    const user = results[0];
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password.' });
-    }
-    
-    // Compare passwords
-    bcrypt.compare(password, user.password, (err, result) => {
-      if (err) {
-        return res.status(500).json({ error: 'Authentication error' });
-      }
-      
-      if (!result) {
+  sequelize.query(query, { replacements: [email], type: QueryTypes.SELECT })
+    .then((results) => {
+      const user = results[0];
+      if (!user) {
         return res.status(401).json({ error: 'Invalid email or password.' });
       }
-      
-      // Create JWT token
-      const token = jwt.sign(
-        { 
-          id: user.id,
-          email: user.email,
-          role: user.role 
-        }, 
-        env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
-      
-      return res.status(200).json({ 
-        message: 'Login successful',
-        token,
-        user: {
-          id: user.id,
-          email: user.email,
-          role: user.role
+      bcrypt.compare(password, user.password, (err, matched) => {
+        if (err) {
+          return res.status(500).json({ error: 'Authentication error' });
         }
+        if (!matched) {
+          return res.status(401).json({ error: 'Invalid email or password.' });
+        }
+        const token = jwt.sign(
+          { id: user.id, email: user.email, role: user.role },
+          env.JWT_SECRET,
+          { expiresIn: '1h' }
+        );
+        return res.status(200).json({ 
+          message: 'Login successful',
+          token,
+          user: { id: user.id, email: user.email, role: user.role }
+        });
       });
-    });
-  });
+    })
+    .catch(() => res.status(500).json({ error: 'Internal server error' }));
 };
 
 const signup = (req, res) => {
@@ -84,27 +69,24 @@ const signup = (req, res) => {
   if (userData.role == 'admin') {
     return res.status(400).json({ error: 'Unauthorised' });
   }
-  const quer = `INSERT INTO users SET ?`;
   const quer2 = `SELECT * FROM users WHERE email = ?`;
-  db.query(quer2, [userData.email], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: 'Internal server error. ' + err });
-    }
-    if (results.length > 0) {
-      return res.status(409).json({ error: 'User already exists.' });
-    }
-    bcrypt.hash(userData.password,10,(err,hash)=>{
-      if (err) {
-        return res.status(500).json({ error: 'Internal server error. ' + err });
+  sequelize.query(quer2, { replacements: [userData.email], type: QueryTypes.SELECT })
+    .then((results) => {
+      if (results.length > 0) {
+        return res.status(409).json({ error: 'User already exists.' });
       }
-      db.query(quer, {email: userData.email, password: hash , role: userData.role, name: userData.name, national_number: userData.national_number,Grade: userData.Grade}, (err, results) => {
+      bcrypt.hash(userData.password, 10, (err, hash) => {
         if (err) {
           return res.status(500).json({ error: 'Internal server error. ' + err });
         }
-        return res.status(201).json({ message: 'User created successfully.' });
+        const insertSql = `INSERT INTO users (email, password, role, name, national_number, Grade) VALUES (?, ?, ?, ?, ?, ?)`;
+        const values = [userData.email, hash, userData.role, userData.name, userData.national_number, userData.Grade];
+        sequelize.query(insertSql, { replacements: values, type: QueryTypes.INSERT })
+          .then(() => res.status(201).json({ message: 'User created successfully.' }))
+          .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e }));
       });
-    });
-  });
+    })
+    .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e }));
 }
 
 const logout = (req, res) => {
@@ -116,21 +98,15 @@ const logout = (req, res) => {
 }
 const user = (req, res) => {
   const quer = `SELECT id ,name , email ,national_number , role ,Grade FROM users WHERE id = ?`;
-  db.query(quer, [req.user.id], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: 'Internal server error. ' + err });
-    }
-    return res.status(200).json(results[0]); 
-  });
+  sequelize.query(quer, { replacements: [req.user.id], type: QueryTypes.SELECT })
+    .then((results) => res.status(200).json(results[0]))
+    .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e }));
 }
 const upgradeRole = (req, res) => {
   const quer = `UPDATE users SET role = ? WHERE id = ?`;
-  db.query(quer, [req.body.role, req.user.id], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: 'Internal server error. ' + err });
-    }
-    return res.status(200).json({ message: 'User role updated successfully.' });
-  });
+  sequelize.query(quer, { replacements: [req.body.role, req.body.id], type: QueryTypes.UPDATE })
+    .then(() => res.status(200).json({ message: 'User role updated successfully.' }))
+    .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e }));
 }
 module.exports = {
   login,

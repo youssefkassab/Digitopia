@@ -1,17 +1,42 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const Auth = require('./middleware/auth.middleware');
-const limit = require('./middleware/limit.middleware'); 
 const userRoutes = require('./router/user.router');
 const courseRoutes = require('./router/course.router');
 const messageRoutes = require('./router/message.router');
 const config = require('./config/config');
 const PORT = config.PORT;
+const helmet = require('helmet');
+const compression = require('compression');
+const hpp = require('hpp');
+const morgan = require('morgan');
+
+app.set('trust proxy', 1);
+app.use(helmet());
+app.use(hpp());
+app.use(compression());
+app.use(express.json({ limit: '1mb' }));
+app.use(morgan(config.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(cors({ origin: config.CORS_ORIGIN?.split(',') ?? '*', credentials: true }));
 // Import Sequelize models to trigger DB sync and logging
 require('./db/models');
-app.use(express.json());
-app.use(cors());
+
+// Swagger UI (dev-only by default). To disable, set ENABLE_SWAGGER=false or run in production.
+const enableSwagger = (config.NODE_ENV !== 'production') && (process.env.ENABLE_SWAGGER !== 'false');
+if (enableSwagger) {
+  try {
+    const path = require('path');
+    const swaggerUi = require('swagger-ui-express');
+    const YAML = require('yamljs');
+    const swaggerPath = path.join(__dirname, 'Swagger', 'openapi.yaml');
+    const swaggerDocument = YAML.load(swaggerPath);
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    console.log('Swagger UI enabled at /docs');
+  } catch (e) {
+    console.warn('Swagger UI not enabled. Install swagger-ui-express and yamljs to enable.');
+  }
+}
+
 //main api
 app.use('/api/users',userRoutes);
 app.use('/api/courses',courseRoutes);

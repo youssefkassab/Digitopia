@@ -1,4 +1,4 @@
-const config = require('../config/config');
+const config = require('../../config/config');
 module.exports = {
   "development": {
     "username": config.DB_USER || "root",

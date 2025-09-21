@@ -9,6 +9,9 @@ const DB_HOST = process.env.DB_HOST || 'localhost';
 const DB_USER = process.env.DB_USER || 'root';
 const DB_PASSWORD = process.env.DB_PASSWORD || '';
 const DB_NAME = process.env.DB_NAME || 'digitopia';
+const DB_PORT = process.env.DB_PORT || 3306;
+const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
+const NODE_ENV = process.env.NODE_ENV || 'development';
 const PORT = process.env.PORT || 3000;
 module.exports = {
   JWT_SECRET,
@@ -16,5 +19,8 @@ module.exports = {
   DB_USER,
   DB_PASSWORD,
   DB_NAME,
+  DB_PORT,
+  CORS_ORIGIN,
+  NODE_ENV,
   PORT
 };
