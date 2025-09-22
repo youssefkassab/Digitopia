@@ -219,41 +219,6 @@ const ContactUs = () => {
             )}
           </motion.div>
         </div>
-
-        {/* === Chat Banner Section === */}
-        <motion.div
-          className="chat-banner"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <h3 className="chat-title">💬 Support Chat</h3>
-          <div className="chat-messages">
-            {chatMessages.length === 0 ? (
-              <p className="empty-chat">
-                No messages yet. Start the conversation!
-              </p>
-            ) : (
-              chatMessages.map((msg) => (
-                <motion.div
-                  key={msg.id}
-                  className={`chat-bubble ${
-                    msg.admin_reply ? "admin" : "user"
-                  }`}
-                  initial={{ opacity: 0, x: msg.admin_reply ? 50 : -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <p>
-                    <strong>{msg.admin_reply ? "Admin" : "You"}:</strong>{" "}
-                    {msg.admin_reply || msg.content}
-                  </p>
-                  <small>{new Date(msg.message_date).toLocaleString()}</small>
-                </motion.div>
-              ))
-            )}
-          </div>
-        </motion.div>
       </motion.div>
     </>
   );

@@ -15,6 +15,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import AIpage from "./components/AI-UI";
+import "./index.css";
 
 function AppRoutes() {
   const location = useLocation();

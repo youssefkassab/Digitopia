@@ -112,9 +112,7 @@
 }
 
 .signup-btn:hover {
-  background: #005bb5;
-  box-shadow: 0 0 10px rgba(0, 122, 255, 0.6);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .logout-btn {
@@ -146,8 +144,6 @@ h2 {
   text-align: center;
   margin-bottom: 1.5rem;
   font-size: 2rem;
-  color: #007bff;
-  text-shadow: 0 2px 6px rgba(0, 123, 255, 0.4);
 }
 
 /* === Add Student Form === */
@@ -273,7 +269,6 @@ body.dark-mode .students-table tr {
   text-align: center;
   margin-top: 1rem;
   font-weight: 600;
-  text-shadow: 0 1px 3px rgba(255, 77, 79, 0.5);
 }
 
 /* === Animations === */
@@ -334,10 +329,6 @@ body.dark-mode .admin-signup-card {
   margin-bottom: 1.5rem;
   font-weight: 700;
   animation: fadeSlide 0.6s ease;
-}
-
-.admin-signup-card .highlight {
-  color: #007aff;
 }
 
 /* === Form Inputs === */
@@ -476,8 +467,6 @@ h2 {
   text-align: center;
   margin-bottom: 1.5rem;
   font-size: 2rem;
-  color: #007bff;
-  text-shadow: 0 2px 6px rgba(0, 123, 255, 0.4);
 }
 
 /* === Add Teacher Form === */

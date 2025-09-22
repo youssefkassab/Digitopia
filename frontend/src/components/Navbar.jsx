@@ -71,6 +71,7 @@ const Navbar = () => {
             <Link
               to="/Classroom"
               className={location.pathname === "/Classroom" ? "active" : ""}
+              id="nav-tabs"
             >
               Classroom
             </Link>
@@ -79,6 +80,7 @@ const Navbar = () => {
             <Link
               to="/Courses"
               className={location.pathname === "/Courses" ? "active" : ""}
+              id="nav-tabs"
             >
               Courses
             </Link>
@@ -87,6 +89,7 @@ const Navbar = () => {
             <Link
               to="/Community"
               className={location.pathname === "/Community" ? "active" : ""}
+              id="nav-tabs"
             >
               Community
             </Link>
@@ -97,6 +100,7 @@ const Navbar = () => {
             <Link
               to="/About"
               className={location.pathname === "/About" ? "active" : ""}
+              id="nav-tabs"
             >
               About Us
             </Link>
@@ -105,6 +109,7 @@ const Navbar = () => {
             <Link
               to="/Contact"
               className={location.pathname === "/Contact" ? "active" : ""}
+              id="nav-tabs"
             >
               Contact Us
             </Link>
@@ -112,8 +117,9 @@ const Navbar = () => {
               <Link
               to="/AI"
               className={location.pathname === "/AI" ? "active" : ""}
+              id="nav-tabs"
             >
-              Talk With (AI)
+              Talk to Questro
             </Link>
         </ul>
 
