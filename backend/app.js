@@ -1,15 +1,27 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 const userRoutes = require('./router/user.router');
 const courseRoutes = require('./router/course.router');
 const messageRoutes = require('./router/message.router');
+const askRoutes = require("./router/ask.router");
+const searchRoutes = require("./router/search.router");
+const structureRoutes = require("./router/genrateStructure.router");
+const uploadRoutes = require("./router/uploadFile.router");
+const embeddingRoutes = require("./router/embedding.router");
 const config = require('./config/config');
 const PORT = config.PORT;
 const helmet = require('helmet');
 const compression = require('compression');
 const hpp = require('hpp');
 const morgan = require('morgan');
+
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload());
 
 app.set('trust proxy', 1);
 app.use(helmet());
@@ -41,6 +53,11 @@ if (enableSwagger) {
 app.use('/api/users',userRoutes);
 app.use('/api/courses',courseRoutes);
 app.use('/api/messages',messageRoutes);
+app.use("/ask", askRoutes);
+app.use("/search", searchRoutes);
+app.use("/genrateStructure", structureRoutes);
+app.use("/uploadFile", uploadRoutes);
+app.use("/embedding", embeddingRoutes);
 
 // 404
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
