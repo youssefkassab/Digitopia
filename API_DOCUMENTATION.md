@@ -23,6 +23,14 @@
 - [Error Handling](#error-handling)
 - [Testing Guide](#testing-guide)
 
+## Frontend Change Log
+
+- [BREAKING][FRONTEND_ACTION] `GET /api/courses/find/:id` now uses a path parameter instead of a GET body. Frontend must switch from sending `{ id }` in body to `.../find/ID` in the URL.
+- [FRONTEND_ACTION] Rate limits updated: login/signup now `10 req / 15 min / IP`; public message send now `3 req / 10 min / IP`. Adjust UI error handling for `429`.
+- [FRONTEND_ACTION] Message endpoints standardize success responses as JSON objects `{ "message": "..." }`. In particular, "Mark as seen" returns `{ message: ' Message marked as seen successfully.' }`.
+- [FRONTEND_ACTION] Course update endpoint may return additional messages when no changes are detected: `{ message: 'No changes detected.' }` or `{ message: 'No changes detected. Tags updated successfully.' }`. Handle these gracefully in the UI.
+- [NEW][FRONTEND_ACTION] Admin endpoint `POST /api/users/upgradeRole` accepts `{ id, role }` to change another user's role. If consuming admin features, add this integration.
+
 ## Base URL & Headers
 
 ### Base URL
@@ -34,11 +42,11 @@ All API requests must be made to: `http://localhost:3000/api`
 
 ## Rate Limits
 
-| Endpoint Type       | Rate Limit           | Notes                             |
-|---------------------|---------------------|-----------------------------------|
-| Authentication      | 5 req/15 min/IP     | Applies to login/signup endpoints |
-| API Endpoints       | 100 req/min/IP      | Applies to all other endpoints    |
-| File Uploads        | 10MB max per request| For future file upload features   |
+| Endpoint Type                | Rate Limit           | Notes                                               |
+|------------------------------|---------------------|-----------------------------------------------------|
+| Authentication (login/signup)| 10 req/15 min/IP    | [FRONTEND_ACTION] Updated limit                     |
+| Public message send          | 3 req/10 min/IP     | [FRONTEND_ACTION] Stricter limit; handle 429 in UI  |
+| File Uploads                 | 10MB max/request    | For future file upload features                     |
 
 ## Authentication
 
@@ -80,6 +88,9 @@ interface User {
   updated_at: string; // ISO date string
 }
 ```
+
+**[FRONTEND_ACTION] Notes**
+- Public endpoint is rate-limited to `3 requests / 10 minutes / IP`.
 
 ### Course
 ```typescript
@@ -181,6 +192,132 @@ Content-Type: application/json
 
 ---
 
+### Course Tag Endpoints
+
+#### Create Tag
+```http
+POST /api/courses/tag
+Content-Type: application/json
+
+{
+  "name": "Math"
+}
+```
+**Success Response (200 OK)**
+```json
+{
+  "message": "Tag created successfully."
+}
+```
+
+#### Get All Tags
+```http
+GET /api/courses/tags
+```
+**Success Response (200 OK)**
+```json
+[
+  { "id": 1, "name": "Math" },
+  { "id": 2, "name": "Science" }
+]
+```
+
+---
+
+### Message Endpoints
+
+#### Send Message
+```http
+POST /api/messages/send
+Content-Type: application/json
+
+{
+  "senderEmail": "user@example.com",
+  "content": "Hello!"
+}
+```
+**Success Response (201 Created)**
+```json
+{
+  "id": 1,
+  "sender": "user@example.com",
+  "content": "Hello!",
+  "seen": false,
+  "message_date": "2025-09-20",
+  "message_time": "12:00:00"
+}
+```
+
+#### Get All Messages (Admin)
+```http
+GET /api/messages/receiveAll
+Authorization: Bearer <token>
+```
+**Success Response (200 OK)**
+```json
+[ { "id": 1, "sender": "user@example.com", "content": "Hello!", ... } ]
+```
+
+#### Get My Messages
+```http
+GET /api/messages/MyMessages
+Authorization: Bearer <token>
+```
+**Success Response (200 OK)**
+```json
+[ { "id": 1, "sender": "user@example.com", "content": "Hello!", ... } ]
+```
+
+#### Update Message
+```http
+PATCH /api/messages/update
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "id": 1,
+  "content": "Updated message"
+}
+```
+**Success Response (200 OK)**
+```json
+{
+  "message": "Message updated successfully."
+}
+
+#### Mark Message as Seen (Admin)
+```http
+PATCH /api/messages/seen
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "id": 1
+}
+```
+**Success Response (200 OK)**
+```json
+{ "message": " Message marked as seen successfully." }
+```
+
+#### Delete Message
+```http
+DELETE /api/messages/delete
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "id": 1
+}
+```
+**Success Response (200 OK)**
+```json
+{
+  "message": "Message deleted successfully."
+}
+
+---
+
 #### Logout
 ```http
 POST /users/logout
@@ -230,6 +367,7 @@ Content-Type: application/json
   "description": "Learn the basics of programming",
   "price": 99.99,
   "teacher_id": 2
+  "tags": [1, 2] // Array of tag IDs
 }
 
 // Teacher request (teacher_id is set automatically)
@@ -237,14 +375,12 @@ Content-Type: application/json
   "name": "Advanced Web Development",
   "description": "Master modern web technologies",
   "price": 149.99
+  "tags": [2, 3] // Array of tag IDs
 }
 ```
 
 **Required Fields**
-- `name`: Course title
-- `description`: Course description
-- `price`: Course price (number)
-- `teacher_id`: Required only for admin users (to assign to specific teacher)
+- `tags`: (optional) Array of tag IDs to associate with the course
 
 **Success Response (201 Created)**
 ```json
@@ -263,6 +399,14 @@ Content-Type: application/json
 #### Get All Courses
 ```http
 GET /api/courses/all
+```
+
+**Error Response Example:**
+```json
+{
+  "error": "Validation error: Invalid tag ID(s)",
+  "code": "VALIDATION_ERROR"
+}
 ```
 
 **Notes**:
@@ -295,6 +439,14 @@ GET /api/courses/teacher/mycourses
 Authorization: Bearer <token>
 ```
 
+**Error Response Example:**
+```json
+{
+  "error": "Validation error: Invalid tag ID(s)",
+  "code": "VALIDATION_ERROR"
+}
+```
+
 **Success Response (200 OK)**
 ```json
 [
@@ -318,13 +470,20 @@ Authorization: Bearer <token>
 
 #### Find Course by ID
 ```http
-GET /api/courses/find
+GET /api/courses/find/:id
 Authorization: Bearer <token>
-Content-Type: application/json
+```
 
-{
-  "id": 1
-}
+> [FRONTEND_ACTION] Do not include the colon (:) when calling the endpoint. The `:` only indicates a path parameter in docs.
+>
+> - Correct: `GET /api/courses/find/28`
+> - Incorrect: `GET /api/courses/find/:28` (will cause validation error like `"id" must be a number`)
+
+Example:
+
+```bash
+curl -X GET http://localhost:3000/api/courses/find/28 \
+  -H "Authorization: Bearer <token>"
 ```
 
 **Success Response (200 OK)**
@@ -340,8 +499,10 @@ Content-Type: application/json
 }
 ```
 
+**[BREAKING][FRONTEND_ACTION] Notes**
+- Path parameter `:id` replaces GET body. Update frontend calls to `/api/courses/find/${id}`.
+
 **Error Responses**
-- `400 Bad Request`: Missing course ID
 - `401 Unauthorized`: No token provided
 - `403 Forbidden`: Insufficient permissions
 - `404 Not Found`: Course not found
@@ -360,19 +521,23 @@ Content-Type: application/json
   "name": "Updated Course Title",
   "description": "Updated course description",
   "price": 129.99
+  "tags": [1, 2, 3] // Array of tag IDs to update course tags
 }
 ```
 
 **Notes**:
-- Teachers can only update their own courses
-- Admins can update any course
-- Only include fields that need to be updated
+- To update course tags, include a `tags` array with the tag IDs. This will replace all existing tags for the course.
+- If `tags` is omitted, existing tags will remain unchanged.
+- If `tags` is an empty array, all tags will be removed from the course.
 
 **Success Response (200 OK)**
 ```json
-{
-  "message": "Course updated successfully."
-}
+// Possible messages (handle all in UI):
+{ "message": "Course and tags updated successfully." }
+{ "message": "Course updated successfully." }
+{ "message": "No changes detected." }                      // [FRONTEND_ACTION]
+{ "message": "No changes detected. Tags updated successfully." } // [FRONTEND_ACTION]
+{ "message": "Course updated successfully (no tags)." }
 ```
 
 **Error Responses**
@@ -564,18 +729,8 @@ const api = axios.create({
 
 // Add request interceptor for auth token
 api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
     return config;
   },
-  (error) => Promise.reject(error)
-);
-
-// Add response interceptor for error handling
-api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
@@ -974,6 +1129,57 @@ api.interceptors.response.use(
 2. Use pagination for large datasets
 3. Compress responses
 4. Implement request debouncing
+
+
+## Additional Test Scenarios (Comprehensive)
+
+The following scenarios should be validated end-to-end in addition to the Testing Guide above.
+
+### Users & Auth
+- [TEST_CASE] Signup success with role `user` and all required fields.
+- [TEST_CASE] Signup duplicate email -> 409.
+- [TEST_CASE] Signup weak password -> 400.
+- [TEST_CASE] Login success -> 200 with token.
+- [TEST_CASE] Login wrong password -> 401.
+- [TEST_CASE] Rate limit login after >10 attempts in 15 min -> 429.
+- [TEST_CASE] Get current user with valid token -> 200.
+- [TEST_CASE] Get current user without token -> 401.
+- [TEST_CASE] Admin upgradeRole { id, role } -> 200; non-admin -> 403.
+
+### Courses (Teacher role unless stated)
+- [TEST_CASE] Create course minimal fields (name, description, price) -> 201.
+- [TEST_CASE] Create course with tags array -> 201 and tags persisted.
+- [TEST_CASE] Create course missing required fields -> 400.
+- [TEST_CASE] Get all courses -> 200 with tags aggregated string.
+- [TEST_CASE] Get mycourses as teacher -> only courses where `teacher_id` = token user id.
+- [TEST_CASE] [BREAKING] Find by id using path param (no colon): `/api/courses/find/ID` -> 200.
+- [TEST_CASE] Find by id with literal colon (incorrect) `/api/courses/find/:ID` -> 400 validation (expected in negative tests).
+- [TEST_CASE] Update fields only (name/price) -> 200.
+- [TEST_CASE] Update tags only (replace set) -> 200 with appropriate message.
+- [TEST_CASE] Update with no changes -> 200 with `No changes detected.` message.
+- [TEST_CASE] Update not owned by teacher -> 404.
+- [TEST_CASE] Admin update any course -> 200.
+- [TEST_CASE] Delete owned course -> 200 and tag links removed.
+- [TEST_CASE] Delete not owned course (teacher) -> 404.
+- [TEST_CASE] Admin delete any course -> 200.
+
+### Tags
+- [TEST_CASE] Create tag (teacher/admin) -> 200.
+- [TEST_CASE] Get tags -> 200 list.
+
+### Messages
+- [TEST_CASE] Public send message valid -> 201 with id, sender, content, timestamps, seen=0.
+- [TEST_CASE] Public send rate limit after 3 in 10 min -> 429.
+- [TEST_CASE] Admin receiveAll -> 200 list.
+- [TEST_CASE] MyMessages with token -> messages by token email only.
+- [TEST_CASE] Update message by non-owner -> should not update (negative); owner -> 200.
+- [TEST_CASE] Mark seen admin -> 200 with `{ message: ' Message marked as seen successfully.' }`.
+- [TEST_CASE] Delete message admin -> 200; non-admin only own -> 200 else negative.
+
+### CORS & Docs
+- [TEST_CASE] Swagger `/docs` enabled in development (NODE_ENV!=production and ENABLE_SWAGGER!=false).
+- [TEST_CASE] Swagger `/docs` disabled in production by default.
+- [TEST_CASE] CORS allowlist behavior if `CORS_ORIGIN` is set; with credentials avoid wildcard in production.
 
 
 ---
