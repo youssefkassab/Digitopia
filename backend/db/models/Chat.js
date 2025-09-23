@@ -5,11 +5,17 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    chatId: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      unique: true,
+    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "users", 
+        model: "Users",
         key: "id",
       },
     },
@@ -17,16 +23,27 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    lastMessages: {
-      type: DataTypes.JSON,
+    subject: {
+      type: DataTypes.STRING,
       allowNull: true,
+    },
+    role: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+    },
+    lastMessages: {
+      type: DataTypes.JSON, // store last 5 messages
+      allowNull: true,
+    },
+    time: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
   });
 
   Chat.associate = (models) => {
     Chat.belongsTo(models.User, {
       foreignKey: "userId",
-      targetKey: "id",
       as: "user",
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
