@@ -17,7 +17,10 @@ const userSignupSchema = Joi.object({
   password: passwordSchema,
   national_number: Joi.string().min(3).max(30).required(),
   role: Joi.string().valid('user','teacher').required(),
-  Grade: Joi.string().max(5).optional(),
+  Grade: Joi.alternatives().try(
+    Joi.number().integer().min(1).max(12),
+    Joi.string().max(5)
+  ).optional(),
 });
 
 const userUpgradeRoleSchema = Joi.object({

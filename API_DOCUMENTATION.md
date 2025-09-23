@@ -1184,4 +1184,193 @@ The following scenarios should be validated end-to-end in addition to the Testin
 
 ---
 
-*Documentation last updated: August 2025*
+## Postman Test Scenarios by Endpoint
+
+Note for testers: in the backend, the role called "Manager" here maps to the backend role "Teacher". Treat Manager = Teacher when testing permissions.
+
+### Login - `POST /api/users/login`
+
+**Description:** Lets a user log in with their email and password. Postman will use the token for other APIs.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-LOGIN-001 | Any    | Login with valid details | 1. Open Postman.<br>2. Select this endpoint.<br>3. Enter a valid email and password.<br>4. Click Send. | You should see status **200 OK** and a token. Postman should save the token for next requests. | Report a problem if login fails or no token is saved. |
+| TC-LOGIN-002 | Any    | Wrong password | 1. Enter a valid email but a wrong password.<br>2. Click Send. | You should see **401 Unauthorized** with a message saying the email or password is wrong. | Report a problem if it allows login. |
+| TC-LOGIN-003 | Any    | Missing password | 1. Remove the password from the body.<br>2. Click Send. | You should see **400 Bad Request** with a message that the password is required. | Report a problem if it still logs in. |
+| TC-LOGIN-004 | Any    | Too many attempts (rate limit) | 1. Try more than 10 times within 15 minutes.<br>2. Click Send. | You should see **429 Too Many Requests**. | Report a problem if there is no rate limit. |
+
+### Signup - `POST /api/users/signup`
+
+**Description:** Creates a new account.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-SIGNUP-001 | Any   | Successful registration | 1. Open Postman.<br>2. Select this endpoint.<br>3. Enter a unique email, a strong password, a name, national number, and role User.<br>4. Click Send. | You should see **201 Created** and a success message. | Report a problem if you do not see 201. |
+| TC-SIGNUP-002 | Any   | Duplicate email | 1. Use an email that already exists.<br>2. Click Send. | You should see **409 Conflict** and a message saying user already exists. | Report a problem if it creates another user with same email. |
+| TC-SIGNUP-003 | Any   | Weak password | 1. Enter a password shorter than 8 characters.<br>2. Click Send. | You should see **400 Bad Request** telling you the password is too weak. | Report a problem if it accepts the weak password. |
+| TC-SIGNUP-004 | Any   | Missing required fields | 1. Remove the email or password field.<br>2. Click Send. | You should see **400 Bad Request** and a message that a field is missing. | Report a problem if it still creates the user. |
+
+### Logout - `POST /api/users/logout`
+
+**Description:** Confirms the user logged out (the system does not block old tokens automatically).
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-LOGOUT-001 | Any   | Logout with a valid token | 1. Log in first.<br>2. Select this endpoint.<br>3. Click Send. | You should see **200 OK** with a success message. | Report a problem if you get a different status. |
+| TC-LOGOUT-002 | Any   | Logout without a token | 1. Remove the Authorization header.<br>2. Click Send. | You should see **401 Unauthorized**. | Report a problem if it still logs out successfully. |
+
+### Get Current User - `GET /api/users/user`
+
+**Description:** Shows the profile of the logged-in user.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-ME-001 | Any | Get profile with a valid token | 1. Log in first.<br>2. Select this endpoint.<br>3. Click Send. | You should see **200 OK** and your user details. | Report a problem if you get an error or the data is not yours. |
+| TC-ME-002 | Any | Get profile without a token | 1. Remove the Authorization header.<br>2. Click Send. | You should see **401 Unauthorized**. | Report a problem if it works without a token. |
+
+### Upgrade User Role (Admin) - `POST /api/users/upgradeRole`
+
+**Description:** Allows Admin to change someone’s role (for example, to Manager/Teacher).
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-UPR-001 | Admin | Change another user to Manager | 1. Log in as Admin.<br>2. Select this endpoint.<br>3. Enter a valid user ID and the new role (e.g., manager/teacher).<br>4. Click Send. | You should see **200 OK** and a success message. | Report a problem if status is not 200. |
+| TC-UPR-002 | User  | User tries to change roles | 1. Log in as a normal User.<br>2. Try to call this endpoint.<br>3. Click Send. | You should see **403 Forbidden**. | Report a problem if the user can change roles. |
+| TC-UPR-003 | Admin | Missing fields | 1. Log in as Admin.<br>2. Remove the user ID or role field.<br>3. Click Send. | You should see **400 Bad Request**. | Report a problem if it still works. |
+
+### Create Course - `POST /api/courses/create`
+
+**Description:** Creates a new course. Admin can choose the teacher. Manager creates courses under their own account.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-CRS-CRT-001 | Manager | Create with valid details | 1. Log in as Manager.<br>2. Enter name, description, price, and optional tags.<br>3. Click Send. | You should see **201 Created** and a success message. | Report a problem if not 201. |
+| TC-CRS-CRT-002 | Admin | Create for a specific teacher | 1. Log in as Admin.<br>2. Enter name, description, price, and teacher ID.<br>3. Click Send. | You should see **201 Created**. | Report a problem if not 201. |
+| TC-CRS-CRT-003 | Manager | Missing required fields | 1. Remove name or description or price.<br>2. Click Send. | You should see **400 Bad Request**. | Report a problem if it still creates the course. |
+
+### Get All Courses - `GET /api/courses/all`
+
+**Description:** Lists all courses (public).
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-CRS-ALL-001 | Any | View all courses | 1. Open this endpoint.<br>2. Click Send. | You should see **200 OK** and a list of courses. | Report a problem if status is not 200. |
+
+### Get My Courses (Manager) - `GET /api/courses/teacher/mycourses`
+
+**Description:** Shows courses created by the logged-in Manager.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-CRS-MINE-001 | Manager | View my courses | 1. Log in as Manager.<br>2. Open this endpoint.<br>3. Click Send. | You should see **200 OK** and only your courses. | Report a problem if you see courses from other users. |
+| TC-CRS-MINE-002 | User | User tries to access manager list | 1. Log in as User.<br>2. Call this endpoint.<br>3. Click Send. | You should see **403 Forbidden**. | Report a problem if it shows data. |
+
+### Find Course by ID - `GET /api/courses/find/:id`
+
+**Description:** Gets details for one course. Admin can view any; Manager can view only their own.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-CRS-FIND-001 | Manager | View own course | 1. Log in as Manager.<br>2. Enter the URL with your course ID, e.g., `/api/courses/find/28` (do not include a colon).<br>3. Click Send. | You should see **200 OK** with the course details. | Report a problem if you see an error. |
+| TC-CRS-FIND-002 | Manager | Try viewing someone else’s course | 1. Log in as Manager.<br>2. Enter the URL for a course that belongs to another user.<br>3. Click Send. | You should see **404 Not Found**. | Report a problem if it shows the other user’s course. |
+| TC-CRS-FIND-003 | Any | Wrong format in URL | 1. Use `/api/courses/find/:28` with a colon on purpose.<br>2. Click Send. | You should see **400 Bad Request** complaining about the id format. | Report a problem if it accepts the wrong format. |
+
+### Update Course - `PUT /api/courses/update`
+
+**Description:** Updates course details and/or tags in one step.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-CRS-UPD-001 | Manager | Change course name or price | 1. Log in as Manager.<br>2. Provide the course ID and a new name or price.<br>3. Click Send. | You should see **200 OK** with a success message. | Report a problem if status is not 200. |
+| TC-CRS-UPD-002 | Manager | Update only tags | 1. Log in as Manager.<br>2. Provide the course ID and the new list of tags (this replaces existing tags).<br>3. Click Send. | You should see **200 OK**. You may see a message like “Course and tags updated successfully.” | Report a problem if tags don’t change. |
+| TC-CRS-UPD-003 | Manager | No actual changes | 1. Log in as Manager.<br>2. Send the same values that are already saved.<br>3. Click Send. | You should see **200 OK** with “No changes detected.” | Report a problem if it returns an error. |
+| TC-CRS-UPD-004 | Manager | Update someone else’s course | 1. Log in as Manager.<br>2. Provide the ID of a course owned by a different user.<br>3. Click Send. | You should see **404 Not Found**. | Report a problem if it updates the other user’s course. |
+| TC-CRS-UPD-005 | Admin | Update any course | 1. Log in as Admin.<br>2. Provide any valid course ID and new data.<br>3. Click Send. | You should see **200 OK**. | Report a problem if Admin is blocked. |
+
+### Delete Course - `DELETE /api/courses/delete`
+
+**Description:** Removes a course.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-CRS-DEL-001 | Manager | Delete own course | 1. Log in as Manager.<br>2. Enter the course ID in the body.<br>3. Click Send. | You should see **200 OK** and a success message. | Report a problem if not 200. |
+| TC-CRS-DEL-002 | Manager | Delete someone else’s course | 1. Log in as Manager.<br>2. Enter the other user’s course ID.<br>3. Click Send. | You should see **404 Not Found**. | Report a problem if it deletes it. |
+| TC-CRS-DEL-003 | Admin | Delete any course | 1. Log in as Admin.<br>2. Enter any valid course ID.<br>3. Click Send. | You should see **200 OK**. | Report a problem if Admin cannot delete. |
+
+### Create Tag - `POST /api/courses/tag`
+
+**Description:** Creates a tag.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-TAG-CRT-001 | Manager | Create a tag with a valid name | 1. Log in as Manager.<br>2. Enter a simple name like "Math".<br>3. Click Send. | You should see **200 OK** and a success message. | Report a problem if not 200. |
+| TC-TAG-CRT-002 | Manager | Missing name | 1. Log in as Manager.<br>2. Leave the name empty.<br>3. Click Send. | You should see **400 Bad Request**. | Report a problem if it still creates the tag. |
+
+### Get Tags - `GET /api/courses/tags`
+
+**Description:** Lists all tags.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-TAG-GET-001 | Any | View tags | 1. Open this endpoint.<br>2. Click Send. | You should see **200 OK** and a list of tags. | Report a problem if not 200. |
+
+### Send Message (Public) - `POST /api/messages/send`
+
+**Description:** Sends a public message without logging in (limited to slow down spam).
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-MSG-SEND-001 | Any | Send a message with valid details | 1. Open this endpoint.<br>2. Enter your email and a short message.<br>3. Click Send. | You should see **201 Created** with a new message ID and your content. | Report a problem if not 201. |
+| TC-MSG-SEND-002 | Any | Too many messages (rate limit) | 1. Send more than 3 messages within 10 minutes from the same IP.<br>2. Click Send. | You should see **429 Too Many Requests**. | Report a problem if there is no rate limit. |
+| TC-MSG-SEND-003 | Any | Missing message text | 1. Leave the message text empty.<br>2. Click Send. | You should see **400 Bad Request**. | Report a problem if it accepts the empty message. |
+
+### Get All Messages (Admin) - `GET /api/messages/receiveAll`
+
+**Description:** Shows all messages (Admin only).
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-MSG-ALL-001 | Admin | View all messages | 1. Log in as Admin.<br>2. Open this endpoint.<br>3. Click Send. | You should see **200 OK** and a full list. | Report a problem if not 200. |
+| TC-MSG-ALL-002 | User  | User tries to view all | 1. Log in as User.<br>2. Call this endpoint.<br>3. Click Send. | You should see **403 Forbidden**. | Report a problem if the user can see all messages. |
+
+### Get My Messages - `GET /api/messages/MyMessages`
+
+**Description:** Shows messages sent from the logged-in user’s email.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-MSG-MINE-001 | Any | View my messages | 1. Log in.<br>2. Open this endpoint.<br>3. Click Send. | You should see **200 OK** and only messages from your email. | Report a problem if others’ messages appear. |
+
+### Update Message - `PATCH /api/messages/update`
+
+**Description:** Changes a message’s text. Only the sender can change their own messages.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-MSG-UPD-001 | Any | Update my own message | 1. Log in as the sender.<br>2. Provide the message ID and a new text.<br>3. Click Send. | You should see **200 OK** with a success message. | Report a problem if not 200. |
+| TC-MSG-UPD-002 | Any | Try to update someone else’s message | 1. Log in.<br>2. Use the ID of another user’s message.<br>3. Click Send. | You should not see success (expect an error response). | Report a problem if it updates the other user’s message. |
+| TC-MSG-UPD-003 | Any | Missing text | 1. Leave the new text empty.<br>2. Click Send. | You should see **400 Bad Request**. | Report a problem if it still updates. |
+
+### Mark Message as Seen (Admin) - `PATCH /api/messages/seen`
+
+**Description:** Marks a message as seen (Admin only).
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-MSG-SEEN-001 | Admin | Mark as seen | 1. Log in as Admin.<br>2. Enter a valid message ID.<br>3. Click Send. | You should see **200 OK** and a message saying it was marked as seen. | Report a problem if not 200. |
+| TC-MSG-SEEN-002 | User  | User tries to mark seen | 1. Log in as User.<br>2. Try this endpoint.<br>3. Click Send. | You should see **403 Forbidden**. | Report a problem if the user can mark seen. |
+
+### Delete Message - `DELETE /api/messages/delete`
+
+**Description:** Deletes a message. Admin can delete any; others can delete only their own.
+
+| Test Case ID | Role   | Scenario Description | Steps in Postman | Expected Result | If Something Else Happens |
+|--------------|--------|----------------------|------------------|----------------|---------------------------|
+| TC-MSG-DEL-001 | Admin | Admin deletes a message | 1. Log in as Admin.<br>2. Enter a message ID.<br>3. Click Send. | You should see **200 OK** with a success message. | Report a problem if not 200. |
+| TC-MSG-DEL-002 | Any   | Delete my own message | 1. Log in as the sender.<br>2. Enter your own message ID.<br>3. Click Send. | You should see **200 OK**. | Report a problem if it fails without reason. |
+| TC-MSG-DEL-003 | Any   | Try to delete someone else’s message | 1. Log in.<br>2. Use a different user’s message ID.<br>3. Click Send. | You should not see success (expect an error). | Report a problem if it deletes it. |
+
+
+---
+
+*Documentation last updated: September 2025*

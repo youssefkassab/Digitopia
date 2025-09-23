@@ -4,6 +4,7 @@ const cors = require('cors');
 const userRoutes = require('./router/user.router');
 const courseRoutes = require('./router/course.router');
 const messageRoutes = require('./router/message.router');
+const adminRoutes = require('./router/admin.router');
 const config = require('./config/config');
 const PORT = config.PORT;
 const helmet = require('helmet');
@@ -41,6 +42,7 @@ if (enableSwagger) {
 app.use('/api/users',userRoutes);
 app.use('/api/courses',courseRoutes);
 app.use('/api/messages',messageRoutes);
+app.use('/api/admin',adminRoutes);
 
 // 404
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));

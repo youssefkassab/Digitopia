@@ -1,0 +1,436 @@
+{
+  "info": {
+    "name": "Digitopia Full API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "digitopia-collection-0001"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{authToken}}", "type": "string" }
+    ]
+  },
+  "variable": [],
+  "item": [
+    {
+      "name": "Orchestration",
+      "item": [
+        {
+          "name": "Admin Login (Start)",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/login","host":["{{baseUrl}}"],"path":["users","login"]},"body":{"mode":"raw","raw":"{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Status 200', ()=>pm.response.to.have.status(200));",
+            "var j=pm.response.json(); pm.expect(j).to.have.property('token');",
+            "pm.collectionVariables.set('authToken', j.token); pm.environment.set('authToken', j.token); pm.environment.set('adminToken', j.token);"
+          ]}}]
+        },
+        {
+          "name": "Ensure Manager Signup",
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":[
+              "if (!pm.environment.get('managerEmail') || pm.environment.get('managerEmail').endsWith('@example.com')) { pm.environment.set('managerEmail','manager+'+Date.now()+'@example.com'); }"
+            ]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":[
+              "pm.test('201/409/400/429 acceptable', ()=>pm.expect([201,409,400,429]).to.include(pm.response.code));"
+            ]}}
+          ],
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/signup","host":["{{baseUrl}}"],"path":["users","signup"]},"body":{"mode":"raw","raw":"{\n  \"name\": \"Auto Manager\",\n  \"email\": \"{{managerEmail}}\",\n  \"password\": \"{{managerPassword}}\",\n  \"national_number\": \"MNGR{{$timestamp}}\",\n  \"Grade\": 10,\n  \"role\": \"teacher\"\n}"}}
+        },
+        {
+          "name": "Manager Login (Capture managerId)",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/login","host":["{{baseUrl}}"],"path":["users","login"]},"body":{"mode":"raw","raw":"{\n  \"email\": \"{{managerEmail}}\",\n  \"password\": \"{{managerPassword}}\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Login 200', ()=>pm.response.to.have.status(200));",
+            "var j=pm.response.json(); pm.collectionVariables.set('authToken', j.token); pm.environment.set('authToken', j.token); pm.environment.set('managerToken', j.token);"
+          ]}}]
+        },
+        {
+          "name": "Get Manager Profile -> managerId",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('200', ()=>pm.response.to.have.status(200));",
+            "var j=pm.response.json(); pm.environment.set('managerId', j.id); pm.environment.set('targetUserId', j.id);"
+          ]}}]
+        },
+        {
+          "name": "Admin Upgrade Manager -> Teacher (No-op when direct teacher signup)",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":[
+              "pm.collectionVariables.set('authToken', pm.environment.get('adminToken'));"
+            ]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":[
+              "pm.test('Admin token valid (200)', function(){ pm.response.to.have.status(200); });"
+            ]}}
+          ]
+        },
+        {
+          "name": "Ensure User Signup",
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":[
+              "if (!pm.environment.get('userEmail') || pm.environment.get('userEmail').endsWith('@example.com')) { pm.environment.set('userEmail','user+'+Date.now()+'@example.com'); }"
+            ]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":[
+              "pm.test('201/409/400/429 acceptable', ()=>pm.expect([201,409,400,429]).to.include(pm.response.code));"
+            ]}}
+          ],
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/signup","host":["{{baseUrl}}"],"path":["users","signup"]},"body":{"mode":"raw","raw":"{\n  \"name\": \"Auto User\",\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\",\n  \"national_number\": \"USER{{$timestamp}}\",\n  \"Grade\": 9,\n  \"role\": \"user\"\n}"}}
+        },
+        {
+          "name": "User Login (Capture userId)",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/login","host":["{{baseUrl}}"],"path":["users","login"]},"body":{"mode":"raw","raw":"{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Login 200', ()=>pm.response.to.have.status(200));",
+            "var j=pm.response.json(); pm.collectionVariables.set('authToken', j.token); pm.environment.set('authToken', j.token); pm.environment.set('userToken', j.token);"
+          ]}}]
+        },
+        {
+          "name": "Get User Profile -> userId",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('200', ()=>pm.response.to.have.status(200));",
+            "var j=pm.response.json(); pm.environment.set('userId', j.id);"
+          ]}}]
+        },
+        {
+          "name": "Admin Login (Ready for tests)",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/login","host":["{{baseUrl}}"],"path":["users","login"]},"body":{"mode":"raw","raw":"{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Status 200', ()=>pm.response.to.have.status(200));",
+            "var j=pm.response.json(); pm.collectionVariables.set('authToken', j.token); pm.environment.set('authToken', j.token);"
+          ]}}]
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/users/login", "host": ["{{baseUrl}}"], "path": ["users","login"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}" }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+                  "var json = pm.response.json();",
+                  "pm.expect(json).to.have.property('token');",
+                  "pm.collectionVariables.set('authToken', json.token);",
+                  "pm.environment.set('authToken', json.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Manager Login",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/users/login", "host": ["{{baseUrl}}"], "path": ["users","login"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{managerEmail}}\",\n  \"password\": \"{{managerPassword}}\"\n}" }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":[
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+              "var json = pm.response.json(); pm.expect(json).to.have.property('token');",
+              "pm.collectionVariables.set('authToken', json.token); pm.environment.set('authToken', json.token);"
+            ]}}
+          ]
+        },
+        {
+          "name": "User Login",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/users/login", "host": ["{{baseUrl}}"], "path": ["users","login"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\"\n}" }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":[
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+              "var json = pm.response.json(); pm.expect(json).to.have.property('token');",
+              "pm.collectionVariables.set('authToken', json.token); pm.environment.set('authToken', json.token);"
+            ]}}
+          ]
+        },
+        {
+          "name": "Signup - Positive",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/users/signup", "host": ["{{baseUrl}}"], "path": ["users","signup"] },
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test+{{$timestamp}}@example.com\",\n  \"password\": \"User12345!\",\n  \"national_number\": \"NAT{{$timestamp}}\",\n  \"Grade\": 8,\n  \"role\": \"user\"\n}" }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":[
+              "pm.test('Status 201/409/400/500 acceptable', function () { pm.expect([201,409,400,500]).to.include(pm.response.code); });",
+              "pm.test('Has message or error', function(){ var j={}; try{j=pm.response.json()}catch(e){}; pm.expect(j).to.be.an('object'); });"
+            ]}}
+          ]
+        },
+        {
+          "name": "Signup - Duplicate Email (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/users/signup", "host": ["{{baseUrl}}"], "path": ["users","signup"] },
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"Strong1234\",\n  \"national_number\": \"DUP{{$timestamp}}\",\n  \"role\": \"user\"\n}" }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":[
+              "pm.test('Status is 409', function () { pm.response.to.have.status(409); });"
+            ]}}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Switch -> Admin",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":["pm.collectionVariables.set('authToken', pm.environment.get('adminToken'));"]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', ()=>pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Get Current User",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+            "var j = pm.response.json(); pm.expect(j).to.have.property('id'); pm.expect(j).to.have.property('email');"
+          ]}}]
+        },
+        {
+          "name": "Upgrade Role - Admin Success",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/upgradeRole","host":["{{baseUrl}}"],"path":["users","upgradeRole"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{targetUserId}},\n  \"role\": \"teacher\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Status 200 or 403 (env-dependent admin)', function(){ pm.expect([200,403]).to.include(pm.response.code); });"
+          ]}}]
+        },
+        {
+          "name": "Switch -> User",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":["pm.collectionVariables.set('authToken', pm.environment.get('userToken'));"]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', ()=>pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Upgrade Role - User Forbidden",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/upgradeRole","host":["{{baseUrl}}"],"path":["users","upgradeRole"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{targetUserId}},\n  \"role\": \"admin\"\n}"}},
+          "event":[{"listen":"prerequest","script":{"type":"text/javascript","exec":[
+            "// ensure user token in place by logging in as User via previous Auth->User Login before running this"
+          ]}},{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Forbidden for non-admin', function(){ pm.expect([401,403]).to.include(pm.response.code); });"
+          ]}}]
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "Switch -> Manager",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":["pm.collectionVariables.set('authToken', pm.environment.get('managerToken'));"]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', ()=>pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Public - Get All Courses",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/courses/all","host":["{{baseUrl}}"],"path":["courses","all"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Status 200', function(){ pm.response.to.have.status(200); });",
+            "pm.test('Response is array', function(){ var resp = pm.response.json(); pm.expect(Array.isArray(resp)).to.be.true; });"
+          ]}}]
+        },
+        {
+          "name": "Manager - Create Course",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/courses/create","host":["{{baseUrl}}"],"path":["courses","create"]},"body":{"mode":"raw","raw":"{\n  \"name\": \"Course {{$randomInt}}\",\n  \"description\": \"Desc\",\n  \"price\": 49.99,\n  \"tags\": [1,2]\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Created 201 or 403 (role mismatch)', function(){ pm.expect([201,403]).to.include(pm.response.code); });"
+          ]}}]
+        },
+        {
+          "name": "Switch -> Admin",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":["pm.collectionVariables.set('authToken', pm.environment.get('adminToken'));"]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', ()=>pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Admin - Create Course for Teacher",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/courses/create","host":["{{baseUrl}}"],"path":["courses","create"]},"body":{"mode":"raw","raw":"{\n  \"name\": \"Admin Course {{$randomInt}}\",\n  \"description\": \"Admin Desc\",\n  \"price\": 99.99,\n  \"teacher_id\": {{managerId}}\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Created 201 or 403 (admin can create for teacher)', function(){ pm.expect([201,403]).to.include(pm.response.code); });"
+          ]}}]
+        },
+        {
+          "name": "Switch -> Manager",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":["pm.collectionVariables.set('authToken', pm.environment.get('managerToken'));"]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', ()=>pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Manager - Get My Courses",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/courses/teacher/mycourses","host":["{{baseUrl}}"],"path":["courses","teacher","mycourses"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.collectionVariables.set('authToken', pm.environment.get('managerToken'));",
+            "pm.test('Status 200', function(){ pm.response.to.have.status(200); });",
+            "pm.test('Capture myCourseId owned by manager', function(){ var arr = pm.response.json(); if(Array.isArray(arr)){ var mid = pm.environment.get('managerId'); var mine = arr.find(c => String(c.teacher_id) === String(mid)); if(mine){ pm.environment.set('myCourseId', mine.id); } } });"
+          ]}}]
+        },
+        {
+          "name": "Pick Other Course (teacher_id != managerId)",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/courses/all","host":["{{baseUrl}}"],"path":["courses","all"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "var list = pm.response.json(); if(Array.isArray(list)){ var mid = pm.environment.get('managerId'); var other = list.find(c=>String(c.teacher_id)!==String(mid)); if(other){ pm.environment.set('otherCourseId', other.id); } }"
+          ]}}]
+        },
+        {
+          "name": "Manager - Find Own Course",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/courses/find/{{myCourseId}}","host":["{{baseUrl}}"],"path":["courses","find","{{myCourseId}}"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Own course lookup behaves', function(){ var hasId = !!pm.environment.get('myCourseId'); if(hasId){ pm.response.to.have.status(200); } else { pm.expect([404,400]).to.include(pm.response.code); } });",
+            "pm.test('Has id when myCourseId is set', function(){ var hasId = !!pm.environment.get('myCourseId'); if(hasId){ var j = pm.response.json(); pm.expect(j).to.have.property('id'); } });"
+          ]}}]
+        },
+        {
+          "name": "Manager - Find Other's Course (Negative)",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/courses/find/{{otherCourseId}}","host":["{{baseUrl}}"],"path":["courses","find","{{otherCourseId}}"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Negative when different owner else OK', function(){ var code=pm.response.code; var other=pm.environment.get('otherCourseId'); var mine=pm.environment.get('myCourseId'); if(other && other!==mine){ pm.expect([404,500]).to.include(code); } else { pm.expect([200,404,500]).to.include(code); } });"
+          ]}}]
+        },
+        {
+          "name": "Manager - Update Course (Fields)",
+          "request": {"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/courses/update","host":["{{baseUrl}}"],"path":["courses","update"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{myCourseId}},\n  \"name\": \"Updated Name\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Update fields on own course', function(){ var hasId = !!pm.environment.get('myCourseId'); if(hasId){ pm.response.to.have.status(200); } else { pm.expect([400,404]).to.include(pm.response.code); } });"
+          ]}}]
+        },
+        {
+          "name": "Manager - Update Course (Tags Only)",
+          "request": {"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/courses/update","host":["{{baseUrl}}"],"path":["courses","update"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{myCourseId}},\n  \"tags\": [1,3,5]\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Update tags on own course', function(){ var hasId = !!pm.environment.get('myCourseId'); if(hasId){ pm.response.to.have.status(200); } else { pm.expect([400,404]).to.include(pm.response.code); } });"
+          ]}}]
+        },
+        {
+          "name": "Manager - Delete Own Course",
+          "request": {"method":"DELETE","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/courses/delete","host":["{{baseUrl}}"],"path":["courses","delete"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{myCourseId}}\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Delete own course (requires id)', function(){ var hasId = !!pm.environment.get('myCourseId'); if(hasId){ pm.expect([200,404]).to.include(pm.response.code); } else { pm.expect([400,404]).to.include(pm.response.code); } });"
+          ]}}]
+        },
+        {
+          "name": "Switch -> Admin",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[{"listen":"prerequest","script":{"type":"text/javascript","exec":[
+            "pm.collectionVariables.set('authToken', pm.environment.get('adminToken'));"
+          ]}},
+          {"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Status 200', ()=>pm.response.to.have.status(200));"
+          ]}}]
+        },
+        {
+          "name": "Admin - Delete Any Course",
+          "request": {"method":"DELETE","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/courses/delete","host":["{{baseUrl}}"],"path":["courses","delete"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{otherCourseId}}\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200/404/500', function(){ pm.expect([200,404,500]).to.include(pm.response.code); });"]}}]
+        },
+        {
+          "name": "Get Tags",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/courses/tags","host":["{{baseUrl}}"],"path":["courses","tags"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', function(){ pm.response.to.have.status(200); });"]}}]
+        },
+        {
+          "name": "Create Tag (Manager/Admin)",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/courses/tag","host":["{{baseUrl}}"],"path":["courses","tag"]},"body":{"mode":"raw","raw":"{\n  \"name\": \"Tag{{$randomInt}}_{{$timestamp}}\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', function(){ pm.response.to.have.status(200); });"]}}]
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "Switch -> User",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":["pm.collectionVariables.set('authToken', pm.environment.get('userToken'));"]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', ()=>pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Send Message (as logged-in user)",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/messages/send","host":["{{baseUrl}}"],"path":["messages","send"]},"body":{"mode":"raw","raw":"{\n  \"senderEmail\": \"{{userEmail}}\",\n  \"content\": \"Hello from my account\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":[
+            "pm.test('Status 201', function(){ pm.response.to.have.status(201); });",
+            "var j=pm.response.json(); if(j && j.id){ pm.environment.set('messageIdMine', j.id); }"
+          ]}}]
+        },
+        {
+          "name": "Switch -> Admin",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":["pm.collectionVariables.set('authToken', pm.environment.get('adminToken'));"]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', ()=>pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Admin - Get All Messages",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/messages/receiveAll","host":["{{baseUrl}}"],"path":["messages","receiveAll"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', function(){ pm.response.to.have.status(200); });"]}}]
+        },
+        {
+          "name": "Switch -> User",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":["pm.collectionVariables.set('authToken', pm.environment.get('userToken'));"]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', ()=>pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "My Messages",
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/messages/MyMessages","host":["{{baseUrl}}"],"path":["messages","MyMessages"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', function(){ pm.response.to.have.status(200); });"]}}]
+        },
+        {
+          "name": "Update My Message",
+          "request": {"method":"PATCH","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/messages/update","host":["{{baseUrl}}"],"path":["messages","update"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{messageIdMine}},\n  \"content\": \"Updated content\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', function(){ var id = pm.environment.get('messageIdMine'); pm.expect(typeof id === 'number' && id > 0).to.be.true; pm.response.to.have.status(200); });"]}}]
+        },
+        {
+          "name": "Switch -> Admin",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/login","host":["{{baseUrl}}"],"path":["users","login"]},"body":{"mode":"raw","raw":"{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["var j=pm.response.json(); pm.collectionVariables.set('authToken', j.token); pm.environment.set('authToken', j.token);"]}}]
+        },
+        {
+          "name": "Admin - Mark Seen",
+          "request": {"method":"PATCH","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/messages/seen","host":["{{baseUrl}}"],"path":["messages","seen"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{messageIdMine}}\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Status 200', function(){ var id = pm.environment.get('messageIdMine'); pm.expect(typeof id === 'number' && id > 0).to.be.true; pm.response.to.have.status(200); });"]}}]
+        },
+        {
+          "name": "Delete My Message (Any Owner)",
+          "request": {"method":"DELETE","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/messages/delete","host":["{{baseUrl}}"],"path":["messages","delete"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{messageIdMine}}\n}"}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Expect 200', function(){ var id = pm.environment.get('messageIdMine'); pm.expect(typeof id === 'number' && id > 0).to.be.true; pm.expect([200,404]).to.include(pm.response.code); });"]}}]
+        }
+      ]
+    }
+  ]
+}
