@@ -52,24 +52,7 @@ async function ask(req, res) {
     ];
 
     // if no history provided, start fresh
-    let contents = [
-      {
-        role: "user",
-        parts: [{ text: `You are Questro, the student's tutor.  
-                Act as a professional teacher.  
-                Follow the given curriculum strictly, and make sure all explanations are double-checked for accuracy.  
-                Explain step-by-step, guide the student with hints instead of giving direct answers, and use clear, simple language.  
-                Structure your response with:  
-                1. 5-Minute Summary  
-                2. Key Focus Points  
-                3. Guided Step-by-Step Explanation (with checks)  
-                4. Verification of accuracy  
-                5. Encouragement & Next Step  
-
-                Respond in the same language as the student's question or language student want.
-            ` }],
-      },
-    ];
+    let contents = [];
 
     const results = await searchContent(question, grade, subject, cumulative);
     const context = results.map(r => r.chunks).join("\n");
