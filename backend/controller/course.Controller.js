@@ -237,58 +237,29 @@ const updateCourse = (req, res) => {
 }
 const deleteCourse = (req, res) => {
     let quer = `DELETE FROM courses WHERE id = ? AND teacher_id = ?`;
-    let querTags = `DELETE FROM courses_tags WHERE course_id = ?`;
+    let querTags = `DELETE FROM courses_tags WHERE course_id = ?`;        
     if (req.user.role === 'admin') {
         quer = `DELETE FROM courses WHERE id = ?`;
     }
-    const courseId = req.body.id;
-    const teacherId = req.user.id;
-
-    const checkQuery = req.user.role === 'admin'
-      ? `SELECT id FROM courses WHERE id = ?`
-      : `SELECT id FROM courses WHERE id = ? AND teacher_id = ?`;
-
-    sequelize.query(checkQuery, {
-        replacements: req.user.role === 'admin' ? [courseId] : [courseId, teacherId],
-        type: QueryTypes.SELECT
-    })
-    .then((rows) => {
-        if (!rows || rows.length === 0) {
-            return res.status(404).json({ error: 'Course not found or not owned by user.' });
+    sequelize.transaction(async (t) => {
+      await sequelize.query(querTags, { replacements: [req.body.id], transaction: t, type: QueryTypes.DELETE });
+      const params = req.user.role === 'admin' ? [req.body.id] : [req.body.id, req.user.id];
+      console.log(params);
+      const result = await sequelize.query(quer, { replacements: params, transaction: t, type: QueryTypes.DELETE });
+      console.log(result);
+      const deleted = (result && (result.affectedRows || result.rowCount)) || 0;
+      console.log(deleted);
+      if (deleted === 0) {
+        throw Object.assign(new Error('NOT_FOUND'), { code: 'NOT_FOUND' });
+      }
+    }).then(() => res.status(200).json({ message: 'Course deleted successfully.' }))
+      .catch((err) => {
+        if (err && err.code === 'NOT_FOUND') {
+          return res.status(404).json({ error: 'Course not found or not owned by user.' });
         }
-
-        return sequelize.transaction(async (t) => {
-            // Delete related tags first to satisfy FK constraints, then the course
-            await sequelize.query(querTags, { replacements: [courseId], transaction: t, type: QueryTypes.DELETE });
-
-            const params = req.user.role === 'admin' ? [courseId] : [courseId, teacherId];
-            await sequelize.query(quer, { replacements: params, transaction: t, type: QueryTypes.DELETE });
-
-            // Confirm deletion regardless of driver-specific metadata
-            const existsRows = await sequelize.query(
-              `SELECT id FROM courses WHERE id = ?`,
-              { replacements: [courseId], transaction: t, type: QueryTypes.SELECT }
-            );
-            if (Array.isArray(existsRows) && existsRows.length > 0) {
-                const err = new Error('DELETE_FAILED');
-                err.code = 'DELETE_FAILED';
-                throw err;
-            }
-        })
-        .then(() => res.status(200).json({ message: 'Course deleted successfully.' }))
-        .catch((err) => {
-            if (err && err.code === 'NOT_FOUND') {
-                return res.status(404).json({ error: 'Course not found or not owned by user.' });
-            }
-            if (err && err.code === 'DELETE_FAILED') {
-                return res.status(500).json({ error: 'Course deletion failed due to database constraint.' });
-            }
-            return res.status(500).json({ error: 'Internal server error.' });
-        });
-    })
-    .catch(() => {
-        res.status(500).json({ error: 'Internal server error.' });
-    });
+        console.error('Delete course error:', err);
+        return res.status(500).json({ error: 'Internal server error.' });
+      });
 }
 const getTags = (req,res)=> {
     const query = `SELECT * FROM tags`

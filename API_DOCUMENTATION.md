@@ -1184,10 +1184,49 @@ The following scenarios should be validated end-to-end in addition to the Testin
 
 ---
 
-## Postman Test Scenarios by Endpoint
+## Admin Management
+- **Auth**: Required (Admin role only). All endpoints require the user to have `role: 'admin'` in the database.
+- **Base URL**: `/api/admin`
 
-Note for testers: in the backend, the role called "Manager" here maps to the backend role "Teacher". Treat Manager = Teacher when testing permissions.
+### Get All Students
+- **Method**: GET
+- **URL**: `/api/admin/students`
+- **Auth**: Required (Admin only)
+- **Response**: 200 with array of users (role: 'user')
+- **Description**: Retrieve all users with role 'user'.
+- **Example Response**: `[{ "id": 1, "name": "John Doe", "email": "john@example.com" }]`
 
+### Get All Teachers
+- **Method**: GET
+- **URL**: `/api/admin/teachers`
+- **Auth**: Required (Admin only)
+- **Response**: 200 with array of users (role: 'teacher')
+- **Description**: Retrieve all users with role 'teacher'.
+- **Example Response**: `[{ "id": 2, "name": "Jane Smith", "email": "jane@example.com" }]`
+
+### Get All Admins
+- **Method**: GET
+- **URL**: `/api/admin/admins`
+- **Auth**: Required (Admin only)
+- **Response**: 200 with array of users (role: 'admin')
+- **Description**: Retrieve all users with role 'admin'.
+- **Example Response**: `[{ "id": 3, "email": "admin@example.com" }]`
+
+### Delete Student
+- **Method**: DELETE
+- **URL**: `/api/admin/students/:id`
+- **Auth**: Required (Admin only)
+- **Path Params**: `id` (integer, user ID)
+- **Response**: 200 (deleted) or 404 (not found)
+- **Description**: Delete a user with role 'user' by ID.
+
+### Delete Teacher
+- **Method**: DELETE
+- **URL**: `/api/admin/teachers/:id`
+- **Auth**: Required (Admin only)
+- **Path Params**: `id` (integer, user ID)
+- **Response**: 200 (deleted) or 404 (not found)
+- **Description**: Delete a user with role 'teacher' by ID.
 ### Login - `POST /api/users/login`
 
 **Description:** Lets a user log in with their email and password. Postman will use the token for other APIs.
@@ -1374,3 +1413,47 @@ Note for testers: in the backend, the role called "Manager" here maps to the bac
 ---
 
 *Documentation last updated: September 2025*
+
+## Admin Management
+- **Auth**: Required (Admin role only). All endpoints require the user to have `role: 'admin'` in the database.
+- **Base URL**: `/api/admin`
+
+### Get All Students
+- **Method**: GET
+- **URL**: `/api/admin/students`
+- **Auth**: Required (Admin only)
+- **Response**: 200 with array of users (role: 'user')
+- **Description**: Retrieve all users with role 'user'.
+- **Example Response**: `[{ "id": 1, "name": "John Doe", "email": "john@example.com" }]`
+
+### Get All Teachers
+- **Method**: GET
+- **URL**: `/api/admin/teachers`
+- **Auth**: Required (Admin only)
+- **Response**: 200 with array of users (role: 'teacher')
+- **Description**: Retrieve all users with role 'teacher'.
+- **Example Response**: `[{ "id": 2, "name": "Jane Smith", "email": "jane@example.com" }]`
+
+### Get All Admins
+- **Method**: GET
+- **URL**: `/api/admin/admins`
+- **Auth**: Required (Admin only)
+- **Response**: 200 with array of users (role: 'admin')
+- **Description**: Retrieve all users with role 'admin'.
+- **Example Response**: `[{ "id": 3, "email": "admin@example.com" }]`
+
+### Delete Student
+- **Method**: DELETE
+- **URL**: `/api/admin/students/:id`
+- **Auth**: Required (Admin only)
+- **Path Params**: `id` (integer, user ID)
+- **Response**: 200 (deleted) or 404 (not found)
+- **Description**: Delete a user with role 'user' by ID.
+
+### Delete Teacher
+- **Method**: DELETE
+- **URL**: `/api/admin/teachers/:id`
+- **Auth**: Required (Admin only)
+- **Path Params**: `id` (integer, user ID)
+- **Response**: 200 (deleted) or 404 (not found)
+- **Description**: Delete a user with role 'teacher' by ID.

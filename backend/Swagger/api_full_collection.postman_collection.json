@@ -53,14 +53,14 @@
           ]}}]
         },
         {
-          "name": "Admin Upgrade Manager -> Teacher (No-op when direct teacher signup)",
-          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "name": "Admin Upgrade Manager -> Teacher",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/upgradeRole","host":["{{baseUrl}}"],"path":["users","upgradeRole"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{managerId}},\n  \"role\": \"teacher\"\n}"}},
           "event":[
             {"listen":"prerequest","script":{"type":"text/javascript","exec":[
               "pm.collectionVariables.set('authToken', pm.environment.get('adminToken'));"
             ]}},
             {"listen":"test","script":{"type":"text/javascript","exec":[
-              "pm.test('Admin token valid (200)', function(){ pm.response.to.have.status(200); });"
+              "pm.test('Upgrade role 200 or 409', function(){ pm.expect([200,409]).to.include(pm.response.code); });"
             ]}}
           ]
         },
@@ -417,8 +417,15 @@
         },
         {
           "name": "Switch -> Admin",
-          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/users/login","host":["{{baseUrl}}"],"path":["users","login"]},"body":{"mode":"raw","raw":"{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"}},
-          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["var j=pm.response.json(); pm.collectionVariables.set('authToken', j.token); pm.environment.set('authToken', j.token);"]}}]
+          "request": {"method":"GET","url":{"raw":"{{baseUrl}}/users/user","host":["{{baseUrl}}"],"path":["users","user"]}},
+          "event":[
+            {"listen":"prerequest","script":{"type":"text/javascript","exec":[
+              "pm.collectionVariables.set('authToken', pm.environment.get('adminToken'));"
+            ]}},
+            {"listen":"test","script":{"type":"text/javascript","exec":[
+              "pm.test('Status 200', ()=>pm.response.to.have.status(200));"
+            ]}}
+          ]
         },
         {
           "name": "Admin - Mark Seen",
@@ -429,7 +436,54 @@
           "name": "Delete My Message (Any Owner)",
           "request": {"method":"DELETE","header":[{"key":"Content-Type","value":"application/json"}],"url":{"raw":"{{baseUrl}}/messages/delete","host":["{{baseUrl}}"],"path":["messages","delete"]},"body":{"mode":"raw","raw":"{\n  \"id\": {{messageIdMine}}\n}"}},
           "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('Expect 200', function(){ var id = pm.environment.get('messageIdMine'); pm.expect(typeof id === 'number' && id > 0).to.be.true; pm.expect([200,404]).to.include(pm.response.code); });"]}}]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Switch -> Admin",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/users/user", "host": ["{{baseUrl}}"], "path": ["users", "user"] } },
+          "event": [
+            { "listen": "prerequest", "script": { "type": "text/javascript", "exec": ["pm.collectionVariables.set('authToken', pm.environment.get('adminToken'));"] } },
+            { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"] } }
+          ]
+        },
+        {
+          "name": "Get Students",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/admin/students", "host": ["{{baseUrl}}"], "path": ["admin", "students"] } },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"] } }
+          ]
+        },
+        {
+          "name": "Get Teachers",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/admin/teachers", "host": ["{{baseUrl}}"], "path": ["admin", "teachers"] } },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"] } }
+          ]
+        },
+        {
+          "name": "Get Admins",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/admin/admins", "host": ["{{baseUrl}}"], "path": ["admin", "admins"] } },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"] } }
+          ]
+        },
+        {
+          "name": "Delete Student",
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/admin/students/1", "host": ["{{baseUrl}}"], "path": ["admin", "students", "1"] } },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Delete student (200 or 404)', () => pm.expect([200, 404]).to.include(pm.response.code));"] } }
+          ]
+        },
+        {
+          "name": "Delete Teacher",
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/admin/teachers/2", "host": ["{{baseUrl}}"], "path": ["admin", "teachers", "2"] } },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Delete teacher (200 or 404)', () => pm.expect([200, 404]).to.include(pm.response.code));"] } }
+          ]
         }
+      ]}
       ]
     }
   ]
