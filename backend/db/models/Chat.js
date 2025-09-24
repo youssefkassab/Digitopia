@@ -3,24 +3,50 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+    },
+    chatId: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      unique: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+    },
+    subject: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    role: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
     },
     lastMessages: {
-      type: DataTypes.JSON,
-      allowNull: true
-    }
+      type: DataTypes.JSON, // store last 5 messages
+      allowNull: true,
+    },
+    time: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   });
 
   Chat.associate = (models) => {
     Chat.belongsTo(models.User, {
-      foreignKey: "userId",  // FK in Chats
-      targetKey: "id",       // PK in User
+      foreignKey: "userId",
       as: "user",
-      onDelete: "CASCADE"
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     });
   };
 

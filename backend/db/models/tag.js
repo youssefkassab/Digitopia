@@ -4,8 +4,21 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Tag extends Model {
     static associate(models) {
-      // Many-to-Many with Posts
-      Tag.belongsToMany(models.Post, { through: 'Post_Tags', foreignKey: 'tagId' });
+      // Many-to-Many: tags <-> posts
+      Tag.belongsToMany(models.Post, {
+        through: 'post_tags',
+        foreignKey: 'tag_id',
+        otherKey: 'post_id',
+        as: 'posts'
+      });
+
+      // Many-to-Many: tags <-> courses
+      Tag.belongsToMany(models.Course, {
+        through: 'courses_tags',
+        foreignKey: 'tag_id',
+        otherKey: 'course_id',
+        as: 'courses'
+      });
     }
   }
 

@@ -1,61 +1,15 @@
-// backend/router/admin.router.js
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const adminController = require("../controller/adminController");
-const { auth, roleAuth, ROLE } = require("../middleware/auth.middleware");
+const adminController = require('../controller/admin.controller');
+const limit = require('../middleware/limit.middleware');
+const { auth, roleAuth, ROLE } = require('../middleware/auth.middleware');
+const { validate } = require('../middleware/validate.middleware');
+const { idSchema } = require('../validation/schemas');
 
-// === Admin Authentication Routes ===
-router.post("/signup", adminController.adminSignup);
-router.post("/login", adminController.adminLogin);
-
-// === Student Management Routes (Admin only) ===
-router.get(
-  "/students",
-  auth,
-  roleAuth(ROLE.ADMIN),
-  adminController.getStudents
-);
-router.post(
-  "/students",
-  auth,
-  roleAuth(ROLE.ADMIN),
-  adminController.addStudent
-);
-router.delete(
-  "/students/:id",
-  auth,
-  roleAuth(ROLE.ADMIN),
-  adminController.deleteStudent
-);
-
-// === Teacher Management Routes (Admin only) ===
-router.get(
-  "/teachers",
-  auth,
-  roleAuth(ROLE.ADMIN),
-  adminController.getTeachers
-);
-router.post(
-  "/teachers",
-  auth,
-  roleAuth(ROLE.ADMIN),
-  adminController.addTeacher
-);
-router.delete(
-  "/teachers/:id",
-  auth,
-  roleAuth(ROLE.ADMIN),
-  adminController.deleteTeacher
-);
-
-// === Admin Management Routes (Admin only) ===
-router.get("/admins", auth, roleAuth(ROLE.ADMIN), adminController.getAdmins);
-
-router.delete(
-  "/admins/:id",
-  auth,
-  roleAuth(ROLE.ADMIN),
-  adminController.deleteAdmin
-);
+router.get('/students', auth, adminController.getStudents);
+router.get('/teachers', auth, adminController.getTeachers);
+router.get('/admins', auth, adminController.getAdmins);
+router.delete('/students/:id', limit, auth, roleAuth(ROLE.ADMIN), validate(idSchema, 'params'), adminController.deleteStudent);
+router.delete('/teachers/:id',limit, auth, roleAuth(ROLE.ADMIN), validate(idSchema, 'params'), adminController.deleteTeacher);
 
 module.exports = router;

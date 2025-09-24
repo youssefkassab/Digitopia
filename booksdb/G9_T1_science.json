@@ -1,0 +1,2387 @@
+[
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Introduction to Motion",
+    "chunks": "Motion happens all around us. Everyday, we see objects such as cars and motor bikes move in different directions at different speeds. When the position of an object (as a bike) changes as time passes according to the position of another fixed object. The motion of a train (or metro) is considered as an example of motion in one direction. Because the train (or metro) moves forward or backward in a straight path or curved path or combination of both. But, how can we describe and compare the motion of objects?"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Definition and Role of Speed",
+    "chunks": "We can describe the motion of some objects around us as fast and some others as slow. Speed is a physical quantity which is used to describe and compare the motion of objects. If there are two cars, one of them is Red and the other is Blue, which of them is faster in the following two cases?"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Comparing Speeds - Case 1 (Same Time)",
+    "chunks": "If the two cars move for the same period of time which is 5 sec. The Red car covers a distance of 100 m. The Blue car covers a distance of 50 m."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Comparing Speeds - Case 2 (Same Distance)",
+    "chunks": "If the two cars cover the same distance which is 100 m. The Red car takes a time 5 sec. The Blue car takes a time 10 sec."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Definition of Speed",
+    "chunks": "SO, We can define speed as follows : Speed It is the distance moved through a unit time. or it is the rate of change of distance."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Calculating Speed, Distance, and Time",
+    "chunks": "To calculate Speed, Distance and Time: Speed (V) = Distance (d) / Time (t). d = V x t. t = d / V. When the amount of the object speed is equal to the amount of the distance covered. When the object covers this distance through a unit time (1 hour or 1 minute or 1 second). The object speed increases by decreasing the time taken to cover a certain distance."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Measuring Units of Distance and Time",
+    "chunks": "Measuring units of distance: 1 kilometre = 1000 metres. 1 metre = 100 centimetres. 1 kilometre = 1000 × 100 = 100000 centimetres. Measuring units of time: 1 hour = 60 minutes. 1 minute = 60 seconds. 1 hour = 60 x 60 = 3600 seconds."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Speedometer and Speed Identification",
+    "chunks": "Cars and planes are usually provided with a group of counters such as speedometer, mileage, hour timer and compass. EX.: If the car speedometer pointer points to 72, this means that the car speed is 72 km/h. (= 20 m/sec.). Cars and planes are provided by speedometer. To help us in identifying the speed of car and planes directly."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Types of Speed - Introduction",
+    "chunks": "Types of Speed Speed can be described as : Regular (uniform) speed Or Irregular (non-uniform) speed. What is the difference between them?"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Visualizing Regular and Irregular Speed",
+    "chunks": "From the previous two figures, we conclude that : The car A. The car B."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Definition of Regular Speed with Example",
+    "chunks": "What is meant by ...? An object moves at a regular speed of 50 km/h. This means that the object covers a distance of 50 kilometres each one hour."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Reasons for Irregular Speed",
+    "chunks": "Most of moving cars cannot move inside crowded towns all the time by uniform speed. Because the speed of the car changes according to the conditions of the road. The metro moves at an irregular speed. Because the metro covers unequal distances at equal periods of time, or it covers equal distances at unequal periods of time."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Average Speed - Concept",
+    "chunks": "It is difficult to determine the amount of irregular speed of the object, so we use another term which is called \"Average speed\"."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Average Speed - Definition and Relation to Regular Speed",
+    "chunks": "Average speed. It represents the regular speed by which the object moves to cover the same distance at the same period of time. When a body moves at a regular speed, its average speed equals the regular speed (i.e. V = V). The value of average speed of a moving body equals to its speed at any moment (V = V). When the body moves at a regular speed. The value of average speed of a moving body differs from the value of its speed at any moment (V ≠ V). When the body moves at an irregular speed."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Relative Speed - Introduction",
+    "chunks": "If there is a person standing on the side of the road (called the observer) to observe two cars (A & B), the car (A) moves at 100 km/h and car (B) moves at 80 km/h in the same direction. The relative speed of a moving object in a certain direction differs according to the observer state and the direction of its movement as shown in the following table :"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Relative Speed - Observer at Rest",
+    "chunks": "The observer is at rest. The relative speed = The real (actual) speed of the object. Illustrating example: Static observer. 100 km/h. The relative speed of the car = 100 km/h. i.e.\"The relative speed is equal to the real speed\"."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Relative Speed - Observer Moving in Opposite Direction",
+    "chunks": "The observer is moving in the opposite direction of the moving object. The relative speed = The real speed of the object + The observer's speed. So, The real speed of the object = The relative speed of the object - The observer's speed. Illustrating example: Moving observer. 60 km/h. The relative speed of the car = 100 + 60 = 160 km/h. i.e.\"The relative speed is more than the real speed\"."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Relative Speed - Observer Moving in Same Direction",
+    "chunks": "The observer is moving in the same direction of the moving object. The relative speed = The real speed of the object - The observer's speed. So, The real speed of the object = The relative speed of the object + The observer's speed. Illustrating example: Moving observer. 60 km/h."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Relative Speed - Specific Conditions and Meanings",
+    "chunks": "The moving car seems stable (at rest) to an observer moves at the same speed and the same direction. Because the relative speed equals the difference between their speeds equals zero. What is meant by...? The relative speed of a moving car is 90 km/h. This means that the speed of the car relative to an observer equals 90 km/h. The relative speed of a moving object equals its real speed. →This means that the observer is at rest. The relative speed of a moving car equals 70 km/h to an observer moves in the opposite direction at a speed 20 km/h. This means that the real speed of the car equals 50 km/h. When the following happens...? The relative speed of a moving object relative to an observer equals to double of its real speed. When the observer moves in the opposite direction at the same speed of the moving object. The relative speed of a moving object relative to an observer equals to zero. When the observer moves in the same direction at the same speed of the moving object. We can summarize the previous explanation in the following diagram: The relative speed of a moving object in a certain direction is related to..."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 1,
+    "lesson_name": "Motion in One Direction",
+    "idea_title": "Science, Technology and Society - Sunlight Time to Earth",
+    "chunks": "The time needed for the sunlight to reach the Earth is determined by the relation : Time = Distance / speed of light. By knowing.... The distance between the Earth and the Sun equals 149 million km (approximately). The regular speed of the light in the space equals 300 000 km/sec. So, The time needed for the sunlight to reach the Earth (t) = 149 x 10^6 / 300000 = 497 sec. = 8 minutes and 17 seconds. i.e. If the time of sunrise is six o'clock. This means that the light travelled from the Sun at five o'clock and fifty one minutes and 43 sec. 06:00:00 - 00:08:17 = 05:51:43 (The time of sunrise) (The time needed for the sunlight to reach the Earth) (The time at which the sunlight travelled from the Sun)"
+  },
+  
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Importance of Graphs and Tables to Physicists",
+    "chunks": "What is the importance of graphs and tables to physicists? Physical phenomena can be described and understood in many ways. Physicists use mathematical relations between variables to describe certain phenomena."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Activity: Representing Uniform Speed Graphically - Procedures (Steps 1-4)",
+    "chunks": "Procedures: 1. Place the wooden board at a horizontal position. 2. Put two marks (A) and (B) to limit a known distance (d) as shown in the opposite figure. 3. Operate the car and calculate the time (t) necessary to cover this distance (d). 4. Repeat the previous steps by changing the distance (d) and calculate the time needed in each trial."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Activity: Representing Uniform Speed Graphically - Procedures (Steps 5-7) and Observations",
+    "chunks": "5. Write the results in a table (as shown below). 6. Calculate the speed of the car in each trial from the relation V = d/t. 7. Use the previous table to draw a graph to illustrate the relation between: Observation & Conclusion: The regular speed is represented in a straight line passing through the origin point (the intersection point of the two axes)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Graphical Representation of Regular Speed",
+    "chunks": "The relation (distance - time) as a straight line passing through the origin point (the intersection point of the two axes). G.R. Because the distance is directly proportional to the time, when the object moves at a constant speed. The relation (speed-time) as a straight line parallel to the time axis (X). G.R. Because the object's speed remains constant as time passes. * From the previous activity, we can clarify some facts about regular speed in a straight line: 1. The (distance - time) graph of a regular motion at a constant (uniform) speed is represented by a straight line passing through the origin point. 2. The (speed - time) graph of a regular motion at a constant (uniform) speed is represented by a straight line parallel to the time axis."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 1: Motion Graph Analysis (Description)",
+    "chunks": "Problems 1 The opposite graph represents the motion of a body. 1. Mention the kind of the speed of this body. Giving a reason. 2. Calculate the speed of this body. 3. Calculate the distance covered by this body after 3 and 10 seconds."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 1: Motion Graph Analysis (Solution)",
+    "chunks": "Solution 1. The body moves at a regular (uniform) speed, because the (distance - time) graph is a straight line passing through the origin point (it covers equal distances at equal time intervals). 2. V = Slope=20/1 = 20 m/sec. 3. The distance covered by this body: - After 3 seconds : d = V xt = 20 x 3 = 60 metres. (As shown in the graph). - After 10 seconds: d = Vxt = 20 x 10 = 200 metres."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 2: Graphical Representation and Speed Calculation",
+    "chunks": "The opposite table represents the distances covered by a moving body through different time intervals. 1. Represent the relation graphically. 2. Calculate the speed from the graph. 3. Mention the kind of speed. Giving a reason."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 3: Bike Motion Graph Analysis (Description)",
+    "chunks": "3 The opposite graph represents a bike motion through 5 hours: 1. Calculate the average speed of the bike during the trip. 2. What is the period in which the bike stops? And what is the time of this stopping? 3. What are the periods during which the bike moves at a regular speed? And what is the period during which the regular speed of the bike is the greatest?"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 3: Bike Motion Graph Analysis (Solution)",
+    "chunks": "Solution 1. Average speed (V) = Total distance(d) / Total time(t) = 50/5 = 10 km/h. 2. The stopping period = (BC) Time of stopping = 4-2 = 2 hours. 3. The periods during which the bike moves at a regular speed: (AB) and (CD). * The speed in the period (AB) = 20/2 = 10 km/h. * The speed in the period (CD) = (50-20)/(5-4) = 30/1 = 30 km/h. .. The regular speed for the bike is the greatest in the period (CD)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Non-Uniform Speed and Introduction to Acceleration",
+    "chunks": "Note: The relation (distance - time) graph for an object moves at a non-uniform speed is a curved line. Acceleration: When you sit in a car next to the driver and the car starts moving from rest in a straight line, you notice that the car speed increases gradually as the time passes."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Acceleration Concept and Example",
+    "chunks": "From the example above: When the speed of the car at 1 second becomes 5 m/sec., at 2 seconds becomes 10 m/sec., at 3 seconds becomes 15 m/sec. and so on."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Acceleration Definition and Measuring Units",
+    "chunks": "To describe the change in the car speed in one second in this case, we use a physical quantity called \"acceleration\". Measuring units of acceleration: Acceleration unit = Speed unit / Time unit = metre/second / second = metre/second². Note: We use the acceleration unit (m/sec²) when the speed is measured in metre/second and the time is measured in second, or (km/h²) when the speed is measured in kilometre/hour and the time is measured in hour."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Guidelines for Acceleration Problems",
+    "chunks": "Guidelines to solve problems on acceleration: 1. To calculate: Acceleration, Change in speed and Time, we use the following relations: Acceleration (a) = Change in speed (ΔV) / Time (Δt). ΔV = a x Δt. Δt = ΔV / a. 2. If the body is moving at a regular speed, so its acceleration equals zero G.R. Because its speed doesn't change as time passes [when (ΔV) = Zero, then (a) = Zero]."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 2: Comparing Car Accelerations (Description)",
+    "chunks": "2 Car (A) starts movement from rest and then its speed increases to 60 m/sec. through 5 seconds, while car (B) starts movement from rest and then its speed increases to 80 m/sec. through 10 seconds. Which of the two cars is moving at a greater acceleration?"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 2: Comparing Car Accelerations (Solution)",
+    "chunks": "Solution Acceleration of car (A) = (V2-V1)/Δt = (60-0)/5 = 12 m/sec². Acceleration of car (B) = (V2-V1)/Δt = (80-0)/10 = 8 m/sec². ... Car (A) moves at a greater acceleration than car (B)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 3: Calculating Time with Acceleration (Description)",
+    "chunks": "3 An object moves at an initial speed that equals 7.5 m/sec. Calculate the amount of time at which the final speed of the object becomes four times as its initial speed. Knowing that the object moves at acceleration equals 10 m/sec²."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 3: Calculating Time with Acceleration (Solution) and Question",
+    "chunks": "Solution V2 = 4 xV1 = 4x7.5 = 30 m/sec. Δt = (V2-V1)/a = (30-7.5)/10 = 22.5/10 = 2.25 sec. Question Calculate the acceleration of a moving object whose speed changes from 2 m/sec. to 10 m/sec. during 4 sec."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Uniform Acceleration Definition and Explanation",
+    "chunks": "Uniform acceleration: It is the acceleration by which an object moves when its speed changes by equal values through equal periods of time. What is meant by ...? A car moves at a uniform acceleration equals 5 m/sec². This means that the car speed changes with 5 m/sec. each one second."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Types of Uniform Acceleration: Positive and Negative Examples (Part 1)",
+    "chunks": "Types of uniform acceleration: Positive acceleration Negative acceleration If we assume that An object A Starts its movement from rest in a straight line and its speed increases regularly until it reaches 50 m/sec. An object B Moves at 50 m/sec. in a straight line and its speed decreases regularly until it stops. The speed is recorded each 5 seconds in the following table:"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Types of Uniform Acceleration: Positive and Negative Examples (Part 2)",
+    "chunks": "We can conclude : Object A: V1 = Zero, V2 = 50 m/sec., Δt = 25 sec. Acceleration (a) = (50-0)/25 = 2 m/sec². - The sign + refers to the speed of the object increases regularly by 2 m/sec. each one second."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Types of Uniform Acceleration: Positive and Negative Examples (Part 3) and Definitions",
+    "chunks": "Object B: V1 = 50 m/sec., V2 = Zero, Δt = 25 sec. Acceleration (a) = (0-50)/25 = -2 m/sec². - The sign - refers to the speed of the object decreases regularly by 2 m/sec. each one second. So, we can say that: The object (A) moves at a uniform positive acceleration (accelerating motion). [Its initial speed < Its final speed]. -Positive acceleration- It is an acceleration by which an object moves when its speed increases by equal values through equal periods of time. The object (B) moves at a uniform negative acceleration (decelerating motion). [Its initial speed> Its final speed]. -Negative acceleration- It is an acceleration by which an object moves when its speed decreases by equal values through equal periods of time."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Graphical Representation of Acceleration Types",
+    "chunks": "* From the previous explanation, we can deduce the type of acceleration from the shape of the graph: Positive acceleration (The object moves at a non-uniform speed, V (initial) < V (final), So, it moves at an accelerating motion). Negative acceleration (The object moves at a non-uniform speed, V (initial) > V (final), So, it moves at a decelerating motion). Zero acceleration (The object moves at a uniform speed, V (initial) = V (final))."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 1: Acceleration Calculation and Type (Description)",
+    "chunks": "Problems An object moves from rest and its speed reaches 20 m/sec. in 5 seconds. 1. Calculate the acceleration of the moving object. 2. What is the type of acceleration?"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 1: Acceleration Calculation and Type (Solution)",
+    "chunks": "Solution 1. V1 =0, V2 = 20 m/sec. Δt= 5 sec. a = (V2-V1)/Δt = (20-0)/5 = 4 m/sec². 2. The type of acceleration is positive (accelerating motion)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 3: Car Speed After Braking (Description)",
+    "chunks": "3 A car driver moves at a speed of 80 m/sec. used the brakes to make the car moves at a uniform decreasing acceleration 2 m/sec². Find the car speed after 12 seconds from using the brakes."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 3: Car Speed After Braking (Solution)",
+    "chunks": "Solution V1 = 80 m/sec. a = -2 m/sec². Δt = 12 sec. V2 = ? a = (V2-V1)/Δt => -2 = (V2-80)/12. ... V2 = 56 m/sec."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Guidelines for Combined Motion Problems and Problem 4 Description",
+    "chunks": "Guidelines to solve problems: On moving at a uniform speed through the period of time (AB) and then followed by the movement at a uniform acceleration through another period of time (BC). So, The uniform speed through the period of time (AB) = The initial speed through the period of time (BC) [V1 at point (B)]. 4 An object moves in a straight line at a regular speed. If the time taken by the object to move from (A) to (B) is 4 seconds, then it moves at a uniform acceleration from point (B) until it stops at point (C) in 20 seconds. Calculate each of the following: 1. The regular speed of the object to cover the distance (AB). 2. The uniform acceleration by which the object moves from point (B) to point (C)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 6: Describing Car Motion Over Time (Description and Initial Solution)",
+    "chunks": "6 The following table shows the motion of a car within 4 hours, describe this motion during that period of time. Time (t) (hour) 0 1 2 3 4 Speed (V) (km/hour) 0 30 60 20 0 Solution: *We can represent this motion in the opposite graph: - Through the first two hours, the car moves at accelerating motion = (60-0)/(2-0) = 30 km/h²."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 6: Describing Car Motion Over Time (Remaining Solution)",
+    "chunks": "- Through the third hour, the car moves at decelerating motion = (20-60)/(3-2) = -40 km/h². - Through the fourth hour, the car moves at decelerating motion = (0-20)/(4-3) = -20 km/h²."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 7: Car Motion with Variable Speed (Description)",
+    "chunks": "7 If a car starts to move from rest and after 2 sec. its speed becomes 4 m/sec. and it kept moving at the same speed for another 2 sec., then the motorist had to use the brakes to slow down the car speed to 2 m/sec. in the fifth second, and it stops completely after another 2 sec. 1. Design a table includes the values of speed and time that express the movement of the car. 2. Represent the relation graphically."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Problem 7: Car Motion with Variable Speed (Solution) and Lesson Summary Introduction",
+    "chunks": "Solution 1. Speed (m/sec.) 0 4 4 4 2 0 Time (sec.) 0 2 3 4 5 7 Remember Lesson Two Physicists use other mathematical relations like graphs and tables in order to: - Predict the relation between certain physical quantities. - Understand practical results. - Describe the physical phenomena in an easier way."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Lesson Summary: Acceleration Definitions",
+    "chunks": "Acceleration: - It is the change of an object speed in one second. Acceleration (a) = Final speed (V2) - Initial speed (V1) / Time (Δt). - Measuring units of acceleration is m/sec² or km/h². Uniform acceleration: It is the acceleration by which an object moves when its speed changes by equal values through equal periods of time."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Lesson Summary: Types of Uniform Acceleration and Simple Graphic Relations",
+    "chunks": "Positive acceleration: It is an acceleration by which an object moves when its speed increases by equal values through equal periods of time. Negative acceleration: It is an acceleration by which an object moves when its speed decreases by equal values through equal periods of time. Simple graphic relations: Body condition A body at rest (V = 0). A body moves at a regular speed. A body moves at an irregular speed (accelerating motion)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 2,
+    "lesson_name": "Graphic Representation of Moving in a Straight Line",
+    "idea_title": "Lesson Summary: Complex and Important Graphic Relations",
+    "chunks": "Complex graphic relations: A body moves at a regular speed, then state of rest. A body moves at a positive acceleration, then at a regular speed (acceleration= Zero). A body moves at a regular speed (acceleration = Zero), then at a negative acceleration. A body moves at a regular speed (acceleration = Zero), then at a positive acceleration. Important graph: A body moves at a uniform acceleration (non-uniform speed), its value is constant."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Introduction to Physical Quantities",
+    "chunks": "To understand the physical phenomena (which represent the greatest part of physics), It is necessary to deal with physical quantities and mathematical relationships."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Types of Physical Quantities - Overview",
+    "chunks": "Types of physical quantities"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Scalar Physical Quantities - Definition",
+    "chunks": "1 Scalar physical quantities To describe a scalar physical quantity, it is enough to know its magnitude only (numeric value and measuring unit)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Scalar Physical Quantity - Definition (Formal)",
+    "chunks": "-Scalar.physical quantity It is the physical quantity that has magnitude only and has no direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Scalar Physical Quantities - Examples (Mass, Time)",
+    "chunks": "Examples: Mass measuring unit: Kilogram (kg). Time measuring unit: Second or Hour."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Scalar Physical Quantities - Examples (Length/Distance, Speed)",
+    "chunks": "Length or Distance measuring unit : Metre (m). Speed measuring unit: m/sec. or km/h. Length and time"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Vector Physical Quantities - Definition",
+    "chunks": "2 Vector physical quantities To describe a vector physical quantity, it is necessary to know its magnitude (its numeric value and measuring unit) and also its direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Vector Physical Quantity - Definition (Formal)",
+    "chunks": "-Vector physical quantity- It is the physical quantity that has magnitude and direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Vector Physical Quantities - Examples (Force, Velocity, Displacement)",
+    "chunks": "Examples: Force measuring unit : Newton. Velocity measuring unit: m/sec. or km/h. Displacement measuring unit : Metre (m)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Vector Physical Quantities - Example (Acceleration)",
+    "chunks": "Acceleration measuring unit: m/sec. or km/h. Acceleration and force"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Difference between Similar Physical Quantities",
+    "chunks": "The difference between some similar physical quantities * There are some physical quantities that seem at first sight to be similar, but they have a great difference in their concept such as: First: Distance and displacement. Second: Speed and velocity."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Distance and Displacement - Introduction and Example 1",
+    "chunks": "FIRST Distance and displacement To understand the difference between distance and displacement, study the following examples: Example 1 When a car moves from position (A) to position (B) as shown in the previous figure: The length of the curved line gives the distance covered by the car. - The straight line that starts from point (A) and ends at point (B) in the direction AB gives the displacement of the car."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Distance and Displacement - Example 2 (Trip Path)",
+    "chunks": "Remember. North West Southern Northern ca cas k East If the trip path is (Cairo Benha Tanta) 2 (Cairo Zagazig Tanta) The distance covered =45 +60= 105 km. The distance covered = 80+85 = 165 km."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Distance and Displacement - Example 2 (Cont.)",
+    "chunks": "You notice the difference in the distance between Cairo and Tanta (although the two cities remain constant), this difference in distance depends on the trip path. - The shortest straight line that starts from Cairo and ends at Tanta represents the displacement of Tanta from Cairo which does not change. i.e. The displacement = 93 km in the Northern west direction \"Vector quantity\"."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Distance and Displacement - Example 3 (Return Trip)",
+    "chunks": "Example 3 - When a body moves in a straight line from (A) to (B) covering 50 metres, then it returns back to (A)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Distance and Displacement - Example 3 (Cont.)",
+    "chunks": "Therefore : 50 m (A) (B) - The distance covered from (A) to (B) then to (A) = 50+50 = 100 m. - The displacement from (A) to (B) then to (A) = Zero, because the body returns back to its starting point (A). i.e. The distance = The displacement (numerically) when the body moves in a straight line in one direction,this means that : - The distance covered from (A) to (B) = 50 m. - The displacement from (A) to (B) = 50 m in direction AB."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Distance - Definition",
+    "chunks": "* From the previous examples, we conclude that: Distance (d) _Distance It is the actual length of the path that a moving object covers from the starting point to the ending point."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Displacement - Definitions",
+    "chunks": "Displacement (d) -Displacement- It is the distance covered at a certain direction from the primary position of movement towards its final position. Amount of displacement It is the length of the shortest straight line between two positions (primary position and final position)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "What is Meant by... (Distance)",
+    "chunks": "What is meant by...? The distance covered by an object equals 30 km. This means that the actual length of the path that a moving object covers from the starting point to the ending point equals 30 km."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Distance as a Scalar Physical Quantity",
+    "chunks": "Distance is a scalar physical quantity. Because it is identified by magnitude only."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "What is Meant by... (Displacement)",
+    "chunks": "The displacement of an object equals 200 km in the west direction. This means that the distance covered in the west direction from the primary position of movement towards its final position equals 200 km."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Displacement as a Vector Physical Quantity",
+    "chunks": "Displacement is a vector physical quantity. Because it is identified by magnitude and direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Equal Displacements",
+    "chunks": "- The two equal displacements must have the same magnitude and the same direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Zero Displacement",
+    "chunks": "* The displacement of a moving object equals zero. When the object returns to its primary position of movement, where the final position of movement is the same of its primary position."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Guidelines for Distance and Displacement in a Straight Line - Case 1",
+    "chunks": "Guidelines to solve problems on distance and displacement in a straight line: If a body moves Figure Distance (d) Displacement (d) In a straight line in one direction: A (d( B (d) AB Θ AB (from A to B)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Guidelines for Distance and Displacement in a Straight Line - Case 2",
+    "chunks": "2 In two opposite A C B directions: (from A to B), ABBC C then (from B to C). AB - BC In the east direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Guidelines for Distance and Displacement in a Straight Line - Case 3",
+    "chunks": "3 In two perpendicular directions: ABBC (from A to B), then (from B to C). B C (AB)²+ (BС)² In the southern east direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Guidelines for Distance and Displacement in a Straight Line - Case 4",
+    "chunks": "4 In three A B perpendicular directions: AB BC CD (from A to B to C to D). D C AD In the south direction"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem 1 - Distance and Displacement",
+    "chunks": "Problems 1 If a body moved from point (A) to point (C) passing by point (B) as shown in the figure. Calculate: 1. Distance covered by the body. 2. Displacement done by the body."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem 1 Solution",
+    "chunks": "Solution 25 m. (A) 20 m. (C) 15 m. (B) 1. Distance = 20 + 15 = 35 m. 2. Displacement = 25 m in the direction (AС)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem 2 - Distance and Displacement",
+    "chunks": "2 A rubber ball fell downward from a height equals 2 metres from the ground, then returned upward 1 metre, then fell down again to rest on the ground. Calculate: 1. Distance. 2. Displacement."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem 2 Solution",
+    "chunks": "Solution The ground 1. Distance = 2 +1+1= 4 metres. 2. Displacement= 2 metres downward."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem 3 - Car Motion (Incomplete)",
+    "chunks": "3 A car starts motion from point (A) and covers 30 metres northward to point (В) within 30 seconds, then 60 metres eastward to point (C) within 20 seconds, and"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Question - Student Walking to School",
+    "chunks": "Question A student walks to his school which is 2 km east away from his house. He travels 1 km east before he realizes he forgot his water bottle and then walks back home to get it. After picking up his bottle he moves back to school. 1.What distance did he cover? 2. What was his displacement?"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Guidelines for Distance and Displacement in a Circular Path - Case 1",
+    "chunks": "Guidelines to solve problems on distance and displacement in a circular path: If a body moves Figure Distance (d) Displacement (d) B 1 In a complete circle: A C from (A: B: M C: D: A)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Guidelines for Distance and Displacement in a Circular Path - Case 1 (Cont.)",
+    "chunks": "The circumference of the circle = 2 г 22 [where (Jπ) = 7 , (r) = radius]. Zero D"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Guidelines for Distance and Displacement in a Circular Path - Case 2",
+    "chunks": "B Ina circle: The circumference4 A M C of the circle AD=√(AM)²+ (DM)² In the southern east from (A: B: C: D). Displaceme = x2r4 direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem - Car Motion on Circular Path",
+    "chunks": "Problem The opposite figure represents a car motion on a circular path from point (A). Calculate the distance and the displacement when the car moves in: 1. A complete circle. -7 m- M 2.A circle. 3.A circle."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem Solution - Car Motion on Circular Path - Case 1",
+    "chunks": "Solution 1 A complete circle. * The distance covered (d) = The circumference of the circle = 2Mr= 2 xx7 = 44 m. * The displacement (d) = Zero."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem Solution - Car Motion on Circular Path - Case 2",
+    "chunks": "2 A circle. * The distance covered (d) = the circumference of the circle = x 44 = 22 m. * The displacement (d) = (AC) = The diameter of the circle = 2 r =2x7= 14 m in the north direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem Solution - Car Motion on Circular Path - Case 3",
+    "chunks": "3 A circle.4 * The distance covered (d) • The displacement (d) =(AB) = the circumference of the circle [According to the Pythagorean theorem] =/(7)² +(7)² = 9.9 m"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Speed and Velocity - Introduction",
+    "chunks": "SECOND Speed and velocity - To know what is the difference between speed and velocity. Study the opposite figure which represents the movement of an object from the primary position (A) to the final position (D) passing by positions (B) and (C). [The path of this object is A BC D]."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Speed and Velocity - Example Analysis (Path A-B-C-D)",
+    "chunks": "We conclude that : * Total distance covered by the object (d) = AB + BC + CD = 30+60 +30 =120 m. * Total time taken by the object to cover this distance = 30+ 20 + 10 = 60 sec. * The total distance divided by the total time is known as the average speed : Total distance (d) Average speed (V) Total time (t)"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Average Speed - Definition and Calculation",
+    "chunks": "d 120 ==2 m/sec. t - Average speed It is the total distance covered by the object in one second (a unit time). (3 0 m / 3 0 s ec .) (B) (60 m/20 sec.) (C) (A)"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Average Velocity - Definition and Calculation",
+    "chunks": "* The displacement covered by the object (d) = AD = 60 m in the eastward direction. * Total time = 60 sec. * The displacement divided by the total time is known as the average velocity: Average velocity (V) Displacement (d) Total time (t) 60 = 1 m t 60=60 = 1 m/sec. in the eastward direction. - Average velocity It is the displacement covered by the object in one second (a unit time). or"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "What is Meant by... (Velocity)",
+    "chunks": "(3 0 m / 1 0 s ec .) (D) What is meant by...? * A body covered 50 m northward direction in 5 sec. V=30=10 m/sec. northward.d50 t 5 This means that the velocity of this body equals 10 m/sec. in northward direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Notes on Velocity",
+    "chunks": "Notes * The measuring units of velocity are m/sec. or km/h [The same measuring units of speed]. * The velocity is the speed in a given direction (When the body moves in a straight line in one direction). * Velocity is a vector physical quantity and to determine it accurately,it is necessary to identify its magnitude and direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Example - Cheetah's Velocity",
+    "chunks": "Such as: When we say that the predator (Cheetah) is one of the fastest wild animals, its speed is about 27 m/sec., but if we want to represent its velocity, we say that its velocity is 27 m/sec. in a certain direction. We can say that Cheetah's velocity = 27 m/sec. in the westward direction."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem 1 - Average Speed and Velocity",
+    "chunks": "Question Problems 1 In the opposite figure, a person starts moving from point (A) and returns back to the start point through B, Cand D. Calculate: 1. Average speed. 2. Velocity (Give a reason)."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem 1 Solution - Average Speed and Velocity",
+    "chunks": "C m i n 2 5 s e c . Solution Total distance 20+40+20+40 1. Average speed = Total time = 0.8 m/sec. 25 +45+25 +45 2. Velocity = Zero. Because the displacement equals zero."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem 2 - Motion with Directions",
+    "chunks": "2 In the opposite figure, a body covered 30 metres northward within 30 seconds, then 40 metres eastward within 20 seconds and stopped at a point about 50 metres from the starting point. Calculate: 1. Total distance moved by the body. 2. Average speed. 3. Displacement. 4. Average velocity."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem 2 Solution - Motion with Directions",
+    "chunks": "Solution B Northward 40 m Eastward ☑Ending point 30 m 50 m Starting point 20 m in 25 sec. 1. Total distance = 30+40 = 70 m. 2. Average speed = 70/50 = 1.4 m/sec. 3. Displacement = 50 m in the direction Starting point to Ending point. 4. Average velocity = 50 m / 50 sec = 1 m/sec in the direction Starting point to Ending point."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Problem Solution - Unstated Walking Problem",
+    "chunks": "Solution 1. Total distance = 2+5+1+3+1 = 12 km. 2. Displacement = 5-3 = 2 km in eastward direction AF. 3. Velocity = =A d =0032= 60.6 km/h. in eastward direction AF. Total time 0.033"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Science, Technology and Society - Importance of Wind Velocity for Flights",
+    "chunks": "Science, Technology and Society * Importance of wind velocity for flights : - The movement of wind arises from the difference of air pressure in different regions above the Earth's surface."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Wind Velocity and Flight - Mechanism and Application",
+    "chunks": "The movement of the Earth around itself from west to east affects the direction of wind, which affects the value of velocity of the plane. SO, Pilots take in consideration the velocity of the wind. * Application : The opposite figure shows the flight path of a plane covered a fixed distance between the two cities (1) and (2) back and forth. What happens when the plane takes off...? Wind direction City (2)"
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Wind Velocity and Flight - Effects",
+    "chunks": "* In the same direction of wind from city (1) northeast direction to city (2). City (2) The value of its velocity increases, so the time of the trip decreases and therefore the amount of the fuel consumed decreases."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Remember Lesson Three - Physical Quantities Summary",
+    "chunks": "Remember Lesson Three Physical quantities Scalar physical quantity It is the physical quantity that has magnitude only and has no direction. Ex.: Mass, length, time and speed. Vector physical quantity It is the physical quantity that has magnitude and direction. Ex.: Acceleration, displacement, velocity and force."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Remember Lesson Three - Distance Definition",
+    "chunks": "Distance: It is the actual length of the path that a moving object covers from the starting point to the ending point."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Remember Lesson Three - Displacement Definition",
+    "chunks": "Displacement: It is the distance covered at a certain direction from the primary position of movement towards its final position. Amount of displacement: It is the length of the shortest straight line between two positions [primary position and final position]."
+  },
+  {
+    "unit_number": 1,
+    "unit_name": "Force and Motion",
+    "lesson_number": 3,
+    "lesson_name": "Physical Quantities; Scalars and Vectors",
+    "idea_title": "Remember Lesson Three - Velocity Definition",
+    "chunks": "Velocity: - It is the rate of change of displacement. Or - It is the displacement covered by the object in one second (a unit time)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Light Reflection Introduction",
+    "chunks": "When does the light reflect? Light reflects when it falls on a reflecting surface such as mirrors or any other smooth shiny surfaces. For example : Lesson ONE. Light Reflection."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Definition of Light Reflection and Related Concepts",
+    "chunks": "Light reflection: It is the phenomenon of the light bouncing off (returning back) in the same medium, when it strikes a reflecting surface. To study the reflection of light, we must know some concepts related to it: The incident light ray is the light ray that falls on the reflecting surface. The normal is the perpendicular line."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Detailed Concepts of Light Reflection",
+    "chunks": "to the reflecting surface on the point of incidence. The reflected light ray is the light ray that bounces (returns back) from the reflecting surface. Angle of incidence: It is the angle between the incident light ray and the normal. Point of incidence. Angle of reflection: It is the angle between the reflected light ray and the normal."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Activity: The Two Laws of Light Reflection - Materials and Steps 1-3",
+    "chunks": "Activity: The two laws of light reflection. Materials: A plane mirror. White paper sheet. Pins. Protractor. Ruler. Steps: 1. Draw a straight line (XY) on the paper, then fix the plane mirror in a perpendicular position on this line as shown in the opposite figure. 2. Draw a line (OD) [which represents the normal] perpendicular on the line (XY). 3. Draw a straight line (AO) [which represents the incident light ray on the mirror], which makes an angle AOD with the normal [which is called the angle of incidence] then, measure this angle and place two pins (P1) and (P₂) horizontal on the line."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Activity: The Two Laws of Light Reflection - Steps 4, Observation and Conclusion",
+    "chunks": "4. Look at the other side of the mirror and see the images of the pins (P₁) and (P₂) then place two pins (P3) and (P4) to be in a straight line with (P1) and (P). Observation: Angle of reflection changes by changing the angle of incidence, where they are always equal. Conclusion: Reflection of light is governed by two laws: First law : Angle of incidence = Angle of reflection. Second law: The incident light ray, the reflected light ray and the normal line to the reflecting surface at the point of incidence all lie in one plane perpendicular to the reflecting surface."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Perpendicular Incident Ray and Zero Angle of Incidence",
+    "chunks": "G.R. The incident light ray which falls perpendicular on a reflecting surface, reflects on itself. Because the angle of incidence equals the angle of reflection equals zero. What is meant by ...? The angle of incidence of a light ray equals zero. This means that, this incident light ray falls perpendicular on a reflecting surface."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Reflection Problem 1",
+    "chunks": "Problems. 1 Find the angle of incidence and the angle of reflection for the following figures."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Reflection Problem 2: Ray Between Two Mirrors - Problem Statement",
+    "chunks": "2 In the opposite figure: An incident light ray falls on mirror (A), and then reflected on mirror (B). Calculate each of the following: (a) The angle of reflection on mirror (A). (b) The angle of incidence on mirror (B)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Reflection Problem 2: Ray Between Two Mirrors - Solution Part (a)",
+    "chunks": "Solution. (a). The angle of incidence = The angle of reflection. ... The angle of reflection on mirror (A) = 30°."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Reflection Problem 2: Ray Between Two Mirrors - Solution Part (b)",
+    "chunks": "(b) The angle (1) between the reflected light ray and the mirror (A) = 90°-30° = 60°. The sum of angles of triangle = 180°. .. The angle (2) between the incident light ray and the mirror (B) = 180° - (60° +90°) = 30°. ... The angle of incidence on mirror (B) = 90° -30° = 60°."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Introduction to Mirrors and Activity Setup for Plane Mirrors",
+    "chunks": "Mirrors. Mirrors are reflecting surfaces for light. Mirrors are divided into two main types: First, Second. Lesson ONE. Activity 2: The properties of the image formed by the plane mirror. Materials: A plane mirror. A card with some letters written on it. Steps: 1. Place the card in front of the mirror that is fixed vertically. 2. Record your observation about the properties of the image formed on the plane mirror."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Properties of Image Formed by a Plane Mirror",
+    "chunks": "Observation & Conclusion: The properties of the image formed by a plane mirror are : 1. The image is upright (erect). 2. The image is equal to the object in size. 3. The image is laterally inverted (reversed). 4. The image is virtual. 5. The distance between the object and the mirror equals to the distance between the image and the mirror. 6. The straight line joining the object to its image is perpendicular to the surface of the mirror. Virtual image: It is the image that cannot be received on a screen."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Plane Mirror Problems: Person's Image Distance",
+    "chunks": "Laterally inverted image (where the right hand appears as a left hand in the mirror). Problems. 1 If a person stands at a distance of 2 m from a plane mirror. What is the distance between the person and his image? Solution. The distance between the person and the mirror = The distance between his image and the mirror, so the distance between the person and his image = 2+2=4m."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Plane Mirror Problems: Ramy's Image Distance - Part (a)",
+    "chunks": "2 Ramy stood at a distance of 4 m from a plane mirror, an image is formed for him. (a) What is the distance between the image of Ramy and the mirror ? Solution. (a) The distance between the image of Ramy and the mirror = 4 m."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Plane Mirror Problems: Ramy's Image Distance - Parts (b) and (c)",
+    "chunks": "(b) Calculate the distance between Ramy and his image. (c) If Ramy moves half metre towards the mirror, calculate the distance between Ramy and his image. Solution. (b) The distance between Ramy and his image = 4+4 = 8 m. (c). Ramy moves 0.5 m towards the mirror. ... The distance between Ramy and the mirror =4-0.5 = 3.5 m. ... The distance between Ramy and his image = 3.5+3.5 = 7 m."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Introduction to Spherical Mirrors",
+    "chunks": "SECOND The spherical mirrors. The spherical mirror: It is a mirror, whose reflecting surface is a part of a hollow sphere. Types of spherical mirror: A B. Concave mirror (converging mirror). Convex mirror (diverging mirror). Reflecting surface. Reflecting surface. Concave mirror: It is the mirror, whose reflecting (shining) surface is a part of the inner surface of the sphere. Convex mirror: It is the mirror, whose reflecting (shining) surface is a part of the outer surface of the sphere."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concepts Related to Spherical Mirrors: Centre of Curvature",
+    "chunks": "Give a reason. Concave mirror is called \"Converging mirror\". Convex mirror is called \"diverging mirror\". Concepts related to the spherical mirrors: Concept: Centre of mirror curvature (C): Definition: It is the centre of the sphere that the mirror is considered as a part of it. Notes: It lies in front of the reflecting surface in the concave mirror. It lies behind the reflecting surface in the convex mirror. Spherical mirrors have only one centre of curvature."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concepts Related to Spherical Mirrors: Pole and Radius of Curvature",
+    "chunks": "Pole of the mirror (P): It is the point that lies in the middle of the reflecting surface of the mirror. Radius of mirror curvature (r): It is the radius of the sphere that the mirror is a part of it. or It is the distance between the centre of mirror curvature (C) and any point on its reflecting surface."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concepts Related to Spherical Mirrors: Focus (F)",
+    "chunks": "Concept: Focus of the mirror (F): Definition: It is the point of collection of the refracted light rays (in the concave mirror) or their extensions (in the convex mirror). Notes: It is produced when a parallel beam of rays is incident parallel to the principal axis of a spherical mirror. The concave mirror has a real focus and it lies in front of the reflecting surface. The convex mirror has a virtual focus and it lies behind the reflecting surface. Spherical mirrors have only one focus."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concepts Related to Spherical Mirrors: Focal Length (f)",
+    "chunks": "Focal length of the mirror (f): It is the distance between the focus of the mirror (F) and its pole (P). Note: The focus lies at the mid distance between the pole and the centre."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Relations Between Radius, Diameter, and Focal Length, and Related Definitions",
+    "chunks": "The relations between the radius, diameter of mirror curvature and its focal length: Notes: Radius of mirror curvature (r) is 2 x Focal length (f). Radius of curvature (r) = diameter / 2. Focal length = radius / 2. Focal length (f) = diameter / 4. What is meant by...? The focal length of a spherical mirror is 10 cm. This means that the distance between the focus of the mirror (F) and its pole (P) is 10 cm."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Definition of Radius of Curvature, Problems, and Historical Use of Concave Mirrors",
+    "chunks": "The radius of curvature of a spherical mirror is 20 cm. This means that the distance between the centre of mirror curvature (C) and any point on its surface is 20 cm. Problems. A Concave mirror. Science, Technology and Society: According to the Old Greek legend that Archimedes knew a lot about mirrors and the use of sunlight as a weapon against the Roman fleet that invaded Sicily in 212 B.С. A huge concave mirror was placed to collect the Sun rays and directed them towards the sails of ships (which represents the focus of the mirror) so, as to generate extreme heat that led to the burning of these sails and turning them to glazing fire balls. G.R. Concave mirror is used to generate high heat energy. Because the concave mirror collects the reflected light rays falling on it in one point (focus) generating high heat energy."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concave Mirror Focus and Focal Length Activity",
+    "chunks": "The focus of the concave mirror: The focus of the concave mirror is produced due to the collection of the reflected rays of the parallel light rays coming from a far light source (as the Sun). Activity 3: The focus and the focal length of the concave mirror. Materials: Conclusion: 1.The point of the collection of the parallel light rays after being reflected from the concave mirror is called \"The focus of the mirror\". 2. The distance between the focus of the concave mirror and its pole is called \"The focal length of the mirror\". NB: Focal length (f) = 1/2 x radius of mirror curvature (r). Note: Light rays of the Sun are parallel rays and so as any far light source."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Rules for Reflected Light Rays on Concave Mirrors: Parallel Incident Ray",
+    "chunks": "TRY to answer worksheet in the Notebook. Rules to determine the direction of the reflected light rays incident on the concave mirror: The path of the incident ray: Parallel to the principal axis. The path of the reflected ray: It reflects passing through the focus (F)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Image Formation by Concave Mirror: Steps 1-4",
+    "chunks": "It reflects parallel to the principal axis. The cases of the formation of the images by the concave mirror (converging mirror): To determine the position and properties of the images formed by the concave mirror, follow the following steps: Steps: 1 Use the compass in drawing a curved line that represents the concave mirror. Then detect both C & P. 2 Draw the principal axis of the mirror and detect the position of its focus (F) which lies at the mid point between C & P. Draw a vertical arrow on the principal axis to represent the position of an object. Draw a ray from the highest point of the object, where it falls parallel to the principal axis and thus reflects passing through the focus."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Image Formation by Concave Mirror: Steps 5 and Properties Introduction",
+    "chunks": "Draw another ray from the same point, where it falls passing through the focus, so it reflects parallel to the principal axis. Properties of the images formed by the concave mirror: The properties of the formed images by the concave mirror are different according to the position of the object from the mirror as the following: The position of the object from the mirror. The position of the image from the mirror. Shape of the rays path. The properties of the formed/image."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concave Mirror Image Properties: Object Very Far",
+    "chunks": "The position of the object from the mirror: Very far [The incident light rays are parallel to each others and to the principal axis]. The position of the image from the mirror: At the focus. The properties of the formed image: Real. Very tiny (dot)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concave Mirror Image Properties: Object Greater Than Double Focal Length",
+    "chunks": "The position of the object from the mirror: At a distance greater than double the focal length. The position of the image from the mirror: At a distance greater than focal length, but less than double the focal length [Between the focus (F) and the centre of curvature (C)]. The properties of the formed image: Real. Inverted. Diminished. [smaller than the object]."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concave Mirror Image Properties: Object at Double Focal Length (Centre of Curvature)",
+    "chunks": "The position of the object from the mirror: At a distance equals to double the focal length [At the centre of curvature (C)]. The position of the image from the mirror: At the centre of curvature (C). The properties of the formed image: Real. Inverted. Equal to the object."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concave Mirror Image Properties: Object Between Focus and Centre of Curvature",
+    "chunks": "The position of the object from the mirror: At a distance greater than focal length, but less than double the focal length [Between the focus (F) and the centre of curvature (C)]. The position of the image from the mirror: At a distance greater than double the focal length. The properties of the formed image: Real. Inverted. Magnified. [larger than the object]."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concave Mirror Image Properties: Object Less Than Focal Length (Between Focus and Pole)",
+    "chunks": "The position of the object from the mirror: At a distance less than focal length [Between the focus (F) and the pole (P)]. The position of the image from the mirror: Behind the mirror. The properties of the formed image: Virtual. Erect. Magnified. NB To obtain a virtual, upright and magnified image for your face by a concave mirror, you should stand at a distance less than its focal length."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Concave Mirror: No Image Formed at Focus",
+    "chunks": "If the object is put at the focus of the concave mirror, there is no image formed G.R. This is because the extensions of the reflected light rays are parallel to each other (don't intersect)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Activity to Determine Radius of Curvature of Concave Mirror",
+    "chunks": "The radius of curvature of the concave mirror: To determine the radius of curvature of the concave mirror, we can use the case (3) from the previous cases, as shown in the following activity: Activity 4: The radius of the mirror curvature. Materials: A concave mirror. A holder for the mirror. A light box with a hole. A ruler. A concave mirror. A hole. Image. 2F. The holder."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Uses of Concave Mirrors",
+    "chunks": "Uses of concave mirrors: Concave mirror is a converging mirror, so that it is used for many purposes for example, it is used: 1 In a pocket torch. To reflect the light of the lamp. 3 In front lights of cars. To reflect the light of the lamp. In shaving. To get an enlarged and erect image of the face. In solar ovens. To heat food, water .... etc. In dentists clinics. To form magnified images of the teeth at the back of the mouth cavity (molars teeth). In some types of telescopes."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Extended Uses of Concave Mirrors and Introduction to Convex Mirrors",
+    "chunks": "To monitor the space and also to form enlarged and near images of the celestial bodies. B Convex mirror. In the last activity (Activity 4), if the concave mirror is replaced by a convex mirror, the formed image cannot be received on the screen, because it is a virtual image which formed as a result of the intersection of the extentions of the reflected light rays. Uses of convex mirrors: Convex mirror is a diverging mirror, so that it is used for many purposes for example, it is used:"
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Uses of Convex Mirrors",
+    "chunks": "1 In cars (on the right and the left sides of the driver). To form an erect and minimized image for the way behind the car. At shopping centers. 2 To allow high rates of security at these places. 3 On the corners of narrow roads. To monitor cars movement on these narrow crossroads to avoid accidents."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Comparison Between Focus of Concave and Convex Mirrors",
+    "chunks": "Comparison between the focus of the concave mirror and the focus of the convex mirror : Focus of the concave mirror. 1. It is a real focus. 2. It is the point of collection of the reflected light rays. 3. It is located in front of the concave mirror. Focus of the convex mirror. 1. It is a virtual focus. 2. It is the point of collection of the extensions of the reflected light rays. 3. It is located behind the convex mirror."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Comparison Between Real and Virtual Images",
+    "chunks": "Comparison between the real image and the virtual image: The real image. 1. It can be received on a screen. 2. It is formed as a result of the intersection of the reflected light rays. 3. It is formed in front of the mirror. 4. It is always inverted. 5. It is formed in the case of using of: Concave mirror. [It is diminished, magnified or equal to the object according to the position]."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Virtual Image Formation and Lesson Summary Introduction",
+    "chunks": "The virtual image. 1. It cannot be received on a screen. 2. It is formed as a result of the intersection of the extensions of the reflected light rays. 3. It is formed behind the mirror. 4. It is always erect. 5. It is formed in the case of using of: Concave mirror. [When the object is at a distance less than the focal length, and it is magnified]. Remember Lesson one. Light reflection: It is a phenomenon of the light bouncing off in the same medium when it strikes a reflecting surface."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Lesson Summary: Definitions of Light Rays and Angles",
+    "chunks": "The incident light ray: It is the light ray that falls on the reflecting surface. The reflected light ray: It is the light ray that bounces (returns back) from the reflecting surface. Angle of incidence: It is the angle between the incident light ray and the normal. Angle of reflection: It is the angle between the reflected light ray and the normal."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Lesson Summary: Laws of Light Reflection",
+    "chunks": "Light reflection is governed by two laws: 1. First law: Angle of incidence = Angle of reflection. 2. Second law: The incident light ray, the reflected light ray and the normal line to the reflecting surface at the point of incidence all lie in one plane perpendicular to the reflecting surface."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Lesson Summary: Types of Spherical Mirrors",
+    "chunks": "Types of mirrors: Types of spherical mirrors: (a) A concave mirror (converging mirror): It is a mirror, whose reflecting surface is a part of the inner surface of the sphere and it converges the parallel light rays that fall on its surface. (b) A convex mirror (diverging mirror): It is a mirror, whose reflecting surface is a part of the outer surface of the sphere and it diverges the parallel light rays that fall on its surface."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Lesson Summary: Mirror Concepts (Centre, Pole, Radius, Principal Axis)",
+    "chunks": "Concepts related to the mirrors: The centre of mirror curvature (C): It is the centre of the sphere that the mirror is considered as a part of it. The pole of the mirror (P): It is the point that lies in the middle of the reflecting surface of the mirror. The radius of mirror curvature (r): It is the radius of the sphere that the mirror is a part of it. OR It is the distance between the centre of mirror curvature and any point on its surface. The principal axis of the mirror: It is the straight line that passes by the pole of the mirror (P) and its centre of curvature (C)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Energy and Work",
+    "lesson_number": 1,
+    "lesson_name": "Mirrors",
+    "idea_title": "Lesson Summary: Mirror Concepts (Secondary Axis, Focus)",
+    "chunks": "The secondary axis of the mirror: It is any straight line that passes by the centre of curvature of the mirror and any point on its reflecting surface except the pole of the mirror. The focus of the mirror (F): It is the point of collection of the parallel rays (which are parallel to the principal axis)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Introduction to Lenses",
+    "chunks": "Observe the opposite optical tools, you will notice that lenses are the basic structural unit in all these optical tools."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Uses of Lenses",
+    "chunks": "Lenses are used in many fields as follows: In medical eye glasses. Either for reading or walking. In some types of telescopes. To form near and enlarged images for the celestial bodies. In microscopes. To form magnified images for the tiny bodies that can't be seen by the naked eye."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Types of Lenses",
+    "chunks": "lenses have many types, among them are. Convex lens (converging lens). Concave lens (diverging lens)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Characteristics of Convex Lens",
+    "chunks": "Convex lens. It is a transparent optical piece which is thick at its centre and less thickness at the tips. Convex lens is called \"converging lens\". As it collects light rays falling on it."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Characteristics of Concave Lens",
+    "chunks": "_Concave lens. It is a transparent optical piece which is thin at its centre and more thickness at the tips. Concave lens is called \"diverging lens\". As it separates light rays falling on it."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Special Concepts Related to Lenses: Radius of Curvature",
+    "chunks": "Special concepts related to the lenses. The radius of curvature of the lens face (r): It is half the diameter of the sphere, where this face is a part of it."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Special Concepts Related to Lenses: Principal Axis",
+    "chunks": "The principal axis: It is the straight line that joins between the two centres of curvature of the lens passing by the optical centre of the lens. Note: The lens has only one principal axis."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Special Concepts Related to Lenses: Secondary Axis",
+    "chunks": "The secondary axis: It is any line passes by the optical centre of the lens except the principal axis. Note: The lens has uncountable number of secondary axes."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Special Concepts Related to Lenses: Focus of the Lens",
+    "chunks": "The focus of the lens (F) (principal focus): It is the point of collection of the refracted light rays (in the convex lens) or their extensions (in the concave lens). It is produced when a beam of parallel rays falls parallel to the principal axis of a lens. It is: - Real focus in case of the convex lens."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Reasons for Lens Centers and Foci",
+    "chunks": "G.R. The lens has two centres of curvature. The lens has two focuses (foci). Because it has two spherical surfaces."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Effect of Parallel Light Rays on Lenses",
+    "chunks": "Exercise. What happens when a beam of light rays parallel to the principal axis falls on the surface of a convex lens and that of a concave lens?. Answer. A. Convex lens: The parallel rays pass through the convex lens, then they are converged in a lit point which known as the real focus of the lens. B. Concave lens: The parallel rays pass through the concave lens, then they are diverged and their extensions are collected in a lit point which known as the virtual focus of the lens."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Focus of the Convex Lens (Converging Lens)",
+    "chunks": "A Convex lens. The focus of the convex lens (converging lens): If Sun rays or light rays from any distant source fall on the lens, we notice that the rays passing through the lens are collected in one point called \"the focus of the lens\"."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Activity to Determine Focus and Focal Length of Convex Lens",
+    "chunks": "Activity. To determine the focus and the focal length of the convex lens. Observation: The rays after being refracted are collected in one lit point is called the focus of the lens that can be received on the screen. Conclusion: 1. The convex lens is a converging lens as it collects the refracted light rays. 2. The point of collection of the parallel rays (produced from the Sun or any distant object) after being refracted from the convex lens is called \"the focus of the lens (F)\". 3. The distance between the focus of the lens and its optical centre is called \"the focal length of the lens (f)\"."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Reasons for Convex Lens Properties",
+    "chunks": "G.R. The formed image by the convex lens can be received on the screen. Because it is a real image formed by the collection of the refracted light rays. A piece of paper can be burnt by a convex lens. Because convex lens can converge and concentrate the parallel rays of sunlight in a point (real focus) which leads to the burning of this paper. Exercise. The convex lens forms a real image of the Sun on a piece of paper."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Rules for Light Rays through Convex Lens",
+    "chunks": "Rules for determining the direction of the light rays after passing through the convex lens. The path of the incident ray. The path of the emergent ray. Explaining figure. Parallel to the principal axis. It exits (or refracts) from the lens passing through the focus. Passes through the focus. It exits (or refracts) from the lens parallel to the principal axis. Passes through the optical centre. It passes through the lens without refraction."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Image Formation by Convex Lens (General Principles)",
+    "chunks": "When you place an object in front of a convex lens, the position of the formed image and its properties can be determined by using only two rays from the previous three rays, where the image is formed at the intersection of the refracted rays or their extensions. The cases of the formation of the images by the convex lens (converging lens): To determine the position and properties of the formed images by the convex lens, follow."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Steps for Drawing Image Formation by Convex Lens",
+    "chunks": "Draw a straight line that joins between the two centres of curvature of the lens to represent the principal axis of the lens. Put a point in the mid distance between the two lens faces on the principal axis to represent the optical centre of the lens (P). Put two points in the mid distance between (C) & (P) to represent the two focuses of the lens (F). Draw a vertical arrow on the principal axis to represent the position of the object. Draw a ray from the highest point of the object, where it falls parallel to the principal axis and thus refracts and exits passing through the focus. Draw another ray from the same point passing through the optical centre of the lens, so it exits without refraction."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Properties of Images Formed by Convex Lens: Very Far Object",
+    "chunks": "Properties of the formed images by the convex lens. The properties of the formed images by the convex lens are different according to the position of the object from the lens as the following. The position of the object from the lens. Very far [the incident light rays are parallel to each others and to the principal axis]. The position of the image from the lens. At the focus. The properties of the formed image. - Real. - Very tiny [dot]."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Properties of Images Formed by Convex Lens: Object Beyond Double Focal Length",
+    "chunks": "The position of the object from the lens. At a distance greater than double the focal length. The position of the image from the lens. Between the focus (F) and the centre of curvature (C). The properties of the formed image. - Real. - Inverted. - Diminished [smaller than the object]."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Properties of Images Formed by Convex Lens: Object at Double Focal Length",
+    "chunks": "The position of the object from the lens. At a distance equals to double the focal length [At the centre of curvature (C)]. The position of the image from the lens. At the centre of curvature (C). The properties of the formed image. - Real. - Inverted. - Equal to the object."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Properties of Images Formed by Convex Lens: Object Between F and 2F",
+    "chunks": "The position of the object from the lens. At a distance greater than focal length, but less than double the focal length [Between the focus (F) and the. The position of the image from the lens. At a distance greater than double the focal length. The properties of the formed image. - Real. - Inverted. - Magnified [larger than."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Properties of Images Formed by Convex Lens: Object Between Focus and Pole",
+    "chunks": "The position of the object from the lens. At a distance less than focal length [Between the focus (F) and the pole (P)]. The position of the image from the lens. Behind the mirror. The properties of the formed image. - Virtual. - Erect. - Magnified."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Concave Lens Image Formation and Properties",
+    "chunks": "B Concave lens. In the last activity, if the convex lens is replaced with a concave lens, the formed image cannot be received on the screen, because it is a virtual image formed as a result of the intersection of the extensions of the refracted light rays. The properties of the formed image by the concave lens. The position of the object: Wherever the position of the object in front of the concave lens. The position of the image: The image is formed nearer to the object position (according to the lens), and in its same side. The properties of the formed image is always: - Virtual. - Erect. - Diminished."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Diminished Images by Mirrors and Lenses",
+    "chunks": "Properties of image formed in both mirrors and lenses. diminished. When the object at any distance of: convex mirror. concave lens. diminished. When the object at a distance greater than double the focal length of: concave mirror. convex lens."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "How Vision Occurs",
+    "chunks": "The vision. For illustration. How does the vision occur?. The light rays reflected from the body to fall on the eye, refract when passing through the cornea, then the eye lens (convex lens). The refracted light rays fall on the retina forming a real, inverted and diminished image. The optic nerve transmits the image to the brain which re-corrects the image to be seen erect, normal size and in its normal position. The diameter of the eyeball is the distance between the optical centre of the lens and the retina. To see clearly, the image must be formed exactly on the retina."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Normal Vision Range",
+    "chunks": "The normal person can see clearly: - Near objects (at a distance not less than 25 cm). - Far objects (at a distance not more than 6 m)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Vision Defects: Short-sightedness - Reasons",
+    "chunks": "The use of lenses to treat vision defects. The most important vision defects are : 1. Short-sightedness. Reasons: 1. Increase in the eyeball diameter. This causes the retina to be far from the eye lens. 2. Increase in the convexity of the eye lens surface. This causes a shorter focal length for the eye lens."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Vision Defects: Short-sightedness - Image Formation",
+    "chunks": "This leads to: The light rays coming from the far object are collected at a point in front of the eye retina and disperses after that forming an unclear image."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Vision Defects: Short-sightedness - Correction (Reason)",
+    "chunks": "G.R. The concave lens is used to correct the short-sightedness. Because it diverges the rays coming from the far objects before falling on the eye, so the image is formed exactly on the retina."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Vision Defects: Long-sightedness - Reasons",
+    "chunks": "The most important vision defects are: 2. Long-sightedness. Reasons: 1. Decrease in the eyeball diameter. This causes the retina to be close to the eye lens. 2. Decrease in the convexity of the eye lens surface. This causes a longer focal length for the eye lens."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Vision Defects: Long-sightedness - Image Formation",
+    "chunks": "This leads to: The light rays coming from the near object are collected at a point behind the eye retina and disperses after that forming an unclear image. Formation of unclear image behind the retina."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Vision Defects: Long-sightedness - Correction (Reason)",
+    "chunks": "G.R. The convex lens is used to correct the long-sightedness. Because it collects the rays coming from the near objects before falling on the eye, so the image is formed exactly on the retina."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Contact Lenses",
+    "chunks": "Contact lenses. The contact lenses are used instead of the medical glasses to treat the vision defects. _The contact lens: It is a very thin lens made of plastic and can stick to the eye cornea by the eye fluid."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Cataract Disease (Science Integration)",
+    "chunks": "Science, Technology and Society. Cataract [science integration (Medicine)]: Cataract is one of the most dangerous diseases that infects the eye. -Cataract: It is a disease that causes a difficulty of vision as a result of the darkness of the eye lens."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Land Areas Measurement",
+    "chunks": "Land areas measurement: Land surveyors and topographical scientists use a special device to determine heights and distances by sending a beam of laser rays, then receiving it again by the mirrors and lenses provided in their devices. So, it is possible to make very accurate measurements by calculating the time that the laser beam bounced from a distant point and returns to its source. To measure the distance: d = v x t / 2."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: The Lens Definition",
+    "chunks": "Remember Lesson Two. The lens: It is a transparent medium that refracts the light and is limited with two spherical surfaces."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Uses of Lenses",
+    "chunks": "Uses of lenses: - In medical eye glasses. In making some types of telescopes and microscopes. In fixing the watches using a magnifier lens. In manufacturing projectors, cameras and magnifying lenses. - In war, the leaders use binoculars to follow the battles."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Types of Lenses (Convex)",
+    "chunks": "Types of lenses: 1. A convex lens \"converging lens\": - It is thick at the centre and less thickness at the tips. - It collects light rays falling on it after refraction."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Types of Lenses (Concave)",
+    "chunks": "2. A concave lens \"diverging lens\": - It is thin at its centre and more thick at the tips. - It separates light rays falling on it after refraction."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Concepts Related to Lenses (Curvature and Focus)",
+    "chunks": "Concepts related to the lenses: The centre of curvature of the lens face (C). The focus of the lens (F) (Principal focus): It is the point of collection of the refracted light rays (in the convex lens) or their extensions (in the concave lens)."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Concepts Related to Lenses (Focal Length)",
+    "chunks": "The focal length of the lens (f): It is the distance between the focus and the optical centre of the lens."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Comparison - Vision of Near Objects",
+    "chunks": "Comparison between short-sightedness and long-sightedness. Points of comparison. Short-sightedness. Long-sightedness. 1 The images of near (close) objects: Can be seen clearly. Cannot be seen clearly."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Comparison - Vision of Far Objects",
+    "chunks": "3 The images of far objects: Cannot be seen clearly. Can be seen clearly."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Comparison - Image Position",
+    "chunks": "4 The position of the images concerning the retina: In front of the retina. Behind the retina."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Comparison - Causes",
+    "chunks": "Causes: - Increase in the eyeball diameter. OR - Increase in the convexity of the eye lens surface. - Decrease in the eyeball diameter. OR - Decrease in the convexity of the eye lens surface."
+  },
+  {
+    "unit_number": 2,
+    "unit_name": "Light Energy",
+    "lesson_number": 2,
+    "lesson_name": "Lenses",
+    "idea_title": "Remember Lesson Two: Comparison - Correction",
+    "chunks": "5 The correction: By using a concave lens. By using a convex lens."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Unit Objectives",
+    "chunks": "By the end of this unit, students will be able to : Identify the components of the universe. Identify the galaxies. Determine the location of the solar system in the Milky Way galaxy. Identify some theories of cosmogony. Identify some theories of the evolution of the solar system. Identify the rotation of the solar system around the."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "What is meant by the universe?",
+    "chunks": "The vast universe is filled with millions of stars. Everything changes in the universe, where : - Stars always change. - Galaxies get away from each other very fast, so the universe is in a state of continuous expansion. Each galaxy has a distinctive shape according to the harmony and order of the groups of stars in it. Galaxies gather in groups called clusters."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Galaxies Clusters",
+    "chunks": "They are groups of galaxies that rotate together in cosmic space by the effect of gravity. The galaxy to which our solar system belongs is \"Milky Way galaxy\"."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Enrichment Information: Milky Way Galaxy Name Origin",
+    "chunks": "The Milky Way galaxy is given that name. Because it appears in the sky at night as a splashing milk or spreading straw."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "The Milky Way Galaxy",
+    "chunks": "It is considered one of the spiral galaxies. It contains all stars we see at night in the sky. The Sun is a star of millions of stars that rotate around the centre of Milky Way galaxy in fixed orbits. In Milky Way galaxy: The old stars (the older) gather in the centre surrounded by the small stars (the recent) are located in the spiral Milky Way galaxy. The solar system is located in one of the spiral arms of the Milky Way on the edge of the galaxy."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Solar System Location and Movement",
+    "chunks": "The Sun takes about 220 million years to complete one rotation around the centre of the galaxy. The Earth is one of the planets that rotate around the Sun."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Gravity in the Solar System",
+    "chunks": "The force of gravity is responsible for keeping the planets in their orbits around the Sun and the moons in their orbits around the planets. As the distance between the Sun and the planet increases, the Sun's gravity decreases, and so the planet's movement around the Sun becomes slower."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Impact of Vanished Solar Gravity",
+    "chunks": "The gravity between the Sun and the planets is vanished."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Measuring Distances between Celestial Bodies",
+    "chunks": "The distances between celestial bodies (as stars) are very large, so the distances in the space are not measured in kilometres, but they are measured in a unit called 'Light year'. Astronomers don't measure the distances between stars in kilometres. Because the distances between stars are very large."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Light Year Definition",
+    "chunks": "It is the distance covered with light in one year and it equals 9.46 x 10^12 km. The speed of light equals 300 000 km/sec., so the distance covered with light in one year = 300 000 x (365 days x 24 hours x 60 min. x 60 sec.) = 9460800 million km = 9.46 x 10^12 km."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Meaning of Light Year Distance",
+    "chunks": "The distance between the Sun and a certain star is three light years. This means that the distance between the Sun and this star = 3 x 9.46 x 10^12 = 28.38 x 10^12 km."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Expansion of the Universe",
+    "chunks": "Distances between galaxies increase as the time passes, as galaxies move away from each other in the cosmic space. This phenomenon is known as 'Expansion of the universe'."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Activity: Explaining Universe Expansion",
+    "chunks": "When the dough expands, the grains of raisins become apart (away) from each other as the time passes. If we consider the dough represents the universe and the grains of raisins represent the galaxies, So: Swelling of the dough resembles Expansion of the universe. Separation of the grains of raisins represents Separation of the galaxies from each other in the universe. Increasing the distances between grains of raisins as time passes means The continuous expansion of the universe. Expansion of the universe as the time passes."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Definition of Expansion of the Universe",
+    "chunks": "From the previous activity, we can define the expansion of the universe as follows: It is the continuous separation between galaxies in space as a result of their regular movement."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "The Origin of the Universe",
+    "chunks": "How did the universe originate ...? There was no one to relate what happened. But the discoveries in physics and astronomy enabled scientists to trace the history of the universe from the first second fraction of its evolution. Many scientists believe that the universe emerged from a massive explosion called Big Bang."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "The Big Bang Theory  Assumptions",
+    "chunks": "The Big Bang theory assumed that : The beginning of the universe was a gaseous ball of high pressure, high temperature and small in volume. A massive explosion occurs to this ball since 15000 million years and its components were scattered in space followed by continuous expansion and changing processes till now. Resulted from this explosion, all forms of matter, energy, space and time."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Big Bang Definition",
+    "chunks": "From the previous explanation, we can define the Big Bang as follows: The gaseous ball from which the universe originated exploded and the process of expansion and changing started."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Phases After the Big Bang Explosion",
+    "chunks": "Through Within minutes after the explosion: - The temperature becomes about 10000 million degrees. - The atomic particles produced from explosion merged together producing gaseous clouds of hydrogen and helium with a percentage of 75%: 25% respectively. - These gases produce the galaxies, stars and universe through millions of years. After about 1000 million years: The previously formed matter merged in the form of masses. Gravity helped in gathering more masses forming 'Ancestral galaxies' leaving areas of empty space between them. After about 2000:3000 million years: Galaxies began to form. After about 3000 million years: Galaxies began to form. After about 5000 million years: Our galaxy, the Milky Way, took its disc form."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Enrichment Information: Discovery of Radio Waves",
+    "chunks": "In 1964, scientists Robert Wilson and Arno Pinzias coincidently discovered radio waves coming from space. They concluded that these waves are a type of the echo of the Big Bang which still frequented in the universe. TV sets can receive such signals (waves) on the Earth. These scientists have won the Nobel prize for physics in recognition of the discovery."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Theories about the Evolution of the Solar System",
+    "chunks": "There are many scientific and philosophical theories about the evolution of the solar system. They are about twenty theories. These theories are still unproved and subjected to change (as we shall see). We will study the most important theories about the evolution of the solar system, which are: The Nebular theory [Laplace]. The Crossing star theory [Chamberlain and Moulton]. The Modern theory [Fred Hoyle]."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Nebular Theory Assumptions",
+    "chunks": "It assumed that the origin of the solar system was the nebula."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Three Phases of Nebular Theory",
+    "chunks": "First The contraction of nebula (gaseous sphere) : The solar system originated from a glowing gaseous sphere revolving around itself, this sphere is called nebula. Over the time, the nebula lost its heat gradually, so its size contracted and its revolving speed around itself (its axis) increased. Second Formation of the gaseous rings : The centrifugal force arising from the rotation of nebula around its axis led to: a. The nebula lost its spherical shape and became in a form of a flat rotating disk. b. Separation of parts of nebula in the form of gaseous rings, that also rotate around the remaining flaming mass and in the same direction."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Crossing Star Theory Assumptions [Chamberlain and Moulton 1905]",
+    "chunks": "It assumed that the origin of the solar system was a big star which is the Sun. Another huge star (crossing star) approached the Sun. This star attracted the Sun to it, leading to a great expansion in the part of the Sun facing it. The expanded part from the Sun was exploded leading to : The Sun escaped from the gravity of that star. A gaseous line was formed of a great length from the Sun until the last planets (which will be formed later)."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Modern Theory Basis [Fred Hoyle 1944]",
+    "chunks": "Fred Hoyle builts his theory on the origin of the solar system on the basis of well-known astronomical phenomenon known as \"Stars explosion phenomenon\"."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Stars Explosion Phenomenon Definition",
+    "chunks": "Glowing of a star for a short time to become one of the most shining stars in the sky, then its glowing disappears gradually to return as it was. The interpretation of this phenomenon is not known specifically until now."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Interpretation of Stars Explosion Phenomenon",
+    "chunks": "The following is an attempt to interpret this phenomenon: Sudden violent nuclear reactions occur within the star which led to its explosion. The star bombs huge amounts of gaseous materials as a result of this explosion which led to increasing its size and its shining. When the bombed gases are cooled, the shining of the star returned as it was."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Modern Theory Assumptions (Fred Hoyle)",
+    "chunks": "It assumed that the origin of the solar system was a star rather than the Sun. A star was rotating near the Sun. The star exploded due to huge nuclear reactions. The force of the explosion led to : The bombing of the star's nucleus away from the gravity of the Sun. A gaseous cloud from this star remained around the Sun."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Comparison of Solar System Origin Theories",
+    "chunks": "Points of comparison Nebular theory Crossing star theory Modern theory. The founder: Laplace Chamberlain and Moulton Fred Hoyle. The origin of the solar system: A glowing gaseous sphere revolving around itself. (Nebula) The Sun. A star rather than the Sun. The force that causes the formation of the solar system: The centrifugal force arising from the rotation of nebula around its axis. The force of attraction of the crossing star and the force of explosion of the expanded part from the Sun. The force of explosion of the huge star resulting from the occurrence of sudden and violent nuclear reactions within it."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "Practice Question: Cosmic Numbers",
+    "chunks": "Write the number that represents each of the following sentences: (1) The nearly number of galaxies that is present in the universe. (2) The number of planets that revolve around the Sun. (3) The number of years that is needed for the solar system to make one rotation around the centre of Milky Way galaxy. (4) The number of kilometres that the light travels in one second. (5) The number of kilometres that the light travels in one year. (6) The number of years since the universe is originated."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "How the Solar Telescope Works",
+    "chunks": "It works on reflecting the Sun rays downward to a concave mirror in a tunnel under the Earth's surface. The sunlight is gathered, then separated into a solar spectrum by the spectrometer (this shows the different light wavelengths emitted by the Sun). A complete picture of the Sun is formed in a monitoring room where astronomers can study its light. Astronomers got most of their information about the Sun from the study of its spectra."
+  },
+  {
+    "unit_number": 3,
+    "unit_name": "The Universe and the Solar System",
+    "lesson_number": 1,
+    "lesson_name": "The Universe and the Solar System",
+    "idea_title": "The Hubble Telescope",
+    "chunks": "The Hubble telescope was launched in April in."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Unit Objectives",
+    "chunks": "By the end of this unit, students will be able to: Describe motion and mention its types. Identify physical quantities necessary to describe the movement of objects. Link laws of motion to real life situations. Acquire mental skills in solving problems on laws of motion. Represent uniform speed graphically. Calculate the average speed of a moving object."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Introduction to Cell Types in Multicellular Organisms",
+    "chunks": "What are the types of cells in multicellular living organisms? Not all cells of multicellular organisms are similar, but they have some differences, from which how they divide to increase their number."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Chromosomes: Definition and Main Role",
+    "chunks": "Most types of cells contain nucleus, which contains thread like bodies called chromosomes that have the main role in cell division. Chromosomes: They are thread like bodies present in cells' nuclei and they represent the genetic material of the living organism."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "General Structure of Chromosomes",
+    "chunks": "Structure of chromosomes: General structure of chromosomes: Each chromosome consists of: Two connected threads, each thread is called 'Chromatid'. The two chromatids are connected at a point known as 'Centromere'."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Centromere Definition",
+    "chunks": "Centromere: It is the point of connection of the two chromatids of chromosome."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Chemical Structure of Chromosomes",
+    "chunks": "Chemical structure of chromosomes: Each chromatid consists of: (a) A nucleic acid called 'DNA' which carries the genes that carry the genetic traits of the living organism. (b) Protein."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "DNA Definition",
+    "chunks": "DNA: It is the nucleic acid that carries the genetic traits of the living organism."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Number of Chromosomes Across Living Organisms",
+    "chunks": "Number of chromosomes: 1. The number of chromosomes is different in living organisms from one species to another. 2. The number of chromosomes is fixed among the members of the same species. For illustration: Human (46), Rabbit (44), Mosquito (6), Maize (20), Onion (16) chromosomes."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Chromosome Numbers in Somatic, Reproductive Cells, and Gametes",
+    "chunks": "3. The number of chromosomes in somatic cells and reproductive cells differs from the number of chromosomes in gametes for the same organism as follows: A Somatic cells and reproductive cells: Each one of them contains a complete number of chromosomes (complete two sets of chromosomes, one from male gamete and the other from female gamete). This number of chromosomes is a diploid number (2N). B Gametes [male gametes (sperms) and female gametes (ova)]: Each one of them contains a half number of chromosomes present in reproductive cell or in somatic cell. This number of chromosomes is a haploid number (N)."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Importance of Chromosomes",
+    "chunks": "Importance of chromosomes: 1. They have the main role in cell division. 2. They represent the genetic material of the living organism."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Cell Division: Definition",
+    "chunks": "Cell division: The cell division allows the living cell to divide into two cells or more, to aim the growth or reproduction."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Types of Cell Division",
+    "chunks": "Types of cell division: There are two types of cell division: Mitotic cell division (Mitosis) or Meiotic cell division (Meiosis) or reduction division."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "First Mitotic Cell Division (Mitosis): Definition",
+    "chunks": "First Mitotic cell division (Mitosis): It is a type of cell division at which a somatic cell divides into two new somatic cells, each of them contains the same number of chromosomes of the parent somatic cell."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Mitotic Division: Site of Occurrence",
+    "chunks": "Site of occurrence: It occurs in somatic cells only such as: Cells of pancreas, skin, liver and kidney (in humans and animals). Cells of roots, stems, leaves and seeds (in plants)."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Mitosis Phases: Interphase",
+    "chunks": "Phases of mitosis: Before starting mitosis, the cell passes through a phase called interphase. Interphase: It is the phase which is occurred before starting the cell division process, at which the cell prepares for division by the occurrence of some important biological processes and duplicating the genetic material (DNA). Interphase has an important role before starting mitosis because it prepares the cell for division by: 1. Occurrence of some important biological processes. 2. Duplicating the genetic material (DNA)."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Interphase: Genetic Material Duplication Clarification",
+    "chunks": "Duplicating the genetic material, doesn't mean increasing its number, but it means copying it two copies before the cell division, and so each new resulted cell obtains its complete copy of genetic material of the parent cell."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Chromosome Appearance Note",
+    "chunks": "Chromosome which consists of 2 chromatids, do not appear before cell division."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Mitosis Phases: Prophase",
+    "chunks": "1 Prophase: In this phase: The chromatin reticulum condenses and appears in the form of long, thin and double strings (chromosomes). The nucleolus and nuclear membrane disappear. Spindle fibers are formed between the two poles of the cell."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Mitosis Phases: Metaphase",
+    "chunks": "2 Metaphase: In this phase: The chromosomes which are connected with the spindle fibers are arranged at the cell equator."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Mitosis Phases: Anaphase",
+    "chunks": "3 Anaphase: In this phase: The centromere of each chromosome splits lengthwise into two halves, so the chromatids separate from each other. The spindle fibers begin to shrink and two identical groups of chromosomes (each chromosome contains single chromatid) are formed. Each group of chromosomes migrates towards one of the cell's poles."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Mitosis Phases: Telophase",
+    "chunks": "4 Telophase: In this phase: The spindle fibers disappear. A nuclear membrane is formed around the chromosomes at each of the cell's poles leading to the formation of two new nuclei. A nucleolus is formed at each pole of the cell. The chromosomes inside each nucleus convert into a chromatin reticulum again. At the end of this phase the cell divides into two new cells, the nucleus of each of them contains complete number of chromosomes (2N) of the parent cell."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Telophase: Adverse Changes Explanation",
+    "chunks": "G.R. The changes which occur in telophase are called the adverse changes. Because the changes that occur in telophase are adverse to that occur in prophase."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Comparison: Animal vs. Plant Cell Spindle Fibers Formation",
+    "chunks": "Compare between? Animal cell and plant cell (concering: formation of spindle fibers). Animal cell: The spindle fibers are formed by the centrosomes. Plant cell: The spindle fibers are from condensing the cytoplasm at two poles of the cell (Because in plant cell there is no centrosomes)."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Science, Technology and Society: Liver Transplantation",
+    "chunks": "Science, Technology and Society Liver Transplantation: Liver cells are not divided in normal conditions but they retain the ability to divide under certain circumstances. For example, if the liver gets injured or a part of it is cut, the remaining cells undergo many mitotic divisions to compensate the missing part. This is the scientific basis used in liver transplantation process."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Second Meiotic Cell Division (Meiosis): Definition",
+    "chunks": "Second Meiotic cell division (Meiosis): It is a type of cell division at which a reproductive cell divides into four new cells (gametes), each of them contains half the number of chromosomes of the parent reproductive cells."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Meiotic Division: Site of Occurrence",
+    "chunks": "Site of occurrence: It occurs only in the reproductive cells, where in humans and animals it occurs in Testes to produce sperms (male gametes) and Ovaries to produce ova (female gametes). In flowering plants, it occurs in Anthers to produce pollen grains (male gametes) and Ovaries to produce ova (female gametes)."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Importance of Meiosis",
+    "chunks": "Importance of meiosis: Production of male gametes and female gametes to complete the sexual reproduction."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Meiosis Phases: First Meiotic Division Introduction",
+    "chunks": "Phases of meiosis: Meiosis occurs in two stages: 1 First meiotic division: In this stage, the genetic material is duplicating as the cell passes through interphase."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Meiosis I: Prophase I",
+    "chunks": "1 Prophase I: In this phase: The chromatin reticulum condenses and appears in the form of long, thin and double strings (chromosomes). The homologous chromosomes pair up to form tetrads. The nucleolus and nuclear membrane disappear. Spindle fibers are formed between the two poles of the cell."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Meiosis I: Metaphase I",
+    "chunks": "2 Metaphase I: In this phase: The chromosomes pairs which are connected with the spindle fibers are arranged at the cell equator."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Meiosis I: Anaphase I",
+    "chunks": "3 Anaphase I: In this phase: The spindle fibers begin to shrink, so every two homologous chromosomes move away from each other. Each one of the two homologous chromosomes (each chromosome contains two chromatids) migrates towards one of the cell's poles. Therefore, two groups of chromosomes are formed at the cell's poles."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Meiosis I: Telophase I",
+    "chunks": "4 Telophase I: In this phase: The spindle fibers disappear. A nuclear membrane is formed around the chromosomes at each of the cell's poles leading to the formation of two new nuclei. A nucleolus is formed at each pole of the cell. At the end of this phase: The cell divides into two new cells, the nucleus of each of them contains half number of chromosomes (N) of the parent cell."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "The Crossing Over Phenomenon: Introduction and Definition",
+    "chunks": "The crossing over phenomenon: Why are the traits different between members of the same species? This is due to the crossing over phenomenon. Crossing over phenomenon: It is a phenomenon that takes place at the end of prophase I in which some parts of the two inner chromatids of each tetrad are exchanged to produce new genetic arrangements."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Importance of Crossing Over Phenomenon",
+    "chunks": "Importance of the crossing over phenomenon: It works on the variation of genetic traits among the members of the same species, where it contributes in the exchange of genes (that carry genetic traits) between the two homologous chromosome's chromatids, and distributing them randomly in the gametes."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Meiosis Phases: Second Meiotic Division Purpose",
+    "chunks": "2 Second meiotic division: The second meiotic division aims to increase the number of cells resulted from the first meiotic division."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Phases of Second Meiotic Division",
+    "chunks": "Phases of second meiotic division are: 1 Prophase II, 2 Metaphase II, 3 Anaphase II, 4 Telophase II."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Notes on First vs. Second Meiotic Division Phases",
+    "chunks": "Notes: In the first meiotic division: 1. Before starting prophase I, the parent reproductive cell passes through interphase, where genetic material is duplicating. 2. Through anaphase I, the centromeres don't split, where two groups of chromosomes (each contains two chromatids) are formed at the cell's poles. In the second meiotic division: 1. Before starting prophase II, the resulted cell from first meiosis doesn't pass through interphase, so the genetic material is not duplicating. 2. Through anaphase I, the centromeres split lengthwise, where two identical groups of chromosomes (each contains single chromatid) are formed at the cell's poles."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Gamete Combination During Fertilization",
+    "chunks": "When the male gamete (N) combines with the female gamete (N) during fertilization."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Comparison between Mitotic and Meiotic Cell Division",
+    "chunks": "Comparison between mitotic cell division (mitosis) and meiotic cell division (meiosis): Site of occurrence: Mitosis occurs in somatic cells except neural cells and red blood cells. Meiosis occurs in reproductive cells. Importance: Mitosis: Growth of living organisms, compensation of damaged cells, completing the asexual reproduction process. Meiosis: Formation of gametes. Resulting cells: Mitosis: Two somatic cells, each cell contains the same number of chromosomes (2N) of the parent somatic cell. Meiosis: Four gamete cells, each gamete contains haploid number of chromosomes (N) of the parent reproductive cell. Stages of division: Mitosis: One stage including four phases [Prophase - Metaphase - Anaphase - Telophase]. Meiosis: Two stages: First meiotic division and Second meiotic division [Each stage includes four phases]."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Comparison between Somatic Cell and Reproductive Cell",
+    "chunks": "Comparison between somatic cell and reproductive cell: No. of chromosomes: Somatic cell has Diploid number (2N). Reproductive cell has Diploid number (2N)."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Science, Technology and Society: Nano-technology and Cancer Treatment",
+    "chunks": "Science, Technology and Society Nano-technology and cancer treatment: Cancer occurs when some of the body cells are divided continuously in abnormal way without controlling leading to form a mass of cells which is called the tumor."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Tumor Definition",
+    "chunks": "Tumor: The mass of cells produced due to the abnormal continuous division of cells."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Nano-technology for Cancer Detection: Discovery and Application",
+    "chunks": "Formation of cancer: The Egyptian scientist Dr. Mustafa El Said discovered a way to detect the cancer cells and kill them by using very small molecules of gold measured by nanometer unit, so they called Nano-molecules and this technic is called Nano-technology that we can benefit from it in: Discovering cancer disease: Dr. Mustafa El Said. Discovering the cells infected with cancer by using Nano-technical as follows: This technic starts by loading proteins (that have the ability to attach on the cancerous cell secretions) with Nano-molecules of gold and then injecting them into the patient."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Nano-technology for Cancer Detection: Process Details",
+    "chunks": "The loaded proteins with Nano-molecules of gold pass from the blood of the patient, then attach on the cancerous cell surface to monitor it through a microscope, each cell separately."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Remember Lesson One: Nucleus and Chromosomes",
+    "chunks": "Remember Lesson one: Nucleus of the cell is responsible for the cell division as it contains chromosomes which represent the genetic material."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Remember Lesson One: Chromosomes Structure",
+    "chunks": "Chromosomes: They are thread like bodies present in cells' nuclei and they represent the genetic material of the living organism. Each chromosome consists of 2 chromatids connected by a centromere."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Remember Lesson One: Chromosome Chemical Composition",
+    "chunks": "Each chromosome chemically consists of a nucleic acid (DNA) and protein."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Remember Lesson One: Chromosome Numbers (Diploid/Haploid)",
+    "chunks": "Number of chromosomes in somatic cells and in reproductive cells is a diploid number (2N). Number of chromosomes in gametes is a haploid number (N)."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Remember Lesson One: Cell Division Definition",
+    "chunks": "Cell division: It is a complicated process, through which the living cell divides into two cells or more to aim the growth or reproduction."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Remember Lesson One: Mitotic Cell Division (Mitosis) Characteristics",
+    "chunks": "There are two types of divisions: 1. Mitotic cell division (mitosis): It occurs in somatic cells such as all body cells except reproductive and neural cells (in case of animal and human) or cells of root, stems and leaves (in case of plant). It aims at the growth of organisms, compensation of damaged cells and completing the asexual reproduction."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 1,
+    "lesson_name": "Cell Division",
+    "idea_title": "Remember Lesson One: Phases of First and Second Meiosis Division",
+    "chunks": "Phases of first and second meiosis division: Prophase I, Metaphase I, Anaphase I, Telophase I, Prophase II, Metaphase II, Anaphase II, Telophase II."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Introduction to Reproduction Types",
+    "chunks": "Not all living organisms are reproduce by the same way, in order to keep the continuity of their species and to avoid their extinction. Two types of reproduction. Asexual reproduction. Sexual reproduction."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Asexual Reproduction: Definition and Characteristics",
+    "chunks": "It is a process by which a living organism produces new individuals with genetic traits identical to those of their parent. It occurs in : Unicellular (single-celled) living organisms. Such as: Yeast, bacteria and amoeba. Some multicellular animals and plants. Such as: Hydra, mushroom and starfish. Properties of asexual reproduction: 1. It takes place by only one living organism. 2. It does not require special systems or structures in the living organism. 3. It depends on mitotic division. 4. It keeps the genetic structure of the living organism. G.R."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Asexual Reproduction: Binary Fission",
+    "chunks": "Types of asexual reproduction. 1 Reproduction by binary fission. It occurs in : Unicellular living organisms as: Unicellular protozoans. Such as: Amoeba - Paramecium- Euglena. Simple algae and bacteria. How does the reproduction by binary fission occur...? The nucleus divides by mitotic division and the cell splits into two cells. Each cell grows and becomes a new individual. Application: Reproduction by binary fission in bacteria. Bacterial cell. Hereditary substance. (1) The genetic material is doubled. Amoeba. G.R. • The cells that are resulted by binary fission are identical to the parental cell. Because they are resulted by the mitotic division. The parent cell which reproduces by binary fission disappears. Because it splits into two identical cells. Enriching activity. Binary fission in amoeba: Amoeba cell. Two cells. (identical to the parent cell)(1) (2) (3) (4)."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Asexual Reproduction: Budding",
+    "chunks": "2 Reproduction by budding. It occurs in : Unicellular organisms. Such as: Yeast fungus. Multicellular organisms. Such as: Hydra and sponges. Budding in yeast fungus. Budding in hydra. How does reproduction by budding occur in a yeast fungus...? Budding in sponge. Observation & Conclusion: Reproduction by budding in a yeast fungus as follows: Parent cell Nucleus. A bud emerges as a lateral bulge in the cell. Bud. The cell nucleus divides mitotically into two nuclei, one of them remains in the parent cell and the other migrates to the bud. The bud which is connected to the parent cell grows gradually until it is fully grown, then it may remain connected to the parent cell forming a colony or separate from the parent cell and becomes a new fungus."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Asexual Reproduction: Regeneration",
+    "chunks": "3 Reproduction by regeneration. It occurs in: Multicellular living organisms. Such as: Starfish. Central disc. Arms. Starfish with many arms arises from a central disc. How does reproduction by regeneration occur ...? It occurs by growing of a cut part from the body of living organism by mitotic division forming a new complete organism. Hpplication: Regeneration and reproduction by regeneration in starfish. When a starfish loses one of its arms, SO. (The missing part). The missing part of the animal can grow forming a complete animal, if it contains +* (The remaining part). The remaining part of the animal can form a new arm instead of the missing."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Asexual Reproduction: Sporogony (Spore Propagation)",
+    "chunks": "4 Reproduction by sporogony (Spore propagation). It occurs in : Some fungi. Such as: Bread mould fungus and Mushroom fungus. Some algae. How does reproduction by spore propagation occur...? Application: Mushroom fungus. Spores are found in the bread mould fungus inside special organs which are called sporangium (pl. sporangia). When spores become mature. The sporangium ruptures and a large number of spores are released. When spores fall on a suitable environment (wet bread). Each spore grows by mitotic division to give a new organism (fungus) identical to the parent."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Asexual Reproduction: Vegetative Reproduction",
+    "chunks": "5 Vegetative reproduction. It occurs in : Plants' vegetative organs. (Such as: leaves, roots and stems) in order to produce new plants identical to the parent plant. Note. Vegetative reproduction occurs without the need of seeds. How does the vegetative reproduction occur...? Each potato tuber can form a new plant. Vegetative reproduction in plants occurs by mitotic division where it happens: Naturally: By plant's vegetative organs (leaves, roots and stems). Artificially: In many ways such as tissue culture. From the previous explanation, we can define the vegetative reproduction as follows: Vegetative reproduction It is a type of asexual reproduction that takes place in plants' vegetative organs without the need of seeds."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Sexual Reproduction: Genetic Variation and Gamete Formation",
+    "chunks": "SECOND Sexual reproduction. 4. Sexual reproduction is a source of genetic variation. Due to the occurrence of the crossing over phenomenon during the formation of gametes through the meiotic division. And also the offspring resulted from the sexual reproduction gets his genetic traits from two sources (the male and the female). I.e. The resulted offspring has new genetic traits that combine the parents' traits. It depends on two main processes: 1. Gametes formation. 2. Fertilization. 1 Gametes formation: Gametes of a male and a female are formed in the living organism as a result of the meiotic division for its reproductive cells. Meiosis 1. Gametes contain a half number of the chromosomes (N) of the organism's reproductive or somatic cells (2N). Meiosis II. Sperms O. 2N. N. Formation of male gametes (sperms). Ovum."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Sexual Reproduction Process Overview",
+    "chunks": "We can summarize the sexual reproduction process in the following figure: Female Male. Meiosis in the reproductive cell of ovaries. Meiosis in the reproductive cell of testes. Ovum (female gamete). 23 chromosomes (N). Fertilization. Sperm (male gamete). 23 chromosomes (N). Zygote. 46 chromosomes (2N). Mitosis. 46 46. Mitosis for several times4. 46 46 46. 4646."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Comparison of Sexual and Asexual Reproduction",
+    "chunks": "Comparison between sexual and asexual reproduction: Sexual reproduction. It occurs by two living organisms, one of them is a male and the other is a female. It occurs in most (multicellular) higher living organisms of animals and plants. It depends on meiotic division. It requires special reproductive organs and systems in the living organism. The new offspring combines the genetic traits from two sources (the male and female). Asexual reproduction. It occurs by one living organism. It occurs in most (unicellular) single-celled living organisms. It also occurs in some multicellular animals and plants. It depends on mitotic division. It doesn't require special systems or structures in the living organism. The new offspring gets a full copy of the parent individual's genetic traits. TRY To answer worksheet. General Exercise of the School Book on Unit 4. Model Exams on Unit 4. in the Notebook."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Reproduction Process Summary",
+    "chunks": "Remember Reproduction process: It is a biological process, where the living organism produces new individuals of the same kind and thus ensuring its continuity. Two types of reproduction: 1. Asexual reproduction: It is a process by which a living organism produces new individuals with genetic traits identical to those of their parent. 2. Sexual reproduction: It is a process by which a living organism produces new individuals with traits that differ from parents."
+  },
+  {
+    "unit_number": 4,
+    "unit_name": "Reproduction and Species Continuity",
+    "lesson_number": 2,
+    "lesson_name": "Sexual and Asexual Reproduction",
+    "idea_title": "Asexual Reproduction Methods Overview",
+    "chunks": "Types of asexual reproduction: 1. Reproduction by binary fission: It is a type of asexual reproduction, where the nucleus divides mitotically, then the cell splits into two identical cells. It occurs in Simple algae, Bacteria, Amoeba, Paramecium and Euglena. 2. Reproduction by budding: It is a type of asexual reproduction that produces new individuals by the formation of buds in the parent cell. It occurs in Yeast fungus, Hydra and Sponges. 3. Reproduction by regeneration: It is the ability of the missing part in some living organisms to grow forming a complete organism identical to the parent individual. It occurs in starfish. 4. Reproduction by sporogony:"
+  }
+]

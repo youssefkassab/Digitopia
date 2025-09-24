@@ -1,25 +1,26 @@
+const config = require('../../config/config');
 module.exports = {
   "development": {
-    "username": process.env.DB_USER || "root",
-    "password": process.env.DB_PASSWORD || "",
-    "database": process.env.DB_NAME || "digitopia",
-    "host": process.env.DB_HOST || "localhost",
+    "username": config.DB_USER || "root",
+    "password": config.DB_PASSWORD || "",
+    "database": config.DB_NAME || "digitopia",
+    "host": config.DB_HOST || "localhost",
     "dialect": "mysql",
     "timezone": "+02:00"
   },
   "test": {
-    "username": process.env.DB_USER || "root",
-    "password": process.env.DB_PASSWORD || "",
-    "database": process.env.DB_NAME || "digitopia",
-    "host": process.env.DB_HOST || "localhost",
+    "username": config.DB_USER || "root",
+    "password": config.DB_PASSWORD || "",
+    "database": config.DB_NAME || "digitopia",
+    "host": config.DB_HOST || "localhost",
     "dialect": "mysql",
     "timezone": "+02:00"
   },
   "production": {
-   "username": process.env.DB_USER || "root",
-    "password": process.env.DB_PASSWORD || "",
-    "database": process.env.DB_NAME || "digitopia",
-    "host": process.env.DB_HOST || "localhost",
+   "username": config.DB_USER || "root",
+    "password": config.DB_PASSWORD || "",
+    "database": config.DB_NAME || "digitopia",
+    "host": config.DB_HOST || "localhost",
     "dialect": "mysql",
     "timezone": "+02:00"
   }
