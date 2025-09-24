@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "migrate": "node -r dotenv/config node_modules/sequelize-cli/lib/sequelize db:migrate"
+    "migrate": "node -r dotenv/config node_modules/sequelize-cli/lib/sequelize db:migrate",
+    "pretest:api": "node -e \"require('fs').mkdirSync('swagger/reports',{recursive:true})\"",
+    "test:api": "newman run swagger/api_full_collection.postman_collection.json -e swagger/api_environment.postman_environment.json -r cli,htmlextra,json --reporter-htmlextra-export swagger/reports/report.html --reporter-json-export swagger/reports/report.json",
+    "test:api:admin": "newman run swagger/api_full_collection.postman_collection.json -e swagger/api_environment.postman_environment.json --folder Orchestration -r cli,htmlextra,json --reporter-htmlextra-export swagger/reports/report.html --reporter-json-export swagger/reports/report.json"
   },
   "repository": {
     "type": "git",

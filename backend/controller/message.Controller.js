@@ -52,10 +52,35 @@ static updateMessage = (req, res) => {
 };
 static deleteMessage = (req, res) => {
     const isAdmin = req.user.role === 'admin';
-    const quer = isAdmin ? 'DELETE FROM messages WHERE id = ?' : 'DELETE FROM messages WHERE id = ? AND sender = ?';
-    const params = isAdmin ? [req.body.id] : [req.body.id, req.user.email];
-    sequelize.query(quer, { replacements: params, type: QueryTypes.DELETE })
-      .then(() => res.status(200).json({ message: 'Message deleted successfully.' }))
+    const deleteSql = isAdmin ? 'DELETE FROM messages WHERE id = ?' : 'DELETE FROM messages WHERE id = ? AND sender = ?';
+    const deleteParams = isAdmin ? [req.body.id] : [req.body.id, req.user.email];
+    const checkSql = isAdmin ? 'SELECT id FROM messages WHERE id = ?' : 'SELECT id FROM messages WHERE id = ? AND sender = ?';
+
+    sequelize.query(checkSql, { replacements: deleteParams, type: QueryTypes.SELECT })
+      .then((rows) => {
+        if (!rows || rows.length === 0) {
+          return res.status(404).json({ error: 'Message not found or not owned by user.' });
+        }
+
+        return sequelize.transaction(async (t) => {
+          await sequelize.query(deleteSql, { replacements: deleteParams, transaction: t, type: QueryTypes.DELETE });
+
+          // Confirm deletion regardless of driver-specific metadata
+          const exists = await sequelize.query('SELECT id FROM messages WHERE id = ?', { replacements: [req.body.id], transaction: t, type: QueryTypes.SELECT });
+          if (Array.isArray(exists) && exists.length > 0) {
+            const err = new Error('DELETE_FAILED');
+            err.code = 'DELETE_FAILED';
+            throw err;
+          }
+        })
+        .then(() => res.status(200).json({ message: 'Message deleted successfully.' }))
+        .catch((err) => {
+          if (err && err.code === 'DELETE_FAILED') {
+            return res.status(500).json({ error: 'Message deletion failed due to database constraint.' });
+          }
+          return res.status(500).json({ error: 'Internal server error.' });
+        });
+      })
       .catch(() => res.status(500).json({ error: 'Internal server error.' }));
 };
 

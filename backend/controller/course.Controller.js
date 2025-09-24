@@ -244,9 +244,11 @@ const deleteCourse = (req, res) => {
     sequelize.transaction(async (t) => {
       await sequelize.query(querTags, { replacements: [req.body.id], transaction: t, type: QueryTypes.DELETE });
       const params = req.user.role === 'admin' ? [req.body.id] : [req.body.id, req.user.id];
-      const [resMeta] = await sequelize.query(quer, { replacements: params, transaction: t, type: QueryTypes.DELETE });
-      const meta = Array.isArray(resMeta) ? resMeta[1] : resMeta;
-      const deleted = (meta && (meta.affectedRows || meta.rowCount)) || 0;
+      console.log(params);
+      const result = await sequelize.query(quer, { replacements: params, transaction: t, type: QueryTypes.DELETE });
+      console.log(result);
+      const deleted = (result && (result.affectedRows || result.rowCount)) || 0;
+      console.log(deleted);
       if (deleted === 0) {
         throw Object.assign(new Error('NOT_FOUND'), { code: 'NOT_FOUND' });
       }
@@ -255,7 +257,8 @@ const deleteCourse = (req, res) => {
         if (err && err.code === 'NOT_FOUND') {
           return res.status(404).json({ error: 'Course not found or not owned by user.' });
         }
-        return res.status(500).json({ error: 'Internal server error.'});
+        console.error('Delete course error:', err);
+        return res.status(500).json({ error: 'Internal server error.' });
       });
 }
 const getTags = (req,res)=> {

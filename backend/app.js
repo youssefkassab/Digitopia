@@ -6,6 +6,7 @@ const fileUpload = require("express-fileupload");
 const userRoutes = require('./router/user.router');
 const courseRoutes = require('./router/course.router');
 const messageRoutes = require('./router/message.router');
+const adminRoutes = require('./router/admin.router');
 const askRoutes = require("./router/ask.router");
 const searchRoutes = require("./router/search.router");
 const structureRoutes = require("./router/genrateStructure.router");
@@ -53,11 +54,13 @@ if (enableSwagger) {
 app.use('/api/users',userRoutes);
 app.use('/api/courses',courseRoutes);
 app.use('/api/messages',messageRoutes);
+app.use('/api/admin',adminRoutes);
 app.use("/ask", askRoutes);
 app.use("/search", searchRoutes);
 app.use("/genrateStructure", structureRoutes);
 app.use("/uploadFile", uploadRoutes);
 app.use("/embedding", embeddingRoutes);
+
 
 // 404
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
