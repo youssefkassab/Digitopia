@@ -87,27 +87,6 @@
   padding: 0;
 }
 
-/* Search field */
-.search-container {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.search-container form input {
-  padding: 5px 10px; /* smaller */
-  border-radius: 20px;
-  border: none;
-  background: rgba(255, 255, 255, 0.15);
-  outline: none;
-  transition: 0.3s;
-  font-size: 13px;
-}
-
-.search-container form input:focus {
-  background: rgba(255, 255, 255, 0.25);
-}
-
 /* User controls */
 .user-controls {
   display: flex;
@@ -133,12 +112,1242 @@
 }
 
 .signup-btn:hover {
-  background: #005bb5;
-  box-shadow: 0 0 10px rgba(0, 122, 255, 0.6);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .logout-btn {
   background: #ff4d4f;
   color: #fff;
+}
+
+/* === Students Container === */
+.students-container {
+  padding: 150px;
+  font-family: "Arial", sans-serif;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 2rem; /* more rounded */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  transition: all 0.4s ease;
+}
+
+body.dark-mode .students-container {
+  background: rgba(32, 32, 32, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  color: #f1f1f1;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+/* === Add Student Form === */
+.add-student-form {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.add-student-form input {
+  padding: 0.6rem 0.9rem;
+  border-radius: 1rem; /* squircle */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #111;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .add-student-form input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f1f1f1;
+}
+
+.add-student-form input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+  outline: none;
+}
+
+/* Buttons */
+.add-student-form button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 2rem; /* squircle */
+  background: rgba(0, 123, 255, 0.7);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.35);
+}
+
+.add-student-form button:hover {
+  background: rgba(0, 123, 255, 0.9);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(0, 123, 255, 0.45);
+}
+
+/* === Students Table === */
+.students-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  animation: fadeIn 0.7s ease;
+}
+
+.students-table th,
+.students-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border: none;
+}
+
+.students-table tr {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .students-table tr {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.students-table tr:hover {
+  background: rgba(0, 123, 255, 0.15);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.2);
+}
+
+.students-table th {
+  background: rgba(0, 123, 255, 0.8);
+  color: #fff;
+  border-radius: 1.5rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.students-table tr.blocked {
+  background: rgba(255, 77, 79, 0.2);
+}
+
+.students-table button {
+  margin: 0 0.3rem;
+  padding: 0.4rem 0.7rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.students-table button.delete {
+  background: rgba(220, 53, 69, 0.7);
+  color: white;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.35);
+}
+
+.students-table button.delete:hover {
+  background: rgba(220, 53, 69, 0.95);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.45);
+}
+
+/* === Error === */
+.error {
+  color: #ff4d4f;
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Signup & Login === */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === Page Container === */
+.admin-signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: #f5f5f5;
+  transition: background 0.4s ease;
+}
+
+body.dark-mode .admin-signup-container {
+  background: #0f172a;
+}
+
+/* === Signup Card === */
+.admin-signup-card {
+  background: #fff;
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  animation: popIn 0.6s ease forwards;
+  transform: scale(0.95);
+  padding: 100px;
+}
+
+body.dark-mode .admin-signup-card {
+  background: #1e293b;
+  color: #e2e8f0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+/* === Card Title === */
+.admin-signup-card h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  animation: fadeSlide 0.6s ease;
+}
+
+/* === Form Inputs === */
+.admin-signup-card form input,
+.admin-signup-card form select {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-top: 10px;
+  border-radius: 0.75rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.admin-signup-card form input:focus,
+.admin-signup-card form select:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.4);
+}
+
+body.dark-mode .admin-signup-card form input,
+body.dark-mode .admin-signup-card form select {
+  background: #0f172a;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+}
+
+body.dark-mode .admin-signup-card form input:focus,
+body.dark-mode .admin-signup-card form select:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+}
+
+/* === Password Strength === */
+.pw-strength-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 50px;
+  background: linear-gradient(to right, #ddd, #eee);
+  margin: 10px 0;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pw-strength-fill {
+  height: 100%;
+  transition: width 0.4s ease, background 0.4s ease;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ff4d4d, #ff9966);
+}
+
+body.dark-mode .pw-strength-bar {
+  background: linear-gradient(to right, #222, #333);
+}
+
+/* === Feedback Messages === */
+.error {
+  color: #ff4d4f;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  animation: shake 0.3s ease;
+}
+
+.success {
+  color: #2ecc71;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* === Buttons === */
+.admin-signup-card .btn {
+  width: 100%;
+  padding: 0.85rem;
+  margin-top: 1.5rem;
+  background: #007aff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.admin-signup-card .btn:hover {
+  background: #005bb5;
+  box-shadow: 0 0 12px rgba(0, 122, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+body.dark-mode .admin-signup-card .btn {
+  background: #38bdf8;
+}
+
+body.dark-mode .admin-signup-card .btn:hover {
+  background: #0284c7;
+}
+
+/* === Links === */
+.login-link {
+  display: block;
+  margin-top: 15px;
+  font-size: 0.95rem;
+  color: #0056b3;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .login-link {
+  color: #38bdf8;
+}
+
+/* === Teachers Container === */
+.teachers-container {
+  padding: 150px;
+  font-family: "Arial", sans-serif;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 2rem; /* more rounded */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  transition: all 0.4s ease;
+}
+
+body.dark-mode .teachers-container {
+  background: rgba(32, 32, 32, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  color: #f1f1f1;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+/* === Add Teacher Form === */
+.add-teacher-form {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.add-teacher-form input {
+  padding: 0.6rem 0.9rem;
+  border-radius: 1rem; /* squircle */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #111;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .add-teacher-form input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f1f1f1;
+}
+
+.add-teacher-form input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+  outline: none;
+}
+
+/* Buttons */
+.add-teacher-form button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 2rem; /* squircle */
+  background: rgba(0, 123, 255, 0.7);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.35);
+}
+
+.add-teacher-form button:hover {
+  background: rgba(0, 123, 255, 0.9);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(0, 123, 255, 0.45);
+}
+
+/* === Teachers Table === */
+.teachers-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  animation: fadeIn 0.7s ease;
+}
+
+.teachers-table th,
+.teachers-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border: none;
+}
+
+.teachers-table tr {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .teachers-table tr {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.teachers-table tr:hover {
+  background: rgba(0, 123, 255, 0.15);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.2);
+}
+
+.teachers-table th {
+  background: rgba(0, 123, 255, 0.8);
+  color: #fff;
+  border-radius: 1.5rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+body.dark-mode .teachers-table th {
+  background: rgba(56, 189, 248, 0.8);
+}
+
+.teachers-table button.delete {
+  background: rgba(220, 53, 69, 0.7);
+  color: white;
+  border-radius: 1rem;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.35);
+}
+
+.teachers-table button.delete:hover {
+  background: rgba(220, 53, 69, 0.95);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.45);
+}
+
+/* === Animations Reuse === */
+.fade-in {
+  animation: fadeIn 0.7s ease;
+}
+
+.pop-in {
+  animation: popIn 0.6s ease;
+}
+
+.fade-slide {
+  animation: fadeSlide 0.6s ease;
+}
+
+.row-animate {
+  transition: all 0.3s ease;
+}
+
+.row-animate:hover {
+  background: rgba(0, 122, 255, 0.1);
+}
+
+/* === Animations === */
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* === Messages Container === */
+.messages-container {
+  padding: 150px;
+  max-width: 750px;
+  margin: 150px;
+  margin-left: 200px;
+  margin-right: 200px;
+  font-family: "Arial", sans-serif;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 2rem; /* rounded squircle */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  transition: all 0.4s ease;
+}
+
+body.dark-mode .messages-container {
+  background: rgba(32, 32, 32, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  color: #f1f1f1;
+}
+
+/* === Title === */
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #007bff;
+}
+
+body.dark-mode .title {
+  color: #38bdf8;
+}
+
+/* === Messages List === */
+.messages-list {
+  display: grid;
+  gap: 20px;
+}
+
+/* === Message Card === */
+.message-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 2rem; /* squircle */
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 75px;
+}
+
+body.dark-mode .message-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hover effect for card */
+.message-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 12px 28px rgba(0, 123, 255, 0.2);
+}
+
+/* === Reply Text & Button === */
+.message-card .reply {
+  color: #28a745;
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+.message-card textarea {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 1rem; /* squircle */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 12px;
+  resize: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  color: #111;
+}
+
+body.dark-mode .message-card textarea {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f1f1f1;
+}
+
+.message-card textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+/* === Reply Button === */
+.reply-btn {
+  margin-top: 10px;
+  padding: 10px 18px;
+  border: none;
+  background: rgba(0, 123, 255, 0.7);
+  color: #fff;
+  border-radius: 2rem; /* squircle */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.reply-btn:hover {
+  background: rgba(0, 123, 255, 0.95);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(0, 123, 255, 0.35);
+}
+
+/* === Admins Container === */
+.admins-container {
+  padding: 150px;
+  font-family: "Arial", sans-serif;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 2rem; /* more rounded squircle */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  transition: all 0.4s ease;
+}
+
+body.dark-mode .admins-container {
+  background: rgba(32, 32, 32, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  color: #f1f1f1;
+}
+
+/* === Add Admin Form === */
+.add-admin-form {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+  animation: popIn 0.6s ease;
+}
+
+.add-admin-form input {
+  padding: 0.6rem 0.9rem;
+  border-radius: 1rem; /* squircle */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #111;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .add-admin-form input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f1f1f1;
+}
+
+.add-admin-form input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+  outline: none;
+}
+
+/* Buttons */
+.add-admin-form button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 2rem; /* squircle */
+  background: rgba(0, 123, 255, 0.7);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.35);
+}
+
+.add-admin-form button:hover {
+  background: rgba(0, 123, 255, 0.9);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(0, 123, 255, 0.45);
+}
+
+/* === Admins Table === */
+.admins-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  animation: fadeIn 0.7s ease;
+}
+
+.admins-table th,
+.admins-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border: none;
+}
+
+.admins-table tr {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .admins-table tr {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.admins-table tr:hover {
+  background: rgba(0, 123, 255, 0.15);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.2);
+}
+
+.admins-table th {
+  background: rgba(0, 123, 255, 0.8);
+  color: #fff;
+  border-radius: 1.5rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+body.dark-mode .admins-table th {
+  background: rgba(56, 189, 248, 0.8);
+}
+
+/* Delete Button */
+.admins-table button.delete {
+  background: rgba(220, 53, 69, 0.7);
+  color: white;
+  border-radius: 1rem;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.35);
+}
+
+.admins-table button.delete:hover {
+  background: rgba(220, 53, 69, 0.95);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.45);
+}
+
+/* Row Hover Animation */
+.row-animate {
+  transition: all 0.3s ease;
+}
+
+.row-animate:hover {
+  background: rgba(0, 122, 255, 0.1);
+}
+
+/* === Animations === */
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* === Courses Container === */
+.courses-container {
+  padding: 150px;
+  font-family: "Arial", sans-serif;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 2rem; /* rounded squircle */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  transition: all 0.4s ease;
+}
+
+body.dark-mode .courses-container {
+  background: rgba(32, 32, 32, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  color: #f1f1f1;
+}
+
+/* === Add Course Form === */
+.add-course-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem auto;
+  padding: 75px;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 2rem; /* squircle */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .add-course-form {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f1f1;
+}
+
+.add-course-form input,
+.add-course-form textarea {
+  padding: 0.65rem 0.9rem;
+  border-radius: 1rem; /* squircle */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #111;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .add-course-form input,
+body.dark-mode .add-course-form textarea {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f1f1f1;
+}
+
+.add-course-form input:focus,
+.add-course-form textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+/* === Form Actions Buttons === */
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.btn-add,
+.btn-save,
+.btn-cancel,
+.btn-edit,
+.btn-delete {
+  border-radius: 2rem; /* squircle */
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.btn-save,
+.btn-cancel {
+  margin-top: 25px;
+}
+
+.btn-add {
+  background: rgba(0, 123, 255, 0.7);
+  color: #fff;
+}
+
+.btn-add:hover {
+  background: rgba(0, 123, 255, 0.9);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(0, 123, 255, 0.35);
+}
+
+.btn-save {
+  background: rgba(40, 167, 69, 0.7);
+  color: #fff;
+}
+
+.btn-save:hover {
+  background: rgba(40, 167, 69, 0.95);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(40, 167, 69, 0.35);
+}
+
+.btn-cancel {
+  background: rgba(108, 117, 125, 0.7);
+  color: #fff;
+}
+
+.btn-cancel:hover {
+  background: rgba(108, 117, 125, 0.95);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(108, 117, 125, 0.35);
+}
+
+.btn-edit {
+  background: rgba(255, 193, 7, 0.7);
+  color: #111;
+}
+
+.btn-edit:hover {
+  background: rgba(255, 193, 7, 0.95);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(255, 193, 7, 0.35);
+}
+
+.btn-delete {
+  background: rgba(220, 53, 69, 0.7);
+  color: #fff;
+}
+
+.btn-delete:hover {
+  background: rgba(220, 53, 69, 0.95);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(220, 53, 69, 0.35);
+}
+
+/* === Courses Table === */
+.courses-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  animation: fadeIn 0.7s ease;
+}
+
+.courses-table th,
+.courses-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border: none;
+}
+
+.courses-table tr {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .courses-table tr {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.courses-table tr:hover {
+  background: rgba(0, 123, 255, 0.15);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.2);
+}
+
+.courses-table th {
+  background: rgba(0, 123, 255, 0.8);
+  color: #fff;
+  border-radius: 1.5rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+body.dark-mode .courses-table th {
+  background: rgba(56, 189, 248, 0.8);
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Container */
+.admin-dashboard-container {
+  display: flex;
+  gap: 20px;
+  padding: 24px;
+  padding-top: 125px;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--bg, #f0f2f7);
+}
+
+/* Glassmorphic cards */
+.admin-card {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #222;
+}
+
+body.dark-mode .admin-card {
+  background: rgba(32, 32, 32, 0.45);
+  color: #f9f9f9;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.admin-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Layout */
+.admin-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-bottom {
+  display: flex;
+  gap: 14px;
+}
+
+.admin-top {
+  width: clamp(420px, 46vw, 1018px);
+  aspect-ratio: 1198 / 367;
+}
+
+.admin-square {
+  width: clamp(200px, 22vw, 420px);
+  aspect-ratio: 1/1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-square h2 {
+  font-size: 2.2rem;
+  margin: 0;
+}
+
+.admin-square p {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-top: 6px;
+}
+
+.admin-large {
+  width: clamp(360px, 34vw, 876px);
+  height: 620px;
+  overflow-y: auto;
+}
+
+/* Inbox */
+.message-list {
+  margin-top: 12px;
+  list-style: none;
+  padding: 0;
+}
+
+.message-list li {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+body.dark-mode .message-list li {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.subtext {
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .admin-dashboard-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .admin-top,
+  .admin-square,
+  .admin-large {
+    width: min(94vw, 900px);
+  }
+  .admin-bottom {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* === Inbox === */
+.admin-inbox {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 18px;
+  padding: 20px;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.inbox-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.inbox-item {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.inbox-item:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.inbox-sender {
+  font-weight: 600;
+  color: #1d1d1f;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.inbox-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inbox-preview {
+  flex: 1;
+  font-size: 0.85rem;
+  color: #444;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inbox-time {
+  font-size: 0.75rem;
+  color: #777;
+  margin-left: 10px;
 }
