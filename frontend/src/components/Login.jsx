@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { login } from "../services/auth";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import "../index.css";
 
 const steps = ["Email", "Password"];
 const stepMessages = [
