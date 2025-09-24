@@ -6,11 +6,17 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
+      chatId: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.literal("(UUID())"),
+        allowNull: false,
+        unique: true,
+      },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
+          model: "Users",
           key: "id",
         },
         onDelete: "CASCADE",
@@ -20,9 +26,21 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      subject: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      role: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+      },
       lastMessages: {
         type: Sequelize.JSON,
         allowNull: true,
+      },
+      time: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("NOW"),
       },
       createdAt: {
         allowNull: false,
