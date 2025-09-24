@@ -11,6 +11,9 @@ import Messages from "./AdminComponents/Messages";
 import CoursesManage from "./AdminComponents/CoursesManage";
 import AdminCommunity from "./AdminComponents/AdminCommunity";
 import Admins from "./AdminComponents/Admins";
+import AdminLogout from "./AdminComponents/AdminLogout";
+import AdminLogin from "./AdminComponents/AdminLogin";
+import AdminSignup from "./AdminComponents/AdminSignup";
 import "./AdminPage.css";
 
 // Defining admin routes here
@@ -22,7 +25,7 @@ function AdminRoutes() {
       <Routes location={location} key={location.pathname}>
         {/* Landing page */}
         <Route
-          path="/"
+          path="/admin"
           element={
             <>
               <Helmet>
@@ -32,22 +35,26 @@ function AdminRoutes() {
                   content="Welcome to the Admin Dashboard of 3lm Quest"
                 />
               </Helmet>
-              <h1>Welcome, Admin 🚀</h1>
-              {/* Dashboard Components */}
               <AdminDashboard />
             </>
           }
         />
 
         {/* Admin routes */}
-        <Route path="/Admin/Students" element={<Students />} />
-        <Route path="/Admin/Teachers" element={<Teachers />} />
-        <Route path="/Admin/Courses" element={<CoursesManage />} />
-        <Route path="/Admin/Messages" element={<Messages />} />
-        <Route path="/Admin/Community" element={<AdminCommunity />} />
-        <Route path="/Admin/Admins" element={<Admins />} />
+        <Route path="/admin/students" element={<Students />} />
+        <Route path="/admin/teachers" element={<Teachers />} />
+        <Route path="/admin/courses" element={<CoursesManage />} />
+        <Route path="/admin/messages" element={<Messages />} />
+        <Route path="/admin/community" element={<AdminCommunity />} />
+        <Route path="/admin/admins" element={<Admins />} />
+
+        {/* Auth routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/signup" element={<AdminSignup />} />
+        <Route path="/admin/logout" element={<AdminLogout />} />
 
         {/* Catch-all */}
+        <Route path="*" element={<h2>Page Not Found</h2>} />
       </Routes>
     </AnimatePresence>
   );

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom"; // for smooth navigation
 import { posters } from "../data/posters";
 
 export default function PosterSlider() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const navigate = useNavigate();
 
   const nextSlide = () => {
     setDirection(1);
@@ -25,9 +27,8 @@ export default function PosterSlider() {
   return (
     <div className="poster-slider">
       <AnimatePresence initial={false} custom={direction}>
-        <motion.a
+        <motion.div
           key={posters[index].id}
-          href={posters[index].link}
           className="poster-slide"
           style={{ backgroundImage: `url(${posters[index].image})` }}
           custom={direction}
@@ -44,14 +45,24 @@ export default function PosterSlider() {
               className="poster-logo"
             />
           </div>
-          <div className="poster-bottom">
-            <button className="poster-button">Join Now</button>
-            <p className="poster-description">
-              <span className="poster-genre">{posters[index].genre}</span> {" "}
-              {posters[index].description}
-            </p>
-          </div>
-        </motion.a>
+
+          {/* Show Join Now button only for Poster1 */}
+          {posters[index].id === 1 && (
+            <motion.button
+              className="join-now-btn"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 30 }}
+              transition={{ duration: 0.6 }}
+              onClick={() => {
+                // Smooth transition then navigate
+                navigate("/Community");
+              }}
+            >
+              Join Now
+            </motion.button>
+          )}
+        </motion.div>
       </AnimatePresence>
 
       {/* Navigation Arrows */}

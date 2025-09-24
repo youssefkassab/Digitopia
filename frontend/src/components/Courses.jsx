@@ -80,23 +80,33 @@ const Courses = () => {
     setSuccessMsg("");
 
     try {
-      const payload = {
-        name: formData.name,
-        description: formData.description,
-        price: Number(formData.price),
-        teacher_id: user.id,
-        category: "Programming", // default, you can later allow teachers to select category
-        popularity: Math.floor(Math.random() * 1000), // mock popularity
-        createdAt: new Date().toISOString(),
-      };
+      const formPayload = new FormData();
+      formPayload.append("name", formData.name);
+      formPayload.append("description", formData.description);
+      formPayload.append("price", formData.price);
 
-      await api.post("/courses/create", payload, {
-        headers: { "Content-Type": "application/json" },
+      if (user?.role === "admin") {
+        formPayload.append("teacher_id", formData.teacher_id);
+      }
+
+      if (formData.video) {
+        formPayload.append("video", formData.video); // 👈 this will be handled by multer
+      }
+
+      await api.post("/courses/create", formPayload, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
-      setSuccessMsg(`Course "${payload.name}" created successfully!`);
+      setSuccessMsg(
+        `Course "${formData?.name || "Unnamed"}" created successfully!`
+      );
+
       setFormData({ name: "", description: "", price: "", video: null });
-      setCourses([...courses, payload]);
+
+      // ✅ Refresh full course list instead of pushing incomplete object
+      const updatedCourses = await fetchCourses();
+      setCourses(updatedCourses);
+
       setShowForm(false);
     } catch (error) {
       console.error("Course creation failed:", error);
@@ -110,17 +120,16 @@ const Courses = () => {
   const filteredCourses = useMemo(() => {
     let filtered = [...courses];
 
-    // Filter by category (ignore if "All")
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter(
-        (c) => c.category?.toLowerCase() === selectedCategory.toLowerCase()
-      );
+    if (selectedCategory === "All") {
+      return filtered.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
     }
 
-    // Filter by price range
+    filtered = filtered.filter(
+      (c) => c.category?.toLowerCase() === selectedCategory.toLowerCase()
+    );
+
     filtered = filtered.filter((c) => Number(c.price) <= priceRange);
 
-    // Sorting
     switch (sortOption) {
       case "latest":
         filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

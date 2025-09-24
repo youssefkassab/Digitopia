@@ -154,6 +154,7 @@ export default function Community() {
             <label
               htmlFor="file-upload"
               className={`btn fade-out ${hideUpload ? "hidden" : ""}`}
+              id="file-upload"
               style={{ marginTop: "100px", marginRight: "100px" }}
             >
               Choose Files
