@@ -13,6 +13,12 @@ const DB_PORT = process.env.DB_PORT || 3306;
 const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const PORT = process.env.PORT || 3000;
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+const MONGO_URI = process.env.MONGO_URI;
+const AI_DB_NAME = process.env.AI_DB_NAME;
+const AI_COLLECTION_NAME = process.env.AI_COLLECTION_NAME;
+const REPLACE_AI_DB = process.env.REPLACE_AI_DB === 'true' || false;
+
 module.exports = {
   JWT_SECRET,
   DB_HOST,
@@ -22,5 +28,10 @@ module.exports = {
   DB_PORT,
   CORS_ORIGIN,
   NODE_ENV,
-  PORT
+  PORT,
+  GOOGLE_API_KEY,
+  MONGO_URI,
+  AI_DB_NAME,
+  AI_COLLECTION_NAME,
+  REPLACE_AI_DB
 };
