@@ -57,16 +57,10 @@ async function ask(req, res) {
     const results = await searchContent(question, grade, subject, cumulative);
     const context = results.map(r => r.chunks).join("\n");
     const prompt = generatePrompt(context, question);
-
-    // add current user question
-    contents.push({
-      role: "user",
-      parts: [{ text: prompt }],
-    });
-
-    const result = await ai.models.generateContentStream({ // if not streaming: generateContent
+    
+    const chat = ai.chats.create({ // if not streaming: generateContent
       model: "gemini-2.5-flash",
-      contents,
+      history: contents,
       config: {
         safetySettings,
         systemInstruction: instructions,
@@ -77,6 +71,16 @@ async function ask(req, res) {
       },
     });
 
+    const result = await chat.sendMessageStream({
+      message: prompt,
+    });
+
+    // add current user question
+    contents.push({
+      role: "user",
+      parts: [{ text: prompt }],
+    });
+    
     // const answer = result.text; // if not streaming
     let answer = "";
 
