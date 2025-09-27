@@ -179,6 +179,7 @@
 //   );
 // }
 import React, { useState } from "react";
+import Markdown from "markdown-to-jsx";
 import "./AIPage.css";
 
 export default function AIChatPage() {
@@ -191,13 +192,16 @@ export default function AIChatPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [editingChatId, setEditingChatId] = useState(null);
 
-  // 🔹 Send message to backend
+  // 🔹 Send message with streaming
   const handleSend = async () => {
     if (!input.trim()) return;
 
-    const newMessage = { sender: "user", text: input };
-    const updatedMessages = [...messages, newMessage];
+    const userMessage = { sender: "user", text: input };
+    const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
+
+    const aiMessage = { sender: "ai", text: "" };
+    setMessages((prev) => [...prev, aiMessage]);
 
     try {
       const response = await fetch("http://localhost:3000/ask", {
@@ -207,45 +211,47 @@ export default function AIChatPage() {
           question: input,
           grade: "9",
           subject: "science",
-          cumulative: false
+          cumulative: false,
         }),
       });
 
-      const data = await response.json();
+      if (!response.body) throw new Error("No stream found");
 
-      const aiMessage = { sender: "ai", text: data.answer || "No response" };
-      const finalMessages = [...updatedMessages, aiMessage];
-      setMessages(finalMessages);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let partialText = "";
 
-      // update active chat
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        partialText += decoder.decode(value, { stream: true });
+
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = { sender: "ai", text: partialText };
+          return updated;
+        });
+      }
+
       setChatHistory((prev) =>
         prev.map((chat) =>
           chat.id === activeChat.id
-            ? { ...chat, messages: finalMessages }
+            ? { ...chat, messages: [...updatedMessages, { sender: "ai", text: partialText }] }
             : chat
         )
       );
-
-      // (Optional) Save message in DB
-      await fetch("http://localhost:3000/api/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chatId: activeChat.id,
-          userMessage: input,
-          aiMessage: data.answer,
-        }),
-      });
     } catch (error) {
-      console.error("Error connecting to AI backend:", error);
-      const aiMessage = { sender: "ai", text: "⚠️ Error connecting to AI" };
-      setMessages((prev) => [...prev, aiMessage]);
+      console.error("Streaming error:", error);
+      setMessages((prev) => [
+        ...prev,
+        { sender: "ai", text: "⚠️ Error connecting to AI" },
+      ]);
     }
 
     setInput("");
   };
 
-  // New Chat
   const handleNewChat = () => {
     const newChat = { id: Date.now(), name: "New Chat", messages: [] };
     setChatHistory([newChat, ...chatHistory]);
@@ -253,7 +259,6 @@ export default function AIChatPage() {
     setMessages([]);
   };
 
-  // Delete Chat
   const handleDeleteChat = (id) => {
     const filtered = chatHistory.filter((chat) => chat.id !== id);
     setChatHistory(filtered);
@@ -266,7 +271,6 @@ export default function AIChatPage() {
     }
   };
 
-  // Edit Chat Name
   const handleEditChat = (id) => setEditingChatId(id);
 
   const handleRename = (id, newName) => {
@@ -278,7 +282,6 @@ export default function AIChatPage() {
     setEditingChatId(null);
   };
 
-  // Clear Messages
   const clearMessages = () => {
     setMessages([]);
     setChatHistory((prev) =>
@@ -363,14 +366,18 @@ export default function AIChatPage() {
       {/* Main Chat Section */}
       <main className="chat-section">
         <div className="chat-messages">
-          {messages.map((msg, i) => (
+        {messages.map((msg, i) => (
             <div
-              key={i}
-              className={`message ${msg.sender === "user" ? "user" : "ai"}`}
+            key={i}
+            className={`message ${msg.sender === "user" ? "user" : "ai"}`}
             >
-              {msg.text}
+            {msg.sender === "ai" ? (
+                <Markdown>{msg.text}</Markdown>
+            ) : (
+                msg.text
+            )}
             </div>
-          ))}
+        ))}
         </div>
 
         {/* Input Area */}
@@ -388,4 +395,3 @@ export default function AIChatPage() {
     </div>
   );
 }
-
