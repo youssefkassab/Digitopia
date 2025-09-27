@@ -2,6 +2,19 @@ const { generateEmbedding } = require("../utils/embedding");
 const { connectDB } = require("../utils/db");
 const { AI_DB_NAME, AI_COLLECTION_NAME } = require("../config/config");
 
+/**
+ * Perform a vector-based search over curriculum content using an embedding of the question.
+ *
+ * Filters results by grade (or grades 1..grade when cumulative is true) and an optional subject,
+ * and returns the top 5 matching documents with a vector search score and selected fields.
+ *
+ * @param {string} question - The text query to embed and use for the vector search.
+ * @param {string} grade - Grade level as a stringified integer (e.g., "3"). When `cumulative` is true, grades 1 through this grade are included.
+ * @param {string} [subject] - Optional subject to restrict results (e.g., "math").
+ * @param {boolean} [cumulative=false] - If true, include all grades from 1 up to `grade`.
+ * @returns {Array<Object>} Array of matching documents containing: grade, subject, unit_number, unit_name, lesson_number, lesson_name, idea_title, chunks, and score.
+ * @throws {Error} If the generated embedding is missing or not an array.
+ */
 async function searchContent(question, grade, subject, cumulative = false) {
   const { collection } = await connectDB(AI_DB_NAME, AI_COLLECTION_NAME);
 
@@ -62,6 +75,19 @@ async function searchContent(question, grade, subject, cumulative = false) {
   return results;
 }
 
+/**
+ * Handle an HTTP request to perform a vector-based content search using the provided question, grade, and subject.
+ *
+ * Validates required fields in req.body, normalizes the optional `cumulative` flag, invokes searchContent, and sends the results as JSON.
+ * Sends HTTP 400 for invalid input and HTTP 500 for internal errors.
+ *
+ * @param {import('express').Request} req - Express request with a JSON body containing:
+ *   - question: non-empty string
+ *   - grade: string representing a number
+ *   - subject: non-empty string
+ *   - cumulative (optional): boolean or string "true"/"false"
+ * @param {import('express').Response} res - Express response used to send JSON responses and status codes.
+ */
 async function search(req, res) {
   try {
     let { question, grade, subject, cumulative } = req.body;

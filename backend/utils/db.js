@@ -8,6 +8,16 @@ if (!MONGO_URI) {
 const client = new MongoClient(MONGO_URI);
 let dbInstances = {};
 
+/**
+ * Get and cache a MongoDB database and collection handle for the specified names.
+ *
+ * The result is cached per `DBName_collectionName` key so subsequent calls with the
+ * same names return the same handles.
+ *
+ * @param {string} DBName - Database name. Defaults to `AI_DB_NAME` from configuration.
+ * @param {string} collectionName - Collection name. Defaults to `AI_COLLECTION_NAME` from configuration.
+ * @returns {{ db: import('mongodb').Db, collection: import('mongodb').Collection }} An object containing the MongoDB `db` instance and the `collection` handle.
+ */
 async function connectDB(DBName = AI_DB_NAME, collectionName = AI_COLLECTION_NAME) {
     const key = `${DBName}_${collectionName}`;
     if (!dbInstances[key]) {

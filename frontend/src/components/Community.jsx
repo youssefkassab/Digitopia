@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { FaThumbsUp, FaComment } from "react-icons/fa";
 
+/**
+ * Render the Community feed UI for creating, viewing, liking, and commenting on posts, including a fullscreen media viewer.
+ *
+ * The component manages local post state (text, files, previews, likes, comments), file selection and preview generation,
+ * post creation, optimistic like/comment updates, per-post comment toggling, and a fullscreen viewer with circular navigation
+ * for image/video attachments. It derives the current user from localStorage and uses local state only (no backend integration).
+ *
+ * @returns {JSX.Element} The React element for the community feed UI.
+ */
 export default function Community() {
   const [posts, setPosts] = useState([]);
   const [postText, setPostText] = useState("");

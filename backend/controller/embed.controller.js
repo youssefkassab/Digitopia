@@ -2,6 +2,13 @@ const { connectDB } = require("../utils/db");
 const { AI_DB_NAME, AI_COLLECTION_NAME } = require("../config/config");
 const { generateEmbedding } = require("../utils/embedding");
 
+/**
+ * Generate embeddings for documents that have chunks but no embedding and store them on each document.
+ *
+ * Iterates documents in the configured collection, generates embeddings from `doc.chunks`, updates documents that receive embeddings, and responds with JSON summarizing how many documents were updated and how many remain without embeddings.
+ * @param {import('express').Request} req - Express request object (not used).
+ * @param {import('express').Response} res - Express response used to send the JSON result.
+ */
 async function addEmbeddings(req, res) {
   try {
     const { collection } = await connectDB(AI_DB_NAME, AI_COLLECTION_NAME);
