@@ -4,10 +4,24 @@ const jwt = require('jsonwebtoken');
 const { sequelize, Sequelize } = require('../db/models');
 const { QueryTypes } = Sequelize;
 
+/**
+ * Validate whether a string is in a syntactically valid email address format.
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} `true` if the string matches a basic email pattern, `false` otherwise.
+ */
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+/**
+ * Check whether a password meets the module's minimum strength requirements.
+ *
+ * Validates that the password is at least 8 characters long and contains at least
+ * one letter and one digit; special characters are permitted.
+ *
+ * @param {string} password - The password to validate.
+ * @returns {boolean} `true` if the password is at least 8 characters long and contains at least one letter and one digit, `false` otherwise.
+ */
 function isStrongPassword(password) {
   // Minimum 8 characters, at least one letter and one number, allows special characters
   return /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password);

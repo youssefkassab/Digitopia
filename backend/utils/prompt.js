@@ -27,7 +27,14 @@
 // Your Answer (in the same language as the question):`;
 // }
 
-// module.exports = { generatePrompt };
+/**
+ * Builds a tutor-style prompt instructing an assistant named Questro to answer a student's question using a provided curriculum.
+ *
+ * @param {string} context - Curriculum or instructional content to use as the basis for explanations.
+ * @param {string} question - The student's question to be answered.
+ * @param {string} subject - The academic subject used to tailor the tutor persona and language.
+ * @returns {string} A formatted prompt that defines the tutor role, enforces use of the curriculum, specifies a five-part instructional structure, includes the curriculum and student's question, and ends with a cue for the assistant's answer in the student's preferred language.
+ */
 
 
 function generatePrompt(context, question, subject) {

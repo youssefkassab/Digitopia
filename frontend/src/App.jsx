@@ -17,6 +17,15 @@ import Footer from "./components/Footer";
 import AIpage from "./components/AI-UI";
 import "./index.css";
 
+/**
+ * Render the application's route tree with animated transitions and per-route head metadata.
+ *
+ * Provides route definitions for the main site pages (home, Classroom, Courses, Community, About,
+ * Contact, Dashboard, AI) and authentication routes (signup, login), plus a catch-all 404 route.
+ * Routes are keyed by the current location to ensure page transition animations replay on path changes.
+ *
+ * @returns {JSX.Element} A React element containing AnimatePresence-wrapped Routes configured for the app.
+ */
 function AppRoutes() {
   const location = useLocation();
 
@@ -71,6 +80,14 @@ function AppRoutes() {
   );
 }
 
+/**
+ * Root application component that renders the top-level layout and page content.
+ *
+ * Renders the global navigation bar, the main routed content area (AppRoutes), and the footer
+ * inside a container with class `app-wrapper`.
+ *
+ * @returns {JSX.Element} The app layout element.
+ */
 export default function App() {
   return (
     <div className="app-wrapper">

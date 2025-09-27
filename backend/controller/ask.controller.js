@@ -3,11 +3,30 @@ const { searchContent } = require("./search.controller");
 const { generatePrompt } = require("../utils/prompt");
 const { instructions } = require("../utils/instructions");
 
+/**
+ * Truncates a question string to a maximum length.
+ *
+ * @param {string} question - The input string to truncate.
+ * @param {number} [maxLength=1000] - Maximum allowed length in characters.
+ * @returns {string} The original question if its length is less than or equal to maxLength, otherwise the question truncated to maxLength characters.
+ */
 function truncateQuestion(question, maxLength = 1000) {
   if (question.length > maxLength) return question.slice(0, maxLength);
   return question;
 }
 
+/**
+ * Handle an HTTP "ask" request: validate input, build a contextual prompt, stream the AI model's generated answer to the client, and record the exchanged messages in a transient chat history.
+ *
+ * Validates and normalizes req.body.question, req.body.grade, and optional req.body.cumulative; truncates the question to 1000 characters. Retrieves relevant contextual content, generates a prompt, creates an AI chat session with safety settings and system instructions, streams the model's output to the HTTP response, appends the user prompt and model answer to an in-memory history, and ends the response. On validation failure responds with 400; on other errors responds with 500.
+ *
+ * @param {import('express').Request} req - Express request; expects req.body to include:
+ *   - question: non-empty string
+ *   - grade: non-empty string
+ *   - subject: optional string
+ *   - cumulative: optional boolean or string "true"/"false"
+ * @param {import('express').Response} res - Express response used to stream text chunks or send error JSON.
+ */
 async function ask(req, res) {
   try {
     let { question, grade, subject, cumulative } = req.body;

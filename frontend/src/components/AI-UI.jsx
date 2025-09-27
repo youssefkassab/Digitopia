@@ -182,6 +182,12 @@ import React, { useState } from "react";
 import Markdown from "markdown-to-jsx";
 import "./AIPage.css";
 
+/**
+ * Render the AI chat page UI with streaming AI responses, per-chat history, and controls for creating, renaming, deleting, clearing chats, and toggling theme.
+ *
+ * Includes a message input area that sends user prompts and streams AI replies in real time, a sidebar with chat history and inline renaming, and Markdown rendering for AI messages.
+ * @returns {JSX.Element} The AI chat page component.
+ */
 export default function AIChatPage() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");

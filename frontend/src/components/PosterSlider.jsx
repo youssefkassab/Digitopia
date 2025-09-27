@@ -3,6 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom"; // for smooth navigation
 import { posters } from "../data/posters";
 
+/**
+ * An animated poster carousel with previous/next controls, slide indicators, and an optional call-to-action.
+ *
+ * Renders the current poster as a slide with animated transitions, provides left/right arrow navigation and clickable dots to jump to a specific slide, and shows a "Join Now" button on the poster whose `id` equals 1 that navigates to the "/Community" route when clicked.
+ *
+ * @returns {JSX.Element} The poster slider component tree.
+ */
 export default function PosterSlider() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);

@@ -1,6 +1,10 @@
 const { connectDB } = require("../utils/db");
 const { AI_DB_NAME, AI_COLLECTION_NAME } = require("../config/config");
 
+/**
+ * Ensure the configured AI database contains the specified collection, optionally replacing the database first.
+ * @param {boolean} replace - If `true`, drop the existing database before ensuring the collection exists; defaults to `false`.
+ */
 async function generateStructure(replace = false) {
   try {
     const { db, collection } = await connectDB(AI_DB_NAME, AI_COLLECTION_NAME);
