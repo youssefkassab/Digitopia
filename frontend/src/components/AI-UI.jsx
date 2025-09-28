@@ -12,7 +12,8 @@
 //   const [activeChat, setActiveChat] = useState(chatHistory[0]);
 //   const [editingChatId, setEditingChatId] = useState(null);
 
-//   const [subject, setSubject] = useState("Science");
+ 
+//   const [subject, setSubject] = useState("science");
 //   const [cumulative, setCumulative] = useState(false);
 //   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,7 +52,7 @@
 //         signal: abortControllerRef.current.signal,
 //         body: JSON.stringify({
 //           question: input,
-//           grade: currentUser?.Grade || "9", // ✅ send silently
+//           grade: currentUser?.Grade || "9", 
 //           subject,
 //           cumulative,
 //         }),
@@ -93,7 +94,7 @@
 //       }
 //     } finally {
 //       setIsLoading(false);
-//       setInput(""); // ✅ clear input
+//       setInput("");   
 //     }
 //   };
 
@@ -228,15 +229,17 @@
 //               )}
 //             </div>
 //           ))}
-//           {isLoading && <div className="loading">🤖 AI is thinking...</div>}
+//           {isLoading && <div className="loading">🤖 Questro is thinking...</div>}
 //         </div>
 
 //         {/* Input Area */}
 //         <div className="chat-input-area">
 //           <select value={subject} onChange={(e) => setSubject(e.target.value)}>
-//             <option value="Science">Science</option>
-//             <option value="Math">Math</option>
-//             <option value="English">English</option>
+//             <option value="science">science</option>
+//             <option value="math">math</option>
+//             <option value="physics">physics</option>
+//             <option value="chemistry">chemistry</option>
+//             <option value="biology">biology</option>
 //           </select>
 
 //           <label className="cumulative-checkbox">
@@ -276,30 +279,30 @@ import "./AIPage.css";
 export default function AIChatPage({ currentUser }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [chatHistory, setChatHistory] = useState([
-    { id: 1, name: "First Chat", messages: [] },
-  ]);
+  const [chatHistory, setChatHistory] = useState([{ id: 1, name: "First Chat", messages: [] }]);
   const [activeChat, setActiveChat] = useState(chatHistory[0]);
   const [editingChatId, setEditingChatId] = useState(null);
 
- 
   const [subject, setSubject] = useState("science");
   const [cumulative, setCumulative] = useState(false);
+  const [grade, setGrade] = useState(null); // ✅ from DB
   const [isLoading, setIsLoading] = useState(false);
 
   const abortControllerRef = useRef(null);
 
-  // ✅ Dark mode sync with global (Navbar)
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
+  // ✅ Fetch grade dynamically when user logs in
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setDarkMode(document.body.classList.contains("dark-mode"));
-    });
-    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
-  }, []);
+    if (currentUser?.id) {
+      fetch(`http://localhost:3000/user/grade/${currentUser.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // 🔑 JWT
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setGrade(data.grade))
+        .catch((err) => console.error("Failed to fetch grade:", err));
+    }
+  }, [currentUser]);
 
   // 🔹 Send message with streaming
   const handleSend = async () => {
@@ -322,7 +325,7 @@ export default function AIChatPage({ currentUser }) {
         signal: abortControllerRef.current.signal,
         body: JSON.stringify({
           question: input,
-          grade: currentUser?.Grade || "9", 
+          grade: grade || "9",   // ✅ now dynamic
           subject,
           cumulative,
         }),
@@ -357,18 +360,14 @@ export default function AIChatPage({ currentUser }) {
     } catch (error) {
       if (error.name !== "AbortError") {
         console.error("Streaming error:", error);
-        setMessages((prev) => [
-          ...prev,
-          { sender: "ai", text: "⚠️ Error connecting to AI" },
-        ]);
+        setMessages((prev) => [...prev, { sender: "ai", text: "⚠️ Error connecting to AI" }]);
       }
     } finally {
       setIsLoading(false);
-      setInput("");   
+      setInput("");
     }
   };
 
-  // 🔹 Stop AI response
   const handleStop = () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -399,29 +398,24 @@ export default function AIChatPage({ currentUser }) {
 
   const handleRename = (id, newName) => {
     setChatHistory((prev) =>
-      prev.map((chat) =>
-        chat.id === id ? { ...chat, name: newName || "Untitled Chat" } : chat
-      )
+      prev.map((chat) => (chat.id === id ? { ...chat, name: newName || "Untitled Chat" } : chat))
     );
     setEditingChatId(null);
   };
 
   const clearMessages = () => {
     setMessages([]);
-    setChatHistory((prev) =>
-      prev.map((chat) =>
-        chat.id === activeChat.id ? { ...chat, messages: [] } : chat
-      )
-    );
+    setChatHistory((prev) => prev.map((chat) => (chat.id === activeChat.id ? { ...chat, messages: [] } : chat)));
   };
 
   return (
-    <div className={`ai-page ${darkMode ? "dark" : ""}`}>
+    <div className="ai-page">
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="user-profile">
           <div className="avatar">👤</div>
           <span className="username">{currentUser?.name || "Guest"}</span>
+          <span className="user-grade">🎓 Grade: {grade || "Loading..."}</span>
         </div>
 
         <button className="new-chat-btn" onClick={handleNewChat}>
@@ -432,9 +426,7 @@ export default function AIChatPage({ currentUser }) {
           {chatHistory.map((chat) => (
             <div
               key={chat.id}
-              className={`chat-history-item ${
-                activeChat?.id === chat.id ? "active" : ""
-              }`}
+              className={`chat-history-item ${activeChat?.id === chat.id ? "active" : ""}`}
               onClick={() => {
                 setActiveChat(chat);
                 setMessages(chat.messages);
@@ -445,9 +437,7 @@ export default function AIChatPage({ currentUser }) {
                   type="text"
                   defaultValue={chat.name}
                   onBlur={(e) => handleRename(chat.id, e.target.value)}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" && handleRename(chat.id, e.target.value)
-                  }
+                  onKeyDown={(e) => e.key === "Enter" && handleRename(chat.id, e.target.value)}
                   autoFocus
                   className="rename-input"
                 />
@@ -488,15 +478,8 @@ export default function AIChatPage({ currentUser }) {
       <main className="chat-section">
         <div className="chat-messages">
           {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`message ${msg.sender === "user" ? "user" : "ai"}`}
-            >
-              {msg.sender === "ai" ? (
-                <Markdown>{msg.text}</Markdown>
-              ) : (
-                msg.text
-              )}
+            <div key={i} className={`message ${msg.sender === "user" ? "user" : "ai"}`}>
+              {msg.sender === "ai" ? <Markdown>{msg.text}</Markdown> : msg.text}
             </div>
           ))}
           {isLoading && <div className="loading">🤖 Questro is thinking...</div>}
@@ -513,11 +496,7 @@ export default function AIChatPage({ currentUser }) {
           </select>
 
           <label className="cumulative-checkbox">
-            <input
-              type="checkbox"
-              checked={cumulative}
-              onChange={(e) => setCumulative(e.target.checked)}
-            />
+            <input type="checkbox" checked={cumulative} onChange={(e) => setCumulative(e.target.checked)} />
             Cumulative
           </label>
 
