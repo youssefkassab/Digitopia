@@ -1,45 +1,117 @@
-// import React, { useState } from "react";
+
+// import React, { useState, useEffect, useRef } from "react";
+// import Markdown from "markdown-to-jsx";
 // import "./AIPage.css";
 
-// export default function AIChatPage() {
+// export default function AIChatPage({ currentUser }) {
 //   const [messages, setMessages] = useState([]);
 //   const [input, setInput] = useState("");
 //   const [chatHistory, setChatHistory] = useState([
 //     { id: 1, name: "First Chat", messages: [] },
 //   ]);
 //   const [activeChat, setActiveChat] = useState(chatHistory[0]);
-//   const [darkMode, setDarkMode] = useState(false);
 //   const [editingChatId, setEditingChatId] = useState(null);
 
-//   // Send new message
-//   const handleSend = () => {
-//     if (!input.trim()) return;
-//     const newMessage = { sender: "user", text: input };
-//     const updatedMessages = [...messages, newMessage, { sender: "ai", text: "AI response..." }];
+//   const [subject, setSubject] = useState("Science");
+//   const [cumulative, setCumulative] = useState(false);
+//   const [isLoading, setIsLoading] = useState(false);
+
+//   const abortControllerRef = useRef(null);
+
+//   // ✅ Dark mode sync with global (Navbar)
+//   const [darkMode, setDarkMode] = useState(
+//     localStorage.getItem("theme") === "dark"
+//   );
+//   useEffect(() => {
+//     const observer = new MutationObserver(() => {
+//       setDarkMode(document.body.classList.contains("dark-mode"));
+//     });
+//     observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+//     return () => observer.disconnect();
+//   }, []);
+
+//   // 🔹 Send message with streaming
+//   const handleSend = async () => {
+//     if (!input.trim() || isLoading) return;
+
+//     const userMessage = { sender: "user", text: input };
+//     const updatedMessages = [...messages, userMessage];
 //     setMessages(updatedMessages);
 
-//     // update active chat
-//     setChatHistory((prev) =>
-//       prev.map((chat) =>
-//         chat.id === activeChat.id ? { ...chat, messages: updatedMessages } : chat
-//       )
-//     );
-//     setInput("");
+//     const aiMessage = { sender: "ai", text: "" };
+//     setMessages((prev) => [...prev, aiMessage]);
+
+//     setIsLoading(true);
+//     abortControllerRef.current = new AbortController();
+
+//     try {
+//       const response = await fetch("http://localhost:3000/ask", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         signal: abortControllerRef.current.signal,
+//         body: JSON.stringify({
+//           question: input,
+//           grade: currentUser?.Grade || "9", // ✅ send silently
+//           subject,
+//           cumulative,
+//         }),
+//       });
+
+//       if (!response.body) throw new Error("No stream found");
+
+//       const reader = response.body.getReader();
+//       const decoder = new TextDecoder("utf-8");
+//       let partialText = "";
+
+//       while (true) {
+//         const { done, value } = await reader.read();
+//         if (done) break;
+
+//         partialText += decoder.decode(value, { stream: true });
+
+//         setMessages((prev) => {
+//           const updated = [...prev];
+//           updated[updated.length - 1] = { sender: "ai", text: partialText };
+//           return updated;
+//         });
+//       }
+
+//       setChatHistory((prev) =>
+//         prev.map((chat) =>
+//           chat.id === activeChat.id
+//             ? { ...chat, messages: [...updatedMessages, { sender: "ai", text: partialText }] }
+//             : chat
+//         )
+//       );
+//     } catch (error) {
+//       if (error.name !== "AbortError") {
+//         console.error("Streaming error:", error);
+//         setMessages((prev) => [
+//           ...prev,
+//           { sender: "ai", text: "⚠️ Error connecting to AI" },
+//         ]);
+//       }
+//     } finally {
+//       setIsLoading(false);
+//       setInput(""); // ✅ clear input
+//     }
 //   };
 
-//   // New Chat
+//   // 🔹 Stop AI response
+//   const handleStop = () => {
+//     if (abortControllerRef.current) {
+//       abortControllerRef.current.abort();
+//       setIsLoading(false);
+//     }
+//   };
+
 //   const handleNewChat = () => {
-//     const newChat = {
-//       id: Date.now(),
-//       name: "New Chat",
-//       messages: [],
-//     };
+//     const newChat = { id: Date.now(), name: "New Chat", messages: [] };
 //     setChatHistory([newChat, ...chatHistory]);
 //     setActiveChat(newChat);
 //     setMessages([]);
 //   };
 
-//   // Delete Chat
 //   const handleDeleteChat = (id) => {
 //     const filtered = chatHistory.filter((chat) => chat.id !== id);
 //     setChatHistory(filtered);
@@ -52,10 +124,7 @@
 //     }
 //   };
 
-//   // Edit Chat Name
-//   const handleEditChat = (id) => {
-//     setEditingChatId(id);
-//   };
+//   const handleEditChat = (id) => setEditingChatId(id);
 
 //   const handleRename = (id, newName) => {
 //     setChatHistory((prev) =>
@@ -66,7 +135,6 @@
 //     setEditingChatId(null);
 //   };
 
-//   // Clear Messages
 //   const clearMessages = () => {
 //     setMessages([]);
 //     setChatHistory((prev) =>
@@ -82,7 +150,7 @@
 //       <aside className="sidebar">
 //         <div className="user-profile">
 //           <div className="avatar">👤</div>
-//           <span className="username">Ahmed Noaman</span>
+//           <span className="username">{currentUser?.name || "Guest"}</span>
 //         </div>
 
 //         <button className="new-chat-btn" onClick={handleNewChat}>
@@ -106,11 +174,9 @@
 //                   type="text"
 //                   defaultValue={chat.name}
 //                   onBlur={(e) => handleRename(chat.id, e.target.value)}
-//                   onKeyDown={(e) => {
-//                     if (e.key === "Enter") {
-//                       handleRename(chat.id, e.target.value);
-//                     }
-//                   }}
+//                   onKeyDown={(e) =>
+//                     e.key === "Enter" && handleRename(chat.id, e.target.value)
+//                   }
 //                   autoFocus
 //                   className="rename-input"
 //                 />
@@ -144,9 +210,6 @@
 
 //         <div className="sidebar-actions">
 //           <button onClick={clearMessages}>Clear Chat</button>
-//           <button onClick={() => setDarkMode(!darkMode)}>
-//             {darkMode ? "Light Mode" : "Dark Mode"}
-//           </button>
 //         </div>
 //       </aside>
 
@@ -158,13 +221,33 @@
 //               key={i}
 //               className={`message ${msg.sender === "user" ? "user" : "ai"}`}
 //             >
-//               {msg.text}
+//               {msg.sender === "ai" ? (
+//                 <Markdown>{msg.text}</Markdown>
+//               ) : (
+//                 msg.text
+//               )}
 //             </div>
 //           ))}
+//           {isLoading && <div className="loading">🤖 AI is thinking...</div>}
 //         </div>
 
 //         {/* Input Area */}
 //         <div className="chat-input-area">
+//           <select value={subject} onChange={(e) => setSubject(e.target.value)}>
+//             <option value="Science">Science</option>
+//             <option value="Math">Math</option>
+//             <option value="English">English</option>
+//           </select>
+
+//           <label className="cumulative-checkbox">
+//             <input
+//               type="checkbox"
+//               checked={cumulative}
+//               onChange={(e) => setCumulative(e.target.checked)}
+//             />
+//             Cumulative
+//           </label>
+
 //           <input
 //             type="text"
 //             value={input}
@@ -172,29 +255,55 @@
 //             onChange={(e) => setInput(e.target.value)}
 //             onKeyDown={(e) => e.key === "Enter" && handleSend()}
 //           />
-//           <button onClick={handleSend}>Send</button>
+
+//           <button onClick={handleSend} disabled={isLoading}>
+//             {isLoading ? "Thinking..." : "Send"}
+//           </button>
+//           {isLoading && (
+//             <button onClick={handleStop} className="stop-btn">
+//               Stop
+//             </button>
+//           )}
 //         </div>
 //       </main>
 //     </div>
 //   );
 // }
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Markdown from "markdown-to-jsx";
 import "./AIPage.css";
 
-export default function AIChatPage() {
+export default function AIChatPage({ currentUser }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [chatHistory, setChatHistory] = useState([
     { id: 1, name: "First Chat", messages: [] },
   ]);
   const [activeChat, setActiveChat] = useState(chatHistory[0]);
-  const [darkMode, setDarkMode] = useState(false);
   const [editingChatId, setEditingChatId] = useState(null);
+
+ 
+  const [subject, setSubject] = useState("science");
+  const [cumulative, setCumulative] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const abortControllerRef = useRef(null);
+
+  // ✅ Dark mode sync with global (Navbar)
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setDarkMode(document.body.classList.contains("dark-mode"));
+    });
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
 
   // 🔹 Send message with streaming
   const handleSend = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
 
     const userMessage = { sender: "user", text: input };
     const updatedMessages = [...messages, userMessage];
@@ -203,15 +312,19 @@ export default function AIChatPage() {
     const aiMessage = { sender: "ai", text: "" };
     setMessages((prev) => [...prev, aiMessage]);
 
+    setIsLoading(true);
+    abortControllerRef.current = new AbortController();
+
     try {
       const response = await fetch("http://localhost:3000/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: abortControllerRef.current.signal,
         body: JSON.stringify({
           question: input,
-          grade: "9",
-          subject: "science",
-          cumulative: false,
+          grade: currentUser?.Grade || "9", 
+          subject,
+          cumulative,
         }),
       });
 
@@ -242,14 +355,25 @@ export default function AIChatPage() {
         )
       );
     } catch (error) {
-      console.error("Streaming error:", error);
-      setMessages((prev) => [
-        ...prev,
-        { sender: "ai", text: "⚠️ Error connecting to AI" },
-      ]);
+      if (error.name !== "AbortError") {
+        console.error("Streaming error:", error);
+        setMessages((prev) => [
+          ...prev,
+          { sender: "ai", text: "⚠️ Error connecting to AI" },
+        ]);
+      }
+    } finally {
+      setIsLoading(false);
+      setInput("");   
     }
+  };
 
-    setInput("");
+  // 🔹 Stop AI response
+  const handleStop = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      setIsLoading(false);
+    }
   };
 
   const handleNewChat = () => {
@@ -297,7 +421,7 @@ export default function AIChatPage() {
       <aside className="sidebar">
         <div className="user-profile">
           <div className="avatar">👤</div>
-          <span className="username">Ahmed Noaman</span>
+          <span className="username">{currentUser?.name || "Guest"}</span>
         </div>
 
         <button className="new-chat-btn" onClick={handleNewChat}>
@@ -357,31 +481,46 @@ export default function AIChatPage() {
 
         <div className="sidebar-actions">
           <button onClick={clearMessages}>Clear Chat</button>
-          <button onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? "Light Mode" : "Dark Mode"}
-          </button>
         </div>
       </aside>
 
       {/* Main Chat Section */}
       <main className="chat-section">
         <div className="chat-messages">
-        {messages.map((msg, i) => (
+          {messages.map((msg, i) => (
             <div
-            key={i}
-            className={`message ${msg.sender === "user" ? "user" : "ai"}`}
+              key={i}
+              className={`message ${msg.sender === "user" ? "user" : "ai"}`}
             >
-            {msg.sender === "ai" ? (
+              {msg.sender === "ai" ? (
                 <Markdown>{msg.text}</Markdown>
-            ) : (
+              ) : (
                 msg.text
-            )}
+              )}
             </div>
-        ))}
+          ))}
+          {isLoading && <div className="loading">🤖 Questro is thinking...</div>}
         </div>
 
         {/* Input Area */}
         <div className="chat-input-area">
+          <select value={subject} onChange={(e) => setSubject(e.target.value)}>
+            <option value="science">science</option>
+            <option value="math">math</option>
+            <option value="physics">physics</option>
+            <option value="chemistry">chemistry</option>
+            <option value="biology">biology</option>
+          </select>
+
+          <label className="cumulative-checkbox">
+            <input
+              type="checkbox"
+              checked={cumulative}
+              onChange={(e) => setCumulative(e.target.checked)}
+            />
+            Cumulative
+          </label>
+
           <input
             type="text"
             value={input}
@@ -389,7 +528,15 @@ export default function AIChatPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
           />
-          <button onClick={handleSend}>Send</button>
+
+          <button onClick={handleSend} disabled={isLoading}>
+            {isLoading ? "Thinking..." : "Send"}
+          </button>
+          {isLoading && (
+            <button onClick={handleStop} className="stop-btn">
+              Stop
+            </button>
+          )}
         </div>
       </main>
     </div>
