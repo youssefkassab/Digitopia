@@ -16,6 +16,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import AIpage from "./components/AI-UI";
+import Games from "./components/Games";
 import "./index.css";
 
 function AppRoutes() {
@@ -56,6 +57,7 @@ function AppRoutes() {
         />
         <Route path="/Courses" element={<Courses />} />
         <Route path="/Community" element={<Community />} />
+        <Route path="/Games" element={<Games />} />
         <Route path="/About" element={<AboutUs />} />
         <Route path="/Contact" element={<ContactUs />} />
         <Route path="/Dashboard" element={<Dashboard />} />
