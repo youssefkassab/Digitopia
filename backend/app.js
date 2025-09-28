@@ -12,25 +12,28 @@ const searchRoutes = require("./router/search.router");
 const structureRoutes = require("./router/genrateStructure.router");
 const uploadRoutes = require("./router/uploadFile.router");
 const embeddingRoutes = require("./router/embedding.router");
+const gameRoutes = require("./router/game.router");
 const config = require('./config/config');
 const PORT = config.PORT;
 const helmet = require('helmet');
 const compression = require('compression');
 const hpp = require('hpp');
 const morgan = require('morgan');
+const path = require('path');
 
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
+
 app.set('trust proxy', 1);
-app.use(cors({
-  origin: [config.CORS_ORIGIN],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors(
+  {origin: ["http://localhost:5173","http://localhost:3000"],
+   credentials: true,
+   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+   allowedHeaders: ['Content-Type', 'Authorization']}
+));
 app.use(helmet());
 app.use(hpp());
 app.use(compression());
@@ -56,10 +59,37 @@ if (enableSwagger) {
 }
 
 //main api
+// Middleware to set proper headers for game content
+app.use(['/games'], (req, res, next) => {
+  // Set CSP headers to allow game content
+  res.setHeader('Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "img-src 'self' data: https:; " +
+    "connect-src 'self'; " +
+    "font-src 'self'; " +
+    "object-src 'none'; " +
+    "media-src 'self'; " +
+    "frame-src 'self';"
+  );
+
+  // Set other security headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'ALLOWALL');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+
+  next();
+});
+
+// Serve static files from public directory
+app.use('/games', express.static(path.join(__dirname, 'public/games')));
+app.use('/img', express.static(path.join(__dirname, 'public/img')));
 app.use('/api/users',userRoutes);
 app.use('/api/courses',courseRoutes);
 app.use('/api/messages',messageRoutes);
 app.use('/api/admin',adminRoutes);
+app.use('/api/game',gameRoutes);
 app.use("/ask", askRoutes);
 app.use("/search", searchRoutes);
 app.use("/genrateStructure", structureRoutes);

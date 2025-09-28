@@ -95,6 +95,13 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
+            <Link
+              to="/Games"
+              className={location.pathname === "/Games" ? "active" : ""}
+              id="nav-tabs"
+            >
+              Games
+            </Link>
           </li>
           <li>
             <Link
