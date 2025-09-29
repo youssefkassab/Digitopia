@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const bodyParser = require("body-parser");
-const fileUpload = require("express-fileupload");
+// Removed unused bodyParser and fileUpload imports
 const userRoutes = require('./router/user.router');
 const courseRoutes = require('./router/course.router');
 const messageRoutes = require('./router/message.router');
@@ -21,10 +20,9 @@ const hpp = require('hpp');
 const morgan = require('morgan');
 const path = require('path');
 
-app.use(express.json());
-app.use(bodyParser.json());
+app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
-app.use(fileUpload());
+// Removed conflicting bodyParser.json() and fileUpload() middleware
 
 
 app.set('trust proxy', 1);

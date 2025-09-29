@@ -1,51 +1,42 @@
-const { sequelize, Sequelize } = require('../db/models');
-const { QueryTypes } = Sequelize;
+const { Game } = require('../db/models');
 const path = require('path');
 
 const add = (req, res) => {
   try {
-    // Extract file paths from uploaded files
+    // Extract file paths from uploaded files or form data
     let imgPath = req.body.img || null;
     let gamePath = req.body.gameurl || null;
 
-    // Handle uploaded files
-    if (req.files) {
-      if (req.files.imgFile && req.files.imgFile[0]) {
-        imgPath = '/img/' + req.files.imgFile[0].filename;
-      }
-      if (req.files.gameFile && req.files.gameFile[0]) {
-        gamePath = '/games/' + req.files.gameFile[0].filename;
-      }
+    // Handle uploaded files (if any) - now supports flexible field names
+    if (req.files && req.files.length > 0) {
+      req.files.forEach(file => {
+        if (file.mimetype.startsWith('image/') || file.fieldname.toLowerCase().includes('img')) {
+          imgPath = file.filename; // Store only filename, not full path
+        } else if (file.mimetype === 'text/html' || file.originalname.endsWith('.html') ||
+                   file.fieldname.toLowerCase().includes('game') || file.fieldname.toLowerCase().includes('url')) {
+          gamePath = file.filename; // Store only filename, not full path
+        }
+      });
     }
 
-    const createTableQuery = `
-      CREATE TABLE IF NOT EXISTS games (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        description TEXT,
-        grade VARCHAR(50),
-        unit VARCHAR(100),
-        lesson VARCHAR(100),
-        img VARCHAR(500),
-        gameurl VARCHAR(500),
-        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-      )
-    `;
-
-    const query = `INSERT INTO games (name, description, grade, unit, lesson, img, gameurl) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    const values = [req.body.name, req.body.description, req.body.grade, req.body.unit, req.body.lesson, imgPath, gamePath];
-
-    // First, ensure the table exists
-    sequelize.query(createTableQuery)
-      .then(() => {
-        // Then insert the game
-        return sequelize.query(query, { replacements: values, type: QueryTypes.INSERT });
-      })
+    // Validate required fields
+    if (!req.body.name) {
+      return res.status(400).json({ error: 'Game name is required' });
+    }
+    // Create game using Sequelize model
+    Game.create({
+      name: req.body.name,
+      description: req.body.description,
+      grade: req.body.grade,
+      unit: req.body.unit,
+      lesson: req.body.lesson,
+      img: imgPath,
+      gameurl: gamePath
+    })
       .then(() => res.status(201).json({
         message: 'Game created successfully.',
-        img: imgPath,
-        gameurl: gamePath
+        img: imgPath, // Return only filename to frontend
+        gameurl: gamePath // Return only filename to frontend
       }))
       .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e.message }));
   } catch (error) {
@@ -53,125 +44,125 @@ const add = (req, res) => {
   }
 }
 const getAll = (req, res) => {
-  const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS games (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      description TEXT,
-      grade VARCHAR(50),
-      unit VARCHAR(100),
-      lesson VARCHAR(100),
-      img VARCHAR(500),
-      gameurl VARCHAR(500),
-      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )
-  `;
-
-  const selectQuery = `SELECT id, name, description, grade, unit, lesson, img, gameurl FROM games`;
-  const insertSampleDataQuery = `
-    INSERT IGNORE INTO games (name, description, grade, unit, lesson, img, gameurl) VALUES
-    ('Bending Light', 'Learn about light refraction and how light bends when passing through different materials', '1', 'Light & Optics', 'Refraction', 'https://picsum.photos/300/200?random=1', '/games/bending-light_en.html'),
-    ('Build an Atom', 'Discover how atoms are constructed and learn about protons, neutrons, and electrons', '1', 'Atomic Structure', 'Atoms', 'https://picsum.photos/300/200?random=2', '/games/build-an-atom_en.html'),
-    ('Forces and Motion', 'Explore the fundamental forces that govern motion and understand Newton\'s laws', '2', 'Physics', 'Motion', 'https://picsum.photos/300/200?random=3', '/games/forces-and-motion-basics_en.html'),
-    ('Trigonometry Tour', 'Master trigonometry concepts with interactive visualizations and practical examples', '3', 'Mathematics', 'Trigonometry', 'https://picsum.photos/300/200?random=4', '/games/trig-tour_en.html')
-  `;
-
-  // First, ensure the table exists
-  sequelize.query(createTableQuery)
-    .then(() => {
-      // Then insert sample data if table is empty
-      return sequelize.query(`SELECT COUNT(*) as count FROM games`);
-    })
-    .then(countResult => {
-      if (countResult[0][0].count === 0) {
-        return sequelize.query(insertSampleDataQuery);
-      }
-      return Promise.resolve();
-    })
-    .then(() => {
-      // Finally fetch the games
-      return sequelize.query(selectQuery, { type: QueryTypes.SELECT });
-    })
-    .then((results) => {
-      // Ensure we always return an array
-      const games = Array.isArray(results) ? results : (results[0] || []);
-      res.status(200).json(games);
+  Game.findAll({
+    attributes: ['id', 'name', 'description', 'grade', 'unit', 'lesson', 'img', 'gameurl'],
+    order: [['createdAt', 'DESC']]
+  })
+    .then((games) => {
+      // Return only filenames to frontend (no path prefixes)
+      const gamesWithPaths = games.map(game => ({
+        ...game.toJSON(),
+        img: game.img, // Just filename, no /img/ prefix
+        gameurl: game.gameurl // Just filename, no /games/ prefix
+      }));
+      res.status(200).json(gamesWithPaths);
     })
     .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e.message }));
 }
 const deletegame = (req, res) => {
-  const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS games (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      description TEXT,
-      grade VARCHAR(50),
-      unit VARCHAR(100),
-      lesson VARCHAR(100),
-      img VARCHAR(500),
-      gameurl VARCHAR(500),
-      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )
-  `;
-
-  const quer = `DELETE FROM games WHERE id = ?`;
-
-  // First, ensure the table exists
-  sequelize.query(createTableQuery)
-    .then(() => {
-      // Then delete the game
-      return sequelize.query(quer, { replacements: [req.body.id], type: QueryTypes.DELETE });
-    })
+  Game.destroy({
+    where: { id: req.body.id }
+  })
     .then(() => res.status(200).json({ message: 'Game deleted successfully.' }))
     .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e.message }));
 }
 const update = (req, res) => {
   try {
-    // Extract file paths from uploaded files
+    // Extract file paths from uploaded files or form data
     let imgPath = req.body.img || null;
     let gamePath = req.body.gameurl || null;
 
-    // Handle uploaded files
-    if (req.files) {
-      if (req.files.imgFile && req.files.imgFile[0]) {
-        imgPath = '/img/' + req.files.imgFile[0].filename;
-      }
-      if (req.files.gameFile && req.files.gameFile[0]) {
-        gamePath = '/games/' + req.files.gameFile[0].filename;
-      }
+    // Track if new files are being uploaded
+    let newImgUploaded = false;
+    let newGameUploaded = false;
+
+    // Handle uploaded files (if any) - now supports flexible field names
+    if (req.files && req.files.length > 0) {
+      req.files.forEach(file => {
+        if (file.mimetype.startsWith('image/') || file.fieldname.toLowerCase().includes('img')) {
+          imgPath = file.filename; // Store only filename, not full path
+          newImgUploaded = true;
+        } else if (file.mimetype === 'text/html' || file.originalname.endsWith('.html') ||
+                   file.fieldname.toLowerCase().includes('game') || file.fieldname.toLowerCase().includes('url')) {
+          gamePath = file.filename; // Store only filename, not full path
+          newGameUploaded = true;
+        }
+      });
     }
 
-    const createTableQuery = `
-      CREATE TABLE IF NOT EXISTS games (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        description TEXT,
-        grade VARCHAR(50),
-        unit VARCHAR(100),
-        lesson VARCHAR(100),
-        img VARCHAR(500),
-        gameurl VARCHAR(500),
-        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-      )
-    `;
+    // Validate required fields
+    if (!req.body.name) {
+      return res.status(400).json({ error: 'Game name is required' });
+    }
+    if (!req.body.id) {
+      return res.status(400).json({ error: 'Game ID is required' });
+    }
 
-    const query = `UPDATE games SET name = ?, description = ?, grade = ?, unit = ?, lesson = ?, img = ?, gameurl = ? WHERE id = ?`;
-    const values = [req.body.name, req.body.description, req.body.grade, req.body.unit, req.body.lesson, imgPath, gamePath, req.body.id];
+    // First get the current game data to retrieve old file paths
+    Game.findByPk(req.body.id)
+      .then(currentGame => {
+        if (!currentGame) {
+          throw new Error('Game not found');
+        }
 
-    // First, ensure the table exists
-    sequelize.query(createTableQuery)
-      .then(() => {
-        // Then update the game
-        return sequelize.query(query, { replacements: values, type: QueryTypes.UPDATE });
+        const oldImgPath = currentGame.img;
+        const oldGamePath = currentGame.gameurl;
+
+        // Delete old files if new ones are being uploaded
+        const fs = require('fs').promises;
+        const path = require('path');
+
+        const deletePromises = [];
+
+        if (newImgUploaded && oldImgPath && oldImgPath) {
+          // Old path is now just filename, so construct full path for deletion
+          const oldImgFile = path.join(__dirname, '../public/img', oldImgPath);
+          deletePromises.push(
+            fs.unlink(oldImgFile).catch(err => console.log('Failed to delete old image:', err.message))
+          );
+        }
+
+        if (newGameUploaded && oldGamePath && oldGamePath) {
+          // Old path is now just filename, so construct full path for deletion
+          const oldGameFile = path.join(__dirname, '../public/games', oldGamePath);
+          deletePromises.push(
+            fs.unlink(oldGameFile).catch(err => console.log('Failed to delete old game:', err.message))
+          );
+        }
+
+        // Wait for file deletions to complete (if any)
+        return Promise.all(deletePromises).then(() => {
+          // Build update object with only provided fields
+          const updateData = {
+            name: req.body.name,
+            description: req.body.description,
+            grade: req.body.grade,
+            unit: req.body.unit,
+            lesson: req.body.lesson
+          };
+
+          // Track what fields are being updated for response
+          const responseData = {
+            message: 'Game updated successfully.'
+          };
+
+          // Only update img if new img data is provided (either from form field or file upload)
+          if (imgPath !== null && imgPath !== undefined) {
+            updateData.img = imgPath;
+            responseData.img = imgPath; // Return only filename to frontend
+          }
+
+          // Only update gameurl if new gameurl data is provided (either from form field or file upload)
+          if (gamePath !== null && gamePath !== undefined) {
+            updateData.gameurl = gamePath;
+            responseData.gameurl = gamePath; // Return only filename to frontend
+          }
+
+          // Then update the game in database with only the provided fields
+          return currentGame.update(updateData).then(() => responseData);
+        });
       })
-      .then(() => res.status(200).json({
-        message: 'Game updated successfully.',
-        img: imgPath,
-        gameurl: gamePath
-      }))
+      .then((responseData) => res.status(200).json(responseData))
       .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e.message }));
   } catch (error) {
     res.status(500).json({ error: 'Internal server error. ' + error.message });
