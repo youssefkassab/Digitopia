@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     chatId: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4, 
       allowNull: false,
       unique: true,
     },
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Users",
+        model: "users", 
         key: "id",
       },
     },
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     lastMessages: {
-      type: DataTypes.JSON, // store last 5 messages
+      type: DataTypes.JSON, 
       allowNull: true,
     },
     time: {
