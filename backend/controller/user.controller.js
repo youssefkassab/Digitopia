@@ -78,7 +78,7 @@ const signup = (req, res) => {
           return res.status(500).json({ error: 'Internal server error. ' + err });
         }
         const insertSql = `INSERT INTO users (email, password, role, name, national_number, Grade) VALUES (?, ?, ?, ?, ?, ?)`;
-        const values = [userData.email, hash, userData.role, userData.name, userData.national_number, userData.Grade];
+        const values = [userData.email, hash, userData.role, userData.name, userData.national_number, userData.Grade || null];
         sequelize.query(insertSql, { replacements: values, type: QueryTypes.INSERT })
           .then(() => res.status(201).json({ message: 'User created successfully.' }))
           .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e }));
