@@ -14,4 +14,5 @@ router.post('/upgradeRole', auth, roleAuth(ROLE.ADMIN), validate(userUpgradeRole
 router.get('/grade/:id', auth, userController.getGrade);
 router.get('/profile', auth, userController.getProfile);
 router.put('/profile', auth, userController.updateProfile);
+
 module.exports = router;

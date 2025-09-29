@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Mail, Send, Trash2, User, Shield } from "lucide-react";
+import { Mail, Send, Trash2, User, Shield, Check, X } from "lucide-react"; // ✅ CHANGE: added icons for seen/unseen
 import TextType from "../assets/Animations/TextType";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
@@ -15,12 +15,10 @@ const ContactUs = () => {
   const [canSend, setCanSend] = useState(true);
   const messagesEndRef = useRef(null);
 
-  // === Auto-scroll ===
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // === Fetch current user ===
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -44,7 +42,6 @@ const ContactUs = () => {
     fetchUser();
   }, []);
 
-  // === Fetch user's messages ===
   const fetchMessages = async () => {
     if (!user) return;
     try {
@@ -55,7 +52,6 @@ const ContactUs = () => {
       if (!res.ok) throw new Error("Failed to fetch messages");
       const data = await res.json();
 
-      // ✅ Normalize IDs for consistency
       const normalized = data.map((msg, index) => ({
         id: msg.id ?? msg.message_id ?? index,
         ...msg,
@@ -71,7 +67,6 @@ const ContactUs = () => {
     fetchMessages();
   }, [user]);
 
-  // === Send message ===
   const handleSend = async (e) => {
     e.preventDefault();
     if (!content.trim()) return setFeedback("✉️ Please write a message.");
@@ -82,7 +77,7 @@ const ContactUs = () => {
     }
 
     setCanSend(false);
-    setTimeout(() => setCanSend(true), 8000); // cooldown 8s
+    setTimeout(() => setCanSend(true), 8000);
     setLoading(true);
     setFeedback(null);
 
@@ -98,11 +93,11 @@ const ContactUs = () => {
 
       let data;
       try {
-        const text = await res.text(); // read body ONCE
+        const text = await res.text();
         try {
-          data = JSON.parse(text); // try to parse JSON
+          data = JSON.parse(text);
         } catch {
-          data = { error: text }; // fallback to plain text if not JSON
+          data = { error: text };
         }
       } catch (err) {
         throw new Error("Failed to read server response");
@@ -112,19 +107,17 @@ const ContactUs = () => {
         throw new Error(data?.error || "Failed to send message");
       }
 
-      // ✅ New message
       const newMessage = {
         id: data.id ?? Date.now(),
         sender: data.sender ?? user.email,
         content: data.content,
         message_time: data.message_time ?? new Date().toISOString(),
+        seen: data.seen ?? 0, // ✅ CHANGE: ensure seen status exists
       };
 
       setMessages((prev) => [...prev, newMessage]);
       setContent("");
       setFeedback("✅ Message sent successfully!");
-
-      // 🔄 Auto-refresh messages silently
       setTimeout(fetchMessages, 300);
     } catch (err) {
       console.error("Send Error:", err);
@@ -140,7 +133,6 @@ const ContactUs = () => {
     }
   };
 
-  // === Delete message ===
   const handleDelete = async (id) => {
     if (!id && id !== 0) {
       console.error("Missing ID:", id);
@@ -172,11 +164,8 @@ const ContactUs = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to delete message");
 
-      // ✅ Remove instantly
       setMessages((prev) => prev.filter((msg) => msg.id !== id));
       setFeedback("🗑️ Message deleted successfully.");
-
-      // ✅ Silent background refresh (ensures consistency)
       setTimeout(fetchMessages, 300);
     } catch (err) {
       console.error("Delete Error:", err);
@@ -237,15 +226,34 @@ const ContactUs = () => {
                         ) : (
                           <Shield size={14} />
                         )}
-                        <span>{msg.sender}</span>
+                        <span>
+                          {msg.sender === user?.email ? "You" : "Admin"}
+                        </span>
                       </div>
 
                       <p>{msg.content}</p>
 
                       <div className="message-meta">
-                        <span className="message-time">
-                          {new Date(msg.message_time).toLocaleString()}
-                        </span>
+                        {/* ✅ CHANGE: show Seen / Unseen instead of invalid date */}
+                        {msg.sender === user?.email ? (
+                          <span className="seen-status">
+                            {msg.seen ? (
+                              <span className="seen">
+                                <Check size={14} /> Seen
+                              </span>
+                            ) : (
+                              <span className="unseen">
+                                <X size={14} /> Unseen
+                              </span>
+                            )}
+                          </span>
+                        ) : (
+                          <span className="admin-reply-time">
+                            {msg.message_time
+                              ? new Date(msg.message_time).toLocaleString()
+                              : "Admin replied"}
+                          </span>
+                        )}
 
                         {msg.sender === user?.email && (
                           <button
