@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { signup, login } from "../services/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import "../index.css";
 
 const steps = ["Name", "Email", "Password", "Role", "National ID", "Grade"];
-
 const stepMessages = [
   "Let's start with your Full Name (4 words required).",
   "Great! Now enter your Email address.",
@@ -16,7 +15,6 @@ const stepMessages = [
   "Finally, tell us your Grade (students only).",
 ];
 
-// === Temp mail domains (extendable) ===
 const tempMailDomains = [
   "tempmail.com",
   "10minutemail.com",
@@ -25,8 +23,16 @@ const tempMailDomains = [
   "dispostable.com",
   "yopmail.com",
 ];
+const allowedDomains = [
+  "gmail.com",
+  "hotmail.com",
+  "yahoo.com",
+  "outlook.com",
+  "live.com",
+];
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
@@ -45,66 +51,53 @@ const Signup = () => {
   // === VALIDATIONS ===
   const validateName = (name) => {
     const words = name.trim().split(/\s+/);
-    if (words.length === 1) {
-      setError("Your full name must have 4 words, not just 1.");
+    if (words.length < 4) {
+      setError(
+        `Your full name must have 4 words, you entered ${words.length}.`
+      );
       return false;
-    }
-    if (words.length === 2) {
-      setError("Almost there! Your full name needs 4 words, not 2.");
-      return false;
-    }
-    if (words.length === 3) {
-      setError("Good! Add 1 more word to complete your 4-word full name.");
-      return false;
-    }
-    if (words.length === 4) {
-      return true;
     }
     if (words.length > 4) {
       setError("Please enter exactly 4 words for your full name.");
       return false;
     }
-    return false;
+    if (!/^[A-Za-z\s]+$/.test(name)) {
+      setError("Name should only contain alphabetic characters.");
+      return false;
+    }
+    return true;
   };
 
   const validateEmail = (email) => {
-    // Basic format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address.");
       return false;
     }
-
-    const parts = email.split("@");
-    if (parts.length !== 2) return false;
-    const domain = parts[1].toLowerCase();
-
+    const domain = email.split("@")[1]?.toLowerCase();
     if (tempMailDomains.includes(domain)) {
       setError("Temporary emails are not allowed. Please use a valid one.");
       return false;
     }
-
-    const allowedDomains = [
-      "gmail.com",
-      "hotmail.com",
-      "yahoo.com",
-      "outlook.com",
-      "live.com",
-    ];
-
     if (!allowedDomains.includes(domain)) {
       setError("Only Gmail, Hotmail, Yahoo, Outlook, and Live are accepted.");
       return false;
     }
-
     return true;
   };
 
-  const validatePassword = (pw) =>
-    pw.length >= 8 &&
-    /\d/.test(pw) &&
-    /[A-Z]/.test(pw) &&
-    /[^A-Za-z0-9]/.test(pw);
+  const validatePassword = (pw) => {
+    const valid =
+      pw.length >= 8 &&
+      /\d/.test(pw) &&
+      /[A-Z]/.test(pw) &&
+      /[^A-Za-z0-9]/.test(pw);
+    if (!valid)
+      setError(
+        "Password must be at least 8 characters, include a number, uppercase, and symbol."
+      );
+    return valid;
+  };
 
   const calcPwStrength = (pw) => {
     let score = 0;
@@ -112,19 +105,26 @@ const Signup = () => {
     if (/\d/.test(pw)) score++;
     if (/[A-Z]/.test(pw)) score++;
     if (/[^A-Za-z0-9]/.test(pw)) score++;
-    if (pw.length > 12) score++; // bonus
+    if (pw.length > 12) score++;
     return score;
   };
 
-  const validateNationalId = (id) =>
-    /^\d{14}$/.test(id) && (id[0] === "2" || id[0] === "3");
+  const validateNationalId = (id) => {
+    const isValid = /^\d{14}$/.test(id);
+    if (!isValid) setError("National ID must be exactly 14 digits.");
+    return isValid;
+  };
 
   const validateGrade = (grade) => {
+    if (formData.role === "teacher") return true;
+    if (!grade) {
+      setError("Grade is required for students.");
+      return false;
+    }
     const num = parseInt(grade, 10);
-    return (
-      (!isNaN(num) && num >= 1 && num <= 12) ||
-      (/(college|year|grade)/i.test(grade) && /\d/.test(grade))
-    );
+    const valid = (!isNaN(num) && num >= 1 && num <= 12) || grade.length <= 5;
+    if (!valid) setError("Please enter a valid grade (1–12).");
+    return valid;
   };
 
   const validations = [
@@ -133,94 +133,101 @@ const Signup = () => {
     () => validatePassword(formData.password),
     () => ["student", "teacher"].includes(formData.role),
     () => validateNationalId(formData.nationalId),
-    () => (formData.role === "student" ? validateGrade(formData.grade) : true),
+    () => validateGrade(formData.grade),
   ];
 
+  // === HANDLERS ===
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setError("");
-
-    if (name === "password") {
-      setPasswordStrength(calcPwStrength(value));
-    }
+    if (name === "password") setPasswordStrength(calcPwStrength(value));
   };
 
-  const nextStep = () => {
-    if (!validations[step]()) {
-      return; // error already set
-    }
+  const nextStep = useCallback(() => {
+    // If teacher, skip the Grade step
+    const isTeacher = formData.role === "teacher";
+    if (!validations[step]()) return;
     setError("");
-    setStep(step + 1);
-  };
+    if (isTeacher && step === 4) {
+      // Skip grade
+      setStep(steps.length - 1); // go directly to last step for submission
+    } else {
+      setStep((prev) => prev + 1);
+    }
+  }, [step, formData]);
 
   const prevStep = () => {
     setError("");
-    setStep(step - 1);
+    setStep((prev) => prev - 1);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validations.every((fn) => fn())) {
-      setError("Please Complete All The Fields Before Submission");
-      return;
-    }
+    setError("");
+    setSuccess("");
 
-    const idPrefix = parseInt(formData.nationalId.substring(0, 3), 10);
-    if (formData.role === "student" && (isNaN(idPrefix) || idPrefix < 305)) {
-      setError("Your National ID is invalid for a student.");
-      return;
-    }
-    if (formData.role === "teacher" && (isNaN(idPrefix) || idPrefix >= 305)) {
-      setError("Your National ID is invalid for a teacher.");
-      return;
+    // Validate before submission
+    for (const validate of validations) {
+      if (!validate()) return;
     }
 
     const userData = {
-      name: formData.name,
-      email: formData.email,
+      name: formData.name.trim(),
+      email: formData.email.trim().toLowerCase(),
       password: formData.password,
+      national_number: formData.nationalId.trim(),
       role: formData.role === "student" ? "user" : "teacher",
-      national_number: formData.nationalId,
-      Grade: formData.grade,
+      Grade:
+        formData.role === "student" && formData.grade
+          ? formData.grade.trim()
+          : null,
     };
 
     setLoading(true);
+    localStorage.removeItem("token");
+
     try {
       await signup(userData);
       setSuccess("Account created successfully! Logging in...");
-      await login(formData.email, formData.password);
-      window.location.href = "/dashboard";
+      const loginRes = await login(formData.email, formData.password);
+      if (loginRes?.token) {
+        navigate("/dashboard");
+      } else {
+        setSuccess("Signup successful. Please login manually.");
+      }
     } catch (err) {
-      setError(err.error || "Signup failed. Please try again.");
+      console.error("Signup Error:", err);
+      const message =
+        err?.response?.data?.error ||
+        err?.error ||
+        err?.message ||
+        "Signup failed. Please check your details and try again.";
+      setError(message);
     } finally {
       setLoading(false);
     }
   };
 
-  // === Keyboard Navigation (Enter, Left Arrow, Right Arrow) ===
+  // === KEYBOARD NAVIGATION ===
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (loading) return;
       if (e.key === "Enter") {
         e.preventDefault();
-        if (step < steps.length - 1) {
-          nextStep();
-        } else {
-          handleSubmit(e);
-        }
-      }
-      if (e.key === "ArrowLeft" && step > 0) {
+        if (step < steps.length - 1) nextStep();
+        else handleSubmit(e);
+      } else if (e.key === "ArrowLeft" && step > 0) {
         prevStep();
-      }
-      if (e.key === "ArrowRight" && step < steps.length - 1) {
+      } else if (e.key === "ArrowRight" && step < steps.length - 1) {
         nextStep();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [step, formData]);
+  }, [step, formData, loading, nextStep]);
 
-  // === Password Checklist ===
+  // === RENDER ===
   const renderPasswordChecklist = () => {
     const pw = formData.password;
     return (
@@ -229,7 +236,7 @@ const Signup = () => {
           ✓ Minimum 8 characters
         </li>
         <li className={/[A-Z]/.test(pw) ? "valid" : ""}>
-          ✓ At least one uppercase letter
+          ✓ At least one uppercase
         </li>
         <li className={/\d/.test(pw) ? "valid" : ""}>✓ At least one number</li>
         <li className={/[^A-Za-z0-9]/.test(pw) ? "valid" : ""}>
@@ -239,7 +246,6 @@ const Signup = () => {
     );
   };
 
-  // === Step Renderer ===
   const renderStep = () => {
     switch (step) {
       case 0:
@@ -250,6 +256,7 @@ const Signup = () => {
             placeholder="Enter Full Name (4 words)"
             value={formData.name}
             onChange={handleChange}
+            required
           />
         );
       case 1:
@@ -260,6 +267,7 @@ const Signup = () => {
             placeholder="Enter Email"
             value={formData.email}
             onChange={handleChange}
+            required
           />
         );
       case 2:
@@ -271,13 +279,15 @@ const Signup = () => {
               placeholder="Enter Password"
               value={formData.password}
               onChange={handleChange}
+              required
+              autoComplete="new-password"
             />
             {renderPasswordChecklist()}
             <div className="pw-strength-bar">
               <div
                 className={`pw-strength-fill strength-${passwordStrength}`}
                 style={{ width: `${(passwordStrength / 5) * 100}%` }}
-              ></div>
+              />
             </div>
             <p className="pw-strength-label">
               {["Very Weak", "Weak", "Medium", "Strong", "Very Strong"][
@@ -288,7 +298,12 @@ const Signup = () => {
         );
       case 3:
         return (
-          <select name="role" value={formData.role} onChange={handleChange}>
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            required
+          >
             <option value="student">Student</option>
             <option value="teacher">Teacher</option>
           </select>
@@ -298,10 +313,11 @@ const Signup = () => {
           <input
             type="text"
             name="nationalId"
-            placeholder="Enter National ID"
+            placeholder="Enter National ID (14 digits)"
             value={formData.nationalId}
             onChange={handleChange}
             maxLength="14"
+            required
           />
         );
       case 5:
@@ -313,6 +329,7 @@ const Signup = () => {
               placeholder="Enter Grade"
               value={formData.grade}
               onChange={handleChange}
+              required
             />
           )
         );
@@ -326,6 +343,7 @@ const Signup = () => {
       <Helmet>
         <title>Sign Up | 3lm Quest</title>
       </Helmet>
+
       <motion.div
         className="signup-container"
         initial={{ opacity: 0 }}
@@ -333,11 +351,12 @@ const Signup = () => {
       >
         <div className="signup-card">
           <div className="stepper">
-            {steps.map((s, i) => (
+            {steps.map((_, i) => (
               <div
                 key={i}
                 className={`step ${i <= step ? "active" : ""}`}
-              ></div>
+                aria-label={`Step ${i + 1}`}
+              />
             ))}
           </div>
 
@@ -356,7 +375,7 @@ const Signup = () => {
             </motion.h2>
           </AnimatePresence>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <AnimatePresence mode="wait">
               <motion.div
                 key={step}
@@ -378,12 +397,18 @@ const Signup = () => {
                   type="button"
                   className="btn secondary"
                   onClick={prevStep}
+                  disabled={loading}
                 >
                   Back
                 </button>
               )}
               {step < steps.length - 1 ? (
-                <button type="button" className="btn" onClick={nextStep}>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={nextStep}
+                  disabled={loading}
+                >
                   Next
                 </button>
               ) : (
@@ -393,6 +418,7 @@ const Signup = () => {
               )}
             </div>
           </form>
+
           <p className="login-link">
             Already have an account?{" "}
             <Link to="/login" className="LoginLink">

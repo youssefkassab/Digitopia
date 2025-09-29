@@ -8,10 +8,17 @@ const Logout = () => {
   const handleLogout = async () => {
     setLoading(true);
     try {
-      await logout();
-      window.location.href = "/"; // redirect to home or login
+      await logout(); // Calls /api/users/logout
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/";
     } catch (err) {
-      setError("Logout failed. Please try again.");
+      const message =
+        err?.error ||
+        err?.message ||
+        err?.details?.[0]?.message ||
+        "Logout failed. Please try again.";
+      setError(message);
     } finally {
       setLoading(false);
     }

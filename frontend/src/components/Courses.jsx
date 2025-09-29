@@ -1,78 +1,93 @@
+// frontend/pages/Courses.jsx
 import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { fetchCourses } from "../services/course";
 import api from "../services/api";
-import "../index.css";
+import { Helmet } from "react-helmet-async";
 import PlusIcoLight from "../assets/Icons/Light/Plus_Icon_Light.svg";
 import PlusIcoDark from "../assets/Icons/Dark/Plus_Icon_Dark.svg";
-import { Helmet } from "react-helmet-async";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
+  const [tags, setTags] = useState([]);
   const [user, setUser] = useState(null);
   const [isTeacher, setIsTeacher] = useState(false);
   const [showForm, setShowForm] = useState(false);
+
+  // Filtering / sorting state
+  const [selectedTag, setSelectedTag] = useState("All");
+  const [sortOption, setSortOption] = useState("popular");
+  const [priceRange, setPriceRange] = useState(1000);
+
+  // Course creation
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
-    video: null,
+    tags: "",
   });
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  // Sidebar filter states
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [sortOption, setSortOption] = useState("popular");
-  const [priceRange, setPriceRange] = useState(500);
-
-  // Categories list
-  const categories = [
-    "All",
-    "Programming",
-    "Design",
-    "Marketing",
-    "Business",
-    "Languages",
-  ];
-
-  // Fetch user & courses
+  // Fetch user + data
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await api.get("/users/user");
-        setUser(data);
-        setIsTeacher(data.role === "teacher");
-      } catch (error) {
-        console.error("Failed to fetch user:", error);
+        // Get current user
+        const { data: userData } = await api.get("/users/user");
+        setUser(userData);
+        setIsTeacher(userData.role === "teacher");
+
+        // Get all tags
+        const { data: tagsData } = await api.get("/courses/tags");
+        setTags(["All", ...tagsData.map((t) => t.name)]);
+
+        // Get courses
+        const { data: coursesData } = await api.get("/courses/all");
+        setCourses(coursesData);
+      } catch (err) {
+        console.error("Failed to fetch:", err);
       }
     };
-
-    const fetchAllCourses = async () => {
-      try {
-        const data = await fetchCourses();
-        setCourses(data);
-      } catch (error) {
-        console.error("Failed to load courses:", error);
-      }
-    };
-
-    fetchUser();
-    fetchAllCourses();
+    fetchData();
   }, []);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "video") {
-      setFormData({ ...formData, video: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
+  // Filter, sort, and price control
+  const filteredCourses = useMemo(() => {
+    let filtered = [...courses];
+
+    if (selectedTag !== "All") {
+      filtered = filtered.filter((c) =>
+        c.tags?.toLowerCase().includes(selectedTag.toLowerCase())
+      );
     }
+
+    filtered = filtered.filter((c) => Number(c.price) <= priceRange);
+
+    switch (sortOption) {
+      case "priceLow":
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case "priceHigh":
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case "latest":
+        filtered.sort((a, b) => (b.id || 0) - (a.id || 0));
+        break;
+      default:
+        filtered.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+        break;
+    }
+
+    return filtered;
+  }, [courses, selectedTag, sortOption, priceRange]);
+
+  // Form handlers
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle submit (teacher only)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -80,264 +95,220 @@ const Courses = () => {
     setSuccessMsg("");
 
     try {
-      const formPayload = new FormData();
-      formPayload.append("name", formData.name);
-      formPayload.append("description", formData.description);
-      formPayload.append("price", formData.price);
+      const body = {
+        name: formData.name,
+        description: formData.description,
+        price: Number(formData.price),
+        teacher_id: user.id,
+        tags: formData.tags
+          ? formData.tags.split(",").map((t) => t.trim())
+          : [],
+      };
 
-      if (user?.role === "admin") {
-        formPayload.append("teacher_id", formData.teacher_id);
-      }
+      await api.post("/courses/create", body);
 
-      if (formData.video) {
-        formPayload.append("video", formData.video); // 👈 this will be handled by multer
-      }
+      setSuccessMsg("Course created successfully!");
+      setFormData({ name: "", description: "", price: "", tags: "" });
 
-      await api.post("/courses/create", formPayload, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      setSuccessMsg(
-        `Course "${formData?.name || "Unnamed"}" created successfully!`
+      const { data: newCourses } = await api.get(
+        isTeacher ? "/courses/teacher/mycourses" : "/courses/all"
       );
-
-      setFormData({ name: "", description: "", price: "", video: null });
-
-      // ✅ Refresh full course list instead of pushing incomplete object
-      const updatedCourses = await fetchCourses();
-      setCourses(updatedCourses);
-
+      setCourses(newCourses);
       setShowForm(false);
     } catch (error) {
       console.error("Course creation failed:", error);
-      setErrorMsg(error?.response?.data?.error || "Failed to create course.");
+      setErrorMsg(error.response?.data?.error || "Internal server error");
     } finally {
       setLoading(false);
     }
   };
-
-  // Apply filters, sorting, and price range
-  const filteredCourses = useMemo(() => {
-    let filtered = [...courses];
-
-    if (selectedCategory === "All") {
-      return filtered.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-    }
-
-    filtered = filtered.filter(
-      (c) => c.category?.toLowerCase() === selectedCategory.toLowerCase()
-    );
-
-    filtered = filtered.filter((c) => Number(c.price) <= priceRange);
-
-    switch (sortOption) {
-      case "latest":
-        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        break;
-      case "priceLow":
-        filtered.sort((a, b) => a.price - b.price);
-        break;
-      case "priceHigh":
-        filtered.sort((a, b) => b.price - a.price);
-        break;
-      case "popular":
-      default:
-        filtered.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-        break;
-    }
-
-    return filtered;
-  }, [courses, selectedCategory, priceRange, sortOption]);
 
   return (
     <>
       <Helmet>
         <title>Courses | 3lm Quest</title>
       </Helmet>
+
       <motion.div
-        className="page-container"
+        className="courses-page"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -30 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.5 }}
       >
-        <div className="courses-layout">
-          {/* Sidebar */}
-          <aside className="sidebar">
-            <h2>Filters</h2>
+        <aside className="courses-sidebar">
+          <h2>Filter Courses</h2>
 
-            <div className="filter-section">
-              <h3>Categories</h3>
-              <ul>
-                {categories.map((cat) => (
-                  <li
-                    key={cat}
-                    className={selectedCategory === cat ? "active" : ""}
-                    onClick={() => setSelectedCategory(cat)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {cat}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="filter-section">
-              <h3>Sort By</h3>
-              <select
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-              >
-                <option value="popular">Most Popular</option>
-                <option value="latest">Latest</option>
-                <option value="priceLow">Price: Low to High</option>
-                <option value="priceHigh">Price: High to Low</option>
-              </select>
-            </div>
-
-            <div className="filter-section">
-              <h3>Price Range</h3>
-              <input
-                type="range"
-                min="0"
-                max="500"
-                value={priceRange}
-                onChange={(e) => setPriceRange(Number(e.target.value))}
-              />
-              <p>
-                Showing up to: <strong>${priceRange}</strong>
-              </p>
-            </div>
-          </aside>
-
-          {/* Main Content */}
-          <div id="card" className="courses-content">
-            <h1 className="page-title">Explore Our Courses</h1>
-
-            <AnimatePresence mode="wait">
-              {!showForm ? (
-                <motion.div
-                  key="courses-grid"
-                  className="courses-grid"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
+          <div className="filter-section">
+            <h3>Tags</h3>
+            <ul>
+              {tags.map((tag) => (
+                <li
+                  key={tag}
+                  className={selectedTag === tag ? "active" : ""}
+                  onClick={() => setSelectedTag(tag)}
                 >
-                  {filteredCourses.length === 0 ? (
-                    <p className="empty-msg">No courses available yet.</p>
-                  ) : (
-                    filteredCourses.map((course) => (
-                      <motion.div
-                        key={course.id}
-                        className="course-card"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 180 }}
-                      >
-                        <div className="course-thumbnail">
-                          <img
-                            src="https://via.placeholder.com/350x200.png?text=Course+Preview"
-                            alt="Course thumbnail"
-                          />
-                        </div>
-                        <div className="course-info">
-                          <h3>{course.name}</h3>
-                          <p className="description">{course.description}</p>
-                          <div className="course-footer">
-                            <span className="price">${course.price}</span>
-                            <button className="enroll-btn">Enroll</button>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))
-                  )}
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-                  {/* Teacher Add Course Button */}
-                  {isTeacher && (
+          <div className="filter-section">
+            <h3>Sort By</h3>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="popular">Most Popular</option>
+              <option value="latest">Latest</option>
+              <option value="priceLow">Price: Low → High</option>
+              <option value="priceHigh">Price: High → Low</option>
+            </select>
+          </div>
+
+          <div className="filter-section">
+            <h3>Price Range</h3>
+            <input
+              type="range"
+              min="0"
+              max="1000"
+              value={priceRange}
+              onChange={(e) => setPriceRange(Number(e.target.value))}
+            />
+            <p>Up to ${priceRange}</p>
+          </div>
+        </aside>
+
+        <main className="courses-content">
+          <h1 className="page-title">Available Courses</h1>
+
+          <AnimatePresence mode="wait">
+            {!showForm ? (
+              <motion.div
+                key="grid"
+                className="courses-grid"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                {filteredCourses.length === 0 ? (
+                  <p className="empty-msg">No courses found.</p>
+                ) : (
+                  filteredCourses.map((course) => (
                     <motion.div
-                      className="course-card add-course-card"
-                      onClick={() => setShowForm(true)}
+                      key={course.id}
+                      className="course-card"
                       whileHover={{ scale: 1.05 }}
-                      transition={{ type: "spring", stiffness: 180 }}
+                      transition={{ type: "spring", stiffness: 200 }}
                     >
-                      <div className="add-course-content">
+                      <div className="course-thumb">
                         <img
-                          src={PlusIcoLight}
-                          alt="Add Course"
-                          className="plus-icon light-only"
+                          src={`https://picsum.photos/seed/${course.id}/400/250`}
+                          alt={course.name}
                         />
-                        <img
-                          src={PlusIcoDark}
-                          alt="Add Course"
-                          className="plus-icon dark-only"
-                        />
-                        <p>Add New Course</p>
+                      </div>
+                      <div className="course-info">
+                        <h3>{course.name}</h3>
+                        <p>{course.description}</p>
+                        <div className="course-meta">
+                          <span>${course.price}</span>
+                          <small>
+                            {course.tags
+                              ? course.tags.toString().replace(/,/g, ", ")
+                              : "No tags"}
+                          </small>
+                        </div>
+                        <button className="enroll-btn">Enroll</button>
                       </div>
                     </motion.div>
-                  )}
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="course-form"
-                  className="course-form"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                >
-                  <h2>Create New Course</h2>
-                  <form onSubmit={handleSubmit}>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Course Name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                    />
-                    <textarea
-                      name="description"
-                      placeholder="Course Description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      required
-                    />
-                    <input
-                      type="number"
-                      name="price"
-                      placeholder="Price"
-                      value={formData.price}
-                      onChange={handleChange}
-                      required
-                    />
-                    <input
-                      type="file"
-                      name="video"
-                      accept="video/*"
-                      onChange={handleChange}
-                    />
+                  ))
+                )}
+
+                {isTeacher && (
+                  <motion.div
+                    className="course-card add-card"
+                    onClick={() => setShowForm(true)}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  >
+                    <div className="add-content">
+                      <img
+                        src={PlusIcoLight}
+                        alt="Add Course"
+                        className="light-only"
+                      />
+                      <img
+                        src={PlusIcoDark}
+                        alt="Add Course"
+                        className="dark-only"
+                      />
+                      <p>Add New Course</p>
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="form"
+                className="course-form"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+              >
+                <h2>Create Course</h2>
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    placeholder="Course Name"
+                    onChange={handleChange}
+                    required
+                  />
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    placeholder="Description"
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    placeholder="Price"
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="tags"
+                    value={formData.tags}
+                    placeholder="Comma-separated tags"
+                    onChange={handleChange}
+                  />
+
+                  <div className="form-actions">
                     <button type="submit" disabled={loading}>
                       {loading ? "Creating..." : "Create Course"}
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowForm(false)}
-                      style={{
-                        marginTop: "0.5rem",
-                        background: "#e5e7eb",
-                        color: "#333",
-                      }}
+                      className="cancel-btn"
                     >
                       Cancel
                     </button>
-                  </form>
-                  {errorMsg && <p className="error">{errorMsg}</p>}
-                  {successMsg && <p className="success">{successMsg}</p>}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
+                  </div>
+                </form>
+                {errorMsg && <p className="error">{errorMsg}</p>}
+                {successMsg && <p className="success">{successMsg}</p>}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </main>
       </motion.div>
     </>
   );

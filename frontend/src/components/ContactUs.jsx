@@ -1,102 +1,75 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import TextType from "../assets/Animations/TextType";
-import {
-  Mail,
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-  Send,
-} from "lucide-react";
+// frontend/pages/ContactUs.jsx
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { Mail, Send, User, Shield } from "lucide-react";
+import TextType from "../assets/Animations/TextType";
 
 const API_BASE =
   import.meta.env.VITE_API_URL || "http://localhost:3000/api/messages";
 
-const ALLOWED_DOMAINS = [
-  "gmail.com",
-  "yahoo.com",
-  "hotmail.com",
-  "live.com",
-  "outlook.com",
-];
-
 const ContactUs = () => {
-  const [senderEmail, setSenderEmail] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [content, setContent] = useState("");
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [feedback, setFeedback] = useState({ type: "", message: "" });
-  const [chatMessages, setChatMessages] = useState([]);
-  const [refresh, setRefresh] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+  const messagesEndRef = useRef(null);
 
-  // === Fetch chat history (user’s own messages + admin replies) ===
-  const fetchMyMessages = async () => {
-    try {
-      const res = await fetch(`${API_BASE}/my`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // user must be logged in
-        },
-      });
-      if (!res.ok) throw new Error("Failed to load chat history");
-      const data = await res.json();
-      setChatMessages(data);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
+  // Auto-scroll to latest message
   useEffect(() => {
-    fetchMyMessages();
-  }, [refresh]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
-  // === Validation before sending ===
-  const validateInput = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!senderEmail || !content) return "All Fields Are Required";
-    if (!emailRegex.test(senderEmail)) return "Invalid Email Format";
-    const domain = senderEmail.split("@")[1]?.toLowerCase();
-    if (!ALLOWED_DOMAINS.includes(domain)) return "Enter A Valid Email Address";
-    if (content.length < 10)
-      return "Message Should Be At Least 10 Characters Long";
-    return null;
-  };
+  // === AUTH + Load current user's messages ===
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setFeedback("Please log in to access chat.");
+      return;
+    }
 
-  const handleSubmit = async (e) => {
+    const fetchMessages = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/MyMessages`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!res.ok) throw new Error("Failed to load messages");
+        const data = await res.json();
+        setMessages(data);
+      } catch (err) {
+        console.error("Message load failed:", err);
+        setFeedback("Could not fetch your messages.");
+      }
+    };
+    fetchMessages();
+  }, []);
+
+  // === SEND message ===
+  const handleSend = async (e) => {
     e.preventDefault();
-    setFeedback({ type: "", message: "" });
-
-    const errorMsg = validateInput();
-    if (errorMsg) return setFeedback({ type: "error", message: errorMsg });
+    if (!userEmail || !content.trim())
+      return setFeedback("Email and message are required.");
+    setLoading(true);
+    setFeedback(null);
 
     try {
-      setLoading(true);
-      const response = await fetch(`${API_BASE}/send`, {
+      const res = await fetch(`${API_BASE}/send`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ senderEmail, content }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ senderEmail: userEmail, content }),
       });
 
-      let data = {};
-      try {
-        const text = await response.text();
-        data = text ? JSON.parse(text) : {};
-      } catch {
-        data = {};
-      }
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send message");
 
-      if (!response.ok)
-        throw new Error(data.error || `Failed (${response.status})`);
-
-      setFeedback({ type: "success", message: "Message Sent Successfully!" });
-      setSenderEmail("");
+      setMessages((prev) => [...prev, data]);
       setContent("");
-      setRefresh(!refresh); // refresh chat history
+      setFeedback("✅ Message sent successfully!");
     } catch (err) {
-      setFeedback({ type: "error", message: err.message });
+      setFeedback(`❌ ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -107,117 +80,109 @@ const ContactUs = () => {
       <Helmet>
         <title>Contact Us | 3lm Quest</title>
       </Helmet>
+
       <motion.div
-        className="page-container"
-        initial={{ opacity: 0, y: 50 }}
+        className="contact-page"
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -50 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.6 }}
       >
         <TextType
-          text={["Get In Touch Through"]}
-          typingSpeed={75}
-          pauseDuration={1500}
-          showCursor={true}
+          text={["Need Help? Chat With Our Admin"]}
+          typingSpeed={70}
+          pauseDuration={1000}
+          showCursor
           cursorCharacter="|"
-          className="TextType"
+          className="contact-heading"
         />
 
-        {/* Contact Info & Form */}
-        <div
-          className="contact-wrapper"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <motion.div
-            className="ContactCard"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.4 }}
-          >
-            <a href="mailto:edudevexperts@email.com" className="email-link">
-              <Mail size={20} /> edudevexperts@gmail.com
-            </a>
-
-            <div className="social-icons">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Facebook size={24} />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Twitter size={24} />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Instagram size={24} />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Linkedin size={24} />
-              </a>
+        {/* Chat Container */}
+        <div className="chat-container">
+          <div className="chat-box">
+            <div className="chat-header">
+              <Mail size={22} />
+              <h2>Messages</h2>
             </div>
 
-            <motion.form
-              onSubmit={handleSubmit}
-              className="message-form"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-            >
-              <label htmlFor="email">Your Email</label>
+            <div className="chat-messages">
+              <AnimatePresence>
+                {messages.length > 0 ? (
+                  messages.map((msg) => (
+                    <motion.div
+                      key={msg.id}
+                      className={`message-bubble ${
+                        msg.sender === userEmail ? "user" : "admin"
+                      }`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="bubble-header">
+                        {msg.sender === userEmail ? (
+                          <User size={16} />
+                        ) : (
+                          <Shield size={16} />
+                        )}
+                        <span>{msg.sender}</span>
+                      </div>
+                      <p>{msg.content}</p>
+                      <span className="message-time">
+                        {new Date(msg.message_time).toLocaleString()}
+                      </span>
+                    </motion.div>
+                  ))
+                ) : (
+                  <motion.div
+                    className="no-messages"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    No messages yet. Start a chat!
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Send Message Form */}
+            <form className="chat-form" onSubmit={handleSend}>
               <input
                 type="email"
-                id="email"
-                value={senderEmail}
-                onChange={(e) => setSenderEmail(e.target.value.trim())}
-                placeholder="Enter your email"
+                placeholder="Your Email"
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value.trim())}
                 required
               />
-
-              <label htmlFor="content">Your Message</label>
               <textarea
-                id="content"
-                rows="5"
+                rows="2"
+                placeholder="Write your message..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Write your message..."
                 required
               />
-
               <motion.button
                 type="submit"
                 className="send-btn"
                 disabled={loading}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300 }}
               >
-                {loading ? "Sending..." : "Send Message"} <Send size={18} />
+                {loading ? "Sending..." : "Send"} <Send size={16} />
               </motion.button>
-            </motion.form>
+            </form>
 
-            {feedback.message && (
+            {/* Feedback Message */}
+            {feedback && (
               <motion.div
-                className={`feedback ${feedback.type}`}
+                className="feedback"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                {feedback.message}
+                {feedback}
               </motion.div>
             )}
-          </motion.div>
+          </div>
         </div>
       </motion.div>
     </>
