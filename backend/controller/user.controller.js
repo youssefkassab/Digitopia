@@ -1,7 +1,8 @@
-const env = require( '../config/config')
-const bcrypt = require('bcrypt'); 
+const env = require('../config/config');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { sequelize, Sequelize } = require('../db/models');
+const db = require('../db/models');   // ✅ Import models
 const { QueryTypes } = Sequelize;
 
 function isValidEmail(email) {
@@ -9,23 +10,20 @@ function isValidEmail(email) {
 }
 
 function isStrongPassword(password) {
-  // Minimum 8 characters, at least one letter and one number, allows special characters
   return /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password);
 }
-//TODO: ask karim about user data sending with the login or creat a api for it
+
 const login = (req, res) => {
   const { email, password } = req.body;
-  
-  // Input validation
+
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required.' });
   }
-  
+
   if (!isValidEmail(email)) {
     return res.status(400).json({ error: 'Invalid email format.' });
   }
 
-  // Get user from database
   const query = `SELECT * FROM users WHERE email = ?`;
   sequelize.query(query, { replacements: [email], type: QueryTypes.SELECT })
     .then((results) => {
@@ -45,7 +43,7 @@ const login = (req, res) => {
           env.JWT_SECRET,
           { expiresIn: '1h' }
         );
-        return res.status(200).json({ 
+        return res.status(200).json({
           message: 'Login successful',
           token,
           user: { id: user.id, email: user.email, role: user.role }
@@ -66,7 +64,7 @@ const signup = (req, res) => {
   if (!isStrongPassword(userData.password)) {
     return res.status(400).json({ error: 'Password must be at least 8 characters and contain letters and numbers.' });
   }
-  if (userData.role == 'admin') {
+  if (userData.role === 'admin') {
     return res.status(400).json({ error: 'Unauthorised' });
   }
   const quer2 = `SELECT * FROM users WHERE email = ?`;
@@ -87,7 +85,7 @@ const signup = (req, res) => {
       });
     })
     .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e }));
-}
+};
 
 const logout = (req, res) => {
   const token = req.headers['authorization'];
@@ -95,23 +93,44 @@ const logout = (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   return res.status(200).json({ message: 'User logged out successfully' });
-}
+};
+
 const user = (req, res) => {
-  const quer = `SELECT id ,name , email ,national_number , role ,Grade FROM users WHERE id = ?`;
+  const quer = `SELECT id, name, email, national_number, role, Grade FROM users WHERE id = ?`;
   sequelize.query(quer, { replacements: [req.user.id], type: QueryTypes.SELECT })
     .then((results) => res.status(200).json(results[0]))
     .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e }));
-}
+};
+
 const upgradeRole = (req, res) => {
   const quer = `UPDATE users SET role = ? WHERE id = ?`;
   sequelize.query(quer, { replacements: [req.body.role, req.body.id], type: QueryTypes.UPDATE })
     .then(() => res.status(200).json({ message: 'User role updated successfully.' }))
     .catch((e) => res.status(500).json({ error: 'Internal server error. ' + e }));
-}
+};
+
+// ✅ FIXED getGrade
+const getGrade = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await db.User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    return res.json({ grade: user.Grade });
+  } catch (err) {
+    console.error('Error fetching grade:', err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+};
+
 module.exports = {
   login,
   signup,
   logout,
   user,
-  upgradeRole
-}
+  upgradeRole,
+  getGrade   // ✅ Now exported
+};
