@@ -38,6 +38,11 @@ module.exports = {
         type: Sequelize.JSON,
         allowNull: true,
       },
+      used_tokens:{
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
+      },
       time: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("NOW"),
