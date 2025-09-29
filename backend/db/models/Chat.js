@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
   Chat.associate = (models) => {
     Chat.belongsTo(models.User, {
       foreignKey: "userId",
-      as: "user",
+      as: "users",
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     });
