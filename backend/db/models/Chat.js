@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "users",
+        key: "id",
+      },
     },
     title: {
       type: DataTypes.STRING,
@@ -35,11 +39,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
-    used_tokens: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 0,
-    },
+  }, {
+    sequelize,
+    modelName: 'Chat',
+    tableName: 'chats'
+
   });
 
   Chat.associate = (models) => {
