@@ -8,7 +8,7 @@ module.exports = {
       },
       chatId: {
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4, 
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         unique: true,
       },
@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "users", 
+          model: "users",   
           key: "id",
         },
         onDelete: "CASCADE",

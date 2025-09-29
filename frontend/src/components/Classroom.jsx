@@ -2,18 +2,11 @@ import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCurrentUser } from "../services/auth";
 import { useNavigate } from "react-router-dom";
-import {
-  FaChevronDown,
-  FaLock,
-  FaCheckCircle,
-  FaGamepad,
-} from "react-icons/fa";
+import { FaChevronDown, FaLock, FaCheckCircle } from "react-icons/fa";
 
 /**
- * NOTE:
- * - The component expects `getCurrentUser()` to return the user object (with `id`, `name`, `email`, ...).
- * - Progress is persisted in localStorage under key `classroom_progress_<userId>`.
- * - Game navigation goes to `/game/:lessonId`. Create that route in your app or adjust as needed.
+ * Classroom component — shows lessons and progress bar.
+ * Removed: Game and thumbnail sections.
  */
 
 const lessonsData = [
@@ -25,38 +18,34 @@ const lessonsData = [
       "The Scientific Method",
       "Observation vs Experiment",
     ],
-    thumbnail: "thumbnails/BendingLight.png",
   },
   {
     id: 2,
     title: "Physics Fundamentals",
     parts: ["Motion & Force", "Energy & Work", "Newton’s Laws"],
-    thumbnail: "/assets/thumbnails/physics.jpg",
   },
   {
     id: 3,
     title: "Chemistry Basics",
     parts: ["Atoms & Molecules", "Chemical Reactions", "Periodic Table"],
-    thumbnail: "/assets/thumbnails/chemistry.jpg",
   },
   {
     id: 4,
     title: "Biology Essentials",
     parts: ["Cells", "Genetics", "Evolution & Ecosystems"],
-    thumbnail: "/assets/thumbnails/biology.jpg",
   },
 ];
 
-const STORAGE_PREFIX = "classroom_progress_"; // saved per-user
+const STORAGE_PREFIX = "classroom_progress_";
 
 const Classroom = () => {
   const [user, setUser] = useState(null);
   const [expandedLesson, setExpandedLesson] = useState(null);
-  const [unlockedLessons, setUnlockedLessons] = useState([1]); // by default only lesson 1 unlocked
+  const [unlockedLessons, setUnlockedLessons] = useState([1]);
   const [progressPercent, setProgressPercent] = useState(0);
   const navigate = useNavigate();
 
-  // load user & persisted progress
+  // Load user and saved progress
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -67,7 +56,6 @@ const Classroom = () => {
         }
         setUser(currentUser);
 
-        // load persisted progress for this user
         const raw = localStorage.getItem(STORAGE_PREFIX + currentUser.id);
         if (raw) {
           try {
@@ -79,8 +67,7 @@ const Classroom = () => {
               setUnlockedLessons(parsed.unlockedLessons);
               setProgressPercent(parsed.progress);
             }
-          } catch (e) {
-            // ignore parse errors
+          } catch {
             localStorage.removeItem(STORAGE_PREFIX + currentUser.id);
           }
         }
@@ -92,7 +79,6 @@ const Classroom = () => {
     fetchUser();
   }, [navigate]);
 
-  // Utility: persist to localStorage
   const persistProgress = useCallback(
     (unlocked, percent) => {
       if (!user?.id) return;
@@ -106,19 +92,16 @@ const Classroom = () => {
     [user]
   );
 
-  // toggle expansion only if lesson unlocked
   const toggleLesson = (id) => {
-    if (!unlockedLessons.includes(id)) return; // locked
+    if (!unlockedLessons.includes(id)) return;
     setExpandedLesson((prev) => (prev === id ? null : id));
   };
 
-  // mark as completed: unlock next lesson, update progress
   const markAsCompleted = (id) => {
     const nextId = id + 1;
     setUnlockedLessons((prev) => {
       if (prev.includes(nextId)) return prev;
       const updated = [...prev, nextId].sort((a, b) => a - b);
-      // compute percent: unlockedLessons / totalLessons
       const percent = Math.round((updated.length / lessonsData.length) * 100);
       setProgressPercent(percent);
       persistProgress(updated, percent);
@@ -126,17 +109,6 @@ const Classroom = () => {
     });
   };
 
-  // navigate to game and persist progress before leaving
-  const goToGame = (lessonId) => {
-    // ensure lesson is unlocked
-    if (!unlockedLessons.includes(lessonId)) return;
-    // Save current progress snapshot
-    persistProgress(unlockedLessons, progressPercent);
-    // navigate to game route (adjust if needed)
-    navigate(`/game/${lessonId}`);
-  };
-
-  // recalc percent when unlockedLessons changes (safe guard)
   useEffect(() => {
     const pct = Math.round((unlockedLessons.length / lessonsData.length) * 100);
     setProgressPercent(pct);
@@ -154,6 +126,7 @@ const Classroom = () => {
         Welcome, {user?.name?.split(" ")[0] || "Learner"} — Classroom
       </motion.h1>
 
+      {/* Progress Bar */}
       <div className="classroom-top">
         <div
           className="progress-block"
@@ -170,6 +143,7 @@ const Classroom = () => {
         </div>
       </div>
 
+      {/* Lessons */}
       <div className="lessons-list">
         {lessonsData.map((lesson, index) => {
           const isUnlocked = unlockedLessons.includes(lesson.id);
@@ -220,7 +194,6 @@ const Classroom = () => {
                       whileTap={{ scale: 0.96 }}
                       aria-label={`Toggle ${lesson.title}`}
                       onClick={(e) => {
-                        // prevent header click double-fire
                         e.stopPropagation();
                         toggleLesson(lesson.id);
                       }}
@@ -233,6 +206,7 @@ const Classroom = () => {
                 </div>
               </header>
 
+              {/* Expanded Lesson Details */}
               <AnimatePresence initial={false}>
                 {isExpanded && (
                   <motion.div
@@ -252,51 +226,14 @@ const Classroom = () => {
                         ))}
                       </ul>
 
-                      {/* Thumbnail + Game Card */}
-                      <div className="game-card">
-                        <div className="thumb-wrap">
-                          {/* If thumbnail path exists use it, otherwise use placeholder */}
-                          <img
-                            src={
-                              lesson.thumbnail ||
-                              "/assets/thumbnails/placeholder.jpg"
-                            }
-                            alt={`${lesson.title} thumbnail`}
-                            className="game-thumb"
-                            onError={(e) => {
-                              e.currentTarget.src =
-                                "/assets/thumbnails/placeholder.jpg";
-                            }}
-                          />
-                        </div>
-                        <div className="game-meta">
-                          <div className="game-title">
-                            {lesson.title} — Mini Game
-                          </div>
-                          <p className="game-desc">
-                            A short, interactive exercise to reinforce this
-                            lesson's ideas.
-                          </p>
-                          <div className="game-actions">
-                            <button
-                              className="game-btn"
-                              onClick={() => goToGame(lesson.id)}
-                              disabled={!isUnlocked}
-                              aria-disabled={!isUnlocked}
-                            >
-                              <FaGamepad className="game-icon" /> Play Game
-                            </button>
-                            {!isCompleted && (
-                              <button
-                                className="complete-small"
-                                onClick={() => markAsCompleted(lesson.id)}
-                              >
-                                Mark Lesson Complete
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      </div>
+                      {!isCompleted && (
+                        <button
+                          className="complete-small"
+                          onClick={() => markAsCompleted(lesson.id)}
+                        >
+                          Mark Lesson Complete
+                        </button>
+                      )}
                     </div>
                   </motion.div>
                 )}

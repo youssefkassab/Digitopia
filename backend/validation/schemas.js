@@ -19,7 +19,8 @@ const userSignupSchema = Joi.object({
   role: Joi.string().valid('user','teacher').required(),
   Grade: Joi.alternatives().try(
     Joi.number().integer().min(1).max(12),
-    Joi.string().max(5)
+    Joi.string().max(5),
+    Joi.any().valid(null)
   ).optional(),
 });
 

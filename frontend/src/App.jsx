@@ -45,7 +45,7 @@ function AppRoutes() {
 
         {/* Main routes */}
         <Route
-          path="/Classroom"
+          path="/classroom"
           element={
             <>
               <Helmet>
@@ -59,7 +59,7 @@ function AppRoutes() {
         <Route path="/Community" element={<Community />} />
         <Route path="/Games" element={<Games />} />
         <Route path="/About" element={<AboutUs />} />
-        <Route path="/Contact" element={<ContactUs />} />
+        <Route path="/support" element={<ContactUs />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/AI" element={<AIpage />} />
 
