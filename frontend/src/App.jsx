@@ -1,3 +1,4 @@
+
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -15,6 +16,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import AIpage from "./components/AI-UI";
+import Games from "./components/Games";
 import "./index.css";
 
 function AppRoutes() {
@@ -55,6 +57,7 @@ function AppRoutes() {
         />
         <Route path="/Courses" element={<Courses />} />
         <Route path="/Community" element={<Community />} />
+        <Route path="/Games" element={<Games />} />
         <Route path="/About" element={<AboutUs />} />
         <Route path="/Contact" element={<ContactUs />} />
         <Route path="/Dashboard" element={<Dashboard />} />
@@ -72,13 +75,16 @@ function AppRoutes() {
 }
 
 export default function App() {
+  const location = useLocation();
+
   return (
     <div className="app-wrapper">
       <Navbar />
       <main>
         <AppRoutes />
       </main>
-      <Footer />
+      {/* Hide Footer only on /AI */}
+      {location.pathname !== "/AI" && <Footer />}
     </div>
   );
 }
