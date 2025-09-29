@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     lastMessages: {
-      type: DataTypes.JSON, // store last 5 messages
+      type: DataTypes.JSON,
       allowNull: true,
     },
     time: {
@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Chat',
     tableName: 'chats'
+
   });
 
   Chat.associate = (models) => {

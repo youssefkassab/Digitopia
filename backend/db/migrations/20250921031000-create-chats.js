@@ -8,7 +8,7 @@ module.exports = {
       },
       chatId: {
         type: Sequelize.UUID,
-        defaultValue: Sequelize.literal("(UUID())"),
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         unique: true,
       },
@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Users",
+          model: "users",   
           key: "id",
         },
         onDelete: "CASCADE",
@@ -37,6 +37,11 @@ module.exports = {
       lastMessages: {
         type: Sequelize.JSON,
         allowNull: true,
+      },
+      used_tokens:{
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
       },
       time: {
         type: Sequelize.DATE,
