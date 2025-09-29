@@ -1,15 +1,15 @@
 /* === Page Layout === */
 .ai-page {
   display: flex;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  background: #f9f9f9;
-  color: #222;
+  min-height: 100vh;
+  padding-top: 70px; /* adjust to your navbar height */
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
-
 /* === Sidebar === */
 .sidebar {
-  width: 260px;
+  width: 250px;
+  padding: 20px;
   background: #fff;
   border-right: 1px solid #ddd;
   padding: 15px;
@@ -302,4 +302,28 @@
 
 .dark-mode .chat-history-item.active {
   background: #444;
+}
+
+.login-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 70px); /* subtract navbar height */
+  text-align: center;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.login-prompt.dark {
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+}
+
+.login-message {
+  padding: 20px 40px;
+  border: 2px dashed #888;
+  border-radius: 12px;
+  background-color: rgba(200, 200, 200, 0.1);
 }
