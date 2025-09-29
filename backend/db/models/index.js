@@ -32,7 +32,7 @@ fs
   });
 
 // Define associations consistently
-const { User, Course, Post, Tag } = db;
+const { User, Course, Post, Tag, Game } = db;
 
 // User <-> Course (teacher)
 if (User && Course) {

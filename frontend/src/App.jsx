@@ -15,6 +15,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import AIpage from "./components/AI-UI";
+import Games from "./components/Games.jsx";
 import "./index.css";
 
 function AppRoutes() {
@@ -43,7 +44,7 @@ function AppRoutes() {
 
         {/* Main routes */}
         <Route
-          path="/Classroom"
+          path="/classroom"
           element={
             <>
               <Helmet>
@@ -53,12 +54,13 @@ function AppRoutes() {
             </>
           }
         />
-        <Route path="/Courses" element={<Courses />} />
-        <Route path="/Community" element={<Community />} />
-        <Route path="/About" element={<AboutUs />} />
-        <Route path="/Contact" element={<ContactUs />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/AI" element={<AIpage />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/games" element={<Games />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/support" element={<ContactUs />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/questro" element={<AIpage />} />
 
         {/* Auth routes */}
         <Route path="/signup" element={<Signup />} />

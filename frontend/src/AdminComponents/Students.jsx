@@ -1,121 +1,43 @@
 import React, { useEffect, useState } from "react";
 import adminApi from "../AdminServices/adminApi";
 import {
-  getStoredAdmin,
   isAdminAuthenticated,
-  adminLogout,
+  validateAdminAccess,
 } from "../AdminServices/adminAuth";
-
-const tempMailDomains = [
-  "tempmail.com",
-  "10minutemail.com",
-  "guerrillamail.com",
-  "mailinator.com",
-  "dispostable.com",
-  "yopmail.com",
-];
 
 const Students = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [newStudent, setNewStudent] = useState({
-    name: "",
-    email: "",
-    password: "",
-    national_number: "",
-    Grade: "",
-  });
 
-  // Redirect if admin not logged in
+  // ✅ Check admin access before loading
   useEffect(() => {
-    if (!isAdminAuthenticated()) {
-      window.location.href = "/admin/login";
-    }
+    const checkAdmin = async () => {
+      const valid = await validateAdminAccess();
+      if (!valid || !isAdminAuthenticated()) {
+        window.location.href = "/admin/login";
+      }
+    };
+    checkAdmin();
   }, []);
 
-  // === VALIDATIONS ===
-  const validateName = (name) => {
-    const words = name.trim().split(/\s+/);
-    if (words.length !== 4) {
-      setError("Full name must have exactly 4 words.");
-      return false;
-    }
-    return true;
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address.");
-      return false;
-    }
-    const parts = email.split("@");
-    const domain = parts[1].toLowerCase();
-    if (tempMailDomains.includes(domain)) {
-      setError("Temporary emails are not allowed.");
-      return false;
-    }
-    const allowedDomains = [
-      "gmail.com",
-      "hotmail.com",
-      "yahoo.com",
-      "outlook.com",
-      "live.com",
-    ];
-    if (!allowedDomains.includes(domain)) {
-      setError("Only Gmail, Hotmail, Yahoo, Outlook, and Live are accepted.");
-      return false;
-    }
-    return true;
-  };
-
-  const validatePassword = (pw) => {
-    if (
-      pw.length >= 8 &&
-      /\d/.test(pw) &&
-      /[A-Z]/.test(pw) &&
-      /[^A-Za-z0-9]/.test(pw)
-    ) {
-      return true;
-    }
-    setError(
-      "Password must be 8+ chars, include an uppercase, a number, and a symbol."
-    );
-    return false;
-  };
-
-  const validateNationalId = (id) => {
-    if (!/^\d{14}$/.test(id) || (id[0] !== "2" && id[0] !== "3")) {
-      setError("National ID must be 14 digits starting with 2 or 3.");
-      return false;
-    }
-    return true;
-  };
-
-  const validateGrade = (grade) => {
-    const num = parseInt(grade, 10);
-    if (
-      (!isNaN(num) && num >= 1 && num <= 12) ||
-      (/(college|year|grade)/i.test(grade) && /\d/.test(grade))
-    ) {
-      return true;
-    }
-    setError("Grade must be between 1 and 12 or a valid college/year format.");
-    return false;
-  };
-
-  // Fetch all students
+  // === FETCH STUDENTS ===
   const fetchStudents = async () => {
     try {
       setLoading(true);
-      const { data } = await adminApi.get("/admin/students");
+      const res = await adminApi.get("/admin/students");
+
+      // ✅ Normalize the response to always be an array
+      const data = Array.isArray(res.data)
+        ? res.data
+        : res.data?.students || res.data?.data || [];
+
       setStudents(data);
       setError("");
     } catch (err) {
-      // If unauthorized, log out
+      console.error("Fetch students failed:", err);
       if (err.response?.status === 401) {
-        await adminLogout();
+        localStorage.removeItem("adminToken");
         window.location.href = "/admin/login";
       } else {
         setError(err.response?.data?.error || "Failed to fetch students.");
@@ -129,133 +51,69 @@ const Students = () => {
     fetchStudents();
   }, []);
 
-  const handleAdd = async (e) => {
-    e.preventDefault();
-    setError("");
-
-    if (
-      !validateName(newStudent.name) ||
-      !validateEmail(newStudent.email) ||
-      !validatePassword(newStudent.password) ||
-      !validateNationalId(newStudent.national_number) ||
-      !validateGrade(newStudent.Grade)
-    ) {
-      return;
-    }
-
-    try {
-      await adminApi.post("/admin/students", newStudent);
-      setNewStudent({
-        name: "",
-        email: "",
-        password: "",
-        national_number: "",
-        Grade: "",
-      });
-      fetchStudents();
-    } catch (err) {
-      setError(err.response?.data?.error || "Failed to add student.");
-    }
-  };
-
+  // === DELETE STUDENT ===
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this student?"))
       return;
     try {
       await adminApi.delete(`/admin/students/${id}`);
-      fetchStudents();
+      setStudents((prev) => prev.filter((s) => s.id !== id));
     } catch (err) {
-      alert(err.response?.data?.error || "Failed to delete student.");
+      console.error("Delete student failed:", err);
+      setError(err.response?.data?.error || "Failed to delete student.");
     }
   };
 
+  // === UI ===
   return (
-    <div className="students-container">
-      <h2>Manage Students</h2>
+    <div className="students-container p-6 bg-gray-50 min-h-screen">
+      <h2 className="text-2xl font-semibold mb-6">🎓 Manage Students</h2>
 
-      <form className="add-student-form" onSubmit={handleAdd}>
-        <input
-          type="text"
-          placeholder="Name"
-          value={newStudent.name}
-          required
-          onChange={(e) =>
-            setNewStudent({ ...newStudent, name: e.target.value })
-          }
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={newStudent.email}
-          required
-          onChange={(e) =>
-            setNewStudent({ ...newStudent, email: e.target.value })
-          }
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={newStudent.password}
-          required
-          onChange={(e) =>
-            setNewStudent({ ...newStudent, password: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="National Number"
-          value={newStudent.national_number}
-          required
-          onChange={(e) =>
-            setNewStudent({ ...newStudent, national_number: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="Grade"
-          value={newStudent.Grade}
-          required
-          onChange={(e) =>
-            setNewStudent({ ...newStudent, Grade: e.target.value })
-          }
-        />
-        <button type="submit">Add Student</button>
-      </form>
+      {error && (
+        <p className="text-red-600 mt-4 bg-red-50 p-2 rounded border border-red-200">
+          {error}
+        </p>
+      )}
 
-      {error && <p className="error">{error}</p>}
-
+      {/* Student List */}
       {loading ? (
-        <p>Loading...</p>
+        <p className="mt-6 text-gray-600">Loading students...</p>
+      ) : !Array.isArray(students) || students.length === 0 ? (
+        <p className="mt-6 text-gray-600">No students found.</p>
       ) : (
-        <table className="students-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>National Number</th>
-              <th>Grade</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((student) => (
-              <tr key={student.id}>
-                <td>{student.name}</td>
-                <td>{student.email}</td>
-                <td>{student.national_number}</td>
-                <td>{student.Grade}</td>
-                <td>
-                  <button
-                    className="delete"
-                    onClick={() => handleDelete(student.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div className="mt-8 overflow-x-auto">
+          <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow">
+            <thead className="bg-gray-100 text-gray-700">
+              <tr>
+                <th className="px-4 py-2 border">Name</th>
+                <th className="px-4 py-2 border">Email</th>
+                <th className="px-4 py-2 border">National ID</th>
+                <th className="px-4 py-2 border">Grade</th>
+                <th className="px-4 py-2 border">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {students.map((student) => (
+                <tr key={student.id} className="text-center hover:bg-gray-50">
+                  <td className="border px-4 py-2">{student.name}</td>
+                  <td className="border px-4 py-2">{student.email}</td>
+                  <td className="border px-4 py-2">
+                    {student.national_number}
+                  </td>
+                  <td className="border px-4 py-2">{student.Grade}</td>
+                  <td className="border px-4 py-2">
+                    <button
+                      onClick={() => handleDelete(student.id)}
+                      className="text-red-600 hover:underline"
+                    >
+                      Delete ❌
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
