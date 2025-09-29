@@ -11,5 +11,5 @@ router.post('/signup', limit, validate(userSignupSchema), userController.signup)
 router.post('/logout', auth,userController.logout);
 router.get('/user', auth, userController.user);
 router.post('/upgradeRole', auth, roleAuth(ROLE.ADMIN), validate(userUpgradeRoleSchema), userController.upgradeRole);
-
+router.get('/grade/:id', auth, userController.getGrade);
 module.exports = router;

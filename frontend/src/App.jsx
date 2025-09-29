@@ -1,3 +1,4 @@
+
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -74,13 +75,16 @@ function AppRoutes() {
 }
 
 export default function App() {
+  const location = useLocation();
+
   return (
     <div className="app-wrapper">
       <Navbar />
       <main>
         <AppRoutes />
       </main>
-      <Footer />
+      {/* Hide Footer only on /AI */}
+      {location.pathname !== "/AI" && <Footer />}
     </div>
   );
 }
