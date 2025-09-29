@@ -31,7 +31,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Configure multer
+// Configure multer with more flexible field names
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
@@ -40,12 +40,10 @@ const upload = multer({
   }
 });
 
-// Middleware function for handling file uploads
+// Middleware function for handling file uploads with flexible field names
 function uploaderMiddleware(req, res, next) {
-  upload.fields([
-    { name: 'gameFile', maxCount: 1 }, // HTML game file
-    { name: 'imgFile', maxCount: 1 }   // Image file
-  ])(req, res, function (err) {
+  // Use any() to accept any field names for files
+  upload.any()(req, res, function (err) {
     if (err instanceof multer.MulterError) {
       if (err.code === 'LIMIT_FILE_SIZE') {
         return res.status(400).json({ error: 'File too large. Maximum size is 10MB.' });
@@ -53,11 +51,6 @@ function uploaderMiddleware(req, res, next) {
       return res.status(400).json({ error: err.message });
     } else if (err) {
       return res.status(400).json({ error: err.message });
-    }
-
-    // Check if files were uploaded
-    if (!req.files || (Object.keys(req.files).length === 0)) {
-      return res.status(400).json({ error: 'No files uploaded' });
     }
 
     next();
