@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import adminApi from "../AdminServices/adminApi";
-import { isAdminAuthenticated, adminLogout } from "../AdminServices/adminAuth";
+import { isAdminAuthenticated } from "../AdminServices/adminAuth";
 
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
@@ -12,7 +12,7 @@ const Admins = () => {
     masterKey: "",
   });
 
-  // Redirect if not authenticated
+  // Redirect unauthenticated admins
   useEffect(() => {
     if (!isAdminAuthenticated()) {
       window.location.href = "/admin/login";
@@ -21,16 +21,17 @@ const Admins = () => {
     }
   }, []);
 
-  // ===== Validations =====
+  // ===== Email Validation =====
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(email)) {
-      setError("Invalid email format.");
+      setError("❌ Invalid email format.");
       return false;
     }
     return true;
   };
 
+  // ===== Password Validation =====
   const validatePassword = (pw) => {
     if (
       pw.length >= 8 &&
@@ -41,7 +42,7 @@ const Admins = () => {
       return true;
     }
     setError(
-      "Password must be 8+ chars, include uppercase, number, and symbol."
+      "⚠️ Password must be at least 8 characters long, include an uppercase letter, a number, and a special character."
     );
     return false;
   };
@@ -51,21 +52,29 @@ const Admins = () => {
     try {
       setLoading(true);
       const { data } = await adminApi.get("/admin/admins");
-      setAdmins(data);
+
+      // ✅ Backend returns an array of { id, email }
+      if (Array.isArray(data)) {
+        setAdmins(data);
+      } else if (data && typeof data === "object" && data.id && data.email) {
+        // handle case if backend ever returns a single admin object
+        setAdmins([data]);
+      } else {
+        console.warn("Unexpected admin data format:", data);
+        setAdmins([]);
+      }
+
       setError("");
     } catch (err) {
-      if (err.response?.status === 401) {
-        await adminLogout();
-        window.location.href = "/admin/login";
-      } else {
-        setError(err.response?.data?.error || "Failed to fetch admins.");
-      }
+      const msg = err.response?.data?.error || "Failed to fetch admins.";
+      console.error("Admin fetch error:", msg);
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  // ===== Add Admin =====
+  // ===== Add New Admin =====
   const handleAdd = async (e) => {
     e.preventDefault();
     setError("");
@@ -82,7 +91,8 @@ const Admins = () => {
       setNewAdmin({ email: "", password: "", masterKey: "" });
       fetchAdmins();
     } catch (err) {
-      setError(err.response?.data?.error || "Failed to add admin.");
+      const msg = err.response?.data?.error || "Failed to add admin.";
+      setError(msg);
     }
   };
 
@@ -91,27 +101,28 @@ const Admins = () => {
     if (!window.confirm("Are you sure you want to delete this admin?")) return;
     try {
       await adminApi.delete(`/admin/admins/${id}`);
-      fetchAdmins();
+      setAdmins((prev) => prev.filter((a) => a.id !== id));
     } catch (err) {
-      alert(err.response?.data?.error || "Failed to delete admin.");
+      const msg = err.response?.data?.error || "Failed to delete admin.";
+      alert(msg);
     }
   };
 
   return (
     <div className="admins-container fade-slide">
-      <h2 className="section-title">Manage Admins</h2>
+      <h2 className="section-title">🛠️ Manage Admins</h2>
 
       <form className="add-admin-form pop-in" onSubmit={handleAdd}>
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Admin Email"
           value={newAdmin.email}
           required
           onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })}
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Admin Password"
           value={newAdmin.password}
           required
           onChange={(e) =>
@@ -128,14 +139,16 @@ const Admins = () => {
           }
         />
         <button type="submit" className="btn-animate">
-          Add Admin
+          ➕ Add Admin
         </button>
       </form>
 
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-text">{error}</p>}
 
       {loading ? (
-        <p className="loading">Loading...</p>
+        <p className="loading-text">Loading admins...</p>
+      ) : admins.length === 0 ? (
+        <p className="no-data-text">No admins found.</p>
       ) : (
         <table className="admins-table fade-in">
           <thead>
@@ -153,7 +166,7 @@ const Admins = () => {
                     className="delete"
                     onClick={() => handleDelete(admin.id)}
                   >
-                    Delete
+                    🗑️ Delete
                   </button>
                 </td>
               </tr>
