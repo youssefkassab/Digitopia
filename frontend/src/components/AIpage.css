@@ -7,10 +7,10 @@
   color: #222;
 }
 
-.ai-page.dark {
+/* .ai-page.dark {
   background: #1e1e1e;
   color: #ddd;
-}
+} */
 
 /* === Sidebar === */
 .sidebar {
@@ -22,10 +22,10 @@
   flex-direction: column;
 }
 
-.dark .sidebar {
+/* .dark .sidebar {
   background: #2b2b2b;
   border-color: #444;
-}
+} */
 
 .user-profile {
   display: flex;
