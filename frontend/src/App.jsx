@@ -45,7 +45,7 @@ function AppRoutes() {
 
         {/* Main routes */}
         <Route
-          path="/Classroom"
+          path="/classroom"
           element={
             <>
               <Helmet>

@@ -4,7 +4,6 @@ import Logo from "../assets/Logos/3Q-Logo.svg";
 import DarkLogo from "../assets/Logos/Dark_3lm_Quest_Logo.png";
 import {
   getStoredAdmin,
-  adminLogout,
   isAdminAuthenticated,
 } from "../AdminServices/adminAuth";
 import { FaUserCircle } from "react-icons/fa";
@@ -30,15 +29,6 @@ const AdminNavbar = () => {
       setAdmin(null);
     }
   }, [darkMode]);
-
-  const handleLogout = async () => {
-    try {
-      await adminLogout();
-    } finally {
-      setAdmin(null);
-      navigate("/admin/login");
-    }
-  };
 
   return (
     <nav className="glassy-navbar">
@@ -116,8 +106,8 @@ const AdminNavbar = () => {
           {darkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
         </button>
 
-        {/* Admin auth buttons */}
-        {admin ? (
+        {/* Admin avatar display only */}
+        {admin && (
           <div className="user-controls">
             <span className="hi-admin">Hi, {admin.name || "Admin"}</span>
             <button
@@ -126,25 +116,7 @@ const AdminNavbar = () => {
             >
               <FaUserCircle size={20} />
             </button>
-            <button onClick={handleLogout} className="glass-btn logout-btn">
-              Logout
-            </button>
           </div>
-        ) : (
-          <>
-            <button
-              onClick={() => navigate("/admin/login")}
-              className="glass-btn login-btn"
-            >
-              Login
-            </button>
-            <button
-              onClick={() => navigate("/admin/signup")}
-              className="glass-btn signup-btn"
-            >
-              Sign Up
-            </button>
-          </>
         )}
       </div>
     </nav>
