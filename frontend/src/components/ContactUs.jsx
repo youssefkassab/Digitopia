@@ -1,77 +1,186 @@
-// frontend/pages/ContactUs.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Mail, Send, User, Shield } from "lucide-react";
+import { Mail, Send, Trash2, User, Shield } from "lucide-react";
 import TextType from "../assets/Animations/TextType";
 
-const API_BASE =
-  import.meta.env.VITE_API_URL || "http://localhost:3000/api/messages";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 const ContactUs = () => {
-  const [userEmail, setUserEmail] = useState("");
+  const [user, setUser] = useState(null);
   const [content, setContent] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
+  const [canSend, setCanSend] = useState(true);
   const messagesEndRef = useRef(null);
 
-  // Auto-scroll to latest message
+  // === Auto-scroll ===
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // === AUTH + Load current user's messages ===
+  // === Fetch current user ===
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      setFeedback("Please log in to access chat.");
+      setFeedback("⚠️ Please log in to access your messages.");
       return;
     }
 
-    const fetchMessages = async () => {
+    const fetchUser = async () => {
       try {
-        const res = await fetch(`${API_BASE}/MyMessages`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const res = await fetch(`${API_BASE}/users/user`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) throw new Error("Failed to load messages");
+        if (!res.ok) throw new Error("User not authenticated");
         const data = await res.json();
-        setMessages(data);
+        setUser(data);
       } catch (err) {
-        console.error("Message load failed:", err);
-        setFeedback("Could not fetch your messages.");
+        console.error("User Fetch Error:", err);
+        setFeedback("⚠️ Authentication failed. Please re-login.");
       }
     };
-    fetchMessages();
+    fetchUser();
   }, []);
 
-  // === SEND message ===
+  // === Fetch user's messages ===
+  const fetchMessages = async () => {
+    if (!user) return;
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/messages/MyMessages`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Failed to fetch messages");
+      const data = await res.json();
+
+      // ✅ Normalize IDs for consistency
+      const normalized = data.map((msg, index) => ({
+        id: msg.id ?? msg.message_id ?? index,
+        ...msg,
+      }));
+      setMessages(normalized);
+    } catch (err) {
+      console.error("Message Fetch Error:", err);
+      setFeedback("❌ Failed to load messages.");
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, [user]);
+
+  // === Send message ===
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!userEmail || !content.trim())
-      return setFeedback("Email and message are required.");
+    if (!content.trim()) return setFeedback("✉️ Please write a message.");
+    if (!canSend) {
+      return setFeedback(
+        "⚠️ Please wait a few seconds before sending another message."
+      );
+    }
+
+    setCanSend(false);
+    setTimeout(() => setCanSend(true), 8000); // cooldown 8s
     setLoading(true);
     setFeedback(null);
 
     try {
-      const res = await fetch(`${API_BASE}/send`, {
+      const res = await fetch(`${API_BASE}/messages/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ senderEmail: userEmail, content }),
+        body: JSON.stringify({
+          senderEmail: user.email,
+          content,
+        }),
+      });
+
+      let data;
+      try {
+        const text = await res.text(); // read body ONCE
+        try {
+          data = JSON.parse(text); // try to parse JSON
+        } catch {
+          data = { error: text }; // fallback to plain text if not JSON
+        }
+      } catch (err) {
+        throw new Error("Failed to read server response");
+      }
+
+      if (!res.ok) {
+        throw new Error(data?.error || "Failed to send message");
+      }
+
+      // ✅ New message
+      const newMessage = {
+        id: data.id ?? Date.now(),
+        sender: data.sender ?? user.email,
+        content: data.content,
+        message_time: data.message_time ?? new Date().toISOString(),
+      };
+
+      setMessages((prev) => [...prev, newMessage]);
+      setContent("");
+      setFeedback("✅ Message sent successfully!");
+
+      // 🔄 Auto-refresh messages silently
+      setTimeout(fetchMessages, 300);
+    } catch (err) {
+      console.error("Send Error:", err);
+      if (err.message.toLowerCase().includes("too many")) {
+        setFeedback(
+          "⚠️ You're sending messages too quickly. Please wait a moment before trying again."
+        );
+      } else {
+        setFeedback(`❌ ${err.message}`);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // === Delete message ===
+  const handleDelete = async (id) => {
+    if (!id && id !== 0) {
+      console.error("Missing ID:", id);
+      setFeedback("❌ Invalid message ID.");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this message?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setFeedback("⚠️ Please log in first.");
+        return;
+      }
+
+      const res = await fetch(`${API_BASE}/messages/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id }),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to send message");
+      if (!res.ok) throw new Error(data.error || "Failed to delete message");
 
-      setMessages((prev) => [...prev, data]);
-      setContent("");
-      setFeedback("✅ Message sent successfully!");
+      // ✅ Remove instantly
+      setMessages((prev) => prev.filter((msg) => msg.id !== id));
+      setFeedback("🗑️ Message deleted successfully.");
+
+      // ✅ Silent background refresh (ensures consistency)
+      setTimeout(fetchMessages, 300);
     } catch (err) {
+      console.error("Delete Error:", err);
       setFeedback(`❌ ${err.message}`);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -88,7 +197,7 @@ const ContactUs = () => {
         transition={{ duration: 0.6 }}
       >
         <TextType
-          text={["Need Help? Chat With Our Admin"]}
+          text={["Need Help? Chat with Our Support"]}
           typingSpeed={70}
           pauseDuration={1000}
           showCursor
@@ -96,12 +205,16 @@ const ContactUs = () => {
           className="contact-heading"
         />
 
-        {/* Chat Container */}
         <div className="chat-container">
-          <div className="chat-box">
+          <motion.div
+            className="chat-box"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="chat-header">
               <Mail size={22} />
-              <h2>Messages</h2>
+              <h2>Support Chat</h2>
             </div>
 
             <div className="chat-messages">
@@ -111,7 +224,7 @@ const ContactUs = () => {
                     <motion.div
                       key={msg.id}
                       className={`message-bubble ${
-                        msg.sender === userEmail ? "user" : "admin"
+                        msg.sender === user?.email ? "user" : "admin"
                       }`}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -119,17 +232,31 @@ const ContactUs = () => {
                       transition={{ duration: 0.3 }}
                     >
                       <div className="bubble-header">
-                        {msg.sender === userEmail ? (
-                          <User size={16} />
+                        {msg.sender === user?.email ? (
+                          <User size={14} />
                         ) : (
-                          <Shield size={16} />
+                          <Shield size={14} />
                         )}
                         <span>{msg.sender}</span>
                       </div>
+
                       <p>{msg.content}</p>
-                      <span className="message-time">
-                        {new Date(msg.message_time).toLocaleString()}
-                      </span>
+
+                      <div className="message-meta">
+                        <span className="message-time">
+                          {new Date(msg.message_time).toLocaleString()}
+                        </span>
+
+                        {msg.sender === user?.email && (
+                          <button
+                            className="delete-btn"
+                            onClick={() => handleDelete(msg.id)}
+                            title="Delete message"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        )}
+                      </div>
                     </motion.div>
                   ))
                 ) : (
@@ -138,25 +265,17 @@ const ContactUs = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >
-                    No messages yet. Start a chat!
+                    No messages yet — start chatting below 💬
                   </motion.div>
                 )}
               </AnimatePresence>
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Send Message Form */}
             <form className="chat-form" onSubmit={handleSend}>
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value.trim())}
-                required
-              />
               <textarea
                 rows="2"
-                placeholder="Write your message..."
+                placeholder="Type your message..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
@@ -172,7 +291,6 @@ const ContactUs = () => {
               </motion.button>
             </form>
 
-            {/* Feedback Message */}
             {feedback && (
               <motion.div
                 className="feedback"
@@ -182,7 +300,7 @@ const ContactUs = () => {
                 {feedback}
               </motion.div>
             )}
-          </div>
+          </motion.div>
         </div>
       </motion.div>
     </>
