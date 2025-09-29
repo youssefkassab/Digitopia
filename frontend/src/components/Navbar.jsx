@@ -147,7 +147,7 @@ const Navbar = () => {
             { to: "/community", label: "Community" },
             { to: "/about", label: "About Us" },
             { to: "/support", label: "Support" },
-            { to: "/questro", label: "Talk to Questro" },
+            { to: "/AI", label: "Talk to Quatro" },
           ].map(({ to, label }) => (
             <li key={to}>
               <Link
