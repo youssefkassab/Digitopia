@@ -17,46 +17,65 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // === HANDLE THEME TOGGLE ===
   useEffect(() => {
     document.body.classList.toggle("dark-mode", darkMode);
     localStorage.setItem("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
 
-    const verifyUser = async () => {
+  // === FETCH CURRENT USER ===
+  useEffect(() => {
+    const fetchUser = async () => {
       try {
-        const currentUser = await getCurrentUser();
-        if (currentUser) {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setUser(null);
+          return;
+        }
+
+        const currentUser = await getCurrentUser(); // calls /api/users/user
+        if (currentUser && currentUser.email) {
           setUser(currentUser);
           localStorage.setItem("user", JSON.stringify(currentUser));
         } else {
           setUser(null);
+          localStorage.removeItem("user");
         }
-      } catch {
+      } catch (err) {
+        console.error("Error fetching current user:", err);
         setUser(null);
+        localStorage.removeItem("user");
       }
     };
-    verifyUser();
-  }, [darkMode]);
 
+    fetchUser();
+  }, [location.pathname]); // recheck user when navigating
+
+  // === LOGOUT HANDLER ===
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setUser(null);
+      navigate("/");
+    }
+  };
+
+  // === SEARCH HANDLER ===
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Searching for:", query);
     setShowSearchOverlay(false);
   };
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-    } finally {
-      setUser(null);
-      navigate("/");
-    }
-  };
-
   return (
     <>
-      {/* Navbar */}
       <nav className="glassy-navbar">
-        {/* Logo */}
+        {/* === Logo === */}
         <Link to="/" className="nav-logo">
           <img
             src={darkMode ? DarkLogo : Logo}
@@ -65,8 +84,9 @@ const Navbar = () => {
           />
         </Link>
 
-        {/* Navigation links */}
+        {/* === Nav Links === */}
         <ul className="nav-bar">
+
           <li>
             <Link
               to="/Classroom"
@@ -121,26 +141,38 @@ const Navbar = () => {
               Contact Us
             </Link>
           </li>
+          {[
+            { to: "/Classroom", label: "Classroom" },
+            { to: "/Courses", label: "Courses" },
+            { to: "/Community", label: "Community" },
+            { to: "/About", label: "About Us" },
+            { to: "/Contact", label: "Contact Us" },
+            { to: "/AI", label: "Talk to Questro" },
+          ].map(({ to, label }) => (
+            <li key={to}>
               <Link
-              to="/AI"
-              className={location.pathname === "/AI" ? "active" : ""}
-              id="nav-tabs"
-            >
-              Talk to Questro
-            </Link>
+                to={to}
+                className={location.pathname === to ? "active" : ""}
+                id="nav-tabs"
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
         </ul>
 
-        {/* Right-side controls */}
+        {/* === Actions (Search / Theme / User) === */}
         <div className="nav-actions">
-          {/* Search Button */}
+          {/* Search */}
           <button
             className="glass-btn round-btn"
             onClick={() => setShowSearchOverlay(true)}
+            aria-label="Search"
           >
             <FaSearch size={18} />
           </button>
 
-          {/* Dark mode toggle */}
+          {/* Theme toggle */}
           <button
             className={`glass-btn round-btn theme-toggle ${
               darkMode ? "active" : ""
@@ -151,19 +183,27 @@ const Navbar = () => {
             {darkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
           </button>
 
-          {/* Auth buttons */}
+          {/* User / Auth */}
           {user ? (
             <div className="user-controls">
-              {/* User icon → Dashboard */}
-              <button
-                className="glass-btn round-btn"
+              <motion.button
+                className="glass-btn round-btn profile-btn"
                 onClick={() => navigate("/Dashboard")}
+                title={`${user.name} (${user.role})`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <FaUserCircle size={20} />
-              </button>
-              <button onClick={handleLogout} className="glass-btn logout-btn">
+                <FaUserCircle size={22} />
+              </motion.button>
+
+              <motion.button
+                className="glass-btn logout-btn"
+                onClick={handleLogout}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.9 }}
+              >
                 Logout
-              </button>
+              </motion.button>
             </div>
           ) : (
             <Link to="/Signup" className="signup-btn">
@@ -173,7 +213,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Search Overlay */}
+      {/* === Search Overlay === */}
       <AnimatePresence>
         {showSearchOverlay && (
           <motion.div

@@ -13,18 +13,13 @@ const stepMessages = [
 
 const Login = () => {
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   // === VALIDATIONS ===
   const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
   const validatePassword = (pw) => pw.length >= 6;
-
   const validations = [
     () => validateEmail(formData.email),
     () => validatePassword(formData.password),
@@ -59,20 +54,25 @@ const Login = () => {
 
     setLoading(true);
     try {
-      await login(formData.email, formData.password);
+      const res = await login(formData.email, formData.password);
+      if (res?.token) {
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("user", JSON.stringify(res.user));
+      }
       window.location.href = "/dashboard";
     } catch (err) {
-      if (err.response && err.response.data) {
-        setError(err.response.data.message || "Login failed.");
-      } else {
-        setError("Login failed. Please try again.");
-      }
+      const message =
+        err?.error ||
+        err?.message ||
+        err?.details?.[0]?.message ||
+        "Login failed. Please try again.";
+      setError(message);
     } finally {
       setLoading(false);
     }
   };
 
-  // === Stepper Form Fields ===
+  // === Step Fields ===
   const renderStep = () => {
     switch (step) {
       case 0:
@@ -100,15 +100,11 @@ const Login = () => {
     }
   };
 
-  // === Handle Enter Key (acts like Next until last step) ===
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (step < steps.length - 1) {
-        nextStep();
-      } else {
-        handleSubmit(e);
-      }
+      if (step < steps.length - 1) nextStep();
+      else handleSubmit(e);
     }
   };
 
@@ -132,7 +128,6 @@ const Login = () => {
             ))}
           </div>
 
-          {/* Dynamic Step Message with Animation */}
           <AnimatePresence mode="wait">
             <motion.h2
               key={step}
