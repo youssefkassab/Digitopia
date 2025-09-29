@@ -125,12 +125,32 @@ const getGrade = async (req, res) => {
     return res.status(500).json({ error: 'Server error' });
   }
 };
+// Get full profile
+const getProfile = async (req, res) => {
+  try {
+    const user = await db.User.findByPk(req.user.id, {
+      attributes: ["id", "name", "email", "role", "Grade", "subject", "cumulative"]
+    });
+    if (!user) return res.status(404).json({ error: "User not found" });
+    return res.json(user);
+  } catch (err) {
+    console.error("Error fetching profile:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
 
-module.exports = {
-  login,
-  signup,
-  logout,
-  user,
-  upgradeRole,
-  getGrade   // ✅ Now exported
+// Update profile (subject + cumulative)
+const updateProfile = async (req, res) => {
+  try {
+    const { subject, cumulative } = req.body;
+    await db.User.update({ subject, cumulative }, { where: { id: req.user.id } });
+    return res.json({ message: "Profile updated" });
+  } catch (err) {
+    console.error("Error updating profile:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
+
+module.exports = { 
+  login, signup, logout, user, upgradeRole, getGrade, getProfile, updateProfile 
 };
