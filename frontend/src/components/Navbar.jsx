@@ -140,61 +140,6 @@ const Navbar = () => {
         </Link>
 
         <ul className="nav-bar">
-
-          <li>
-            <Link
-              to="/Classroom"
-              className={location.pathname === "/Classroom" ? "active" : ""}
-              id="nav-tabs"
-            >
-              Classroom
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/Courses"
-              className={location.pathname === "/Courses" ? "active" : ""}
-              id="nav-tabs"
-            >
-              Courses
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/Community"
-              className={location.pathname === "/Community" ? "active" : ""}
-              id="nav-tabs"
-            >
-              Community
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/Games"
-              className={location.pathname === "/Games" ? "active" : ""}
-              id="nav-tabs"
-            >
-              Games
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/About"
-              className={location.pathname === "/About" ? "active" : ""}
-              id="nav-tabs"
-            >
-              About Us
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/Contact"
-              className={location.pathname === "/Contact" ? "active" : ""}
-              id="nav-tabs"
-            >
-              Contact Us
-            </Link>
-          </li>
           {[
             { to: "/classroom", label: "Classroom" },
             { to: "/courses", label: "Courses" },
@@ -202,7 +147,7 @@ const Navbar = () => {
             { to: "/community", label: "Community" },
             { to: "/about", label: "About Us" },
             { to: "/support", label: "Support" },
-            { to: "/questro", label: "Talk to Questro" },
+            { to: "/AI", label: "Talk to Quatro" },
           ].map(({ to, label }) => (
             <li key={to}>
               <Link
