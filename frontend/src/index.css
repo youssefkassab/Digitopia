@@ -1476,196 +1476,278 @@ body.dark-mode .lesson-card {
   background: #005bb5;
 }
 
-/* Contact Us */
-.contact-wrapper {
-  display: flex;
-  justify-content: center;
-  /* center horizontally */
-  align-items: flex-start;
-  /* top alignment */
-  padding: 2rem;
-  width: 100%;
-  max-width: 1200px;
-  /* wider wrapper */
-  margin: 0 auto;
+/* === Root Variables === */
+:root {
+  --bg-light: #e0e7ff;
+  --bg-dark: #0f172a;
+  --text-light: #1e293b;
+  --text-dark: #f1f5f9;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --danger: #ef4444;
+  --danger-hover: #b91c1c;
+  --bubble-user: rgba(59, 130, 246, 0.65);
+  --bubble-admin: rgba(51, 65, 85, 0.5);
+  --blur-bg: rgba(255, 255, 255, 0.15);
+  --blur-border: rgba(255, 255, 255, 0.25);
+  --transition: 0.35s ease;
 }
 
-/* Remove full page height and huge margin-top */
-.ContactCard {
-  padding: 2.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+/* === Page === */
+.contact-page {
+  display: flex;
+  flex-direction: column; /* 👈 Stack vertically */
+  justify-content: flex-start;
+  align-items: center;
+  padding: 3rem 1rem;
+  min-height: 100vh;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  transition: all var(--transition);
+  gap: 2rem; /* 👈 Adds nice spacing between heading and chat */
+}
+
+/* === Heading === */
+.contact-heading {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 2.3rem;
+  font-weight: 800;
+  margin-bottom: ;
+  -webkit-background-clip: text;
+  letter-spacing: 1px;
+  filter: drop-shadow(0 0 6px rgba(96, 165, 250, 0.3));
+  animation: fadeDown 0.7s ease;
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Chat Container === */
+.chat-container {
   width: 100%;
   max-width: 800px;
-  /* wider card */
-  margin-bottom: 2rem;
-  /* spacing before chat section */
-}
-
-.email-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin: 1rem 0;
-  text-decoration: none;
-  color: #2563eb;
-  font-weight: 500;
-}
-
-.email-link:hover {
-  text-decoration: underline;
-}
-
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  padding: 20px;
-  margin-bottom: 1.5rem;
-}
-
-.social-icons a {
-  color: #555;
-  transition: color 0.2s ease-in-out;
-}
-
-.social-icons a:hover {
-  color: #2563eb;
-}
-
-.message-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  width: 100%;
-  max-width: 700px;
   margin: 0 auto;
 }
 
-.message-form input,
-.message-form textarea {
-  padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 15px;
-  transition: border 0.3s;
-  width: 100%;
+/* === Chat Box (Glass effect) === */
+.chat-box {
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  background-color: var(--blur-bg);
+  border: 1px solid var(--blur-border);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  transition: all var(--transition);
 }
 
-.message-form input:focus,
-.message-form textarea:focus {
-  border: 1px solid #007bff;
+body.dark-mode .chat-box {
+  background-color: rgba(30, 41, 59, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* === Header === */
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(10px);
+}
+
+.chat-header svg {
+  color: white;
+}
+
+/* === Messages === */
+.chat-messages {
+  flex: 1;
+  padding: 1.2rem;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* === Message Bubble === */
+.message-bubble {
+  max-width: 70%;
+  padding: 0.8rem 1rem;
+  border-radius: 1.2rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  position: relative;
+  animation: fadeSlide 0.4s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-bubble.user {
+  align-self: flex-end;
+  background: var(--bubble-user);
+  border-bottom-right-radius: 0.4rem;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.message-bubble.admin {
+  align-self: flex-start;
+  background: var(--bubble-admin);
+  border-bottom-left-radius: 0.4rem;
+  box-shadow: 0 0 20px rgba(51, 65, 85, 0.4);
+}
+
+.bubble-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  margin-bottom: 0.2rem;
+  opacity: 0.85;
+}
+
+/* === Meta === */
+.message-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-top: 0.4rem;
+}
+
+.message-time {
+  font-style: italic;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #fca5a5;
+  cursor: pointer;
+  transition: transform var(--transition), color var(--transition);
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+  color: #ef4444;
+}
+
+/* === Chat Form === */
+.chat-form {
+  display: flex;
+  gap: 0.6rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  transition: all var(--transition);
+}
+
+body.dark-mode .chat-form {
+  background: rgba(15, 23, 42, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chat-form textarea {
+  flex: 1;
+  resize: none;
+  padding: 0.8rem 1rem;
+  border-radius: 1rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 1rem;
+  transition: all var(--transition);
+  backdrop-filter: blur(8px);
+}
+
+.chat-form textarea:focus {
   outline: none;
+  background: rgba(255, 255, 255, 0.35);
 }
 
+body.dark-mode .chat-form textarea {
+  background: rgba(30, 41, 59, 0.6);
+  color: var(--text-dark);
+}
+
+/* === Send Button === */
 .send-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px;
+  padding: 0 1.3rem;
   border: none;
-  border-radius: 8px;
-  background: #007bff;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: #fff;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
-  color: white;
+  transition: transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+}
+
+.send-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
 }
 
 .send-btn:disabled {
-  background: #999;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
+/* === Feedback === */
 .feedback {
-  margin-top: 1rem;
-  padding: 0.8rem;
-  border-radius: 6px;
-  font-size: 14px;
   text-align: center;
+  padding: 0.8rem 1rem;
+  margin: 0.6rem 1rem;
+  border-radius: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-.feedback.success {
-  background: #d4edda;
-  color: #155724;
-}
-
-.feedback.error {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-/* Optional: scroll chat smoothly */
+/* === Scrollbar === */
 .chat-messages::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
-
 .chat-messages::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-}
-
-/* Form container */
-.form-group {
-  margin-bottom: 1rem;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #4a148c;
-  box-shadow: 0 0 0 3px rgba(74, 20, 140, 0.2);
-}
-
-/* Page container */
-.page-container {
-  padding: 4rem 2rem;
-  /* More breathing room inside */
-  margin-top: 10rem;
-  /* Pushes content below header */
-  margin-bottom: 6rem;
-  /* Pushes content above footer */
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
-  /* Ensures full-page height */
-  box-sizing: border-box;
-}
-
-/* Card wrapper */
-#card {
-  padding: 2rem;
-  border-radius: 1.5rem;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  max-width: 1200px;
-  background: #ffffff;
-}
-
-/* Page title */
-.page-title {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.2rem;
-  font-weight: 700;
-}
-
-/* Empty message */
-.empty-msg {
-  text-align: center;
-  font-size: 1.1rem;
-  color: #777;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
 }
 
 /* Courses */
