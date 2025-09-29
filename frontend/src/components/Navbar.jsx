@@ -5,7 +5,7 @@ import DarkLogo from "../assets/Logos/Dark_3lm_Quest_Logo.png";
 import { getStoredUser, getCurrentUser, logout } from "../services/auth";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { FiSun, FiMoon } from "react-icons/fi";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { searchQuery } from "../services/searchService";
 
 const Navbar = () => {
