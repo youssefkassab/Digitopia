@@ -28,6 +28,7 @@ function AdminRoutes() {
             </AdminProtectedRoute>
           }
         />
+
         <Route
           path="/admin/students"
           element={

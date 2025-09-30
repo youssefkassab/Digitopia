@@ -59,7 +59,7 @@ export default function PosterSlider() {
                 navigate("/Community");
               }}
             >
-              Join Now
+              Coming Soon
             </motion.button>
           )}
         </motion.div>

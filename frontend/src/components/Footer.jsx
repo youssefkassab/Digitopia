@@ -1,60 +1,105 @@
 import React from "react";
 import { Facebook, Youtube } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    document.documentElement.dir = lng === "ar" ? "rtl" : "ltr"; // handle RTL
+  };
+
   return (
-    <footer>
-      <div className="footer-wrapper">
+    <footer className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+      <div className="footer-wrapper max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Language Section */}
-        <div className="footer-card">
-          <h2>🌐 Language</h2>
-          <div className="footer-lang">English</div>
-          <div className="footer-lang">العربية</div>
+        <div className="footer-card space-y-3">
+          <h2 className="font-semibold text-lg">{t("footer.language")}</h2>
+          <div className="flex space-x-2 rtl:space-x-reverse">
+            <button
+              onClick={() => changeLanguage("en")}
+              className={`LangSwitch-button ${
+                i18n.language === "en" ? "active" : ""
+              }`}
+            >
+              English
+            </button>
+            <button
+              onClick={() => changeLanguage("ar")}
+              className={`LangSwitch-button ${
+                i18n.language === "ar" ? "active" : ""
+              }`}
+            >
+              العربية
+            </button>
+          </div>
         </div>
 
         {/* Pages Section */}
-        <div className="footer-card">
-          <h2>📌 Pages</h2>
+        <div className="footer-card space-y-3">
+          <h2 className="font-semibold text-lg">{t("footer.pages")}</h2>
           <nav>
-            <ul>
+            <ul className="space-y-1">
               <li>
-                <a href="./">Home</a>
+                <Link to="/" className="hover:underline">
+                  {t("footer.home")}
+                </Link>
               </li>
               <li>
-                <a href="/Classroom">Classroom</a>
+                <Link to="/Classroom" className="hover:underline">
+                  {t("footer.classroom")}
+                </Link>
               </li>
               <li>
-                <a href="/Courses">Courses</a>
+                <Link to="/Courses" className="hover:underline">
+                  {t("footer.courses")}
+                </Link>
               </li>
               <li>
-                <a href="/Community">Community</a>
+                <Link to="/Community" className="hover:underline">
+                  {t("footer.community")}
+                </Link>
               </li>
               <li>
-                <a href="/About">About Us</a>
+                <Link to="/About" className="hover:underline">
+                  {t("footer.aboutUs")}
+                </Link>
               </li>
               <li>
-                <a href="/Contact">Contact Us</a>
+                <Link to="/Contact" className="hover:underline">
+                  {t("footer.contactUs")}
+                </Link>
               </li>
             </ul>
           </nav>
         </div>
 
         {/* Social Section */}
-        <div className="footer-card">
-          <h2>📢 Follow Us</h2>
-          <div className="social-icons">
+        <div className="footer-card space-y-3">
+          <h2 className="font-semibold text-lg">{t("footer.followUs")}</h2>
+          <div className="flex space-x-3 rtl:space-x-reverse">
             <a
               href="https://www.facebook.com/profile.php?id=61580229761210"
               aria-label="Facebook"
               target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-600 transition-colors"
             >
               <Facebook size={24} />
             </a>
-            <a href="#" aria-label="Instagram"></a>
+            <a
+              href="#"
+              aria-label="Instagram"
+              className="hover:text-pink-500 transition-colors"
+            ></a>
             <a
               href="https://youtube.com/@3lmquest?si=7lWU9DjZGcvtmzyi"
               aria-label="YouTube"
               target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-red-600 transition-colors"
             >
               <Youtube size={24} />
             </a>
@@ -62,15 +107,16 @@ const Footer = () => {
         </div>
 
         {/* Contact Section */}
-        <div className="footer-card">
-          <h2>📩 Contact</h2>
+        <div className="footer-card space-y-3">
+          <h2 className="font-semibold text-lg">{t("footer.contact")}</h2>
           <p>Email: edudevexperts@gmail.com</p>
         </div>
       </div>
 
-      <div className="footer-bottom">
-        © {new Date().getFullYear()} <span className="brand">3lm Quest</span> |
-        All Rights Reserved
+      <div className="footer-bottom text-center py-4 border-t border-gray-300 dark:border-gray-700 mt-6 text-sm">
+        © {new Date().getFullYear()}{" "}
+        <span className="font-semibold">3lm Quest</span> |{" "}
+        {t("footer.allRights")}
       </div>
     </footer>
   );

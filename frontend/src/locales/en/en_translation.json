@@ -1,0 +1,311 @@
+{
+  "signup": {
+    "title": "Sign Up | 3lm Quest",
+    "steps": ["Name", "Email", "Password", "Role", "National ID", "Grade"],
+    "stepMessages": [
+      "Let's start with your Full Name (4 words required).",
+      "Great! Now enter your Email address.",
+      "Set up a secure Password for your account.",
+      "Choose your Role: Student or Teacher.",
+      "Enter your 14-digit National ID.",
+      "Finally, tell us your Grade (students only)."
+    ],
+    "placeholders": {
+      "name": "Enter Full Name (4 words)",
+      "email": "Enter Email",
+      "password": "Enter Password",
+      "nationalId": "Enter National ID (14 digits)",
+      "grade": "Enter Grade"
+    },
+    "buttons": {
+      "next": "Next",
+      "back": "Back",
+      "createAccount": "Create Account",
+      "creating": "Creating..."
+    },
+    "loginLink": "Already have an account? Login here",
+    "errors": {
+      "fullNameWords": "Your full name must have 4 words.",
+      "fullNameLetters": "Name should only contain alphabetic characters.",
+      "emailInvalid": "Please enter a valid email address.",
+      "emailTemp": "Temporary emails are not allowed. Please use a valid one.",
+      "emailDomain": "Only Gmail, Hotmail, Yahoo, Outlook, and Live are accepted.",
+      "password": "Password must be at least 8 characters, include a number, uppercase, and symbol.",
+      "nationalId": "Please enter a valid National ID.",
+      "grade": "Please enter a valid grade (1–12)."
+    },
+    "passwordStrength": [
+      "Very Weak",
+      "Weak",
+      "Medium",
+      "Strong",
+      "Very Strong"
+    ],
+    "success": "Account created successfully! Logging in...",
+    "signupSuccessManual": "Signup successful. Please login manually."
+  },
+  "login": {
+    "title": "Log In | 3lm Quest",
+    "steps": ["Email", "Password"],
+    "stepMessages": [
+      "Enter your registered Email address.",
+      "Now enter your Password to continue."
+    ],
+    "placeholders": {
+      "email": "Enter Your Email",
+      "password": "Enter Your Password"
+    },
+    "stepCounter": "(Step {{current}} of {{total}})",
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "submit": "Login",
+      "submitting": "Logging In..."
+    },
+    "errors": {
+      "invalidStep": "Invalid {{field}}",
+      "fixErrors": "Please fix the errors before logging in.",
+      "loginFailed": "Login failed. Please try again."
+    },
+    "links": {
+      "signup": "Don’t have an account? Sign up here"
+    }
+  },
+  "posterSlider": {
+    "joinNowButton": "Coming Soon"
+  },
+  "navbar": {
+    "links": {
+      "classroom": "Classroom",
+      "courses": "Courses",
+      "games": "Games",
+      "community": "Community",
+      "about": "About Us",
+      "support": "Support",
+      "questro": "Talk to Questro"
+    },
+    "searchPlaceholder": "Search any concept or question...",
+    "searching": "🔍 Searching...",
+    "noResults": "No results found.",
+    "error": "⚠️ {{error}}",
+    "toggleTheme": "Toggle dark mode",
+    "search": "Search",
+    "signUp": "Sign Up",
+    "logout": "Logout",
+    "userProfile": "{{name}} ({{role}})"
+  },
+  "logout": {
+    "button": "Logout",
+    "loading": "Logging out...",
+    "error": "Logout failed. Please try again."
+  },
+  "games": {
+    "title": "🎮 Educational Games",
+    "subtitle": "Discover interactive learning experiences designed to make education fun and engaging for all ages",
+    "searchPlaceholder": "Search games...",
+    "allGrades": "All Grades",
+    "allSubjects": "All Subjects",
+    "noGamesFound": "No games found matching your criteria",
+    "showingGames": "Showing {{count}} game{{count !== 1 ? 's' : ''}}",
+    "emptyTitle": "No games found",
+    "emptyMessage": "Try adjusting your search criteria or browse all games",
+    "showAllButton": "Show All Games",
+    "loadingMessage": "Loading amazing games...",
+    "loadingSubMessage": "Please wait while we fetch the latest educational games",
+    "errorTitle": "Oops! Something went wrong",
+    "errorRetry": "🔄 Try Again",
+    "gameContentUnavailable": "Game content not available",
+    "close": "Close"
+  },
+  "gameCard": {
+    "playGame": "🎮 Play Game",
+    "noImage": "No Image",
+    "grade": "Grade",
+    "unit": "Unit",
+    "lesson": "Lesson"
+  },
+  "footer": {
+    "language": "🌐 Language",
+    "pages": "📌 Pages",
+    "followUs": "📢 Follow Us",
+    "contact": "📩 Contact",
+    "home": "Home",
+    "classroom": "Classroom",
+    "courses": "Courses",
+    "community": "Community",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us",
+    "allRights": "All Rights Reserved"
+  },
+  "dashboard": {
+    "welcome": "Welcome, {{name}}!",
+    "courseProgress": "Course Progress",
+    "overallProgress": "Overall Progress",
+    "adminDashboard": "Admin Dashboard",
+    "enterAdmin": "Enter the Admin Page",
+    "profileInfo": "Profile Info",
+    "accountCreated": "Account Created",
+    "lastUpdated": "Last Updated",
+    "noUser": "No user logged in",
+    "loadingUser": "Loading user info..."
+  },
+  "courses": {
+    "pageTitle": "Courses | 3lm Quest",
+    "sidebar": {
+      "filterCourses": "Filter Courses",
+      "tags": "Tags",
+      "sortBy": "Sort By",
+      "sortOptions": {
+        "popular": "Most Popular",
+        "latest": "Latest",
+        "priceLow": "Price: Low → High",
+        "priceHigh": "Price: High → Low"
+      },
+      "priceRange": "Price Range",
+      "upTo": "Up to ${{price}}"
+    },
+    "content": {
+      "availableCourses": "Available Courses",
+      "noCoursesFound": "No courses found.",
+      "addNewCourse": "Add New Course",
+      "createCourse": "Create Course",
+      "form": {
+        "name": "Course Name",
+        "description": "Description",
+        "price": "Price",
+        "selectTag": "Select a Tag",
+        "submit": "Create Course",
+        "cancel": "Cancel",
+        "creating": "Creating..."
+      },
+      "courseCard": {
+        "enroll": "Enroll",
+        "noTags": "No tags"
+      },
+      "messages": {
+        "courseCreated": "Course created successfully!",
+        "errorGeneric": "Internal server error"
+      }
+    }
+  },
+  "contactUs": {
+    "pageTitle": "Contact Us | 3lm Quest",
+    "heading": "Need Help? Chat with Our Support",
+    "chat": {
+      "supportChat": "Support Chat",
+      "you": "You",
+      "admin": "Admin",
+      "typeMessagePlaceholder": "Type your message...",
+      "sendButton": "Send",
+      "sending": "Sending...",
+      "deleteMessage": "Delete message",
+      "noMessages": "No messages yet — start chatting below 💬",
+      "seen": "Seen",
+      "unseen": "Unseen",
+      "adminReplyTime": "Admin replied"
+    },
+    "feedback": {
+      "notLoggedIn": "⚠️ Please log in to access your messages.",
+      "authFailed": "⚠️ Authentication failed. Please re-login.",
+      "writeMessage": "✉️ Please write a message.",
+      "waitBeforeSend": "⚠️ Please wait a few seconds before sending another message.",
+      "sendSuccess": "✅ Message sent successfully!",
+      "sendFail": "❌ Failed to send message",
+      "tooFast": "⚠️ You're sending messages too quickly. Please wait a moment before trying again.",
+      "deleteSuccess": "🗑️ Message deleted successfully.",
+      "deleteFail": "❌ Failed to delete message.",
+      "invalidId": "❌ Invalid message ID."
+    }
+  },
+  "community": {
+    "pageTitle": "Community | 3lm Quest",
+    "greeting": "Hi, {{user}}",
+    "postCreator": {
+      "placeholder": "What's on your mind?",
+      "chooseFiles": "Choose Files",
+      "postButton": "Post",
+      "writeComment": "Write a comment..."
+    },
+    "postsFeed": {
+      "likes": "{{count}} Likes",
+      "comments": "{{count}} Comments",
+      "liked": "Liked"
+    },
+    "viewer": {
+      "closeHint": "Click to close",
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "filePreview": {
+      "fileReady": "File ready: {{fileName}}",
+      "moreFiles": "+{{count}} more"
+    },
+    "anonymous": "Anonymous"
+  },
+  "classroom": {
+    "pageTitle": "Classroom | 3lm Quest",
+    "welcome": "Welcome, {{user}} — Classroom",
+    "progress": {
+      "label": "Course Progress",
+      "tooltip": "Your coursework progress (saved)",
+      "percent": "{{percent}}%"
+    },
+    "lesson": {
+      "locked": "Locked",
+      "parts": "{{count}} parts",
+      "markComplete": "Mark Lesson Complete",
+      "ariaToggle": "Toggle {{lesson}}"
+    },
+    "status": {
+      "completed": "Completed",
+      "inProgress": "In Progress"
+    },
+    "anonymous": "Learner"
+  },
+  "banner1": {
+    "pageTitle": "Learning Phases | 3lm Quest",
+    "learningPhases": "Our Learning Phases",
+    "cards": {
+      "learn": "Learn",
+      "play": "Play",
+      "target": "Target"
+    }
+  },
+  "aboutUs": {
+    "pageTitle": "About Us | 3lm Quest",
+    "blurText": "Meet EduDev Experts Team Founders Of 3lm Quest",
+    "introCard": {
+      "title": "Our Creative Family",
+      "subtitle": "Innovation, Passion & Teamwork",
+      "description": "We’re a diverse group of developers, designers, and dreamers, all working together to create something wonderful. EduDev Experts — Empowering Every Learner Founded in 2025 by Karim, Youssef, Jana, Abdallah, and Ahmed, EduDev Experts launched from a shared conviction: learning should be engaging, equitable, and future-ready. The team debuted on the national stage at the Digitopia Competition (2025), and has since been building a learning ecosystem designed to serve every Egyptian student and teacher — with a clear ambition to scale worldwide. At our core we combine pedagogical insight, thoughtful design, and modern technology to gamify learning, spark curiosity, and scaffold real-world application. We create adaptive courses, community-driven experiences, and tools that support learners at every stage and age — from early education to adult upskilling — and empower teachers with practical resources and analytics that make teaching more effective and joyful. EduDev Experts is more than a platform: it’s an active, growing community where collaboration, mentorship, and hands-on projects accelerate learning. We focus on future-facing skills and meaningful application, so learners walk away with knowledge they can use — not just facts to memorize. Ambitious but grounded, EduDev Experts aims to make high-quality, motivating education accessible to all. Join us as we build a smarter, more inclusive learning future — one course, one teacher, and one community at a time.",
+      "button": "Meet our team →"
+    },
+    "teamMembers": [
+      {
+        "name": "Karim Abraham",
+        "role": "Team Leader & Frontend Developer",
+        "desc": "Kareem Magdy is a dedicated full-stack developer and the team leader at EduDev Experts. With over two years of experience in web development, he brings together technical expertise, creative design, and a strong focus on collaboration. Kareem is passionate about guiding his team, driving projects forward, and creating impactful digital solutions that blend innovation with quality. Always eager to learn and grow, he strives to lead by example and inspire his team toward excellence."
+      },
+      {
+        "name": "Youseff Kassab",
+        "role": "Project Manager & Backend Developer",
+        "desc": "Project Manager & Backend Developer at EduDev Experts. With over 2 years of experience in full-stack development and Programming Instructor, Youssef specializes in Node.js, Express, and MySQL, with strong knowledge of AI and web security. He leads the project’s technical direction and ensures smooth coordination between the team and platform vision."
+      },
+      {
+        "name": "Jana Yacoub",
+        "role": "Tester & Designer",
+        "desc": "Talented designer, tester, and presenter with the EduDev Experts team. She brings creativity to life using Canva and Pinterest, crafting engaging visuals and delivering presentations that inspire and connect with audiences."
+      },
+      {
+        "name": "Abdallah Maamoon",
+        "role": "AI Developer & Data Analyst",
+        "desc": "Professional software developer. With over two years experience in AI development, data cleaning and analysing, and full stack development. With great knowledge in automation and has worked as programming Instructor. He is working in EduDev Experts team to make sure that each student has the full assistance around the 24 hour, 7 days per week with accuracy in answering questions higher than teacher accuracy."
+      },
+      {
+        "name": "Ahmed Noaman",
+        "role": "Database & Frontend Developer",
+        "desc": "Frontend and Database Developer at EduDev Experts. He specializes in building scalable web applications using Node.js, Express, and MySQL, and brings a strong foundation in artificial intelligence to enhance functionality and performance."
+      }
+    ]
+  }
+}

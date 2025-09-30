@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 import { validateAdminAccess } from "./adminAuth";
+import AccessDenied from "../assets/Msgs/Access_Denied.png";
 
 const AdminProtectedRoute = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(null);
@@ -10,18 +10,13 @@ const AdminProtectedRoute = ({ children }) => {
       try {
         const allowed = await validateAdminAccess();
 
-        // ✅ If validated as admin, issue an admin token
         if (allowed) {
           const token = localStorage.getItem("token");
           const existingAdminToken = localStorage.getItem("adminToken");
-
-          // Only store if not already set or changed
           if (token && token !== existingAdminToken) {
             localStorage.setItem("adminToken", token);
-            console.log("✅ Admin access confirmed — adminToken stored.");
           }
         } else {
-          // If not admin, make sure no admin token is lingering
           localStorage.removeItem("adminToken");
         }
 
@@ -35,22 +30,54 @@ const AdminProtectedRoute = ({ children }) => {
     checkAccess();
   }, []);
 
-  if (isAuthorized === null) {
-    // Loading placeholder
-    return (
-      <div className="flex items-center justify-center min-h-screen text-gray-600">
-        Checking admin access...
-      </div>
-    );
-  }
+  // Hide navbar/footer by directly targeting them
+  useEffect(() => {
+    const nav = document.querySelector(".glassy-navbar"); // change if your navbar is different
+    const footer = document.querySelector("footer"); // change if your footer is different
+
+    if (isAuthorized === false) {
+      if (nav) nav.style.display = "none";
+      if (footer) footer.style.display = "none";
+    } else {
+      if (nav) nav.style.display = "";
+      if (footer) footer.style.display = "";
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (nav) nav.style.display = "";
+      if (footer) footer.style.display = "";
+    };
+  }, [isAuthorized]);
+
+  if (isAuthorized === null) return null;
 
   if (!isAuthorized) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
-        <h1 className="text-3xl font-bold mb-4">Access Denied</h1>
-        <p className="text-lg">
-          You do not have permission to access this page.
-        </p>
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "#1800ad",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          overflow: "hidden",
+          zIndex: 9999,
+        }}
+      >
+        <img
+          src={AccessDenied}
+          alt="Access Denied"
+          style={{
+            maxWidth: "100%",
+            maxHeight: "100vh",
+            objectFit: "contain",
+          }}
+        />
       </div>
     );
   }
