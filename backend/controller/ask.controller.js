@@ -224,9 +224,9 @@ async function ask(req, res) {
 
     const result = await chat.sendMessageStream({ message: prompt });
 
-res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
-res.setHeader("Cache-Control", "no-cache");
-res.setHeader("Transfer-Encoding", "chunked");
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Transfer-Encoding", "chunked");
 
     let answer = "";
 
