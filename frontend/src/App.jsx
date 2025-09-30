@@ -1,7 +1,10 @@
-
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+
+import "./i18n";
 
 import Navbar from "./components/Navbar";
 import PosterSlider from "./components/PosterSlider";
@@ -17,6 +20,7 @@ import Login from "./components/Login";
 import Footer from "./components/Footer";
 import AIpage from "./components/AI-UI";
 import Games from "./components/Games";
+
 import "./index.css";
 
 function AppRoutes() {
@@ -61,7 +65,7 @@ function AppRoutes() {
         <Route path="/About" element={<AboutUs />} />
         <Route path="/support" element={<ContactUs />} />
         <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/AI" element={<AIpage />} />
+        <Route path="/questro" element={<AIpage />} />
 
         {/* Auth routes */}
         <Route path="/signup" element={<Signup />} />
@@ -76,6 +80,13 @@ function AppRoutes() {
 
 export default function App() {
   const location = useLocation();
+  const { i18n } = useTranslation();
+
+  // Handle RTL for Arabic
+  useEffect(() => {
+    document.documentElement.lang = i18n.language; // set lang attribute
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  }, [i18n.language]);
 
   return (
     <div className="app-wrapper">

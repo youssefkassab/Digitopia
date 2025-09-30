@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { FaThumbsUp, FaComment } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 export default function Community() {
+  const { t } = useTranslation();
+
   const [posts, setPosts] = useState([]);
   const [postText, setPostText] = useState("");
   const [postFiles, setPostFiles] = useState([]);
@@ -12,7 +15,8 @@ export default function Community() {
 
   // get current user from localStorage, fallback to "Anonymous"
   const storedUser = JSON.parse(localStorage.getItem("user")) || null;
-  const currentUser = storedUser?.name || storedUser?.email || "Anonymous";
+  const currentUser =
+    storedUser?.name || storedUser?.email || t("community.anonymous");
 
   // 🔹 Viewer states
   const [viewerOpen, setViewerOpen] = useState(false);
@@ -131,12 +135,14 @@ export default function Community() {
   return (
     <>
       <Helmet>
-        <title>Community | 3lm Quest</title>
+        <title>{t("community.pageTitle")}</title>
       </Helmet>
       <div className="community-wrapper">
         <header>
           <div style={{ textAlign: "center" }}>
-            <p style={{ marginTop: "1rem" }}>Hi, {currentUser}</p>
+            <p style={{ marginTop: "1rem" }}>
+              {t("community.greeting", { user: currentUser })}
+            </p>
           </div>
         </header>
 
@@ -146,7 +152,7 @@ export default function Community() {
               className="community_txt_area"
               value={postText}
               onChange={(e) => setPostText(e.target.value)}
-              placeholder="What's on your mind?"
+              placeholder={t("community.postCreator.placeholder")}
               maxLength={280}
             />
 
@@ -157,7 +163,7 @@ export default function Community() {
               id="file-upload"
               style={{ marginTop: "100px", marginRight: "100px" }}
             >
-              Choose Files
+              {t("community.postCreator.chooseFiles")}
             </label>
             <input
               id="file-upload"
@@ -188,14 +194,18 @@ export default function Community() {
                       style={{ maxHeight: "300px" }}
                     />
                   ) : (
-                    <p key={idx}>File ready: {item.file.name}</p>
+                    <p key={idx}>
+                      {t("community.filePreview.fileReady", {
+                        fileName: item.file.name,
+                      })}
+                    </p>
                   )
                 )}
               </div>
             )}
 
-            <button id="postBtn" onClick={handlePost}>
-              Post
+            <button id="postBtn">
+              {t("community.postCreator.postButton")}
             </button>
           </section>
 
@@ -308,7 +318,7 @@ export default function Community() {
                       <div className="comment-input">
                         <input
                           type="text"
-                          placeholder="Write a comment..."
+                          placeholder={t("community.postsFeed.writeComment")}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               addComment(post.id, e.target.value);
@@ -323,7 +333,7 @@ export default function Community() {
                             input.value = "";
                           }}
                         >
-                          Post
+                          {t("community.postCreator.postButton")}
                         </button>
                       </div>
                     </div>

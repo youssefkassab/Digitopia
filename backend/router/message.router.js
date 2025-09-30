@@ -10,7 +10,7 @@ const { messageCreateSchema, messageUpdateSchema, messageSeenSchema, messageDele
 router.post('/send', messageLimiter, validate(messageCreateSchema), messageController.createMessage);
 router.get('/receiveAll', auth, roleAuth(ROLE.ADMIN), messageController.getAllMessages);
 router.get('/MyMessages', auth, messageController.getAllUserMessages);
-router.patch('/update', auth, roleAuth([ROLE.USER, ROLE.TEACHER, ROLE.ADMIN]), validate(messageUpdateSchema), messageController.updateMessage);
+router.patch('/update', auth, roleAuth([ROLE.USER, ROLE.TEACHER]), validate(messageUpdateSchema), messageController.updateMessage);
 router.patch('/seen', auth, roleAuth(ROLE.ADMIN), validate(messageSeenSchema), messageController.MarkAsSeen);
 router.delete('/delete', auth, validate(messageDeleteSchema), messageController.deleteMessage);
 

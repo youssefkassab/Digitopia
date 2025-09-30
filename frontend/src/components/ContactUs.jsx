@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Mail, Send, Trash2, User, Shield, Check, X } from "lucide-react"; // ✅ CHANGE: added icons for seen/unseen
+import { Mail, Send, Trash2, User, Shield, Check, X } from "lucide-react";
 import TextType from "../assets/Animations/TextType";
+import { useTranslation } from "react-i18next";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 const ContactUs = () => {
+  const { t } = useTranslation();
+
   const [user, setUser] = useState(null);
   const [content, setContent] = useState("");
   const [messages, setMessages] = useState([]);
@@ -22,7 +25,7 @@ const ContactUs = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      setFeedback("⚠️ Please log in to access your messages.");
+      setFeedback(t("contactUs.feedback.notLoggedIn"));
       return;
     }
 
@@ -36,11 +39,11 @@ const ContactUs = () => {
         setUser(data);
       } catch (err) {
         console.error("User Fetch Error:", err);
-        setFeedback("⚠️ Authentication failed. Please re-login.");
+        setFeedback(t("contactUs.feedback.authFailed"));
       }
     };
     fetchUser();
-  }, []);
+  }, [t]);
 
   const fetchMessages = async () => {
     if (!user) return;
@@ -59,7 +62,7 @@ const ContactUs = () => {
       setMessages(normalized);
     } catch (err) {
       console.error("Message Fetch Error:", err);
-      setFeedback("❌ Failed to load messages.");
+      setFeedback(t("contactUs.feedback.sendFail"));
     }
   };
 
@@ -69,11 +72,10 @@ const ContactUs = () => {
 
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!content.trim()) return setFeedback("✉️ Please write a message.");
+    if (!content.trim())
+      return setFeedback(t("contactUs.feedback.writeMessage"));
     if (!canSend) {
-      return setFeedback(
-        "⚠️ Please wait a few seconds before sending another message."
-      );
+      return setFeedback(t("contactUs.feedback.waitBeforeSend"));
     }
 
     setCanSend(false);
@@ -104,7 +106,7 @@ const ContactUs = () => {
       }
 
       if (!res.ok) {
-        throw new Error(data?.error || "Failed to send message");
+        throw new Error(data?.error || t("contactUs.feedback.sendFail"));
       }
 
       const newMessage = {
@@ -112,19 +114,17 @@ const ContactUs = () => {
         sender: data.sender ?? user.email,
         content: data.content,
         message_time: data.message_time ?? new Date().toISOString(),
-        seen: data.seen ?? 0, // ✅ CHANGE: ensure seen status exists
+        seen: data.seen ?? 0,
       };
 
       setMessages((prev) => [...prev, newMessage]);
       setContent("");
-      setFeedback("✅ Message sent successfully!");
+      setFeedback(t("contactUs.feedback.sendSuccess"));
       setTimeout(fetchMessages, 300);
     } catch (err) {
       console.error("Send Error:", err);
       if (err.message.toLowerCase().includes("too many")) {
-        setFeedback(
-          "⚠️ You're sending messages too quickly. Please wait a moment before trying again."
-        );
+        setFeedback(t("contactUs.feedback.tooFast"));
       } else {
         setFeedback(`❌ ${err.message}`);
       }
@@ -136,19 +136,17 @@ const ContactUs = () => {
   const handleDelete = async (id) => {
     if (!id && id !== 0) {
       console.error("Missing ID:", id);
-      setFeedback("❌ Invalid message ID.");
+      setFeedback(t("contactUs.feedback.invalidId"));
       return;
     }
 
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this message?"
-    );
+    const confirmDelete = window.confirm(t("contactUs.chat.deleteMessage"));
     if (!confirmDelete) return;
 
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        setFeedback("⚠️ Please log in first.");
+        setFeedback(t("contactUs.feedback.notLoggedIn"));
         return;
       }
 
@@ -162,10 +160,11 @@ const ContactUs = () => {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to delete message");
+      if (!res.ok)
+        throw new Error(data.error || t("contactUs.feedback.deleteFail"));
 
       setMessages((prev) => prev.filter((msg) => msg.id !== id));
-      setFeedback("🗑️ Message deleted successfully.");
+      setFeedback(t("contactUs.feedback.deleteSuccess"));
       setTimeout(fetchMessages, 300);
     } catch (err) {
       console.error("Delete Error:", err);
@@ -176,7 +175,7 @@ const ContactUs = () => {
   return (
     <>
       <Helmet>
-        <title>Contact Us | 3lm Quest</title>
+        <title>{t("contactUs.pageTitle")}</title>
       </Helmet>
 
       <motion.div
@@ -186,7 +185,7 @@ const ContactUs = () => {
         transition={{ duration: 0.6 }}
       >
         <TextType
-          text={["Need Help? Chat with Our Support"]}
+          text={[t("contactUs.heading")]}
           typingSpeed={70}
           pauseDuration={1000}
           showCursor
@@ -203,7 +202,7 @@ const ContactUs = () => {
           >
             <div className="chat-header">
               <Mail size={22} />
-              <h2>Support Chat</h2>
+              <h2>{t("contactUs.chat.supportChat")}</h2>
             </div>
 
             <div className="chat-messages">
@@ -227,23 +226,24 @@ const ContactUs = () => {
                           <Shield size={14} />
                         )}
                         <span>
-                          {msg.sender === user?.email ? "You" : "Admin"}
+                          {msg.sender === user?.email
+                            ? t("contactUs.chat.you")
+                            : t("contactUs.chat.admin")}
                         </span>
                       </div>
 
                       <p>{msg.content}</p>
 
                       <div className="message-meta">
-                        {/* ✅ CHANGE: show Seen / Unseen instead of invalid date */}
                         {msg.sender === user?.email ? (
                           <span className="seen-status">
                             {msg.seen ? (
                               <span className="seen">
-                                <Check size={14} /> Seen
+                                <Check size={14} /> {t("contactUs.chat.seen")}
                               </span>
                             ) : (
                               <span className="unseen">
-                                <X size={14} /> Unseen
+                                <X size={14} /> {t("contactUs.chat.unseen")}
                               </span>
                             )}
                           </span>
@@ -251,7 +251,7 @@ const ContactUs = () => {
                           <span className="admin-reply-time">
                             {msg.message_time
                               ? new Date(msg.message_time).toLocaleString()
-                              : "Admin replied"}
+                              : t("contactUs.chat.adminReplyTime")}
                           </span>
                         )}
 
@@ -259,7 +259,7 @@ const ContactUs = () => {
                           <button
                             className="delete-btn"
                             onClick={() => handleDelete(msg.id)}
-                            title="Delete message"
+                            title={t("contactUs.chat.deleteMessage")}
                           >
                             <Trash2 size={14} />
                           </button>
@@ -273,7 +273,7 @@ const ContactUs = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >
-                    No messages yet — start chatting below 💬
+                    {t("contactUs.chat.noMessages")}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -283,7 +283,7 @@ const ContactUs = () => {
             <form className="chat-form" onSubmit={handleSend}>
               <textarea
                 rows="2"
-                placeholder="Type your message..."
+                placeholder={t("contactUs.chat.typeMessagePlaceholder")}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
@@ -295,7 +295,10 @@ const ContactUs = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {loading ? "Sending..." : "Send"} <Send size={16} />
+                {loading
+                  ? t("contactUs.chat.sending")
+                  : t("contactUs.chat.sendButton")}{" "}
+                <Send size={16} />
               </motion.button>
             </form>
 

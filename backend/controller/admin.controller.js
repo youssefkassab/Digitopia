@@ -1,20 +1,20 @@
-const { sequelize } = require('../db/models');
+const { sequelize } = require("../db/models");
 
 const getStudents = async (req, res) => {
   try {
-    const [results] = await sequelize.query(
+    const results = await sequelize.query(
       `SELECT id, name, email, national_number, Grade
        FROM users
        WHERE role = :role`,
       {
-        replacements: { role: 'user' },
+        replacements: { role: "user" },
         type: sequelize.QueryTypes.SELECT,
       }
     );
-    res.json(results);
+    res.json(results); // results is already an array
   } catch (err) {
-    console.error('DB error (getStudents):', err);
-    res.status(500).json({ error: 'Database error.' });
+    console.error("DB error (getStudents):", err);
+    res.status(500).json({ error: "Database error." });
   }
 };
 
@@ -74,36 +74,35 @@ const deleteUser = async (req, res) => {
 // ===== Get All Teachers =====
 const getTeachers = async (req, res) => {
   try {
-    const [results] = await sequelize.query(
+    const results = await sequelize.query(
       `SELECT id, name, email, national_number
        FROM users
        WHERE role = :role`,
       {
-        replacements: { role: 'teacher' },
+        replacements: { role: "teacher" },
         type: sequelize.QueryTypes.SELECT,
       }
     );
-    res.json(results);
+    res.json(results); // send the array directly
   } catch (err) {
-    console.error('DB error (getTeachers):', err);
-    res.status(500).json({ error: 'Database error.' });
+    console.error("DB error (getTeachers):", err);
+    res.status(500).json({ error: "Database error." });
   }
 };
-
 // ===== Get All Admins =====
 const getAdmins = async (req, res) => {
   try {
     const [results] = await sequelize.query(
       `SELECT id, email FROM users WHERE role = :role`,
       {
-        replacements: { role: 'admin' },
+        replacements: { role: "admin" },
         type: sequelize.QueryTypes.SELECT,
       }
     );
     res.json(results);
   } catch (err) {
-    console.error('DB error (getAdmins):', err);
-    res.status(500).json({ error: 'Database error.' });
+    console.error("DB error (getAdmins):", err);
+    res.status(500).json({ error: "Database error." });
   }
 };
 
