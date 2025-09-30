@@ -233,6 +233,7 @@ async function ask(req, res) {
       if (chunk.text) {
         answer += chunk.text;
         res.write(chunk.text);
+        if (res.flush) res.flush();
       }
     }
 
