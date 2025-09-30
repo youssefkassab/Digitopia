@@ -147,7 +147,17 @@
   border-bottom-right-radius: 0;
 }
 
+.message.ai {
+  background: #eaeaea;
+  color: #222;
+  align-self: flex-start;
+  border-bottom-left-radius: 0;
+}
 
+.dark .message.ai {
+  background: #333;
+  color: #ddd;
+}
 
 /* Loading animation */
 .loading {
