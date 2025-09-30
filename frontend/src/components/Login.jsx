@@ -59,6 +59,12 @@ const Login = () => {
         localStorage.setItem("token", res.token);
         localStorage.setItem("user", JSON.stringify(res.user));
       }
+
+      // ✅ Store adminToken if available
+      if (res?.adminToken) {
+        localStorage.setItem("adminToken", res.adminToken);
+      }
+
       window.location.href = "/dashboard";
     } catch (err) {
       const message =

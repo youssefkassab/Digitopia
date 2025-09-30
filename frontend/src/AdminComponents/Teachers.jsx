@@ -1,55 +1,31 @@
 import React, { useEffect, useState } from "react";
 import adminApi from "../AdminServices/adminApi";
-import { isAdminAuthenticated } from "../AdminServices/adminAuth";
-
-/**
- * Teachers management page — Admin panel
- * - Fetches all teachers (via /api/admin/teachers)
- * - Allows deleting teachers
- * - Includes role-based access check
- */
+import { toast } from "react-hot-toast";
 
 const Teachers = () => {
   const [teachers, setTeachers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [upgradingId, setUpgradingId] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
-  // Redirect if not authenticated as admin
-  useEffect(() => {
-    if (!isAdminAuthenticated()) {
-      window.location.href = "/admin/login";
-    }
-  }, []);
+  const [newTeacher, setNewTeacher] = useState({
+    name: "",
+    email: "",
+    password: "",
+    national_number: "",
+    role: "teacher",
+  });
 
   // Fetch all teachers
   const fetchTeachers = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const { data } = await adminApi.get("/admin/teachers");
-
-      // ✅ Ensure teachers is always an array, even if backend returns an object or null
-      const teachersArray = Array.isArray(data)
-        ? data
-        : Array.isArray(data?.results)
-        ? data.results
-        : Array.isArray(data?.teachers)
-        ? data.teachers
-        : [];
-
-      setTeachers(teachersArray);
-      setError("");
+      setTeachers(data);
     } catch (err) {
-      const message =
-        err.response?.data?.error ||
-        (err.response?.status === 401
-          ? "Session expired. Please log in again."
-          : "Failed to fetch teachers.");
-      setError(message);
-
-      if (err.response?.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/admin/login";
-      }
+      console.error("Error fetching teachers:", err);
+      toast.error("Failed to fetch teachers.");
     } finally {
       setLoading(false);
     }
@@ -61,35 +37,120 @@ const Teachers = () => {
 
   // Delete teacher
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this teacher?"
-    );
-    if (!confirmDelete) return;
-
+    if (!window.confirm("Are you sure you want to delete this teacher?"))
+      return;
+    setDeletingId(id);
     try {
       await adminApi.delete(`/admin/teachers/${id}`);
       setTeachers((prev) => prev.filter((t) => t.id !== id));
+      toast.success("Teacher deleted successfully.");
     } catch (err) {
-      alert(err.response?.data?.error || "Failed to delete teacher.");
+      console.error("Delete error:", err);
+      toast.error(err.response?.data?.error || "Failed to delete teacher.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  // Upgrade teacher to admin
+  const handleUpgrade = async (id) => {
+    if (
+      !window.confirm("Are you sure you want to upgrade this teacher to admin?")
+    )
+      return;
+    setUpgradingId(id);
+    try {
+      await adminApi.post("/users/upgradeRole", { id, role: "admin" });
+      setTeachers((prev) => prev.filter((t) => t.id !== id));
+      toast.success("Teacher upgraded to admin successfully.");
+    } catch (err) {
+      console.error("Upgrade error:", err);
+      toast.error(err.response?.data?.error || "Failed to upgrade teacher.");
+    } finally {
+      setUpgradingId(null);
+    }
+  };
+
+  // Add new teacher
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    setAdding(true);
+    try {
+      await adminApi.post("/users/signup", newTeacher);
+      toast.success("Teacher added successfully.");
+      setNewTeacher({
+        name: "",
+        email: "",
+        password: "",
+        national_number: "",
+        role: "teacher",
+      });
+      fetchTeachers();
+    } catch (err) {
+      console.error("Add error:", err);
+      toast.error(err.response?.data?.error || "Failed to add teacher.");
+    } finally {
+      setAdding(false);
     }
   };
 
   return (
-    <div className="teachers-container fade-slide">
-      <h2 className="section-title">Manage Teachers</h2>
+    <div className="students-container">
+      <h2>Teachers Management</h2>
 
-      {error && <p className="error">{error}</p>}
+      {/* Add Teacher Form */}
+      <form className="add-student-form" onSubmit={handleAdd}>
+        <input
+          type="text"
+          placeholder="Name"
+          value={newTeacher.name}
+          onChange={(e) =>
+            setNewTeacher({ ...newTeacher, name: e.target.value })
+          }
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={newTeacher.email}
+          onChange={(e) =>
+            setNewTeacher({ ...newTeacher, email: e.target.value })
+          }
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={newTeacher.password}
+          onChange={(e) =>
+            setNewTeacher({ ...newTeacher, password: e.target.value })
+          }
+          required
+        />
+        <input
+          type="text"
+          placeholder="National Number"
+          value={newTeacher.national_number}
+          onChange={(e) =>
+            setNewTeacher({ ...newTeacher, national_number: e.target.value })
+          }
+          required
+        />
+        <button type="submit" disabled={adding}>
+          {adding ? "Adding..." : "Add Teacher"}
+        </button>
+      </form>
 
       {loading ? (
-        <p className="loading">Loading teachers...</p>
+        <p style={{ textAlign: "center" }}>Loading teachers...</p>
       ) : teachers.length === 0 ? (
-        <p className="empty">No teachers found.</p>
+        <p style={{ textAlign: "center" }}>No teachers found.</p>
       ) : (
-        <table className="teachers-table fade-in">
+        <table className="students-table">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Full Name</th>
+              <th>Name</th>
               <th>Email</th>
               <th>National Number</th>
               <th>Actions</th>
@@ -97,17 +158,25 @@ const Teachers = () => {
           </thead>
           <tbody>
             {teachers.map((teacher) => (
-              <tr key={teacher.id} className="row-animate">
+              <tr key={teacher.id}>
                 <td>{teacher.id}</td>
                 <td>{teacher.name}</td>
                 <td>{teacher.email}</td>
                 <td>{teacher.national_number}</td>
                 <td>
                   <button
-                    className="delete"
-                    onClick={() => handleDelete(teacher.id)}
+                    onClick={() => handleUpgrade(teacher.id)}
+                    disabled={upgradingId === teacher.id}
+                    className="upgrade"
                   >
-                    Delete
+                    {upgradingId === teacher.id ? "Upgrading..." : "Upgrade"}
+                  </button>
+                  <button
+                    onClick={() => handleDelete(teacher.id)}
+                    disabled={deletingId === teacher.id}
+                    className="delete"
+                  >
+                    {deletingId === teacher.id ? "Deleting..." : "Delete"}
                   </button>
                 </td>
               </tr>

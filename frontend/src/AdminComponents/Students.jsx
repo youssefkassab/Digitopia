@@ -1,47 +1,32 @@
 import React, { useEffect, useState } from "react";
 import adminApi from "../AdminServices/adminApi";
-import {
-  isAdminAuthenticated,
-  validateAdminAccess,
-} from "../AdminServices/adminAuth";
+import { toast } from "react-hot-toast";
 
 const Students = () => {
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [upgradingId, setUpgradingId] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
-  // ✅ Check admin access before loading
-  useEffect(() => {
-    const checkAdmin = async () => {
-      const valid = await validateAdminAccess();
-      if (!valid || !isAdminAuthenticated()) {
-        window.location.href = "/admin/login";
-      }
-    };
-    checkAdmin();
-  }, []);
+  const [newStudent, setNewStudent] = useState({
+    name: "",
+    email: "",
+    password: "",
+    national_number: "",
+    role: "user",
+    Grade: "",
+  });
 
-  // === FETCH STUDENTS ===
+  // Fetch all students
   const fetchStudents = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const res = await adminApi.get("/admin/students");
-
-      // ✅ Normalize the response to always be an array
-      const data = Array.isArray(res.data)
-        ? res.data
-        : res.data?.students || res.data?.data || [];
-
+      const { data } = await adminApi.get("/admin/students");
       setStudents(data);
-      setError("");
     } catch (err) {
-      console.error("Fetch students failed:", err);
-      if (err.response?.status === 401) {
-        localStorage.removeItem("adminToken");
-        window.location.href = "/admin/login";
-      } else {
-        setError(err.response?.data?.error || "Failed to fetch students.");
-      }
+      console.error("Error fetching students:", err);
+      toast.error("Failed to fetch students.");
     } finally {
       setLoading(false);
     }
@@ -51,69 +36,165 @@ const Students = () => {
     fetchStudents();
   }, []);
 
-  // === DELETE STUDENT ===
+  // Delete student
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this student?"))
       return;
+    setDeletingId(id);
     try {
       await adminApi.delete(`/admin/students/${id}`);
       setStudents((prev) => prev.filter((s) => s.id !== id));
+      toast.success("Student deleted successfully.");
     } catch (err) {
-      console.error("Delete student failed:", err);
-      setError(err.response?.data?.error || "Failed to delete student.");
+      console.error("Delete error:", err);
+      toast.error(err.response?.data?.error || "Failed to delete student.");
+    } finally {
+      setDeletingId(null);
     }
   };
 
-  // === UI ===
+  // Upgrade student to admin
+  const handleUpgrade = async (id) => {
+    if (
+      !window.confirm("Are you sure you want to upgrade this student to admin?")
+    )
+      return;
+    setUpgradingId(id);
+    try {
+      await adminApi.post("/users/upgradeRole", { id, role: "admin" });
+      setStudents((prev) => prev.filter((s) => s.id !== id));
+      toast.success("Student upgraded to admin successfully.");
+    } catch (err) {
+      console.error("Upgrade error:", err);
+      toast.error(err.response?.data?.error || "Failed to upgrade student.");
+    } finally {
+      setUpgradingId(null);
+    }
+  };
+
+  // Add new student
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    setAdding(true);
+    try {
+      await adminApi.post("/users/signup", newStudent);
+      toast.success("Student added successfully.");
+      setNewStudent({
+        name: "",
+        email: "",
+        password: "",
+        national_number: "",
+        role: "user",
+        Grade: "",
+      });
+      fetchStudents();
+    } catch (err) {
+      console.error("Add error:", err);
+      toast.error(err.response?.data?.error || "Failed to add student.");
+    } finally {
+      setAdding(false);
+    }
+  };
+
   return (
-    <div className="students-container p-6 bg-gray-50 min-h-screen">
-      <h2 className="text-2xl font-semibold mb-6">🎓 Manage Students</h2>
+    <div className="students-container">
+      <h2>Students Management</h2>
 
-      {error && (
-        <p className="text-red-600 mt-4 bg-red-50 p-2 rounded border border-red-200">
-          {error}
-        </p>
-      )}
+      {/* Add Student Form */}
+      <form className="add-student-form" onSubmit={handleAdd}>
+        <input
+          type="text"
+          placeholder="Name"
+          value={newStudent.name}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, name: e.target.value })
+          }
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={newStudent.email}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, email: e.target.value })
+          }
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={newStudent.password}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, password: e.target.value })
+          }
+          required
+        />
+        <input
+          type="text"
+          placeholder="National Number"
+          value={newStudent.national_number}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, national_number: e.target.value })
+          }
+          required
+        />
+        <input
+          type="text"
+          placeholder="Grade"
+          value={newStudent.Grade}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, Grade: e.target.value })
+          }
+        />
+        <button type="submit" disabled={adding}>
+          {adding ? "Adding..." : "Add Student"}
+        </button>
+      </form>
 
-      {/* Student List */}
       {loading ? (
-        <p className="mt-6 text-gray-600">Loading students...</p>
-      ) : !Array.isArray(students) || students.length === 0 ? (
-        <p className="mt-6 text-gray-600">No students found.</p>
+        <p style={{ textAlign: "center" }}>Loading students...</p>
+      ) : students.length === 0 ? (
+        <p style={{ textAlign: "center" }}>No students found.</p>
       ) : (
-        <div className="mt-8 overflow-x-auto">
-          <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow">
-            <thead className="bg-gray-100 text-gray-700">
-              <tr>
-                <th className="px-4 py-2 border">Name</th>
-                <th className="px-4 py-2 border">Email</th>
-                <th className="px-4 py-2 border">National ID</th>
-                <th className="px-4 py-2 border">Grade</th>
-                <th className="px-4 py-2 border">Actions</th>
+        <table className="students-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>National Number</th>
+              <th>Grade</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students.map((student) => (
+              <tr key={student.id}>
+                <td>{student.id}</td>
+                <td>{student.name}</td>
+                <td>{student.email}</td>
+                <td>{student.national_number}</td>
+                <td>{student.Grade || "-"}</td>
+                <td>
+                  <button
+                    onClick={() => handleUpgrade(student.id)}
+                    disabled={upgradingId === student.id}
+                    className="upgrade"
+                  >
+                    {upgradingId === student.id ? "Upgrading..." : "Upgrade"}
+                  </button>
+                  <button
+                    onClick={() => handleDelete(student.id)}
+                    disabled={deletingId === student.id}
+                    className="delete"
+                  >
+                    {deletingId === student.id ? "Deleting..." : "Delete"}
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {students.map((student) => (
-                <tr key={student.id} className="text-center hover:bg-gray-50">
-                  <td className="border px-4 py-2">{student.name}</td>
-                  <td className="border px-4 py-2">{student.email}</td>
-                  <td className="border px-4 py-2">
-                    {student.national_number}
-                  </td>
-                  <td className="border px-4 py-2">{student.Grade}</td>
-                  <td className="border px-4 py-2">
-                    <button
-                      onClick={() => handleDelete(student.id)}
-                      className="text-red-600 hover:underline"
-                    >
-                      Delete ❌
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

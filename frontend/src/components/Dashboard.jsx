@@ -121,7 +121,7 @@ const Dashboard = () => {
             )}
           </motion.div>
 
-          {/* Replace Card1 + Card2 with Progress Bar */}
+          {/* Progress Bar */}
           <motion.div
             className="dashboard-card progress-card"
             whileHover={{ scale: 1.03 }}
@@ -138,6 +138,28 @@ const Dashboard = () => {
               <div className="progress-percent">{progressPercent}%</div>
             </div>
           </motion.div>
+
+          {/* Admin Page Card - visible only for admins, directly below progress bar */}
+          {user.role === "admin" && (
+            <motion.div
+              className="dashboard-card progress-card"
+              whileHover={{ scale: 1.03 }}
+              onClick={() => (window.location.href = "/admin")}
+              style={{ cursor: "pointer" }}
+            >
+              <h2>Admin Dashboard</h2>
+              <div className="progress-block" title="Go to admin panel">
+                <div className="progress-label">Enter the Admin Page</div>
+                <div className="progress-bar-outer" aria-hidden>
+                  <div
+                    className="progress-bar-inner"
+                    style={{ width: `100%`, backgroundColor: "#4f46e5" }}
+                  />
+                </div>
+                <div className="progress-percent">Go →</div>
+              </div>
+            </motion.div>
+          )}
         </div>
 
         {/* Right column */}

@@ -1,4 +1,3 @@
-// frontend/pages/Courses.jsx
 import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../services/api";
@@ -30,26 +29,34 @@ const Courses = () => {
   const [successMsg, setSuccessMsg] = useState("");
 
   // Fetch user + data
+  const fetchCoursesAndTags = async (userData) => {
+    try {
+      const { data: tagsData } = await api.get("/courses/tags");
+      setTags(["All", ...tagsData]);
+
+      const { data: coursesData } = await api.get(
+        userData?.role === "teacher"
+          ? "/courses/teacher/mycourses"
+          : "/courses/all"
+      );
+      setCourses(coursesData);
+    } catch (err) {
+      console.error("Failed to fetch:", err);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
+    const init = async () => {
       try {
-        // Get current user
         const { data: userData } = await api.get("/users/user");
         setUser(userData);
         setIsTeacher(userData.role === "teacher");
-
-        // Get all tags
-        const { data: tagsData } = await api.get("/courses/tags");
-        setTags(["All", ...tagsData.map((t) => t.name)]);
-
-        // Get courses
-        const { data: coursesData } = await api.get("/courses/all");
-        setCourses(coursesData);
+        await fetchCoursesAndTags(userData);
       } catch (err) {
-        console.error("Failed to fetch:", err);
+        console.error("Failed to initialize:", err);
       }
     };
-    fetchData();
+    init();
   }, []);
 
   // Filter, sort, and price control
@@ -58,7 +65,14 @@ const Courses = () => {
 
     if (selectedTag !== "All") {
       filtered = filtered.filter((c) =>
-        c.tags?.toLowerCase().includes(selectedTag.toLowerCase())
+        Array.isArray(c.tags)
+          ? c.tags.some((t) =>
+              (t.name || t)
+                .toString()
+                .toLowerCase()
+                .includes(selectedTag.toLowerCase())
+            )
+          : c.tags?.toLowerCase().includes(selectedTag.toLowerCase())
       );
     }
 
@@ -100,20 +114,14 @@ const Courses = () => {
         description: formData.description,
         price: Number(formData.price),
         teacher_id: user.id,
-        tags: formData.tags
-          ? formData.tags.split(",").map((t) => t.trim())
-          : [],
+        tags: formData.tags || [],
       };
 
       await api.post("/courses/create", body);
 
       setSuccessMsg("Course created successfully!");
       setFormData({ name: "", description: "", price: "", tags: "" });
-
-      const { data: newCourses } = await api.get(
-        isTeacher ? "/courses/teacher/mycourses" : "/courses/all"
-      );
-      setCourses(newCourses);
+      await fetchCoursesAndTags(user); // ✅ auto refresh list
       setShowForm(false);
     } catch (error) {
       console.error("Course creation failed:", error);
@@ -142,15 +150,29 @@ const Courses = () => {
           <div className="filter-section">
             <h3>Tags</h3>
             <ul>
-              {tags.map((tag) => (
-                <li
-                  key={tag}
-                  className={selectedTag === tag ? "active" : ""}
-                  onClick={() => setSelectedTag(tag)}
-                >
-                  {tag}
-                </li>
-              ))}
+              {tags.map((tag) => {
+                if (tag === "All") {
+                  return (
+                    <li
+                      key="All"
+                      className={selectedTag === "All" ? "active" : ""}
+                      onClick={() => setSelectedTag("All")}
+                    >
+                      All
+                    </li>
+                  );
+                }
+
+                return (
+                  <li
+                    key={tag.id}
+                    className={selectedTag === tag.name ? "active" : ""}
+                    onClick={() => setSelectedTag(tag.name)}
+                  >
+                    {tag.name}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -172,11 +194,18 @@ const Courses = () => {
             <input
               type="range"
               min="0"
-              max="1000"
+              max="10000"
               value={priceRange}
               onChange={(e) => setPriceRange(Number(e.target.value))}
             />
-            <p>Up to ${priceRange}</p>
+            <motion.p
+              key={priceRange}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              Up to ${priceRange}
+            </motion.p>
           </div>
         </aside>
 
@@ -193,38 +222,51 @@ const Courses = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4 }}
               >
-                {filteredCourses.length === 0 ? (
-                  <p className="empty-msg">No courses found.</p>
-                ) : (
-                  filteredCourses.map((course) => (
-                    <motion.div
-                      key={course.id}
-                      className="course-card"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ type: "spring", stiffness: 200 }}
+                <AnimatePresence>
+                  {filteredCourses.length === 0 ? (
+                    <motion.p
+                      className="empty-msg"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                     >
-                      <div className="course-thumb">
-                        <img
-                          src={`https://picsum.photos/seed/${course.id}/400/250`}
-                          alt={course.name}
-                        />
-                      </div>
-                      <div className="course-info">
-                        <h3>{course.name}</h3>
-                        <p>{course.description}</p>
-                        <div className="course-meta">
-                          <span>${course.price}</span>
-                          <small>
-                            {course.tags
-                              ? course.tags.toString().replace(/,/g, ", ")
-                              : "No tags"}
-                          </small>
+                      No courses found.
+                    </motion.p>
+                  ) : (
+                    filteredCourses.map((course) => (
+                      <motion.div
+                        key={course.id}
+                        className="course-card"
+                        layout
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.3 }}
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        <div className="course-thumb">
+                          <img
+                            src={`https://picsum.photos/seed/${course.id}/400/250`}
+                            alt={course.name}
+                          />
                         </div>
-                        <button className="enroll-btn">Enroll</button>
-                      </div>
-                    </motion.div>
-                  ))
-                )}
+                        <div className="course-info">
+                          <h3>{course.name}</h3>
+                          <p>{course.description}</p>
+                          <div className="course-meta">
+                            <span>${course.price}</span>
+                            <small>
+                              {Array.isArray(course.tags)
+                                ? course.tags.map((t) => t.name || t).join(", ")
+                                : course.tags || "No tags"}
+                            </small>
+                          </div>
+                          <button className="enroll-btn">Enroll</button>
+                        </div>
+                      </motion.div>
+                    ))
+                  )}
+                </AnimatePresence>
 
                 {isTeacher && (
                   <motion.div
@@ -282,13 +324,29 @@ const Courses = () => {
                     onChange={handleChange}
                     required
                   />
-                  <input
-                    type="text"
+                  <select
                     name="tags"
                     value={formData.tags}
-                    placeholder="Comma-separated tags"
-                    onChange={handleChange}
-                  />
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        tags: [Number(e.target.value)],
+                      })
+                    }
+                    required
+                  >
+                    <option value="">Select a Tag</option>
+                    {tags
+                      .filter((t) => t !== "All")
+                      .map((tagObj) => (
+                        <option
+                          key={tagObj.id || tagObj}
+                          value={tagObj.id || tagObj}
+                        >
+                          {tagObj.name || tagObj}
+                        </option>
+                      ))}
+                  </select>
 
                   <div className="form-actions">
                     <button type="submit" disabled={loading}>

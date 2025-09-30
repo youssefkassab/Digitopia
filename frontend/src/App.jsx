@@ -1,4 +1,3 @@
-
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -61,7 +60,7 @@ function AppRoutes() {
         <Route path="/About" element={<AboutUs />} />
         <Route path="/support" element={<ContactUs />} />
         <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/AI" element={<AIpage />} />
+        <Route path="/questro" element={<AIpage />} />
 
         {/* Auth routes */}
         <Route path="/signup" element={<Signup />} />
