@@ -326,7 +326,17 @@ export default function AIChatPage() {
 
   const fetchUserChats = async (userId) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/chats/userChats?userId=${userId}`);
+      const token = localStorage.getItem("token");
+      const res = await fetch(
+        `http://localhost:3000/api/users/userChats?userId=${userId}`,
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
       if (res.ok) {
         const chats = await res.json();
         setChatHistory(chats);
@@ -334,6 +344,8 @@ export default function AIChatPage() {
           setActiveChat(chats[0]);
           setMessages(chats[0].messages || []);
         }
+      } else {
+        console.error("Failed to fetch chats", res.status);
       }
     } catch (err) {
       console.error("Error fetching chats:", err);
@@ -342,14 +354,15 @@ export default function AIChatPage() {
 
   // 🔹 Send message with streaming
   const handleSend = async () => {
+    setInput("");
     if (!input.trim() || isLoading || !currentUser || !activeChat) return;
 
     const userMessage = { sender: "user", text: input };
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
 
-    const aiMessage = { sender: "ai", text: "" };
-    setMessages((prev) => [...prev, aiMessage]);
+    // const aiMessage = { sender: "ai", text: "" };
+    // setMessages((prev) => [...prev, aiMessage]);
 
     setIsLoading(true);
     abortControllerRef.current = new AbortController();
@@ -374,17 +387,27 @@ export default function AIChatPage() {
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
       let partialText = "";
+      let firstChunk = true;
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
         partialText += decoder.decode(value, { stream: true });
-        setMessages((prev) => {
-          const updated = [...prev];
-          updated[updated.length - 1] = { sender: "ai", text: partialText };
-          return updated;
-        });
+
+        if (firstChunk) {
+          setIsLoading(false);
+          firstChunk = false;
+
+          // هنا أول ما ييجي chunk ضيف aiMessage 
+          setMessages((prev) => [...prev, { sender: "ai", text: partialText }]);
+        } else {
+          setMessages((prev) => {
+            const updated = [...prev];
+            updated[updated.length - 1].text = partialText;
+            return updated;
+          });
+        }
       }
 
       // Update chat history locally
@@ -405,7 +428,7 @@ export default function AIChatPage() {
       }
     } finally {
       setIsLoading(false);
-      setInput("");
+      // setInput("");
     }
   };
 
@@ -578,4 +601,3 @@ export default function AIChatPage() {
     </div>
   );
 }
-

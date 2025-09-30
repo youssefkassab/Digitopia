@@ -15,7 +15,6 @@ router.get('/grade/:id', auth, userController.getGrade);
 router.get('/profile', auth, userController.getProfile);
 router.put('/profile', auth, userController.updateProfile);
 
-const { auth } = require("../middleware/auth.middleware");
 const { Chat } = require("../db/models");
 
 // ✅ Get all chats for current user
@@ -23,7 +22,7 @@ router.get("/userChats", auth, async (req, res) => {
   try {
     const chats = await Chat.findAll({
       where: { userId: req.user.id },
-      order: [["createdAt", "DESC"]],
+      order: [["sentAt", "DESC"]],
     });
 
     // Group messages by chatId
