@@ -224,15 +224,17 @@ async function ask(req, res) {
 
     const result = await chat.sendMessageStream({ message: prompt });
 
-    res.setHeader("Content-Type", "text/plain; charset=utf-8");
-    res.setHeader("Transfer-Encoding", "chunked");
-    res.setHeader("Cache-Control", "no-cache");
+res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+res.setHeader("Cache-Control", "no-cache");
+res.setHeader("Transfer-Encoding", "chunked");
+
     let answer = "";
 
     for await (const chunk of result) {
       if (chunk.text) {
         answer += chunk.text;
         res.write(chunk.text);
+        if (res.flush) res.flush();
       }
     }
 
