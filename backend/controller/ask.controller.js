@@ -70,7 +70,7 @@ async function ask(req, res) {
         },
       },
     });
-    
+
     const result = await chat.sendMessageStream({
       message: prompt,
     });
@@ -81,19 +81,16 @@ async function ask(req, res) {
       parts: [{ text: prompt }],
     });
     
-    res.setHeader("Content-Type", "text/plain; charset=utf-8");
-    res.setHeader("Transfer-Encoding", "chunked");
-    res.setHeader("Cache-Control", "no-cache");
-
+    // const answer = result.text; // if not streaming
     let answer = "";
 
     for await (const chunk of result) {
       if (chunk.text) {
         answer += chunk.text;
         res.write(chunk.text);
-        if (res.flush) res.flush();
       }
     }
+
 
     // add model response automatically
     contents.push({
