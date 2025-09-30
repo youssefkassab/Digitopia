@@ -1,26 +1,49 @@
+const config = require('../../config/config');
+
 module.exports = {
   "development": {
-    "username": process.env.DB_USER || "root",
-    "password": process.env.DB_PASSWORD || "",
-    "database": process.env.DB_NAME || "digitopia",
-    "host": process.env.DB_HOST || "localhost",
-    "dialect": process.env.DB_DIALECT || "mysql",
-    "timezone": "+02:00"
+    "username": config.DB_USER || "root",
+    "password": config.DB_PASSWORD || "",
+    "database": config.DB_NAME || "digitopia",
+    "host": config.DB_HOST || "localhost",
+    "dialect": "mysql",
+    "timezone": "+02:00",
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    },
+    "define": {
+      "charset": "utf8mb4",
+      "collate": "utf8mb4_unicode_ci"
+    }
   },
   "test": {
-    "username": process.env.DB_USER || "root",
-    "password": process.env.DB_PASSWORD || "",
-    "database": process.env.DB_NAME || "digitopia",
-    "host": process.env.DB_HOST || "localhost",
-    "dialect": process.env.DB_DIALECT || "mysql",
-    "timezone": "+02:00"
+    "username": config.DB_USER || "root",
+    "password": config.DB_PASSWORD || "",
+    "database": config.DB_NAME || "digitopia",
+    "host": config.DB_HOST || "localhost",
+    "dialect": "mysql",
+    "timezone": "+02:00",
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    },
+    "define": {
+      "charset": "utf8mb4",
+      "collate": "utf8mb4_unicode_ci"
+    }
   },
   "production": {
-   "username": process.env.DB_USER || "root",
-    "password": process.env.DB_PASSWORD || "",
-    "database": process.env.DB_NAME || "digitopia",
-    "host": process.env.DB_HOST || "localhost",
-    "dialect": process.env.DB_DIALECT || "mysql",
-    "timezone": "+02:00"
+    "username": config.DB_USER || "root",
+    "password": config.DB_PASSWORD || "",
+    "database": config.DB_NAME || "digitopia",
+    "host": config.DB_HOST || "localhost",
+    "dialect": "mysql",
+    "timezone": "+02:00",
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    },
+    "define": {
+      "charset": "utf8mb4",
+      "collate": "utf8mb4_unicode_ci"
+    }
   }
 }

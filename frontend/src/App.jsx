@@ -1,73 +1,101 @@
 import { AnimatePresence } from "framer-motion";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+
+import "./i18n";
 
 import Navbar from "./components/Navbar";
 import PosterSlider from "./components/PosterSlider";
-import FloatingIcons from "./components/FloatingIcons";
 import Classroom from "./components/Classroom";
 import Courses from "./components/Courses";
 import Community from "./components/Community";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
 import Dashboard from "./components/Dashboard";
+import Banner1 from "./components/Banner1";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import Logout from "./components/Logout";
 import Footer from "./components/Footer";
-import AdminPage from "./AdminPage";
-import AdminRoute from "./components/AdminRoute";
+import AIpage from "./components/AI-UI";
+import Games from "./components/Games";
 
-// Handles all routes
+import "./index.css";
+
 function AppRoutes() {
   const location = useLocation();
 
   return (
-    <>
-      <FloatingIcons />
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          {/* Landing page */}
-          <Route path="/" element={<PosterSlider />} />
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Landing page */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Helmet>
+                <title>Home | 3lm Quest</title>
+                <meta
+                  name="description"
+                  content="Welcome to the homepage of 3lm Quest"
+                />
+              </Helmet>
+              <PosterSlider />
+              <Banner1 />
+            </>
+          }
+        />
 
-          {/* Main routes */}
+        {/* Main routes */}
+        <Route
+          path="/classroom"
+          element={
+            <>
+              <Helmet>
+                <title>Classroom | 3lm Quest</title>
+              </Helmet>
+              <Classroom />
+            </>
+          }
+        />
+        <Route path="/Courses" element={<Courses />} />
+        <Route path="/Community" element={<Community />} />
+        <Route path="/Games" element={<Games />} />
+        <Route path="/About" element={<AboutUs />} />
+        <Route path="/support" element={<ContactUs />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/questro" element={<AIpage />} />
 
-          <Route path="/Classroom" element={<Classroom />} />
-          <Route path="/Courses" element={<Courses />} />
-          <Route path="/Community" element={<Community />} />
-          <Route path="/About" element={<AboutUs />} />
-          <Route path="/Contact" element={<ContactUs />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
+        {/* Auth routes */}
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
 
-          {/* Auth routes */}
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-
-          {/* Admin route (protected) */}
-          <Route path="/admin" element={<AdminPage />} />
-
-          {/* Catch-all route */}
-          <Route path="*" element={<h2>404 - Page Not Found</h2>} />
-        </Routes>
-      </AnimatePresence>
-      <Footer />
-    </>
+        {/* Catch-all */}
+        <Route path="*" element={<h2>404 - Page Not Found</h2>} />
+      </Routes>
+    </AnimatePresence>
   );
 }
 
-// Root component with Router + Navbar
-function App() {
+export default function App() {
+  const location = useLocation();
+  const { i18n } = useTranslation();
+
+  // Handle RTL for Arabic
+  useEffect(() => {
+    document.documentElement.lang = i18n.language; // set lang attribute
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  }, [i18n.language]);
+
   return (
-    <Router>
+    <div className="app-wrapper">
       <Navbar />
-      <AppRoutes />
-    </Router>
+      <main>
+        <AppRoutes />
+      </main>
+      {/* Hide Footer only on /AI */}
+      {location.pathname !== "/AI" && <Footer />}
+    </div>
   );
 }
-
-export default App;
-

@@ -5,7 +5,23 @@ module.exports = (sequelize, DataTypes) => {
   class Course extends Model {
     static associate(models) {
       // A course belongs to one teacher (user)
-      Course.belongsTo(models.User, { foreignKey: 'teacher_id' });
+      Course.belongsTo(models.User, { foreignKey: 'teacher_id', as: 'teacher' });
+
+      // Many-to-Many: courses <-> users (students)
+      Course.belongsToMany(models.User, {
+        through: 'course_users',
+        foreignKey: 'course_id',
+        otherKey: 'user_id',
+        as: 'students'
+      });
+
+      // Many-to-Many: courses <-> tags
+      Course.belongsToMany(models.Tag, {
+        through: 'courses_tags',
+        foreignKey: 'course_id',
+        otherKey: 'tag_id',
+        as: 'tags'
+      });
     }
   }
 
@@ -25,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.DECIMAL(10, 2)
     },
-     date: {
+    date: {
       type: DataTypes.DATEONLY,
       allowNull: false
     },

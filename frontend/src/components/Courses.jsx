@@ -1,59 +1,111 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { fetchCourses, createCourse } from "../services/course";
+import React, { useState, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import api from "../services/api";
-import "../index.css";
+import PlusIcoLight from "../assets/Icons/Light/Plus_Icon_Light.svg";
+import PlusIcoDark from "../assets/Icons/Dark/Plus_Icon_Dark.svg";
 
 const Courses = () => {
+  const { t } = useTranslation();
   const [courses, setCourses] = useState([]);
+  const [tags, setTags] = useState([]);
   const [user, setUser] = useState(null);
   const [isTeacher, setIsTeacher] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+
+  // Filtering / sorting state
+  const [selectedTag, setSelectedTag] = useState(
+    t("courses.sidebar.filterCourses") || "All"
+  );
+  const [sortOption, setSortOption] = useState("popular");
+  const [priceRange, setPriceRange] = useState(1000);
+
+  // Course creation
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
-    video: null,
+    tags: "",
   });
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  // Get logged-in user role
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const { data } = await api.get("/users/user");
-        setUser(data);
-        setIsTeacher(data.role === "teacher");
-      } catch (error) {
-        console.error("Failed to fetch user:", error);
-      }
-    };
+  // Fetch user + data
+  const fetchCoursesAndTags = async (userData) => {
+    try {
+      const { data: tagsData } = await api.get("/courses/tags");
+      setTags(["All", ...tagsData]);
 
-    const fetchAllCourses = async () => {
-      try {
-        const data = await fetchCourses();
-        setCourses(data);
-      } catch (error) {
-        console.error("Failed to load courses:", error);
-      }
-    };
-
-    fetchUser();
-    fetchAllCourses();
-  }, []);
-
-  // Handle form changes
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "video") {
-      setFormData({ ...formData, video: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
+      const { data: coursesData } = await api.get(
+        userData?.role === "teacher"
+          ? "/courses/teacher/mycourses"
+          : "/courses/all"
+      );
+      setCourses(coursesData);
+    } catch (err) {
+      console.error("Failed to fetch:", err);
     }
   };
 
-  // Submit new course (teacher only)
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const { data: userData } = await api.get("/users/user");
+        setUser(userData);
+        setIsTeacher(userData.role === "teacher");
+        await fetchCoursesAndTags(userData);
+      } catch (err) {
+        console.error("Failed to initialize:", err);
+      }
+    };
+    init();
+  }, []);
+
+  // Filter, sort, and price control
+  const filteredCourses = useMemo(() => {
+    let filtered = [...courses];
+
+    if (selectedTag !== "All") {
+      filtered = filtered.filter((c) =>
+        Array.isArray(c.tags)
+          ? c.tags.some((t) =>
+              (t.name || t)
+                .toString()
+                .toLowerCase()
+                .includes(selectedTag.toLowerCase())
+            )
+          : c.tags?.toLowerCase().includes(selectedTag.toLowerCase())
+      );
+    }
+
+    filtered = filtered.filter((c) => Number(c.price) <= priceRange);
+
+    switch (sortOption) {
+      case "priceLow":
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case "priceHigh":
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case "latest":
+        filtered.sort((a, b) => (b.id || 0) - (a.id || 0));
+        break;
+      default:
+        filtered.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+        break;
+    }
+
+    return filtered;
+  }, [courses, selectedTag, sortOption, priceRange]);
+
+  // Form handlers
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -61,98 +113,286 @@ const Courses = () => {
     setSuccessMsg("");
 
     try {
-      // Create a FormData object for file upload
-      const form = new FormData();
-      form.append("name", formData.name);
-      form.append("description", formData.description);
-      form.append("price", formData.price);
-      form.append("teacher_id", user.id);
-      if (formData.video) {
-        form.append("video", formData.video);
-      }
+      const body = {
+        name: formData.name,
+        description: formData.description,
+        price: Number(formData.price),
+        teacher_id: user.id,
+        tags: formData.tags || [],
+      };
 
-      // Override headers for multipart/form-data
-      const { data } = await api.post("/courses/create", form, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await api.post("/courses/create", body);
 
-      setSuccessMsg(`Course "${data.name}" created successfully!`);
-      setFormData({ name: "", description: "", price: "", video: null });
-      setCourses([...courses, data]); // Add new course to list
+      setSuccessMsg(t("courses.content.messages.courseCreated"));
+      setFormData({ name: "", description: "", price: "", tags: "" });
+      await fetchCoursesAndTags(user);
+      setShowForm(false);
     } catch (error) {
       console.error("Course creation failed:", error);
-      setErrorMsg(error?.error || "Failed to create course.");
+      setErrorMsg(
+        error.response?.data?.error ||
+          t("courses.content.messages.errorGeneric")
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <motion.div
-      className="page-container"
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -50 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-      <div id="card">
-        <h1>Available Courses</h1>
-        {courses.length === 0 ? (
-          <p>No courses available yet.</p>
-        ) : (
-          <ul className="course-list">
-            {courses.map((course) => (
-              <li key={course.id} className="course-item">
-                <strong>{course.name}</strong> – ${course.price}
-                <p>{course.description}</p>
-              </li>
-            ))}
-          </ul>
-        )}
+    <>
+      <Helmet>
+        <title>{t("courses.pageTitle")}</title>
+      </Helmet>
 
-        {isTeacher && (
-          <div className="course-form">
-            <h2>Create New Course</h2>
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Course Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-              <textarea
-                name="description"
-                placeholder="Course Description"
-                value={formData.description}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="number"
-                name="price"
-                placeholder="Price"
-                value={formData.price}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="file"
-                name="video"
-                accept="video/*"
-                onChange={handleChange}
-              />
-              <button type="submit" disabled={loading}>
-                {loading ? "Creating..." : "Create Course"}
-              </button>
-            </form>
-            {errorMsg && <p className="error">{errorMsg}</p>}
-            {successMsg && <p className="success">{successMsg}</p>}
+      <motion.div
+        className="courses-page"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -30 }}
+        transition={{ duration: 0.5 }}
+      >
+        <aside className="courses-sidebar">
+          <h2>{t("courses.sidebar.filterCourses")}</h2>
+
+          <div className="filter-section">
+            <h3>{t("courses.sidebar.tags")}</h3>
+            <ul>
+              {tags.map((tag) => {
+                if (tag === "All") {
+                  return (
+                    <li
+                      key="All"
+                      className={selectedTag === "All" ? "active" : ""}
+                      onClick={() => setSelectedTag("All")}
+                    >
+                      All
+                    </li>
+                  );
+                }
+
+                return (
+                  <li
+                    key={tag.id || tag}
+                    className={selectedTag === tag.name ? "active" : ""}
+                    onClick={() => setSelectedTag(tag.name || tag)}
+                  >
+                    {tag.name || tag}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-        )}
-      </div>
-    </motion.div>
+
+          <div className="filter-section">
+            <h3>{t("courses.sidebar.sortBy")}</h3>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="popular">
+                {t("courses.sidebar.sortOptions.popular")}
+              </option>
+              <option value="latest">
+                {t("courses.sidebar.sortOptions.latest")}
+              </option>
+              <option value="priceLow">
+                {t("courses.sidebar.sortOptions.priceLow")}
+              </option>
+              <option value="priceHigh">
+                {t("courses.sidebar.sortOptions.priceHigh")}
+              </option>
+            </select>
+          </div>
+
+          <div className="filter-section">
+            <h3>{t("courses.sidebar.priceRange")}</h3>
+            <input
+              type="range"
+              min="0"
+              max="10000"
+              value={priceRange}
+              onChange={(e) => setPriceRange(Number(e.target.value))}
+            />
+            <motion.p
+              key={priceRange}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {t("courses.sidebar.upTo", { price: priceRange })}
+            </motion.p>
+          </div>
+        </aside>
+
+        <main className="courses-content">
+          <h1 className="page-title">
+            {t("courses.content.availableCourses")}
+          </h1>
+
+          <AnimatePresence mode="wait">
+            {!showForm ? (
+              <motion.div
+                key="grid"
+                className="courses-grid"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                <AnimatePresence>
+                  {filteredCourses.length === 0 ? (
+                    <motion.p
+                      className="empty-msg"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      {t("courses.content.noCoursesFound")}
+                    </motion.p>
+                  ) : (
+                    filteredCourses.map((course) => (
+                      <motion.div
+                        key={course.id}
+                        className="course-card"
+                        layout
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.3 }}
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        <div className="course-thumb">
+                          <img
+                            src={`https://picsum.photos/seed/${course.id}/400/250`}
+                            alt={course.name}
+                          />
+                        </div>
+                        <div className="course-info">
+                          <h3>{course.name}</h3>
+                          <p>{course.description}</p>
+                          <div className="course-meta">
+                            <span>${course.price}</span>
+                            <small>
+                              {Array.isArray(course.tags)
+                                ? course.tags.map((t) => t.name || t).join(", ")
+                                : course.tags ||
+                                  t("courses.content.courseCard.noTags")}
+                            </small>
+                          </div>
+                          <button className="enroll-btn">
+                            {t("courses.content.courseCard.enroll")}
+                          </button>
+                        </div>
+                      </motion.div>
+                    ))
+                  )}
+                </AnimatePresence>
+
+                {isTeacher && (
+                  <motion.div
+                    className="course-card add-card"
+                    onClick={() => setShowForm(true)}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  >
+                    <div className="add-content">
+                      <img
+                        src={PlusIcoLight}
+                        alt={t("courses.content.createCourse")}
+                        className="light-only"
+                      />
+                      <img
+                        src={PlusIcoDark}
+                        alt={t("courses.content.createCourse")}
+                        className="dark-only"
+                      />
+                      <p>{t("courses.content.createCourse")}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="form"
+                className="course-form"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+              >
+                <h2>{t("courses.content.createCourse")}</h2>
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    placeholder={t("courses.content.form.name")}
+                    onChange={handleChange}
+                    required
+                  />
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    placeholder={t("courses.content.form.description")}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    placeholder={t("courses.content.form.price")}
+                    onChange={handleChange}
+                    required
+                  />
+                  <select
+                    name="tags"
+                    value={formData.tags}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        tags: [Number(e.target.value)],
+                      })
+                    }
+                    required
+                  >
+                    <option value="">
+                      {t("courses.content.form.selectTag")}
+                    </option>
+                    {tags
+                      .filter((t) => t !== "All")
+                      .map((tagObj) => (
+                        <option
+                          key={tagObj.id || tagObj}
+                          value={tagObj.id || tagObj}
+                        >
+                          {tagObj.name || tagObj}
+                        </option>
+                      ))}
+                  </select>
+
+                  <div className="form-actions">
+                    <button type="submit" disabled={loading}>
+                      {loading
+                        ? t("courses.content.form.creating")
+                        : t("courses.content.form.submit")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowForm(false)}
+                      className="cancel-btn"
+                    >
+                      {t("courses.content.form.cancel")}
+                    </button>
+                  </div>
+                </form>
+                {errorMsg && <p className="error">{errorMsg}</p>}
+                {successMsg && <p className="success">{successMsg}</p>}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </main>
+      </motion.div>
+    </>
   );
 };
 
