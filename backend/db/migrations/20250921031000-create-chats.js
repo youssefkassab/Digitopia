@@ -10,13 +10,13 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("(UUID())"),
         allowNull: false,
-        unique: true,
+        unique: false,
       },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Users",
+          model: "users",
           key: "id",
         },
         onDelete: "CASCADE",
@@ -24,38 +24,36 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
+      },
+      text: {
+        type: Sequelize.TEXT,
+        allowNull: true,
       },
       subject: {
         type: Sequelize.STRING,
         allowNull: true,
       },
       role: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-      },
-      lastMessages: {
-        type: Sequelize.JSON,
+        type: Sequelize.ENUM("user", "model"),
         allowNull: true,
       },
-      time: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW"),
+      used_tokens: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW"),
-      },
-      updatedAt: {
-        allowNull: false,
+      sentAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("NOW"),
       },
     });
   },
 
-  async down(queryInterface) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("Chats");
+    if (queryInterface.sequelize.getDialect() === "postgres") {
+      await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_Chats_role";');
+    }
   },
 };

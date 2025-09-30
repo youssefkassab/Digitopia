@@ -1,32 +1,21 @@
 /* === Page Layout === */
 .ai-page {
   display: flex;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  background: #f9f9f9;
-  color: #222;
+  min-height: 100vh;
+  padding-top: 70px; /* adjust to your navbar height */
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
-
-.ai-page.dark {
-  background: #1e1e1e;
-  color: #ddd;
-}
-
 /* === Sidebar === */
 .sidebar {
-  width: 260px;
+  width: 250px;
+  padding: 20px;
   background: #fff;
   border-right: 1px solid #ddd;
   padding: 15px;
   display: flex;
   flex-direction: column;
 }
-
-.dark .sidebar {
-  background: #2b2b2b;
-  border-color: #444;
-}
-
 .user-profile {
   display: flex;
   align-items: center;
@@ -262,4 +251,89 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+/* === Default (Light) === */
+.ai-page {
+  background: #f9f9f9;
+  color: #222;
+}
+
+.sidebar {
+  background: #fff;
+  border-right: 1px solid #ddd;
+}
+
+.chat-section {
+  background: #fafafa;
+}
+
+.message.user {
+  background: #d1e7ff;
+  color: #000;
+}
+
+.message.ai {
+  background: #eee;
+  color: #222;
+}
+
+/* === Dark Mode === */
+.dark-mode .ai-page {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark-mode .sidebar {
+  background: #2a2a2a;
+  border-right: 1px solid #444;
+}
+
+.dark-mode .chat-section {
+  background: #1e1e1e;
+}
+
+.dark-mode .message.user {
+  background: #005bbb;
+  color: #fff;
+}
+
+.dark-mode .message.ai {
+  background: #333;
+  color: #ddd;
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode button {
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+.dark-mode .chat-history-item.active {
+  background: #444;
+}
+
+.login-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 70px); /* subtract navbar height */
+  text-align: center;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.login-prompt.dark {
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+}
+
+.login-message {
+  padding: 20px 40px;
+  border: 2px dashed #888;
+  border-radius: 12px;
+  background-color: rgba(200, 200, 200, 0.1);
 }

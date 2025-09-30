@@ -19,7 +19,6 @@ const login = (req, res) => {
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required." });
   }
-
   if (!isValidEmail(email)) {
     return res.status(400).json({ error: "Invalid email format." });
   }
@@ -87,6 +86,7 @@ const signup = (req, res) => {
   if (userData.role === "admin") {
     return res.status(400).json({ error: "Unauthorised" });
   }
+
   const quer2 = `SELECT * FROM users WHERE email = ?`;
   sequelize
     .query(quer2, { replacements: [userData.email], type: QueryTypes.SELECT })
@@ -157,23 +157,20 @@ const upgradeRole = (req, res) => {
     );
 };
 
-// ✅ FIXED getGrade
 const getGrade = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await db.User.findByPk(id);
-
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
     return res.json({ grade: user.Grade });
   } catch (err) {
     console.error("Error fetching grade:", err);
     return res.status(500).json({ error: "Server error" });
   }
 };
-// Get full profile
+
 const getProfile = async (req, res) => {
   try {
     const user = await db.User.findByPk(req.user.id, {
@@ -195,7 +192,6 @@ const getProfile = async (req, res) => {
   }
 };
 
-// Update profile (subject + cumulative)
 const updateProfile = async (req, res) => {
   try {
     const { subject, cumulative } = req.body;

@@ -6,8 +6,16 @@ async function searchContent(question, grade, subject, cumulative = false) {
   const { collection } = await connectDB(AI_DB_NAME, AI_COLLECTION_NAME);
 
   const queryEmbedding = await generateEmbedding(question);
-  if (!queryEmbedding || !Array.isArray(queryEmbedding)) {
-    throw new Error("queryEmbedding is invalid (not an array)");
+
+  if (
+    !queryEmbedding ||
+    !Array.isArray(queryEmbedding) ||
+    queryEmbedding.length !== 3072
+  ) {
+    console.warn(
+      `Warning: queryEmbedding is invalid (expected 3072 dimensions, got ${queryEmbedding?.length || 0}). AI will still receive the question.`
+    );
+    return [];
   }
 
   console.log("queryEmbedding length:", queryEmbedding.length);

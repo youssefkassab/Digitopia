@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
-      unique: true,
+      unique: false,
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -21,24 +21,34 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
+    },
+    text: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     subject: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     role: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-    },
-    lastMessages: {
-      type: DataTypes.JSON, // store last 5 messages
+      type: DataTypes.ENUM("user", "model"),
       allowNull: true,
     },
-    time: {
+    used_tokens: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+    },
+    sentAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+  }, {
+    sequelize,
+    modelName: 'Chat',
+    tableName: 'chats',
+    timestamps: false
   });
 
   Chat.associate = (models) => {
