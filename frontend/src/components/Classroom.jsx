@@ -3,11 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getCurrentUser } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import { FaChevronDown, FaLock, FaCheckCircle } from "react-icons/fa";
-
-/**
- * Classroom component — shows lessons and progress bar.
- * Removed: Game and thumbnail sections.
- */
+import { useTranslation } from "react-i18next";
 
 const lessonsData = [
   {
@@ -39,6 +35,7 @@ const lessonsData = [
 const STORAGE_PREFIX = "classroom_progress_";
 
 const Classroom = () => {
+  const { t } = useTranslation();
   const [user, setUser] = useState(null);
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [unlockedLessons, setUnlockedLessons] = useState([1]);
@@ -123,23 +120,24 @@ const Classroom = () => {
         transition={{ duration: 0.5 }}
         className="classroom-title"
       >
-        Welcome, {user?.name?.split(" ")[0] || "Learner"} — Classroom
+        {t("classroom.welcome", {
+          user: user?.name?.split(" ")[0] || t("classroom.anonymous"),
+        })}
       </motion.h1>
 
       {/* Progress Bar */}
       <div className="classroom-top">
-        <div
-          className="progress-block"
-          title="Your coursework progress (saved)"
-        >
-          <div className="progress-label">Course Progress</div>
+        <div className="progress-block" title={t("classroom.progress.tooltip")}>
+          <div className="progress-label">{t("classroom.progress.label")}</div>
           <div className="progress-bar-outer" aria-hidden>
             <div
               className="progress-bar-inner"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <div className="progress-percent">{progressPercent}%</div>
+          <div className="progress-percent">
+            {t("classroom.progress.percent", { percent: progressPercent })}
+          </div>
         </div>
       </div>
 
@@ -181,7 +179,11 @@ const Classroom = () => {
                   <div className="lesson-info">
                     <div className="lesson-title">{lesson.title}</div>
                     <div className="lesson-sub">
-                      {isUnlocked ? `${lesson.parts.length} parts` : "Locked"}
+                      {isUnlocked
+                        ? t("classroom.lesson.parts", {
+                            count: lesson.parts.length,
+                          })
+                        : t("classroom.lesson.locked")}
                     </div>
                   </div>
                 </div>
@@ -231,7 +233,7 @@ const Classroom = () => {
                           className="complete-small"
                           onClick={() => markAsCompleted(lesson.id)}
                         >
-                          Mark Lesson Complete
+                          {t("classroom.lesson.markComplete")}
                         </button>
                       )}
                     </div>

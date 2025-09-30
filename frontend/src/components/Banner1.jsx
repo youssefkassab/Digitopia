@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 // Animations
 import playlearnanim from "../assets/Vids/play ‘n learn-anim.mp4";
@@ -11,6 +12,8 @@ import card3anim from "../assets/Vids/Target-anim-Light.mp4";
 import card3animdark from "../assets/Vids/Target-anim-Dark.mp4";
 
 const Banner1 = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div
@@ -33,7 +36,7 @@ const Banner1 = () => {
         />
       </div>
 
-      <h1 className="phases-title">Our Learning Phases</h1>
+      <h1 className="phases-title">{t("banner1.learningPhases")}</h1>
 
       <div className="cards-wrapper">
         {/* Left Card */}
@@ -62,7 +65,7 @@ const Banner1 = () => {
             playsInline
           />
           {/* Text Area */}
-          <h1 className="card-textarea">Learn</h1>
+          <h1 className="card-textarea">{t("banner1.cards.learn")}</h1>
         </motion.div>
 
         {/* Middle Card */}
@@ -90,7 +93,7 @@ const Banner1 = () => {
             playsInline
           />
 
-          <h1 className="card-textarea">Play</h1>
+          <h1 className="card-textarea">{t("banner1.cards.play")}</h1>
         </motion.div>
 
         {/* Right Card */}
@@ -118,7 +121,7 @@ const Banner1 = () => {
             playsInline
           />
 
-          <h1 className="card-textarea">Target</h1>
+          <h1 className="card-textarea">{t("banner1.cards.target")}</h1>
         </motion.div>
       </div>
     </>

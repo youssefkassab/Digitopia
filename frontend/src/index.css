@@ -620,6 +620,40 @@ body.dark-mode a {
   margin-top: 75px;
 }
 
+/* Language Switching Buttons */
+.LangSwitch-button {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px; /* full rounded */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15); /* semi-transparent */
+  backdrop-filter: blur(10px); /* glass blur effect */
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-weight: 500;
+  text-align: center;
+}
+
+.LangSwitch-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+.LangSwitch-button.active {
+  background: rgba(59, 130, 246, 0.8); /* blue for active */
+  border-color: rgba(59, 130, 246, 0.8);
+}
+
+.dark .LangSwitch-button {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark .LangSwitch-button.active {
+  background: rgba(59, 130, 246, 0.8);
+  border-color: rgba(59, 130, 246, 0.8);
+}
+
 /* === Glassy Navbar === */
 .glassy-navbar {
   position: fixed;

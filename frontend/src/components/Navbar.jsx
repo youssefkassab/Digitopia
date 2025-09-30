@@ -7,8 +7,10 @@ import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { FiSun, FiMoon } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { searchQuery } from "../services/searchService";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -68,7 +70,7 @@ const Navbar = () => {
     try {
       await logout();
     } catch (err) {
-      console.error("Logout failed:", err);
+      console.error(t("logout.error"), err);
     } finally {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
@@ -102,14 +104,18 @@ const Navbar = () => {
             setResults(res || []);
           } catch (err) {
             console.error("Search error:", err);
-            setError(err.error || err.message || "Failed to search");
+            setError(
+              err.error ||
+                err.message ||
+                t("navbar.error", { error: err.message })
+            );
           } finally {
             setLoading(false);
           }
         }, 600);
       };
     })(),
-    []
+    [t]
   );
 
   // watch query input
@@ -141,13 +147,13 @@ const Navbar = () => {
 
         <ul className="nav-bar">
           {[
-            { to: "/classroom", label: "Classroom" },
-            { to: "/courses", label: "Courses" },
-            { to: "/games", label: "Games" },
-            { to: "/community", label: "Community" },
-            { to: "/about", label: "About Us" },
-            { to: "/support", label: "Support" },
-            { to: "/questro", label: "Talk to Questro" },
+            { to: "/classroom", label: t("navbar.links.classroom") },
+            { to: "/courses", label: t("navbar.links.courses") },
+            { to: "/games", label: t("navbar.links.games") },
+            { to: "/community", label: t("navbar.links.community") },
+            { to: "/about", label: t("navbar.links.about") },
+            { to: "/support", label: t("navbar.links.support") },
+            { to: "/questro", label: t("navbar.links.questro") },
           ].map(({ to, label }) => (
             <li key={to}>
               <Link
@@ -165,7 +171,7 @@ const Navbar = () => {
           <button
             className="glass-btn round-btn"
             onClick={() => setShowSearchOverlay(true)}
-            aria-label="Search"
+            aria-label={t("navbar.search")}
           >
             <FaSearch size={18} />
           </button>
@@ -175,7 +181,7 @@ const Navbar = () => {
               darkMode ? "active" : ""
             }`}
             onClick={() => setDarkMode(!darkMode)}
-            aria-label="Toggle dark mode"
+            aria-label={t("navbar.toggleTheme")}
           >
             {darkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
           </button>
@@ -185,7 +191,10 @@ const Navbar = () => {
               <motion.button
                 className="glass-btn round-btn profile-btn"
                 onClick={() => navigate("/Dashboard")}
-                title={`${user.name} (${user.role})`}
+                title={t("navbar.userProfile", {
+                  name: user.name,
+                  role: user.role,
+                })}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -198,12 +207,12 @@ const Navbar = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
               >
-                Logout
+                {t("navbar.logout")}
               </motion.button>
             </div>
           ) : (
             <Link to="/Signup" className="signup-btn">
-              Sign Up
+              {t("navbar.signUp")}
             </Link>
           )}
         </div>
@@ -227,12 +236,16 @@ const Navbar = () => {
             >
               <input
                 type="text"
-                placeholder="Search any concept or question..."
+                placeholder={t("navbar.searchPlaceholder")}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 autoFocus
               />
-              <button type="button" onClick={() => setShowSearchOverlay(false)}>
+              <button
+                type="button"
+                onClick={() => setShowSearchOverlay(false)}
+                aria-label={t("navbar.close")}
+              >
                 ✕
               </button>
             </motion.div>
@@ -244,10 +257,14 @@ const Navbar = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              {loading && <p className="search-status">🔍 Searching...</p>}
-              {error && <p className="search-error">⚠️ {error}</p>}
+              {loading && (
+                <p className="search-status">{t("navbar.searching")}</p>
+              )}
+              {error && (
+                <p className="search-error">{t("navbar.error", { error })}</p>
+              )}
               {!loading && !error && results.length === 0 && query && (
-                <p className="search-status">No results found.</p>
+                <p className="search-status">{t("navbar.noResults")}</p>
               )}
               <ul className="search-results-list">
                 {results.map((res, idx) => (
@@ -258,8 +275,8 @@ const Navbar = () => {
                   >
                     <strong>{res.idea_title || res.lesson_name}</strong>
                     <span>
-                      {res.subject} — Grade {res.grade} — Score:{" "}
-                      {res.score?.toFixed(3) ?? "?"}
+                      {res.subject} — {t("classroom.progress.label")}{" "}
+                      {res.grade} — Score: {res.score?.toFixed(3) ?? "?"}
                     </span>
                   </li>
                 ))}

@@ -2,10 +2,12 @@ import React, { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { getCurrentUser, getStoredUser } from "../services/auth";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 const STORAGE_PREFIX = "classroom_progress_";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const [user, setUser] = useState(getStoredUser());
   const [loading, setLoading] = useState(true);
   const [progressPercent, setProgressPercent] = useState(0);
@@ -32,7 +34,7 @@ const Dashboard = () => {
           }
         }
       } catch (err) {
-        console.error("Failed to fetch user:", err);
+        console.error(t("dashboard.loadingUser"), err);
         setUser(null);
       } finally {
         setLoading(false);
@@ -40,7 +42,7 @@ const Dashboard = () => {
     };
 
     fetchUser();
-  }, []);
+  }, [t]);
 
   const persistProgress = useCallback(
     (percent) => {
@@ -66,7 +68,9 @@ const Dashboard = () => {
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="dashboard-card loading-card">Loading user info...</div>
+        <div className="dashboard-card loading-card">
+          {t("dashboard.loadingUser")}
+        </div>
       </motion.div>
     );
   }
@@ -80,7 +84,7 @@ const Dashboard = () => {
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="dashboard-card error-card">No user logged in</div>
+        <div className="dashboard-card error-card">{t("dashboard.noUser")}</div>
       </motion.div>
     );
   }
@@ -88,7 +92,11 @@ const Dashboard = () => {
   return (
     <>
       <Helmet>
-        <title>Dashboard | 3lm Quest</title>
+        <title>
+          {t("dashboard.welcome", {
+            name: user.name || t("dashboard.anonymous"),
+          })}
+        </title>
       </Helmet>
 
       <motion.div
@@ -104,19 +112,24 @@ const Dashboard = () => {
             className="dashboard-card card-top"
             whileHover={{ scale: 1.02 }}
           >
-            <h1>Welcome, {user.name || "User"}!</h1>
+            <h1>
+              {t("dashboard.welcome", {
+                name: user.name || t("dashboard.anonymous"),
+              })}
+            </h1>
             <p>
-              <strong>Email:</strong> {user.email}
+              <strong>{t("dashboard.profileInfo")}:</strong> {user.email}
             </p>
             <p>
-              <strong>National Number:</strong> {user.national_number || "N/A"}
+              <strong>{t("dashboard.nationalId", "National Number")}:</strong>{" "}
+              {user.national_number || "N/A"}
             </p>
             <p>
-              <strong>Role:</strong> {user.role}
+              <strong>{t("dashboard.role", "Role")}:</strong> {user.role}
             </p>
             {user.Grade && (
               <p>
-                <strong>Grade:</strong> {user.Grade}
+                <strong>{t("dashboard.grade", "Grade")}:</strong> {user.Grade}
               </p>
             )}
           </motion.div>
@@ -126,9 +139,14 @@ const Dashboard = () => {
             className="dashboard-card progress-card"
             whileHover={{ scale: 1.03 }}
           >
-            <h2>Course Progress</h2>
-            <div className="progress-block" title="Your coursework progress">
-              <div className="progress-label">Overall Progress</div>
+            <h2>{t("dashboard.courseProgress")}</h2>
+            <div
+              className="progress-block"
+              title={t("dashboard.overallProgress")}
+            >
+              <div className="progress-label">
+                {t("dashboard.overallProgress")}
+              </div>
               <div className="progress-bar-outer" aria-hidden>
                 <div
                   className="progress-bar-inner"
@@ -139,7 +157,7 @@ const Dashboard = () => {
             </div>
           </motion.div>
 
-          {/* Admin Page Card - visible only for admins, directly below progress bar */}
+          {/* Admin Page Card */}
           {user.role === "admin" && (
             <motion.div
               className="dashboard-card progress-card"
@@ -147,9 +165,11 @@ const Dashboard = () => {
               onClick={() => (window.location.href = "/admin")}
               style={{ cursor: "pointer" }}
             >
-              <h2>Admin Dashboard</h2>
-              <div className="progress-block" title="Go to admin panel">
-                <div className="progress-label">Enter the Admin Page</div>
+              <h2>{t("dashboard.adminDashboard")}</h2>
+              <div className="progress-block" title={t("dashboard.enterAdmin")}>
+                <div className="progress-label">
+                  {t("dashboard.enterAdmin")}
+                </div>
                 <div className="progress-bar-outer" aria-hidden>
                   <div
                     className="progress-bar-inner"
@@ -167,13 +187,15 @@ const Dashboard = () => {
           className="dashboard-card card-large"
           whileHover={{ scale: 1.02 }}
         >
-          <h2>Profile Info</h2>
+          <h2>{t("dashboard.profileInfo")}</h2>
           <p>
-            <strong>Account Created:</strong>{" "}
+            <strong>
+              {t("dashboard.accountCreated") || "Account Created"}:
+            </strong>{" "}
             {new Date(user.created_at).toLocaleString()}
           </p>
           <p>
-            <strong>Last Updated:</strong>{" "}
+            <strong>{t("dashboard.lastUpdated") || "Last Updated"}:</strong>{" "}
             {new Date(user.updated_at).toLocaleString()}
           </p>
         </motion.div>

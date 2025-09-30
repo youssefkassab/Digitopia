@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { logout } from "../services/auth";
+import { useTranslation } from "react-i18next";
 
 const Logout = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -17,7 +19,7 @@ const Logout = () => {
         err?.error ||
         err?.message ||
         err?.details?.[0]?.message ||
-        "Logout failed. Please try again.";
+        t("logout.error"); // Translated fallback
       setError(message);
     } finally {
       setLoading(false);
@@ -28,7 +30,7 @@ const Logout = () => {
     <div>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <button onClick={handleLogout} disabled={loading} className="btn">
-        {loading ? "Logging out..." : "Logout"}
+        {loading ? t("logout.loading") : t("logout.button")}
       </button>
     </div>
   );
