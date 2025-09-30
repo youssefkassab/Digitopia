@@ -284,7 +284,6 @@
 
 
 
-
 import React, { useState, useEffect, useRef } from "react";
 import Markdown from "markdown-to-jsx";
 import { v4 as uuidv4 } from "uuid";
@@ -302,10 +301,12 @@ export default function AIChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [input, setInput] = useState("");
 
+  const chatContainerRef = useRef(null);
   const abortControllerRef = useRef(null);
 
-  // ✅ Dark mode sync
   const [darkMode, setDarkMode] = useState(localStorage.getItem("theme") === "dark");
+  const [showScrollDown, setShowScrollDown] = useState(false); // ← الجديد
+
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setDarkMode(document.body.classList.contains("dark-mode"));
@@ -314,7 +315,6 @@ export default function AIChatPage() {
     return () => observer.disconnect();
   }, []);
 
-  // ✅ Load current user from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -336,7 +336,6 @@ export default function AIChatPage() {
           }
         }
       );
-
       if (res.ok) {
         const chats = await res.json();
         setChatHistory(chats);
@@ -344,15 +343,27 @@ export default function AIChatPage() {
           setActiveChat(chats[0]);
           setMessages(chats[0].messages || []);
         }
-      } else {
-        console.error("Failed to fetch chats", res.status);
-      }
+      } else console.error("Failed to fetch chats", res.status);
     } catch (err) {
       console.error("Error fetching chats:", err);
     }
   };
 
-  // 🔹 Send message with streaming
+  // 🔹 Scroll observer for "Go to Bottom" button ← الجديد
+  useEffect(() => {
+    const container = chatContainerRef.current;
+    if (!container) return;
+
+    const checkScroll = () => {
+      setShowScrollDown(container.scrollTop + container.clientHeight < container.scrollHeight - 100);
+    };
+
+    container.addEventListener("scroll", checkScroll);
+
+    checkScroll();
+    return () => container.removeEventListener("scroll", checkScroll);
+  }, [messages]);
+
   const handleSend = async () => {
     setInput("");
     if (!input.trim() || isLoading || !currentUser || !activeChat) return;
@@ -361,8 +372,12 @@ export default function AIChatPage() {
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
 
-    // const aiMessage = { sender: "ai", text: "" };
-    // setMessages((prev) => [...prev, aiMessage]);
+    setTimeout(() => {
+      chatContainerRef.current?.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+    }, 50);
 
     setIsLoading(true);
     abortControllerRef.current = new AbortController();
@@ -398,8 +413,6 @@ export default function AIChatPage() {
         if (firstChunk) {
           setIsLoading(false);
           firstChunk = false;
-
-          // هنا أول ما ييجي chunk ضيف aiMessage 
           setMessages((prev) => [...prev, { sender: "ai", text: partialText }]);
         } else {
           setMessages((prev) => {
@@ -410,7 +423,6 @@ export default function AIChatPage() {
         }
       }
 
-      // Update chat history locally
       setChatHistory((prev) =>
         prev.map((chat) =>
           chat.id === activeChat.id
@@ -421,14 +433,10 @@ export default function AIChatPage() {
     } catch (error) {
       if (error.name !== "AbortError") {
         console.error("Streaming error:", error);
-        setMessages((prev) => [
-          ...prev,
-          { sender: "ai", text: "⚠️ Error connecting to AI" },
-        ]);
+        setMessages((prev) => [...prev, { sender: "ai", text: "⚠️ Error connecting to AI" }]);
       }
     } finally {
       setIsLoading(false);
-      // setInput("");
     }
   };
 
@@ -475,7 +483,6 @@ export default function AIChatPage() {
     );
   };
 
-  // ✅ Show login prompt if no user
   if (!currentUser) {
     return (
       <div className={`ai-page login-prompt ${darkMode ? "dark" : ""}`}>
@@ -488,7 +495,6 @@ export default function AIChatPage() {
 
   return (
     <div className={`ai-page ${darkMode ? "dark" : ""}`}>
-      {/* Sidebar */}
       <aside className="sidebar">
         <div className="user-profile">
           <div className="avatar">👤</div>
@@ -551,9 +557,8 @@ export default function AIChatPage() {
         </div>
       </aside>
 
-      {/* Main Chat Section */}
       <main className="chat-section">
-        <div className="chat-messages">
+        <div className="chat-messages" ref={chatContainerRef}>
           {messages.map((msg, i) => (
             <div key={i} className={`message ${msg.sender === "user" ? "user" : "ai"}`}>
               {msg.sender === "ai" ? <Markdown>{msg.text}</Markdown> : msg.text}
@@ -562,13 +567,27 @@ export default function AIChatPage() {
           {isLoading && <div className="loading">🤖 Questro is thinking...</div>}
         </div>
 
+        {/* ← زر الذهاب لأسفل */}
+        {showScrollDown && (
+          <button
+            className="scroll-down-btn"
+            onClick={() =>
+              chatContainerRef.current.scrollTo({
+                top: chatContainerRef.current.scrollHeight,
+                behavior: "smooth",
+              })
+            }
+          >
+            🡓
+          </button>
+        )}
+
         <div className="chat-input-area">
           <select value={subject} onChange={(e) => setSubject(e.target.value)}>
-            <option value="science">science</option>
-            <option value="math">math</option>
-            <option value="physics">physics</option>
-            <option value="chemistry">chemistry</option>
-            <option value="biology">biology</option>
+            <option value="science">science/علوم</option>
+            <option value="math">math/رياضة</option>
+            <option value="arabic">عربي</option>
+            <option value="social_studies">دراسات</option>
           </select>
 
           <label className="cumulative-checkbox">
