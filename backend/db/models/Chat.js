@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "users",
+        model: "Users",
         key: "id",
       },
     },
@@ -32,18 +32,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     lastMessages: {
-      type: DataTypes.JSON,
+      type: DataTypes.JSON, // store last 5 messages
       allowNull: true,
     },
     time: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
-  }, {
-    sequelize,
-    modelName: 'Chat',
-    tableName: 'chats'
-
   });
 
   Chat.associate = (models) => {
