@@ -49,7 +49,7 @@ ${context}
 
 Student's Question: ${question}
 
-Your Answer (in the same language as the question or what student want):`;
+Your Answer (in the same language as the question or what language student want):`;
 }
 
 module.exports = { generatePrompt };
