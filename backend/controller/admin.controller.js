@@ -19,32 +19,55 @@ const getStudents = async (req, res) => {
 };
 
 // ===== Delete Student =====
-const deleteStudent = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
 
-    // Use sequelize.query and check affectedRows differently for DELETE
-    const [result] = await sequelize.query(
-      `DELETE FROM users WHERE id = :id AND role = :role`,
+    if (!id || isNaN(parseInt(id))) {
+      return res.status(400).json({ error: 'Valid user ID is required' });
+    }
+
+    // First check if the user exists and their role
+    const userResults = await sequelize.query(
+      `SELECT role FROM users WHERE id = ?`,
       {
-        replacements: { id, role: "user" },
-        type: sequelize.QueryTypes.BULKDELETE || sequelize.QueryTypes.RAW,
+        replacements: [id],
+        type: sequelize.QueryTypes.SELECT,
       }
     );
 
-    // Sequelize returns an array for RAW queries, affectedRows may not exist
-    // Instead, you can check changes for sqlite/mysql
-    if (
-      !result ||
-      (result.affectedRows !== undefined && result.affectedRows === 0)
-    ) {
-      return res.status(404).json({ error: "Student not found." });
+    if (!Array.isArray(userResults) || userResults.length === 0) {
+      return res.status(404).json({ error: `User with ID ${id} not found in database` });
     }
 
-    res.json({ message: "Student deleted successfully." });
+    const userCheck = userResults[0];
+
+    // Check if the user is an admin
+    if (userCheck.role === 'admin') {
+      return res.status(403).json({ error: 'Cannot delete admin users.' });
+    }
+
+    // Proceed with deletion if not admin
+    const deleteResult = await sequelize.query(
+      `DELETE FROM users WHERE id = ?`,
+      {
+        replacements: [id],
+        type: sequelize.QueryTypes.DELETE,
+      }
+    );
+
+    // Handle both array and object responses from DELETE query
+    const result = Array.isArray(deleteResult) ? deleteResult[0] : deleteResult;
+
+    // Check if deletion was successful - be more lenient with the check
+    if (result && typeof result === 'object' && result.affectedRows !== undefined && result.affectedRows === 0) {
+      return res.status(404).json({ error: `User with ID ${id} was already deleted or not found` });
+    }
+
+    res.json({ message: `User with ID ${id} deleted successfully.` });
   } catch (err) {
-    console.error("DB error (deleteStudent):", err);
-    res.status(500).json({ error: "Database error." });
+    console.error('DB error (deleteUser):', err);
+    res.status(500).json({ error: 'Database error.', details: err.message });
   }
 };
 
@@ -66,28 +89,6 @@ const getTeachers = async (req, res) => {
     res.status(500).json({ error: "Database error." });
   }
 };
-
-// ===== Delete Teacher =====
-const deleteTeacher = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const [result] = await sequelize.query(
-      `DELETE FROM users WHERE id = :id AND role = :role`,
-      {
-        replacements: { id, role: "teacher" },
-        type: sequelize.QueryTypes.DELETE,
-      }
-    );
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "Teacher not found." });
-    }
-    res.json({ message: "Teacher deleted successfully." });
-  } catch (err) {
-    console.error("DB error (deleteTeacher):", err);
-    res.status(500).json({ error: "Database error." });
-  }
-};
-
 // ===== Get All Admins =====
 const getAdmins = async (req, res) => {
   try {
@@ -107,8 +108,7 @@ const getAdmins = async (req, res) => {
 
 module.exports = {
   getStudents,
-  deleteStudent,
+  deleteUser,
   getTeachers,
-  deleteTeacher,
   getAdmins,
 };

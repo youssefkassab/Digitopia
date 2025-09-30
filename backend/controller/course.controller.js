@@ -247,7 +247,7 @@ const deleteCourse = (req, res) => {
       console.log(params);
       const result = await sequelize.query(quer, { replacements: params, transaction: t, type: QueryTypes.DELETE });
       console.log(result);
-      const deleted = (result && (result.affectedRows || result.rowCount)) || 0;
+      const deleted = (result && (result.affectedRows || result.rowCount)) ;
       console.log(deleted);
       if (deleted === 0) {
         throw Object.assign(new Error('NOT_FOUND'), { code: 'NOT_FOUND' });
@@ -255,7 +255,7 @@ const deleteCourse = (req, res) => {
     }).then(() => res.status(200).json({ message: 'Course deleted successfully.' }))
       .catch((err) => {
         if (err && err.code === 'NOT_FOUND') {
-          return res.status(404).json({ error: 'Course not found or not owned by user.' });
+          return res.status(404).json({ error: 'Course not found or not owned by user.'+ err });
         }
         console.error('Delete course error:', err);
         return res.status(500).json({ error: 'Internal server error.' });
