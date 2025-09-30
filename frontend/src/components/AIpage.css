@@ -1,21 +1,24 @@
 /* === Page Layout === */
 .ai-page {
   display: flex;
-  min-height: 100vh;
-  padding-top: 70px; /* adjust to your navbar height */
-  background-color: var(--background-color);
-  color: var(--text-color);
+  height: 83vh;
+  padding-top: 7%;
+  background: #f9f9f9;
+  color: #222;
 }
+
 /* === Sidebar === */
 .sidebar {
   width: 250px;
-  padding: 20px;
-  background: #fff;
-  border-right: 1px solid #ddd;
   padding: 15px;
   display: flex;
   flex-direction: column;
+  height: 78vh;
+  overflow: hidden;
+  background: #fff;
+  border-right: 1px solid #ddd;
 }
+
 .user-profile {
   display: flex;
   align-items: center;
@@ -27,7 +30,7 @@
 .avatar {
   background: #007bff;
   color: #fff;
-  width: 35px;
+  width: 40px;
   height: 35px;
   border-radius: 50%;
   display: flex;
@@ -56,6 +59,7 @@
 .chat-history {
   flex-grow: 1;
   overflow-y: auto;
+  max-height: 100%;
 }
 
 .chat-history-item {
@@ -123,6 +127,7 @@
   display: flex;
   flex-direction: column;
   padding: 15px;
+  background: #fafafa;
 }
 
 .chat-messages {
@@ -141,37 +146,47 @@
 }
 
 .message.user {
-  background: #007bff;
-  color: white;
+  background: #d1e7ff;
+  color: #000;
   align-self: flex-end;
   border-bottom-right-radius: 0;
 }
 
 .message.ai {
-  background: #eaeaea;
+  background: #eee;
   color: #222;
   align-self: flex-start;
   border-bottom-left-radius: 0;
 }
 
-.dark .message.ai {
-  background: #333;
-  color: #ddd;
-}
-
 /* Loading animation */
 .loading {
-  font-size: 14px;
-  font-style: italic;
-  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 10px 0;
-  animation: blink 1s infinite;
+  font-style: italic;
+  color: #666;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 3px solid #ccc;
+  border-top: 3px solid #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes blink {
   50% {
     opacity: 0.5;
   }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* === Input Area === */
@@ -230,52 +245,6 @@
   gap: 4px;
   font-size: 14px;
 }
-.loading {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 10px 0;
-  font-style: italic;
-  color: #666;
-}
-
-.spinner {
-  width: 16px;
-  height: 16px;
-  border: 3px solid #ccc;
-  border-top: 3px solid #333;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-/* === Default (Light) === */
-.ai-page {
-  background: #f9f9f9;
-  color: #222;
-}
-
-.sidebar {
-  background: #fff;
-  border-right: 1px solid #ddd;
-}
-
-.chat-section {
-  background: #fafafa;
-}
-
-.message.user {
-  background: #d1e7ff;
-  color: #000;
-}
-
-.message.ai {
-  background: #eee;
-  color: #222;
-}
 
 /* === Dark Mode === */
 .dark-mode .ai-page {
@@ -314,11 +283,12 @@
   background: #444;
 }
 
+/* === Login Prompt === */
 .login-prompt {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 70px); /* subtract navbar height */
+  height: calc(100vh - 70px);
   text-align: center;
   background-color: var(--background-color);
   color: var(--text-color);
@@ -336,4 +306,31 @@
   border: 2px dashed #888;
   border-radius: 12px;
   background-color: rgba(200, 200, 200, 0.1);
+}
+.chat-input-area select {
+  width: 120px;
+  flex: 0 0 auto;
+}
+
+.chat-input-area input[type="text"] {
+  flex-grow: 1;
+  min-width: 200px;
+  padding: 8px;
+  font-size: 1rem;    
+}
+
+.scroll-down-btn {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  color: #222;
+  border: none;
+  border-radius: 50%;
+  padding: 3px 8px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 10;
 }

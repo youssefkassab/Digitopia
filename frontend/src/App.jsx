@@ -95,7 +95,7 @@ export default function App() {
         <AppRoutes />
       </main>
       {/* Hide Footer only on /AI */}
-      {location.pathname !== "/AI" && <Footer />}
+      {location.pathname !== "/questro" && <Footer />}
     </div>
   );
 }
