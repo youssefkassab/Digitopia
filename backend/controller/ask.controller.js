@@ -227,14 +227,12 @@ async function ask(req, res) {
     res.setHeader("Content-Type", "text/plain; charset=utf-8");
     res.setHeader("Transfer-Encoding", "chunked");
     res.setHeader("Cache-Control", "no-cache");
-
     let answer = "";
 
     for await (const chunk of result) {
       if (chunk.text) {
         answer += chunk.text;
         res.write(chunk.text);
-        if (res.flush) res.flush();
       }
     }
 

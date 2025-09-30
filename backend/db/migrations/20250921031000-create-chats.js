@@ -8,7 +8,7 @@ module.exports = {
       },
       chatId: {
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: Sequelize.literal("(UUID())"),
         allowNull: false,
         unique: false,
       },
