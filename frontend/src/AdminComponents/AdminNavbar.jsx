@@ -9,8 +9,10 @@ import {
 import { FaUserCircle } from "react-icons/fa";
 import { FiSun, FiMoon } from "react-icons/fi";
 import "../AdminPage.css";
+import { useTranslation } from "react-i18next";
 
 const AdminNavbar = () => {
+  const { t } = useTranslation();
   const [admin, setAdmin] = useState(getStoredAdmin());
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
@@ -22,7 +24,6 @@ const AdminNavbar = () => {
     document.body.classList.toggle("dark-mode", darkMode);
     localStorage.setItem("theme", darkMode ? "dark" : "light");
 
-    // Keep admin info in sync with localStorage
     if (isAdminAuthenticated()) {
       setAdmin(getStoredAdmin());
     } else {
@@ -47,48 +48,54 @@ const AdminNavbar = () => {
           <Link
             to="/admin/admins"
             className={location.pathname === "/admin/admins" ? "active" : ""}
+            id="nav-tabs"
           >
-            Admins
+            {t("AdminNavbar.admins")}
           </Link>
         </li>
         <li>
           <Link
             to="/admin/teachers"
             className={location.pathname === "/admin/teachers" ? "active" : ""}
+            id="nav-tabs"
           >
-            Teachers
+            {t("AdminNavbar.teachers")}
           </Link>
         </li>
         <li>
           <Link
             to="/admin/students"
             className={location.pathname === "/admin/students" ? "active" : ""}
+            id="nav-tabs"
           >
-            Students
+            {t("AdminNavbar.students")}
           </Link>
         </li>
         <li>
           <Link
             to="/admin/community"
             className={location.pathname === "/admin/community" ? "active" : ""}
+            id="nav-tabs"
           >
-            Community
+            {t("AdminNavbar.community")}
           </Link>
         </li>
         <li>
           <Link
             to="/admin/courses"
             className={location.pathname === "/admin/courses" ? "active" : ""}
+            id="nav-tabs"
           >
-            Courses
+            {t("AdminNavbar.courses")}
           </Link>
         </li>
         <li>
           <Link
             to="/admin/messages"
             className={location.pathname === "/admin/messages" ? "active" : ""}
+            id="nav-tabs"
           >
-            Messages
+            {t("AdminNavbar.messages")}
           </Link>
         </li>
       </ul>
@@ -101,7 +108,7 @@ const AdminNavbar = () => {
             darkMode ? "active" : ""
           }`}
           onClick={() => setDarkMode(!darkMode)}
-          aria-label="Toggle dark mode"
+          aria-label={t("AdminNavbar.toggleDarkMode")}
         >
           {darkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
         </button>
@@ -109,7 +116,9 @@ const AdminNavbar = () => {
         {/* Admin avatar display only */}
         {admin && (
           <div className="user-controls">
-            <span className="hi-admin">Hi, {admin.name || "Admin"}</span>
+            <span className="hi-admin">
+              {t("AdminNavbar.hiAdmin", { name: admin.name || "Admin" })}
+            </span>
             <button
               className="glass-btn round-btn"
               onClick={() => navigate("/admin/dashboard")}

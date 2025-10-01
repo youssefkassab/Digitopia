@@ -2643,6 +2643,277 @@ body.dark-mode .game-modal-iframe {
   --transition: 0.35s ease;
 }
 
+/* ============================
+   About Us Page - Mobile Optimization
+============================ */
+@media (max-width: 768px) {
+  /* Wrapper */
+  .about-wrapper {
+    padding: 20px;
+    min-height: 80vh;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Intro + Team Big Card */
+  .intro-card,
+  .team-big-card {
+    width: 95vw;
+    max-width: 90vw;
+    padding: 20px;
+    border-radius: 18px;
+    aspect-ratio: auto; /* allow flexible height */
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(14px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .intro-card:hover,
+  .team-big-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Card Text */
+  .team-big-card h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .team-big-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 14px;
+    opacity: 0.9;
+  }
+
+  .team-big-card p {
+    font-size: 1rem;
+    line-height: 1.4;
+    opacity: 0.85;
+  }
+
+  /* Slider container */
+  .slider-container {
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Arrows */
+  .arrow-btn {
+    font-size: 2rem;
+    left: auto;
+    right: auto;
+    margin: 0 10px;
+    position: relative;
+    color: var(--primary);
+  }
+
+  .left-arrow,
+  .right-arrow {
+    position: relative;
+    top: 0;
+    left: auto;
+    right: auto;
+  }
+
+  /* Progress Bar */
+  .progress-bar-container {
+    gap: 8px;
+    margin-top: 15px;
+  }
+
+  .progress-dot {
+    width: 12px;
+    height: 12px;
+  }
+
+  .progress-dot.active {
+    transform: scale(1.3);
+  }
+
+  /* Intro Button */
+  .intro-btn {
+    padding: 10px 24px;
+    font-size: 0.95rem;
+    border-radius: 40px;
+  }
+
+  /* Optional smooth scroll for mobile */
+  html,
+  body {
+    scroll-behavior: smooth;
+  }
+
+  /* Text responsiveness */
+  .about-wrapper,
+  .intro-card,
+  .team-big-card {
+    font-size: 0.95rem;
+  }
+
+  /* Subtle hover/tap animations for touch screens */
+  .intro-btn:active,
+  .arrow-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Reduce padding and spacing for smaller phones */
+  @media (max-width: 480px) {
+    .about-wrapper {
+      padding: 12px;
+      gap: 12px;
+    }
+
+    .intro-card,
+    .team-big-card {
+      padding: 16px;
+      border-radius: 14px;
+    }
+
+    .team-big-card h1 {
+      font-size: 1.7rem;
+    }
+
+    .team-big-card h2 {
+      font-size: 1.1rem;
+    }
+
+    .team-big-card p {
+      font-size: 0.95rem;
+    }
+
+    .intro-btn {
+      padding: 8px 20px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+/* ============================
+   About Us Page - Tablet Optimization
+============================ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Wrapper */
+  .about-wrapper {
+    padding: 30px;
+    min-height: 75vh;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  /* Intro + Team Big Card */
+  .intro-card,
+  .team-big-card {
+    width: 90vw;
+    max-width: 820px;
+    padding: 30px 25px;
+    border-radius: 22px;
+    aspect-ratio: 16 / 9;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(16px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .intro-card:hover,
+  .team-big-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+  }
+
+  /* Card Text */
+  .team-big-card h1 {
+    font-size: 2.3rem;
+    margin-bottom: 12px;
+  }
+
+  .team-big-card h2 {
+    font-size: 1.45rem;
+    margin-bottom: 18px;
+    opacity: 0.92;
+  }
+
+  .team-big-card p {
+    font-size: 1.1rem;
+    line-height: 1.45;
+    opacity: 0.88;
+    padding: 0 10px;
+  }
+
+  /* Slider container */
+  .slider-container {
+    flex-direction: row;
+    gap: 15px;
+    position: relative;
+    width: 100%;
+    overflow-x: visible;
+  }
+
+  /* Arrows */
+  .arrow-btn {
+    font-size: 2.2rem;
+    color: var(--primary);
+    transition: transform 0.25s, color 0.3s;
+  }
+
+  .arrow-btn:hover {
+    transform: scale(1.2);
+    color: var(--primary-hover);
+  }
+
+  .left-arrow {
+    left: -40px;
+  }
+
+  .right-arrow {
+    right: -40px;
+  }
+
+  /* Progress Bar */
+  .progress-bar-container {
+    margin-top: 20px;
+    gap: 10px;
+  }
+
+  .progress-dot {
+    width: 13px;
+    height: 13px;
+  }
+
+  .progress-dot.active {
+    transform: scale(1.25);
+  }
+
+  /* Intro Button */
+  .intro-btn {
+    padding: 11px 26px;
+    font-size: 0.98rem;
+    border-radius: 45px;
+  }
+
+  /* Smooth animations */
+  .intro-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Wrapper text scaling */
+  .about-wrapper,
+  .intro-card,
+  .team-big-card {
+    font-size: 1rem;
+  }
+
+  /* Optional: subtle hover for cards */
+  .intro-card,
+  .team-big-card {
+    transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  }
+}
+
 /* === Page === */
 .contact-page {
   display: flex;
@@ -3228,6 +3499,198 @@ body.dark-mode {
   --accent: #0077ff;
   --accent-hover: #0077ff;
   --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================
+   Courses Page - Mobile Optimization
+============================ */
+@media (max-width: 768px) and (max-width: 1024px) {
+  /* =========================
+     Layout
+  ======================== */
+  .courses-page,
+  .courses-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1rem;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  /* =========================
+     Sidebar
+  ======================== */
+  .courses-sidebar,
+  .sidebar {
+    width: 85%;
+    position: relative;
+    top: 0;
+    margin-top: 90px;
+    border-radius: 0.8rem;
+    padding: 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .courses-sidebar h2,
+  .sidebar h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .filter-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .filter-section h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .filter-section li {
+    padding: 0.35rem 0.5rem;
+    margin: 0.15rem 0;
+    font-size: 0.9rem;
+  }
+
+  .filter-section select,
+  .filter-section input[type="range"] {
+    padding: 0.45rem;
+    font-size: 0.9rem;
+    width: 90%;
+  }
+
+  /* =========================
+     Courses Grid
+  ======================== */
+  .courses-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+
+  /* =========================
+     Course Card
+  ======================== */
+  .course-card {
+    flex-direction: column;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    width: 92%;
+  }
+
+  .course-card:hover {
+    transform: none; /* subtle transform for touch screens */
+  }
+
+  .course-thumb img,
+  .course-thumbnail img {
+    height: 150px;
+    object-fit: cover;
+  }
+
+  /* =========================
+     Course Info
+  ======================== */
+  .course-info {
+    padding: 0.8rem 1rem;
+  }
+
+  .course-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .course-info .description {
+    font-size: 0.85rem;
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+  }
+
+  .course-meta {
+    font-size: 0.8rem;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .course-info .price {
+    font-size: 1rem;
+  }
+
+  /* =========================
+     Enroll Button
+  ======================== */
+  .enroll-btn {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+
+  /* =========================
+     Add Course Card
+  ======================== */
+  .add-card,
+  .add-course-card {
+    height: 120px;
+  }
+
+  .add-content,
+  .add-course-content {
+    flex-direction: column;
+  }
+
+  .add-content img,
+  .plus-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .add-content p {
+    font-size: 0.9rem;
+  }
+
+  /* =========================
+     Course Form
+  ======================== */
+  .course-form {
+    width: 75%;
+    margin-right: 100px;
+  }
+
+  .course-form h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .course-form input,
+  .course-form textarea,
+  .course-form button {
+    width: 90%;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .course-form textarea {
+    min-height: 80px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .course-form button {
+    font-size: 0.9rem;
+  }
+
+  /* =========================
+     Alerts
+  ======================== */
+  .error,
+  .success {
+    font-size: 0.85rem;
+  }
 }
 
 /* Footer */
@@ -4098,283 +4561,6 @@ body.dark-mode .icon {
     z-index: 20;
   }
 
-  /* ===== Glassy Navbar (compact, top) ===== */
-  .glassy-navbar {
-    position: fixed;
-    top: calc(env(safe-area-inset-top, 0px) + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: calc(100% - 20px);
-    max-width: 720px;
-    padding: 8px 10px;
-    gap: 8px;
-    border-radius: 14px;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.16),
-      rgba(255, 255, 255, 0.06)
-    );
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 10px 36px rgba(2, 6, 23, 0.12);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    z-index: 1000;
-    touch-action: manipulation;
-  }
-
-  /* Logo → squircle small */
-  .nav-logo .logo-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px; /* squircle */
-    object-fit: cover;
-    padding: 3px;
-    background: rgba(255, 255, 255, 0.28);
-    box-shadow: 0 8px 18px rgba(2, 6, 23, 0.06);
-    -webkit-backface-visibility: hidden;
-  }
-
-  /* Nav links → horizontal, scrollable pills */
-  .nav-bar {
-    display: flex;
-    gap: 8px;
-    margin: 0;
-    padding: 0;
-    align-items: center;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* firefox */
-  }
-  .nav-bar::-webkit-scrollbar {
-    display: none;
-  } /* chrome/safari */
-  .nav-bar li {
-    flex: 0 0 auto;
-  }
-
-  .nav-bar li a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Montserrat, sans-serif;
-    font-size: 13px;
-    color: #0f1722;
-    padding: 6px 10px;
-    border-radius: 999px; /* pill */
-    background: rgba(255, 255, 255, 0.08);
-    min-height: 36px;
-    line-height: 18px;
-    transition: transform 180ms ease, background 180ms ease,
-      box-shadow 180ms ease;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .nav-bar li a:hover,
-  .nav-bar li a:focus {
-    background: rgba(255, 255, 255, 0.18);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(2, 6, 23, 0.06);
-  }
-
-  .nav-bar li a.active {
-    background: rgba(255, 255, 255, 0.2);
-    font-weight: 600;
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 10px 26px rgba(2, 6, 23, 0.08);
-  }
-
-  /* Nav actions (auth, search) compact & touch-friendly */
-  .nav-actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .glass-btn,
-  .signup-btn,
-  .logout-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 12px;
-    min-width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border: none;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.12);
-    color: #0f1722;
-    box-shadow: 0 8px 20px rgba(2, 6, 23, 0.06);
-    transition: transform 160ms ease, background 160ms ease;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .glass-btn:hover,
-  .glass-btn:focus,
-  .signup-btn:hover,
-  .signup-btn:focus,
-  .logout-btn:hover,
-  .logout-btn:focus {
-    background: rgba(255, 255, 255, 0.22);
-    transform: translateY(-2px) scale(1.02);
-  }
-
-  /* Primary / signup visual treatment for mobile */
-  .signup-btn {
-    background: linear-gradient(180deg, #007aff, #0063d1);
-    color: #fff;
-    box-shadow: 0 12px 28px rgba(0, 122, 255, 0.16);
-  }
-  .logout-btn {
-    background: linear-gradient(180deg, #ff6b6b, #e04444);
-    color: #fff;
-    box-shadow: 0 10px 24px rgba(255, 77, 79, 0.12);
-  }
-
-  /* Round-icon buttons slightly larger for finger taps */
-  .round-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* ===== Search container: compact & expandable ===== */
-  .search-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    max-width: 360px;
-  }
-  .search-container form {
-    display: flex;
-    width: 100%;
-    align-items: center;
-  }
-  /* collapsed by default (icon-first UX), expands on focus */
-  .search-container form input {
-    width: 36px;
-    padding: 10px 12px;
-    font-size: 14px;
-    border-radius: 12px;
-    border: none;
-    background: rgba(255, 255, 255, 0.06);
-    color: #0f1722;
-    transition: width 280ms cubic-bezier(0.2, 0.9, 0.2, 1),
-      background 180ms ease, box-shadow 180ms ease;
-    outline: none;
-    -webkit-appearance: none;
-  }
-  .search-container form input:focus {
-    width: calc(100% - 12px);
-    background: rgba(255, 255, 255, 0.16);
-    box-shadow: 0 10px 26px rgba(2, 6, 23, 0.08);
-  }
-
-  /* ===== User controls ===== */
-  .user-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  /* hide username label to reduce clutter; show avatar only (mobile app pattern) */
-  .user-name {
-    display: none;
-  }
-
-  /* ===== Search overlay (full-screen modal search) ===== */
-  .search-overlay {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(2, 6, 23, 0.75);
-    backdrop-filter: blur(12px);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 24px 12px;
-    z-index: 2000;
-  }
-  .search-form {
-    width: 100%;
-    max-width: 720px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 12px;
-    border-radius: 14px;
-    box-shadow: 0 12px 36px rgba(2, 6, 23, 0.5);
-    border: none;
-  }
-  .search-form input {
-    flex: 1;
-    width: 100%;
-    font-size: 18px;
-    padding: 12px 14px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background: rgba(255, 255, 255, 1);
-    color: #0f1722;
-  }
-  .search-form button {
-    background: transparent;
-    border: none;
-    font-size: 18px;
-    padding: 8px 10px;
-    cursor: pointer;
-    color: #0f1722;
-  }
-
-  /* ===== Dark-mode mobile tweaks ===== */
-  body.dark-mode .glassy-navbar {
-    background: linear-gradient(
-      180deg,
-      rgba(20, 24, 32, 0.38),
-      rgba(8, 10, 14, 0.22)
-    );
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-  }
-  body.dark-mode .nav-bar li a {
-    color: #e6eefb;
-    background: rgba(255, 255, 255, 0.02);
-  }
-  body.dark-mode .glass-btn,
-  body.dark-mode .signup-btn,
-  body.dark-mode .logout-btn {
-    color: #eef2ff;
-    background: rgba(255, 255, 255, 0.03);
-  }
-  body.dark-mode .card,
-  body.dark-mode .borderless-card {
-    background: rgba(20, 22, 28, 0.55);
-    color: #e6eefb;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
-  }
-
-  /* ===== Accessibility & touch polish ===== */
-  .glassy-navbar,
-  .card,
-  .glass-btn,
-  .nav-bar li a {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .glassy-navbar * {
-    -webkit-user-select: none;
-    user-select: none;
-  }
-
   /* keep layout stable when virtual keyboard opens */
   @supports (height: 100dvh) {
     .app-wrapper {
@@ -4608,6 +4794,8 @@ body.dark-mode .icon {
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
       transform: none;
       animation: popIn 0.5s ease forwards;
+      margin-top: 250px;
+      margin-bottom: 350px;
     }
 
     .signup-card h2 {
@@ -4632,6 +4820,7 @@ body.dark-mode .icon {
       margin-top: 8px;
       font-size: 0.95rem;
       border-radius: 10px;
+      width: 90%;
     }
 
     /* Password strength + checklist */
@@ -4876,6 +5065,76 @@ body.dark-mode .icon {
     background: #007aff;
     color: white;
     border: none;
+  }
+
+  .poster-slider {
+    height: 100vw;
+    padding: 10px;
+    width: 95%;
+    margin-top: 100px;
+    margin-bottom: 80px;
+    border-radius: 10px;
+  }
+
+  .poster-slide {
+    padding: 16px;
+    justify-content: flex-end;
+    background-position: center;
+  }
+
+  .poster-top .poster-logo {
+    height: 40px;
+  }
+
+  .poster-bottom {
+    max-width: 100%;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .poster-description {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .poster-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+    top: 45%;
+  }
+
+  .poster-arrow.left {
+    left: 8px;
+  }
+
+  .poster-arrow.right {
+    right: 8px;
+  }
+
+  .poster-dots {
+    bottom: 8px;
+    gap: 6px;
+  }
+
+  .poster-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .poster-button {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+
+  .join-now-btn {
+    width: 100%;
+    max-width: 220px;
+    margin: 20px auto 40px auto;
+    font-size: 1rem;
+    padding: 10px 0;
+    display: block;
+    text-align: center;
   }
 }
 

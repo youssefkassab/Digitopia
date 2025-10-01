@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import adminApi from "../AdminServices/adminApi";
+import { useTranslation } from "react-i18next";
 
 const Messages = () => {
+  const { t } = useTranslation();
+
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState({});
@@ -36,8 +39,7 @@ const Messages = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this message?"))
-      return;
+    if (!window.confirm(t("Messages.confirmDelete"))) return;
     try {
       setActionLoading((prev) => ({ ...prev, [id]: "delete" }));
       await adminApi.delete("/messages/delete", { data: { id } });
@@ -55,12 +57,12 @@ const Messages = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <h2>Messages Center</h2>
+      <h2>{t("Messages.heading")}</h2>
 
       {loading ? (
-        <p>Loading messages...</p>
+        <p>{t("Messages.loading")}</p>
       ) : messages.length === 0 ? (
-        <p>No messages found.</p>
+        <p>{t("Messages.noMessages")}</p>
       ) : (
         <div className="messages-grid">
           {messages.map((msg) => (
@@ -70,19 +72,19 @@ const Messages = () => {
               whileHover={{ scale: 1.02 }}
             >
               <p>
-                <strong>From:</strong> {msg.sender}
+                <strong>{t("Messages.from")}</strong> {msg.sender}
               </p>
               <p>
-                <strong>Message:</strong> {msg.content}
+                <strong>{t("Messages.message")}</strong> {msg.content}
               </p>
               <p className="text-sm text-gray-500">
-                <strong>Date:</strong>{" "}
+                <strong>{t("Messages.date")}</strong>{" "}
                 {new Date(msg.message_date).toLocaleString()}
               </p>
 
               <div className="message-actions">
                 <a href={`mailto:${msg.sender}`} className="reply">
-                  Reply
+                  {t("Messages.actions.reply")}
                 </a>
 
                 <button
@@ -91,10 +93,10 @@ const Messages = () => {
                   className="seen"
                 >
                   {actionLoading[msg.id] === "seen"
-                    ? "Marking..."
+                    ? t("Messages.actions.marking")
                     : msg.seen
-                    ? "Seen"
-                    : "Mark Seen"}
+                    ? t("Messages.actions.seenDone")
+                    : t("Messages.actions.seen")}
                 </button>
 
                 <button
@@ -103,8 +105,8 @@ const Messages = () => {
                   className="delete"
                 >
                   {actionLoading[msg.id] === "delete"
-                    ? "Deleting..."
-                    : "Delete"}
+                    ? t("Messages.actions.deleting")
+                    : t("Messages.actions.delete")}
                 </button>
               </div>
             </motion.div>

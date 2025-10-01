@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import adminApi from "../AdminServices/adminApi";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 const CoursesManage = () => {
+  const { t } = useTranslation();
+
   const [courses, setCourses] = useState([]);
-  const [tags, setTags] = useState([]); // tags from backend
+  const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingCourse, setEditingCourse] = useState(null);
@@ -14,15 +17,13 @@ const CoursesManage = () => {
     description: "",
     price: "",
     teacher_id: "",
-    tags: [], // array of selected tag IDs
+    tags: [],
   });
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  // Convert API tag representation to consistent format
   const normalizeCourseFromApi = (raw) => {
     const normalized = { ...raw };
-    // Some endpoints return tags as comma-separated string, some return array.
     if (typeof raw.tags === "string") {
       const str = raw.tags.trim();
       normalized.tags =
@@ -40,11 +41,10 @@ const CoursesManage = () => {
     setErrorMsg("");
     try {
       const { data } = await adminApi.get("/courses/all");
-      // Normalize each course so front-end can reliably expect tags to be either array of names or ids
       setCourses(Array.isArray(data) ? data.map(normalizeCourseFromApi) : []);
     } catch (err) {
       console.error("Failed to fetch courses:", err);
-      setErrorMsg("Failed to load courses. Check server and auth token.");
+      setErrorMsg(t("CoursesManage.messages.errorLoad"));
     } finally {
       setLoading(false);
     }
@@ -56,7 +56,6 @@ const CoursesManage = () => {
       setTags(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Failed to fetch tags:", err);
-      // not fatal — allow manual tag creation elsewhere
     }
   };
 
@@ -71,9 +70,7 @@ const CoursesManage = () => {
   };
 
   const handleTagChange = (e) => {
-    // multiple select: collect selected values
     const selectedOptions = Array.from(e.target.selectedOptions).map((opt) =>
-      // tags likely use numeric ids; store as number when possible
       String(opt.value).match(/^\d+$/) ? parseInt(opt.value, 10) : opt.value
     );
     setFormData((prev) => ({ ...prev, tags: selectedOptions }));
@@ -88,13 +85,11 @@ const CoursesManage = () => {
       !formData.name ||
       !formData.description ||
       formData.price === "" ||
-      (formData.teacher_id === "" && !editingCourse) || // teacher_id optional for editing if backend allows
+      (formData.teacher_id === "" && !editingCourse) ||
       !Array.isArray(formData.tags) ||
       formData.tags.length === 0
     ) {
-      setErrorMsg(
-        "All fields (name, description, price, teacher ID when creating, and at least one tag) are required."
-      );
+      setErrorMsg(t("CoursesManage.messages.errorRequiredFields"));
       return;
     }
 
@@ -113,10 +108,10 @@ const CoursesManage = () => {
           id: editingCourse.id,
           ...payload,
         });
-        setSuccessMsg("Course updated successfully!");
+        setSuccessMsg(t("CoursesManage.messages.successUpdate"));
       } else {
         await adminApi.post("/courses/create", payload);
-        setSuccessMsg("Course created successfully!");
+        setSuccessMsg(t("CoursesManage.messages.successCreate"));
       }
 
       setFormData({
@@ -134,28 +129,27 @@ const CoursesManage = () => {
       setErrorMsg(
         err?.response?.data?.error ||
           err?.response?.data?.message ||
-          "Operation failed."
+          t("CoursesManage.messages.errorOperationFailed")
       );
     }
   };
 
-  // ✅ Handle delete
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this course?")) return;
+    if (!window.confirm(t("CoursesManage.messages.errorOperationFailed")))
+      return;
 
     try {
-      // ✅ Use POST instead of DELETE to align with backend expectation
-      await adminApi.post("/courses/delete", { id });
-      setSuccessMsg("Course deleted successfully!");
-      fetchCourses(); // refresh list
+      await adminApi.delete("/courses/delete", { data: { id } });
+      setSuccessMsg(t("CoursesManage.messages.successDelete"));
+      fetchCourses();
     } catch (err) {
       console.error("Delete error:", err);
       if (err?.response?.status === 404) {
-        setErrorMsg("Course not found or already deleted.");
+        setErrorMsg(t("CoursesManage.messages.errorDeleteNotFound"));
       } else if (err?.response?.status === 400) {
-        setErrorMsg("Invalid course ID or request format.");
+        setErrorMsg(t("CoursesManage.messages.errorDeleteInvalid"));
       } else {
-        setErrorMsg("Delete failed. Please try again.");
+        setErrorMsg(t("CoursesManage.messages.errorDeleteFailed"));
       }
     }
   };
@@ -165,9 +159,7 @@ const CoursesManage = () => {
     const tagsForForm =
       Array.isArray(course.tags) && course.tags.length > 0
         ? course.tags.map((t) => {
-            // If tag items are objects ( {id, name} ), use id; if names, keep them.
             if (t && typeof t === "object") return t.id ?? t.name;
-            // if value looks numeric string, convert to number
             return String(t).match(/^\d+$/) ? parseInt(t, 10) : t;
           })
         : [];
@@ -182,13 +174,12 @@ const CoursesManage = () => {
     setShowForm(true);
   };
 
-  // quick token check (helpful if 404 was due to missing auth)
   const adminToken = localStorage.getItem("adminToken");
 
   return (
     <>
       <Helmet>
-        <title>Admin Courses | 3lm Quest</title>
+        <title>{t("CoursesManage.pageTitle")}</title>
       </Helmet>
 
       <motion.div
@@ -198,13 +189,10 @@ const CoursesManage = () => {
         exit={{ opacity: 0, y: -30 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
-        <h2>Manage Courses</h2>
+        <h2>{t("CoursesManage.heading")}</h2>
 
         {!adminToken && (
-          <p className="warning">
-            No admin token found in localStorage. Authentication may fail for
-            create/update/delete actions.
-          </p>
+          <p className="warning">{t("CoursesManage.warnings.noToken")}</p>
         )}
 
         <button
@@ -221,7 +209,7 @@ const CoursesManage = () => {
             });
           }}
         >
-          Add New Course
+          {t("CoursesManage.buttons.addCourse")}
         </button>
 
         <AnimatePresence>
@@ -233,19 +221,23 @@ const CoursesManage = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
             >
-              <h3>{editingCourse ? "Edit Course" : "Add Course"}</h3>
+              <h3>
+                {editingCourse
+                  ? t("CoursesManage.formHeading.edit")
+                  : t("CoursesManage.formHeading.add")}
+              </h3>
               <form onSubmit={handleSubmit}>
                 <input
                   type="text"
                   name="name"
-                  placeholder="Course Name"
+                  placeholder={t("CoursesManage.form.courseName")}
                   value={formData.name}
                   onChange={handleChange}
                   required
                 />
                 <textarea
                   name="description"
-                  placeholder="Course Description"
+                  placeholder={t("CoursesManage.form.courseDescription")}
                   value={formData.description}
                   onChange={handleChange}
                   required
@@ -254,7 +246,7 @@ const CoursesManage = () => {
                   type="number"
                   step="0.01"
                   name="price"
-                  placeholder="Price"
+                  placeholder={t("CoursesManage.form.price")}
                   value={formData.price}
                   onChange={handleChange}
                   required
@@ -262,13 +254,11 @@ const CoursesManage = () => {
                 <input
                   type="text"
                   name="teacher_id"
-                  placeholder="Teacher ID"
+                  placeholder={t("CoursesManage.form.teacherId")}
                   value={formData.teacher_id}
                   onChange={handleChange}
-                  // when editing, teacher_id may be optional — keep not required
                   required={!editingCourse}
                 />
-                {/* multiple select: no dummy disabled option when multiple */}
                 <select
                   name="tags"
                   multiple
@@ -286,14 +276,16 @@ const CoursesManage = () => {
 
                 <div className="form-actions">
                   <button type="submit" className="btn-save">
-                    {editingCourse ? "Update" : "Create"}
+                    {editingCourse
+                      ? t("CoursesManage.buttons.update")
+                      : t("CoursesManage.buttons.create")}
                   </button>
                   <button
                     type="button"
                     className="btn-cancel"
                     onClick={() => setShowForm(false)}
                   >
-                    Cancel
+                    {t("CoursesManage.buttons.cancel")}
                   </button>
                 </div>
               </form>
@@ -305,18 +297,18 @@ const CoursesManage = () => {
 
         <div className="table-container">
           {loading ? (
-            <p>Loading courses...</p>
+            <p>{t("CoursesManage.messages.loadingCourses")}</p>
           ) : (
             <table className="courses-table">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Teacher ID</th>
-                  <th>Tags</th>
-                  <th>Actions</th>
+                  <th>{t("CoursesManage.table.id")}</th>
+                  <th>{t("CoursesManage.table.name")}</th>
+                  <th>{t("CoursesManage.table.description")}</th>
+                  <th>{t("CoursesManage.table.price")}</th>
+                  <th>{t("CoursesManage.table.teacherId")}</th>
+                  <th>{t("CoursesManage.table.tags")}</th>
+                  <th>{t("CoursesManage.table.actions")}</th>
                 </tr>
               </thead>
 
@@ -355,13 +347,13 @@ const CoursesManage = () => {
                         className="btn-edit"
                         onClick={() => handleEdit(course)}
                       >
-                        Edit
+                        {t("CoursesManage.buttons.edit")}
                       </button>
                       <button
                         className="btn-delete"
                         onClick={() => handleDelete(course.id)}
                       >
-                        Delete
+                        {t("CoursesManage.buttons.delete")}
                       </button>
                     </td>
                   </motion.tr>

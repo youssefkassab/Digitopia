@@ -1217,6 +1217,15 @@ body.dark-mode .admin-card {
   transform: scale(1.05);
 }
 
+.return-card {
+  transition: all 0.3s ease;
+  backdrop-filter: blur(12px);
+}
+
+.return_main {
+  color: #007bff;
+}
+
 /* === Responsive === */
 @media (max-width: 1100px) {
   .admin-dashboard-container {

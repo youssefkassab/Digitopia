@@ -24,20 +24,14 @@ const deleteStudent = async (req, res) => {
     const { id } = req.params;
 
     // Use sequelize.query and check affectedRows differently for DELETE
-    const [result] = await sequelize.query(
+    const [result, metadata] = await sequelize.query(
       `DELETE FROM users WHERE id = :id AND role = :role`,
       {
         replacements: { id, role: "user" },
-        type: sequelize.QueryTypes.BULKDELETE || sequelize.QueryTypes.RAW,
       }
     );
 
-    // Sequelize returns an array for RAW queries, affectedRows may not exist
-    // Instead, you can check changes for sqlite/mysql
-    if (
-      !result ||
-      (result.affectedRows !== undefined && result.affectedRows === 0)
-    ) {
+    if (!metadata || metadata.affectedRows === 0) {
       return res.status(404).json({ error: "Student not found." });
     }
 
@@ -71,16 +65,17 @@ const getTeachers = async (req, res) => {
 const deleteTeacher = async (req, res) => {
   try {
     const { id } = req.params;
-    const [result] = await sequelize.query(
+    const [result, metadata] = await sequelize.query(
       `DELETE FROM users WHERE id = :id AND role = :role`,
       {
         replacements: { id, role: "teacher" },
-        type: sequelize.QueryTypes.DELETE,
       }
     );
-    if (result.affectedRows === 0) {
+
+    if (!metadata || metadata.affectedRows === 0) {
       return res.status(404).json({ error: "Teacher not found." });
     }
+
     res.json({ message: "Teacher deleted successfully." });
   } catch (err) {
     console.error("DB error (deleteTeacher):", err);
@@ -91,7 +86,7 @@ const deleteTeacher = async (req, res) => {
 // ===== Get All Admins =====
 const getAdmins = async (req, res) => {
   try {
-    const [results] = await sequelize.query(
+    const results = await sequelize.query(
       `SELECT id, email FROM users WHERE role = :role`,
       {
         replacements: { role: "admin" },

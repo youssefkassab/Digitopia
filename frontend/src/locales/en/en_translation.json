@@ -132,9 +132,11 @@
     "home": "Home",
     "classroom": "Classroom",
     "courses": "Courses",
+    "games": "Games",
     "community": "Community",
     "aboutUs": "About Us",
-    "contactUs": "Contact Us",
+    "contactUs": "Support",
+    "questro": "Talk to Questro",
     "allRights": "All Rights Reserved"
   },
   "dashboard": {
@@ -307,5 +309,183 @@
         "desc": "Frontend and Database Developer at EduDev Experts. He specializes in building scalable web applications using Node.js, Express, and MySQL, and brings a strong foundation in artificial intelligence to enhance functionality and performance."
       }
     ]
+  }, "AdminCommunity": {
+    "pageTitle": "Community Management | 3lm Quest",
+    "comingSoon": "Coming Soon"
+  }, "Students": {
+    "pageTitle": "Students Management | 3lm Quest",
+    "heading": "Students Management",
+    "placeholders": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "nationalNumber": "National Number",
+      "grade": "Grade"
+    },
+    "buttons": {
+      "add": "Add Student",
+      "adding": "Adding...",
+      "upgrade": "Upgrade",
+      "upgrading": "Upgrading...",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    },
+    "messages": {
+      "loading": "Loading students...",
+      "noStudents": "No students found.",
+      "deleteConfirm": "Are you sure you want to delete this student?",
+      "upgradeConfirm": "Are you sure you want to upgrade this student to admin?",
+      "deleteSuccess": "Student deleted successfully.",
+      "upgradeSuccess": "Student upgraded to admin successfully.",
+      "addSuccess": "Student added successfully.",
+      "fetchError": "Failed to fetch students.",
+      "deleteError": "Failed to delete student.",
+      "upgradeError": "Failed to upgrade student.",
+      "addError": "Failed to add student."
+    },
+    "table": {
+      "id": "ID",
+      "name": "Name",
+      "email": "Email",
+      "nationalNumber": "National Number",
+      "grade": "Grade",
+      "actions": "Actions"
+    }
+  }, "Teachers": {
+    "pageTitle": "Teachers Management | 3lm Quest",
+    "heading": "Teachers Management",
+    "placeholders": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "nationalNumber": "National Number"
+    },
+    "buttons": {
+      "add": "Add Teacher",
+      "adding": "Adding...",
+      "upgrade": "Upgrade",
+      "upgrading": "Upgrading...",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    },
+    "messages": {
+      "loading": "Loading teachers...",
+      "noTeachers": "No teachers found.",
+      "deleteConfirm": "Are you sure you want to delete this teacher?",
+      "upgradeConfirm": "Are you sure you want to upgrade this teacher to admin?",
+      "deleteSuccess": "Teacher deleted successfully.",
+      "upgradeSuccess": "Teacher upgraded to admin successfully.",
+      "addSuccess": "Teacher added successfully.",
+      "fetchError": "Failed to fetch teachers.",
+      "deleteError": "Failed to delete teacher.",
+      "upgradeError": "Failed to upgrade teacher.",
+      "addError": "Failed to add teacher."
+    },
+    "table": {
+      "id": "ID",
+      "name": "Name",
+      "email": "Email",
+      "nationalNumber": "National Number",
+      "actions": "Actions"
+    }
+  },"Admins": {
+    "pageTitle": "Admins Management | 3lm Quest",
+    "heading": "Admins Management",
+    "messages": {
+      "loading": "Loading admins...",
+      "noAdmins": "No admins found.",
+      "fetchError": "Failed to fetch admins."
+    },
+    "table": {
+      "email": "Email"
+    }
+  },"CoursesManage": {
+    "pageTitle": "Admin Courses | 3lm Quest",
+    "heading": "Manage Courses",
+    "warnings": {
+      "noToken": "No admin token found in localStorage. Authentication may fail for create/update/delete actions."
+    },
+    "buttons": {
+      "addCourse": "Add New Course",
+      "create": "Create",
+      "update": "Update",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "form": {
+      "courseName": "Course Name",
+      "courseDescription": "Course Description",
+      "price": "Price",
+      "teacherId": "Teacher ID",
+      "tags": "Tags"
+    },
+    "messages": {
+      "loadingCourses": "Loading courses...",
+      "errorRequiredFields": "All fields (name, description, price, teacher ID when creating, and at least one tag) are required.",
+      "successCreate": "Course created successfully!",
+      "successUpdate": "Course updated successfully!",
+      "successDelete": "Course deleted successfully!",
+      "errorLoad": "Failed to load courses. Check server and auth token.",
+      "errorDeleteNotFound": "Course not found or already deleted.",
+      "errorDeleteInvalid": "Invalid course ID or request format.",
+      "errorDeleteFailed": "Delete failed. Please try again.",
+      "errorOperationFailed": "Operation failed."
+    },
+    "table": {
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "price": "Price",
+      "teacherId": "Teacher ID",
+      "tags": "Tags",
+      "actions": "Actions"
+    },
+    "formHeading": {
+      "add": "Add Course",
+      "edit": "Edit Course"
+    }
+  },"Messages": {
+    "pageTitle": "Messages Center | 3lm Quest",
+    "heading": "Messages Center",
+    "loading": "Loading messages...",
+    "noMessages": "No messages found.",
+    "from": "From:",
+    "message": "Message:",
+    "date": "Date:",
+    "actions": {
+      "reply": "Reply",
+      "seen": "Mark Seen",
+      "seenDone": "Seen",
+      "marking": "Marking...",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    },
+    "confirmDelete": "Are you sure you want to delete this message?"
+  },"AdminDashboard": {
+    "pageTitle": "Admin Dashboard | 3lm Quest",
+    "greeting": "Hi, {{username}} 👋",
+    "summary": "Here’s today’s summary:",
+    "refresh": "🔄 Refresh",
+    "returnMain": "Return to Main Page",
+    "stats": {
+      "students": "Students",
+      "teachers": "Teachers",
+      "admins": "Admins",
+      "courses": "Courses"
+    },
+    "latestAdded": "📌 Latest Added Today",
+    "noNewAdditions": "No new additions today.",
+    "inbox": "📩 Inbox",
+    "noMessages": "No new messages."
+  },"AdminNavbar": {
+    "admins": "Admins",
+    "teachers": "Teachers",
+    "students": "Students",
+    "community": "Community",
+    "courses": "Courses",
+    "messages": "Messages",
+    "toggleDarkMode": "Toggle dark mode",
+    "hiAdmin": "Hi, {{name}}"
   }
 }

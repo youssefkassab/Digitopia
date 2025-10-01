@@ -15,9 +15,8 @@ const Courses = () => {
   const [showForm, setShowForm] = useState(false);
 
   // Filtering / sorting state
-  const [selectedTag, setSelectedTag] = useState(
-    t("courses.sidebar.filterCourses") || "All"
-  );
+  const [selectedTag, setSelectedTag] = useState("All");
+
   const [sortOption, setSortOption] = useState("popular");
   const [priceRange, setPriceRange] = useState(1000);
 

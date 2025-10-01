@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 // Common primitives
 const idSchema = Joi.number().integer().positive().required();
@@ -16,17 +16,19 @@ const userSignupSchema = Joi.object({
   email: emailSchema,
   password: passwordSchema,
   national_number: Joi.string().min(3).max(30).required(),
-  role: Joi.string().valid('user','teacher').required(),
-  Grade: Joi.alternatives().try(
-    Joi.number().integer().min(1).max(12),
-    Joi.string().max(5),
-    Joi.any().valid(null)
-  ).optional(),
+  role: Joi.string().valid("user", "teacher").required(),
+  Grade: Joi.alternatives()
+    .try(
+      Joi.number().integer().min(1).max(12),
+      Joi.string().max(5),
+      Joi.any().valid(null)
+    )
+    .optional(),
 });
 
 const userUpgradeRoleSchema = Joi.object({
   id: Joi.number().integer().positive().required(),
-  role: Joi.string().valid('user','teacher','admin').required(),
+  role: Joi.string().valid("user", "teacher", "admin").required(),
 });
 
 // Courses
@@ -40,7 +42,14 @@ const courseCreateSchema = Joi.object({
       Joi.alternatives().try(
         Joi.number().integer().positive(),
         Joi.string().pattern(/^\d+$/),
-        Joi.object({ id: Joi.alternatives().try(Joi.number().integer().positive(), Joi.string().pattern(/^\d+$/)).required() })
+        Joi.object({
+          id: Joi.alternatives()
+            .try(
+              Joi.number().integer().positive(),
+              Joi.string().pattern(/^\d+$/)
+            )
+            .required(),
+        })
       )
     )
     .optional(),
@@ -59,16 +68,25 @@ const courseUpdateSchema = Joi.object({
       Joi.alternatives().try(
         Joi.number().integer().positive(),
         Joi.string().pattern(/^\d+$/),
-        Joi.object({ id: Joi.alternatives().try(Joi.number().integer().positive(), Joi.string().pattern(/^\d+$/)).required() })
+        Joi.object({
+          id: Joi.alternatives()
+            .try(
+              Joi.number().integer().positive(),
+              Joi.string().pattern(/^\d+$/)
+            )
+            .required(),
+        })
       )
     )
     .optional(),
-}).or('name','description','price','teacher_id','date','time','tags');
+}).or("name", "description", "price", "teacher_id", "date", "time", "tags");
 
 const courseDeleteSchema = Joi.object({ id: idSchema });
 const courseFindSchema = Joi.object({ id: idSchema });
 
-const createTagSchema = Joi.object({ name: Joi.string().min(1).max(100).required() });
+const createTagSchema = Joi.object({
+  name: Joi.string().min(1).max(100).required(),
+});
 
 // Messages
 const messageCreateSchema = Joi.object({
@@ -90,6 +108,7 @@ const messageDeleteSchema = Joi.object({
 });
 
 module.exports = {
+  idSchema,
   userLoginSchema,
   userSignupSchema,
   userUpgradeRoleSchema,

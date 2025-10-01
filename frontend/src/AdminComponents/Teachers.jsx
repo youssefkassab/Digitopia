@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import adminApi from "../AdminServices/adminApi";
 import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const Teachers = () => {
+  const { t } = useTranslation();
+
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [adding, setAdding] = useState(false);
@@ -17,7 +20,6 @@ const Teachers = () => {
     role: "teacher",
   });
 
-  // Fetch all teachers
   const fetchTeachers = async () => {
     setLoading(true);
     try {
@@ -25,7 +27,7 @@ const Teachers = () => {
       setTeachers(data);
     } catch (err) {
       console.error("Error fetching teachers:", err);
-      toast.error("Failed to fetch teachers.");
+      toast.error(t("Teachers.messages.fetchError"));
     } finally {
       setLoading(false);
     }
@@ -35,49 +37,46 @@ const Teachers = () => {
     fetchTeachers();
   }, []);
 
-  // Delete teacher
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this teacher?"))
-      return;
+    if (!window.confirm(t("Teachers.messages.deleteConfirm"))) return;
     setDeletingId(id);
     try {
       await adminApi.delete(`/admin/teachers/${id}`);
       setTeachers((prev) => prev.filter((t) => t.id !== id));
-      toast.success("Teacher deleted successfully.");
+      toast.success(t("Teachers.messages.deleteSuccess"));
     } catch (err) {
       console.error("Delete error:", err);
-      toast.error(err.response?.data?.error || "Failed to delete teacher.");
+      toast.error(
+        err.response?.data?.error || t("Teachers.messages.deleteError")
+      );
     } finally {
       setDeletingId(null);
     }
   };
 
-  // Upgrade teacher to admin
   const handleUpgrade = async (id) => {
-    if (
-      !window.confirm("Are you sure you want to upgrade this teacher to admin?")
-    )
-      return;
+    if (!window.confirm(t("Teachers.messages.upgradeConfirm"))) return;
     setUpgradingId(id);
     try {
       await adminApi.post("/users/upgradeRole", { id, role: "admin" });
       setTeachers((prev) => prev.filter((t) => t.id !== id));
-      toast.success("Teacher upgraded to admin successfully.");
+      toast.success(t("Teachers.messages.upgradeSuccess"));
     } catch (err) {
       console.error("Upgrade error:", err);
-      toast.error(err.response?.data?.error || "Failed to upgrade teacher.");
+      toast.error(
+        err.response?.data?.error || t("Teachers.messages.upgradeError")
+      );
     } finally {
       setUpgradingId(null);
     }
   };
 
-  // Add new teacher
   const handleAdd = async (e) => {
     e.preventDefault();
     setAdding(true);
     try {
       await adminApi.post("/users/signup", newTeacher);
-      toast.success("Teacher added successfully.");
+      toast.success(t("Teachers.messages.addSuccess"));
       setNewTeacher({
         name: "",
         email: "",
@@ -88,7 +87,7 @@ const Teachers = () => {
       fetchTeachers();
     } catch (err) {
       console.error("Add error:", err);
-      toast.error(err.response?.data?.error || "Failed to add teacher.");
+      toast.error(err.response?.data?.error || t("Teachers.messages.addError"));
     } finally {
       setAdding(false);
     }
@@ -96,13 +95,13 @@ const Teachers = () => {
 
   return (
     <div className="students-container">
-      <h2>Teachers Management</h2>
+      <h2>{t("Teachers.heading")}</h2>
 
       {/* Add Teacher Form */}
       <form className="add-student-form" onSubmit={handleAdd}>
         <input
           type="text"
-          placeholder="Name"
+          placeholder={t("Teachers.placeholders.name")}
           value={newTeacher.name}
           onChange={(e) =>
             setNewTeacher({ ...newTeacher, name: e.target.value })
@@ -111,7 +110,7 @@ const Teachers = () => {
         />
         <input
           type="email"
-          placeholder="Email"
+          placeholder={t("Teachers.placeholders.email")}
           value={newTeacher.email}
           onChange={(e) =>
             setNewTeacher({ ...newTeacher, email: e.target.value })
@@ -120,7 +119,7 @@ const Teachers = () => {
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder={t("Teachers.placeholders.password")}
           value={newTeacher.password}
           onChange={(e) =>
             setNewTeacher({ ...newTeacher, password: e.target.value })
@@ -129,7 +128,7 @@ const Teachers = () => {
         />
         <input
           type="text"
-          placeholder="National Number"
+          placeholder={t("Teachers.placeholders.nationalNumber")}
           value={newTeacher.national_number}
           onChange={(e) =>
             setNewTeacher({ ...newTeacher, national_number: e.target.value })
@@ -137,23 +136,25 @@ const Teachers = () => {
           required
         />
         <button type="submit" disabled={adding}>
-          {adding ? "Adding..." : "Add Teacher"}
+          {adding ? t("Teachers.buttons.adding") : t("Teachers.buttons.add")}
         </button>
       </form>
 
       {loading ? (
-        <p style={{ textAlign: "center" }}>Loading teachers...</p>
+        <p style={{ textAlign: "center" }}>{t("Teachers.messages.loading")}</p>
       ) : teachers.length === 0 ? (
-        <p style={{ textAlign: "center" }}>No teachers found.</p>
+        <p style={{ textAlign: "center" }}>
+          {t("Teachers.messages.noTeachers")}
+        </p>
       ) : (
         <table className="students-table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>National Number</th>
-              <th>Actions</th>
+              <th>{t("Teachers.table.id")}</th>
+              <th>{t("Teachers.table.name")}</th>
+              <th>{t("Teachers.table.email")}</th>
+              <th>{t("Teachers.table.nationalNumber")}</th>
+              <th>{t("Teachers.table.actions")}</th>
             </tr>
           </thead>
           <tbody>
@@ -169,14 +170,18 @@ const Teachers = () => {
                     disabled={upgradingId === teacher.id}
                     className="upgrade"
                   >
-                    {upgradingId === teacher.id ? "Upgrading..." : "Upgrade"}
+                    {upgradingId === teacher.id
+                      ? t("Teachers.buttons.upgrading")
+                      : t("Teachers.buttons.upgrade")}
                   </button>
                   <button
                     onClick={() => handleDelete(teacher.id)}
                     disabled={deletingId === teacher.id}
                     className="delete"
                   >
-                    {deletingId === teacher.id ? "Deleting..." : "Delete"}
+                    {deletingId === teacher.id
+                      ? t("Teachers.buttons.deleting")
+                      : t("Teachers.buttons.delete")}
                   </button>
                 </td>
               </tr>

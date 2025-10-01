@@ -48,28 +48,38 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/Classroom" className="hover:underline">
+                <Link to="/classroom" className="hover:underline">
                   {t("footer.classroom")}
                 </Link>
               </li>
               <li>
-                <Link to="/Courses" className="hover:underline">
+                <Link to="/courses" className="hover:underline">
                   {t("footer.courses")}
                 </Link>
               </li>
               <li>
-                <Link to="/Community" className="hover:underline">
+                <Link to="/games" className="hover:underline">
+                  {t("footer.games")}
+                </Link>
+              </li>
+              <li>
+                <Link to="/community" className="hover:underline">
                   {t("footer.community")}
                 </Link>
               </li>
               <li>
-                <Link to="/About" className="hover:underline">
+                <Link to="/about" className="hover:underline">
                   {t("footer.aboutUs")}
                 </Link>
               </li>
               <li>
-                <Link to="/Contact" className="hover:underline">
+                <Link to="/support" className="hover:underline">
                   {t("footer.contactUs")}
+                </Link>
+              </li>
+              <li>
+                <Link to="/questro" className="hover:underline">
+                  {t("footer.questro")}
                 </Link>
               </li>
             </ul>

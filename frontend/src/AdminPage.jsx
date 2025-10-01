@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import AdminNavbar from "./AdminComponents/AdminNavbar";
 import Footer from "./components/Footer";
 import AdminDashboard from "./AdminComponents/AdminDashboard";
@@ -12,6 +13,8 @@ import AdminCommunity from "./AdminComponents/AdminCommunity";
 import Admins from "./AdminComponents/Admins";
 import AdminProtectedRoute from "./AdminServices/AdminProtectedRoute";
 import "./AdminPage.css";
+import "./i18n";
+import { useEffect } from "react";
 
 function AdminRoutes() {
   const location = useLocation();
@@ -86,10 +89,20 @@ function AdminRoutes() {
 }
 
 export default function AdminPage() {
+  const { t, i18n } = useTranslation(); // get translation + i18n instance
+
+  // Handle language and direction
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  }, [i18n.language]);
+
   return (
     <div className="app-wrapper">
       <Helmet>
-        <title>Admin Panel | 3lm Quest</title>
+        <title>
+          {t("AdminDashboard.pageTitle", "Admin Panel | 3lm Quest")}
+        </title>
       </Helmet>
 
       <AdminNavbar />

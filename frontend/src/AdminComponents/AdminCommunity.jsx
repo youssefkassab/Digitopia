@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 const AdminCommunity = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <Helmet>
-        <title>Community Management | 3lm Quest</title>
+        <title>{t("AdminCommunity.pageTitle")}</title>
       </Helmet>
       <motion.div
         className="page-container"
@@ -16,7 +19,7 @@ const AdminCommunity = () => {
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         <div className="card">
-          <h1>Coming Soon</h1>
+          <h1>{t("AdminCommunity.comingSoon")}</h1>
         </div>
       </motion.div>
     </>
