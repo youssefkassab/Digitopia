@@ -1,5 +1,6 @@
 const { connectDB } = require("../utils/db");
 const { AI_DB_NAME, AI_COLLECTION_NAME } = require("../config/config");
+const logger = require("../utils/logger");
 
 async function uploadJsonData(grade, subject, term, fileData, replace = false) {
   try {
@@ -7,7 +8,7 @@ async function uploadJsonData(grade, subject, term, fileData, replace = false) {
 
     if (replace) {
       await collection.deleteMany({ subject, grade, term });
-      console.log(`Removed old docs for subject: ${subject}, grade: ${grade}, term: ${term}`);
+      logger.info(`Removed old docs for subject: ${subject}, grade: ${grade}, term: ${term}`);
     }
 
     const jsonData = JSON.parse(fileData);
@@ -22,14 +23,14 @@ async function uploadJsonData(grade, subject, term, fileData, replace = false) {
 
     if (docsWithMeta.length > 0) {
       await collection.insertMany(docsWithMeta);
-      console.log(
+      logger.info(
         `Inserted ${docsWithMeta.length} docs for subject: ${subject}, grade: ${grade}, term: ${term}`
       );
     } else {
-      console.log("No documents to insert");
+      logger.info("No documents to insert");
     }
   } catch (err) {
-    console.error("Error uploading JSON data:", err.message);
+    logger.error("Error uploading JSON data:", { error: err.message, stack: err.stack });
     throw err;
   }
 }

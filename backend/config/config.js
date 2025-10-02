@@ -1,7 +1,7 @@
 require('dotenv').config();
 // Environment variables are loaded in app.js
 if (!process.env.JWT_SECRET) {
-  console.error('FATAL: JWT_SECRET is not set');
+  console.error('FATAL: JWT_SECRET is not set in .env file');
   process.exit(1);
 }
 const JWT_SECRET = process.env.JWT_SECRET ;

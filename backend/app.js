@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-// Removed unused bodyParser and fileUpload imports
 const userRoutes = require('./router/user.router');
 const courseRoutes = require('./router/course.router');
 const messageRoutes = require('./router/message.router');
@@ -17,8 +16,8 @@ const PORT = config.PORT;
 const helmet = require('helmet');
 const compression = require('compression');
 const hpp = require('hpp');
-const morgan = require('morgan');
 const path = require('path');
+const logger = require('./utils/logger');
 
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -26,33 +25,57 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.set('trust proxy', 1);
-app.use(cors(
-  {origin: ["http://localhost:5173","http://localhost:3000"],
-   credentials: true,
-   methods: ['GET', 'POST', 'PUT','PATCH', 'DELETE', 'OPTIONS'],
-   allowedHeaders: ['Content-Type', 'Authorization']}
-));
+
+// CORS configuration - use environment variable or default to localhost for development
+const corsOrigins = config.CORS_ORIGIN 
+  ? config.CORS_ORIGIN.split(',').map(origin => origin.trim())
+  : ["http://localhost:5173", "http://localhost:3000"];
+
+app.use(cors({
+  origin: corsOrigins,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(helmet());
 app.use(hpp());
 app.use(compression());
 app.use(express.json({ limit: '1mb' }));
-app.use(morgan(config.NODE_ENV === 'production' ? 'combined' : 'dev'));
+
+// Request logging middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  
+  // Log response after it's sent
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    const logMessage = `${req.method} ${req.originalUrl} ${res.statusCode} - ${duration}ms`;
+    
+    if (res.statusCode >= 500) {
+      logger.error(logMessage);
+    } else if (res.statusCode >= 400) {
+      logger.warn(logMessage);
+    } else {
+      logger.info(logMessage);
+    }
+  });
+  
+  next();
+});
 // Import Sequelize models to trigger DB sync and logging
 require('./db/models');
 
-// Swagger UI (dev-only by default). To disable, set ENABLE_SWAGGER=false or run in production.
-const enableSwagger = (config.NODE_ENV !== 'production') && (process.env.ENABLE_SWAGGER !== 'false');
-if (enableSwagger) {
+// Swagger UI disabled in production
+if (config.NODE_ENV !== 'production') {
   try {
-    const path = require('path');
     const swaggerUi = require('swagger-ui-express');
     const YAML = require('yamljs');
     const swaggerPath = path.join(__dirname, 'Swagger', 'openapi.yaml');
     const swaggerDocument = YAML.load(swaggerPath);
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-    console.log('Swagger UI enabled at /docs');
+    logger.info('Swagger UI enabled at /docs');
   } catch (e) {
-    console.warn('Swagger UI not enabled. Install swagger-ui-express and yamljs to enable.');
+    logger.warn('Swagger UI not enabled. Install swagger-ui-express and yamljs to enable.');
   }
 }
 
@@ -95,18 +118,44 @@ app.use("/uploadFile", uploadRoutes);
 app.use("/embedding", embeddingRoutes);
 
 
-// 404
-app.use((req, res) => res.status(404).json({ error: 'Not found' }));
-
-// Error handler
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.status || 500).json({ error: err.message || 'Internal server error' });
+// 404 handler
+app.use((req, res) => {
+  logger.logBadRequest(req, new Error('Route not found'), 404);
+  res.status(404).json({ error: 'Not found' });
 });
 
-// Also handle unhandled rejections and exceptions at process level
-process.on('unhandledRejection', (r) => console.error(r));
-process.on('uncaughtException', (e) => { console.error(e); process.exit(1); });
+// Global error handler
+app.use((err, req, res, next) => {
+  const statusCode = err.status || err.statusCode || 500;
+  
+  // Log bad requests (4xx errors) with full details
+  if (statusCode >= 400 && statusCode < 500) {
+    logger.logBadRequest(req, err, statusCode);
+  } 
+  // Log server errors (5xx errors) with full details
+  else {
+    logger.logError(req, err, statusCode);
+  }
+  
+  // Send error response
+  const errorResponse = {
+    error: err.message || 'Internal server error',
+    ...(config.NODE_ENV !== 'production' && { stack: err.stack })
+  };
+  
+  res.status(statusCode).json(errorResponse);
+});
+
+// Handle unhandled rejections and exceptions at process level
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('Unhandled Rejection at:', { promise, reason });
+});
+
+process.on('uncaughtException', (error) => {
+  logger.error('Uncaught Exception:', { error: error.message, stack: error.stack });
+  process.exit(1);
+});
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  logger.info(`Server is running on port ${PORT} in ${config.NODE_ENV} mode`);
 });

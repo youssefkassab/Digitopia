@@ -4,6 +4,7 @@ const configenv = require('../config/config');
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const logger = require('../../utils/logger');
 const basename = path.basename(__filename);
 const env = configenv.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -58,13 +59,13 @@ db.Sequelize = Sequelize;
 
 // Only sync in non-production for developer convenience
 if ((configenv.NODE_ENV || 'development') !== 'production') {
-  console.log('Starting database sync (sequelize.sync) in non-production...');
+  logger.info('Starting database sync (sequelize.sync) in non-production...');
   sequelize.sync()
     .then(() => {
-      console.log('Database & tables synced successfully!');
+      logger.info('Database & tables synced successfully!');
     })
     .catch((err) => {
-      console.error('Error syncing database:', err);
+      logger.error('Error syncing database:', { error: err.message, stack: err.stack });
     });
 }
 

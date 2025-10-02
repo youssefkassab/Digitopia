@@ -23,7 +23,7 @@ pause
 exit /b 1
 )
 
-REM Start the backend
+REM Start the backend (use 'npm start' for production, 'npm run dev' for development)
 start "Backend Server" cmd /c "npm start"
 
 REM Navigate back to the parent directory

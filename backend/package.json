@@ -5,11 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "migrate": "node -r dotenv/config node_modules/sequelize-cli/lib/sequelize db:migrate",
-    "pretest:api": "node -e \"require('fs').mkdirSync('swagger/reports',{recursive:true})\"",
-    "test:api": "newman run swagger/api_full_collection.postman_collection.json -e swagger/api_environment.postman_environment.json -r cli,htmlextra,json --reporter-htmlextra-export swagger/reports/report.html --reporter-json-export swagger/reports/report.json",
-    "test:api:admin": "newman run swagger/api_full_collection.postman_collection.json -e swagger/api_environment.postman_environment.json --folder Orchestration -r cli,htmlextra,json --reporter-htmlextra-export swagger/reports/report.html --reporter-json-export swagger/reports/report.json"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "migrate": "node -r dotenv/config node_modules/sequelize-cli/lib/sequelize db:migrate"
   },
   "repository": {
     "type": "git",
@@ -36,13 +34,13 @@
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.19.0",
-    "morgan": "^1.10.0",
     "multer": "^2.0.2",
-    "mysql": "^2.18.1",
     "mysql2": "^3.14.5",
-    "nodemon": "^3.1.10",
     "sequelize": "^6.37.7",
-    "sequelize-cli": "^6.6.3",
+    "winston": "^3.18.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"
   }
