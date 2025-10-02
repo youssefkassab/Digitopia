@@ -484,8 +484,8 @@
     "admins": "المسؤولون",
     "teachers": "المعلمون",
     "students": "الطلاب",
-    "communitytab": "المجتمع",
-    "coursestab": "الكورسات",
+    "community": "المجتمع",
+    "courses": "الكورسات",
     "messages": "الرسائل",
     "toggleDarkMode": "تبديل الوضع الليلي",
     "hiAdmin": "مرحباً، {{name}}"
