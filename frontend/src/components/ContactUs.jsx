@@ -10,6 +10,7 @@ const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 const ContactUs = () => {
   const { t } = useTranslation();
 
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
@@ -19,18 +20,18 @@ const ContactUs = () => {
 
   const messagesEndRef = useRef(null);
 
-  // ------------------ Get Best Token (Admin/User) ------------------
-  const getToken = () => {
-    return (
-      localStorage.getItem("adminToken") ||
-      localStorage.getItem("token") ||
-      null
-    );
+  // ------------------ Safe JSON parse ------------------
+  const safeJsonParse = async (res) => {
+    const text = await res.text();
+    try {
+      return JSON.parse(text);
+    } catch {
+      return text; // return raw text if not JSON
+    }
   };
 
   // ------------------ Fetch Current User ------------------
   useEffect(() => {
-    const token = getToken();
     if (!token) {
       setFeedback(t("contactUs.feedback.notLoggedIn"));
       return;
@@ -41,9 +42,14 @@ const ContactUs = () => {
         const res = await fetch(`${API_BASE}/users/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) throw new Error("Authentication failed");
 
-        const data = await res.json();
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || "Authentication failed");
+        }
+
+        const data = await safeJsonParse(res);
+        if (typeof data !== "object") throw new Error("Invalid user data");
         setUser(data);
       } catch (err) {
         console.error("User Fetch Error:", err);
@@ -52,41 +58,40 @@ const ContactUs = () => {
     };
 
     fetchUser();
-  }, [t]);
+  }, [token, t]);
 
   // ------------------ Fetch Messages ------------------
   const fetchMessages = async () => {
     if (!user) return;
 
     try {
-      const token = getToken();
-      if (!token) return setFeedback(t("contactUs.feedback.notLoggedIn"));
-
       const endpoint =
-        user.role === "admin"
-          ? `${API_BASE}/messages/receiveAll`
-          : `${API_BASE}/messages/MyMessages`;
+        user.role.toLowerCase() === "admin"
+          ? `${API_BASE}/messages/MyMessages`
+          : `${API_BASE}/messages/MyMessages`; // adjust for user endpoint if needed
 
       const res = await fetch(endpoint, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (!res.ok) throw new Error("Failed to fetch messages");
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to fetch messages");
+      }
 
-      const data = await res.json();
+      const data = await safeJsonParse(res);
       if (!Array.isArray(data)) throw new Error("Unexpected server response");
 
-      const normalized = data.map((msg, index) => ({
-        id: msg.id ?? index,
-        sender: msg.sender ?? "unknown",
-        content: msg.content ?? "",
-        seen: msg.seen ?? 0,
-        message_time: msg.message_time ?? msg.message_date ?? null,
-      }));
+      setMessages(
+        data.map((msg, index) => ({
+          id: msg.id ?? index,
+          sender: msg.sender ?? "unknown",
+          content: msg.content ?? "",
+          seen: msg.seen ?? 0,
+          message_time: msg.message_time ?? msg.message_date ?? null,
+        }))
+      );
 
-      setMessages(normalized);
-
-      // Scroll to bottom after fetching
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     } catch (err) {
       console.error("Message Fetch Error:", err);
@@ -94,18 +99,19 @@ const ContactUs = () => {
     }
   };
 
+  useEffect(() => {
+    if (user) fetchMessages();
+  }, [user]);
+
   // ------------------ Handle Send ------------------
   const handleSend = async (e) => {
     e.preventDefault();
-
     if (!content.trim())
       return setFeedback(t("contactUs.feedback.writeMessage"));
     if (!canSend) return setFeedback(t("contactUs.feedback.waitBeforeSend"));
     if (!user?.email) return setFeedback(t("contactUs.feedback.notLoggedIn"));
     if (content.length > 5000)
       return setFeedback("Message too long (max 5000 chars)");
-
-    const token = getToken();
     if (!token) return setFeedback(t("contactUs.feedback.notLoggedIn"));
 
     setCanSend(false);
@@ -126,23 +132,14 @@ const ContactUs = () => {
         }),
       });
 
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        throw new Error(text || "Invalid server response");
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to send message");
       }
 
-      if (res.status === 429) throw new Error(t("contactUs.feedback.tooFast"));
-      if (res.status === 400) throw new Error(data.error || "Bad request");
-      if (!res.ok)
-        throw new Error(data.error || t("contactUs.feedback.sendFail"));
-
+      const data = await safeJsonParse(res);
       setContent("");
       setFeedback(t("contactUs.feedback.sendSuccess"));
-
-      // Immediately refresh messages after sending
       await fetchMessages();
     } catch (err) {
       console.error("Send Error:", err);
@@ -157,8 +154,6 @@ const ContactUs = () => {
     if (id === undefined || id === null)
       return setFeedback(t("contactUs.feedback.invalidId"));
     if (!window.confirm(t("contactUs.chat.deleteMessage"))) return;
-
-    const token = getToken();
     if (!token) return setFeedback(t("contactUs.feedback.notLoggedIn"));
 
     try {
@@ -171,10 +166,12 @@ const ContactUs = () => {
         body: JSON.stringify({ id }),
       });
 
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || t("contactUs.feedback.deleteFail"));
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || t("contactUs.feedback.deleteFail"));
+      }
 
+      const data = await safeJsonParse(res);
       setMessages((prev) => prev.filter((msg) => msg.id !== id));
       setFeedback(t("contactUs.feedback.deleteSuccess"));
       setTimeout(fetchMessages, 400);
@@ -301,7 +298,7 @@ const ContactUs = () => {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
-                maxLength={5000} // ✅ schema-compliant
+                maxLength={5000}
               />
               <motion.button
                 type="submit"
