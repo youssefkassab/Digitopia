@@ -10,22 +10,26 @@ import card2anim from "../assets/Vids/Gamepad-anim-Light.mp4";
 import card2animdark from "../assets/Vids/Gamepad-anim-Dark.mp4";
 import card3anim from "../assets/Vids/Target-anim-Light.mp4";
 import card3animdark from "../assets/Vids/Target-anim-Dark.mp4";
+import questropromo from "../assets/Vids/Questro_Promo.mp4";
 
 const Banner1 = () => {
   const { t } = useTranslation();
 
+  // shared container animation props — kept identical for both banners
+  const containerAnim = {
+    initial: { opacity: 0, y: 100, scale: 0.9, rotateX: -15 },
+    whileInView: { opacity: 1, y: 0, scale: 1, rotateX: 0 },
+    viewport: { once: true, amount: 0.3 },
+    transition: {
+      duration: 0.9,
+      ease: [0.25, 0.8, 0.25, 1], // smooth cubic bezier
+    },
+  };
+
   return (
     <>
-      <div
-        className="banner-container"
-        initial={{ opacity: 0, y: 100, scale: 0.9, rotateX: -15 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{
-          duration: 0.9,
-          ease: [0.25, 0.8, 0.25, 1], // smooth cubic bezier
-        }}
-      >
+      {/* First banner (original) */}
+      <motion.div className="banner-container" {...containerAnim}>
         <video
           className="banner-video"
           src={playlearnanim}
@@ -34,7 +38,23 @@ const Banner1 = () => {
           muted
           playsInline
         />
-      </div>
+      </motion.div>
+
+      {/* Second banner — identical to the first, directly below it */}
+      <motion.div
+        className="banner-container"
+        {...containerAnim}
+        style={{ marginTop: "2rem" }}
+      >
+        <video
+          className="banner-video"
+          src={questropromo}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      </motion.div>
 
       <h1 className="phases-title">{t("banner1.learningPhases")}</h1>
 

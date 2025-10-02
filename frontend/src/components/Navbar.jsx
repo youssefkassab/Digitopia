@@ -8,6 +8,7 @@ import { FiSun, FiMoon } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { searchQuery } from "../services/searchService";
 import { useTranslation } from "react-i18next";
+import { FiMenu, FiX } from "react-icons/fi";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ const Navbar = () => {
   const [showSearchOverlay, setShowSearchOverlay] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // === THEME TOGGLE ===
   useEffect(() => {
@@ -145,7 +147,19 @@ const Navbar = () => {
           />
         </Link>
 
-        <ul className="nav-bar">
+        {/* === Hamburger (visible only on small devices) === */}
+        <button
+          className={`glass-btn round-btn hamburger-btn ${
+            menuOpen ? "active" : ""
+          }`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+        </button>
+
+        {/* === Nav Links === */}
+        <ul className={`nav-bar ${menuOpen ? "open" : ""}`}>
           {[
             { to: "/classroom", label: t("navbar.links.classroom") },
             { to: "/courses", label: t("navbar.links.courses") },
@@ -160,6 +174,7 @@ const Navbar = () => {
                 to={to}
                 className={location.pathname === to ? "active" : ""}
                 id="nav-tabs"
+                onClick={() => setMenuOpen(false)} // close menu on click
               >
                 {label}
               </Link>
@@ -191,16 +206,11 @@ const Navbar = () => {
               <motion.button
                 className="glass-btn round-btn profile-btn"
                 onClick={() => navigate("/Dashboard")}
-                title={t("navbar.userProfile", {
-                  name: user.name,
-                  role: user.role,
-                })}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <FaUserCircle size={22} />
               </motion.button>
-
               <motion.button
                 className="glass-btn logout-btn"
                 onClick={handleLogout}
