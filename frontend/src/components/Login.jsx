@@ -47,11 +47,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validations.every((fn) => fn())) {
-      setError(t("login.errors.fixErrors"));
-      return;
-    }
-
     setLoading(true);
     try {
       const res = await login(formData.email, formData.password);

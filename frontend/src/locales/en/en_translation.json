@@ -64,7 +64,6 @@
     },
     "errors": {
       "invalidStep": "Invalid {{field}}",
-      "fixErrors": "Please fix the errors before logging in.",
       "loginFailed": "Login failed. Please try again."
     },
     "links": {
