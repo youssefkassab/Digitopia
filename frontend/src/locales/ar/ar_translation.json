@@ -65,7 +65,6 @@
     },
     "errors": {
       "invalidStep": "{{field}} غير صالح",
-      "fixErrors": "يرجى تصحيح الأخطاء قبل تسجيل الدخول.",
       "loginFailed": "فشل تسجيل الدخول. حاول مرة أخرى."
     },
     "links": {
@@ -192,7 +191,7 @@
     }
   },
   "contactUs": {
-    "pageTitle": "اتصل بنا | علم كويست",
+    "pageTitle": "الدعم | علم كويست",
     "heading": "تحتاج مساعدة؟ تحدث مع الدعم",
     "chat": {
       "supportChat": "دردشة الدعم",
@@ -484,8 +483,8 @@
     "admins": "المسؤولون",
     "teachers": "المعلمون",
     "students": "الطلاب",
-    "communitytab": "المجتمع",
-    "coursestab": "الكورسات",
+    "community": "المجتمع",
+    "courses": "الكورسات",
     "messages": "الرسائل",
     "toggleDarkMode": "تبديل الوضع الليلي",
     "hiAdmin": "مرحباً، {{name}}"

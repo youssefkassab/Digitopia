@@ -64,7 +64,6 @@
     },
     "errors": {
       "invalidStep": "Invalid {{field}}",
-      "fixErrors": "Please fix the errors before logging in.",
       "loginFailed": "Login failed. Please try again."
     },
     "links": {
@@ -191,7 +190,7 @@
     }
   },
   "contactUs": {
-    "pageTitle": "Contact Us | 3lm Quest",
+    "pageTitle": "Support | 3lm Quest",
     "heading": "Need Help? Chat with Our Support",
     "chat": {
       "supportChat": "Support Chat",

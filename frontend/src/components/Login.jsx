@@ -47,11 +47,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validations.every((fn) => fn())) {
-      setError(t("login.errors.fixErrors"));
-      return;
-    }
-
     setLoading(true);
     try {
       const res = await login(formData.email, formData.password);
@@ -188,7 +183,7 @@ const Login = () => {
             </div>
           </form>
 
-          <p className="login-link">
+          <p className="LoginLink">
             {t("login.links.signup").split("?")[0]}?{" "}
             <Link to="/signup">{t("login.links.signup").split("? ")[1]}</Link>
           </p>
