@@ -172,7 +172,7 @@ const Games = () => {
                   {t("games.noGamesFound")}
                 </span>
               ) : (
-                t("games.showingGames", { count: filteredGames.length })
+                `Showing ${filteredGames.length} game${filteredGames.length !== 1 ? 's' : ''}`
               )}
             </p>
           </div>

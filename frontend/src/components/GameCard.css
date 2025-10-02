@@ -1,0 +1,15 @@
+/* Game Card Vertical Layout Fix */
+.game-card {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  align-items: stretch !important;
+}
+
+.game-card .game-image-container {
+  display: block !important;
+}
+
+.game-card .game-info {
+  display: block !important;
+}

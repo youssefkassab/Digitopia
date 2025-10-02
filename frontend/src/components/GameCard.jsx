@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import "./GameCard.css";
 
 const GameCard = ({ game, onPlay }) => {
   const { t } = useTranslation();
