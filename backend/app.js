@@ -106,6 +106,11 @@ app.use(['/games'], (req, res, next) => {
 // Serve static files from public directory
 app.use('/games', express.static(path.join(__dirname, 'public/games')));
 app.use('/img', express.static(path.join(__dirname, 'public/img')));
+
+// Serve frontend static files (after build)
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// API routes
 app.use('/api/users',userRoutes);
 app.use('/api/courses',courseRoutes);
 app.use('/api/messages',messageRoutes);
@@ -118,7 +123,26 @@ app.use("/uploadFile", uploadRoutes);
 app.use("/embedding", embeddingRoutes);
 
 
-// 404 handler
+// Serve frontend for all non-API routes (SPA support)
+app.get('*', (req, res, next) => {
+  // Skip if it's an API route
+  if (req.path.startsWith('/api') || req.path.startsWith('/ask') || 
+      req.path.startsWith('/search') || req.path.startsWith('/genrateStructure') || 
+      req.path.startsWith('/uploadFile') || req.path.startsWith('/embedding') ||
+      req.path.startsWith('/games') || req.path.startsWith('/img')) {
+    return next();
+  }
+  
+  // Serve index.html for all other routes (React Router support)
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'), (err) => {
+    if (err) {
+      logger.error('Error serving index.html:', { error: err.message });
+      res.status(404).json({ error: 'Frontend not found. Please build the frontend first.' });
+    }
+  });
+});
+
+// 404 handler for API routes
 app.use((req, res) => {
   logger.logBadRequest(req, new Error('Route not found'), 404);
   res.status(404).json({ error: 'Not found' });
