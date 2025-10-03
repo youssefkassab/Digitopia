@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "migrate": "node -r dotenv/config node_modules/sequelize-cli/lib/sequelize db:migrate"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",

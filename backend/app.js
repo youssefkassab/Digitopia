@@ -96,7 +96,7 @@ app.use(['/games'], (req, res, next) => {
     "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
     "style-src 'self' 'unsafe-inline'; " +
     "img-src 'self' data: https:; " +
-    "connect-src 'self'; " +
+    "connect-src 'self' https://hemmx.ai:3001; " +
     "font-src 'self'; " +
     "object-src 'none'; " +
     "media-src 'self'; " +
@@ -132,23 +132,24 @@ app.use("/embedding", embeddingRoutes);
 
 
 // Serve frontend for all non-API routes (SPA support)
-// app.get('*', (req, res, next) => {
-//   // Skip if it's an API route
-//   if (req.path.startsWith('/api') || req.path.startsWith('/ask') || 
-//       req.path.startsWith('/search') || req.path.startsWith('/genrateStructure') || 
-//       req.path.startsWith('/uploadFile') || req.path.startsWith('/embedding') ||
-//       req.path.startsWith('/games') || req.path.startsWith('/img')) {
-//     return next();
-//   }
-  
-//   // Serve index.html for all other routes (React Router support)
-//   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'), (err) => {
-//     if (err) {
-//       logger.error('Error serving index.html:', { error: err.message });
-//       res.status(404).json({ error: 'Frontend not found. Please build the frontend first.' });
-//     }
-//   });
-// });
+app.get('*', (req, res, next) => {
+  // Skip if it's an API route or static file route
+  if (req.path.startsWith('/api') || req.path.startsWith('/ask') ||
+      req.path.startsWith('/search') || req.path.startsWith('/genrateStructure') ||
+      req.path.startsWith('/uploadFile') || req.path.startsWith('/embedding') ||
+      req.path.startsWith('/games') || req.path.startsWith('/img')) {
+    return next();
+  }
+
+  // Serve index.html for all other routes (React Router support)
+  const indexPath = path.join(__dirname, '../frontend/dist/index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      logger.error('Error serving index.html:', { error: err.message });
+      res.status(404).json({ error: 'Frontend not found. Please build the frontend first.' });
+    }
+  });
+});
 
 // 404 handler for API routes
 app.use((req, res) => {
@@ -188,7 +189,7 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT} in ${config.NODE_ENV} mode`);
 }).on('error', (err) => {
   console.error('Failed to start server:', err);
