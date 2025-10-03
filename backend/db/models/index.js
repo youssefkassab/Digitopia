@@ -63,6 +63,7 @@ if ((configenv.NODE_ENV || 'development') !== 'production') {
   sequelize.sync()
     .then(() => {
       logger.info('Database & tables synced successfully!');
+      console.log('Database & tables synced successfully!');
     })
     .catch((err) => {
       logger.error('Error syncing database:', { error: err.message, stack: err.stack });
