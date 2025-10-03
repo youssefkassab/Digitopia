@@ -125,27 +125,41 @@ const Signup = () => {
       thirteenth,
       fourteenth,
     ] = digits;
+
+    const secondThird = second * 10 + third;
     const fourthFifth = fourth * 10 + fifth;
     const sixthSeventh = sixth * 10 + seventh;
     const eighthNinth = eighth * 10 + ninth;
-    const thirdFourth = third * 10 + fourth;
 
-    if (first !== 2 && first !== 3) return invalid();
-    if (second > 3) return invalid();
-    if (
-      (formData.role === "student" && third < 5) ||
-      (formData.role === "teacher" && third > 6)
-    )
+    // === Role-based validation ===
+    if (formData.role === "student") {
+      // Students: first must be 3, and second+third ≥ 06
+      if (first !== 3) return invalid();
+      if (secondThird < 6) return invalid();
+    } else if (formData.role === "teacher") {
+      // Teachers: first can be 2, or 3 with second+third ≤ 06
+      if (first !== 2 && first !== 3) return invalid();
+      if (first === 3 && secondThird > 6) return invalid();
+    } else {
       return invalid();
-    if (fourthFifth > 12 || fourthFifth === 0) return invalid();
-    if (sixthSeventh === 0 || sixthSeventh > 31) return invalid();
-    if ([4, 6, 9, 11].includes(fourthFifth) && sixthSeventh > 30)
-      return invalid();
-    if (fourthFifth === 2 && sixthSeventh > 29) return invalid();
-    if (thirdFourth === 0) return invalid();
-    if (!((eighthNinth <= 35 && eighthNinth !== 0) || eighthNinth === 88))
-      return invalid();
-    if (eighth === 0) return invalid();
+    }
+
+    // === Stable shared rules ===
+
+    // (4th,5th) together must be ≤ 12, OR else follow detailed month/day logic
+    if (fourthFifth > 12) return invalid();
+
+    // If fourth = 0, fifth ≤ 9
+    if (fourth === 0 && fifth > 9) return invalid();
+
+    // If fourth = 1, fifth ≤ 2
+    if (fourth === 1 && fifth > 2) return invalid();
+
+    // (6th,7th) ≤ 31
+    if (sixthSeventh < 1 || sixthSeventh > 31) return invalid();
+
+    // (8th,9th) ≤ 35 or == 88
+    if (!(eighthNinth <= 35 || eighthNinth === 88)) return invalid();
 
     return true;
 
