@@ -3985,7 +3985,7 @@ footer {
 }
 
 .join-now-btn {
-  margin-top: 20px;
+  margin: 20px auto 50px auto;
   padding: 10px;
   width: 150px;
   font-size: 1.2rem;
@@ -3996,8 +3996,7 @@ footer {
   color: white;
   cursor: pointer;
   transition: transform 0.3s ease;
-  margin-bottom: 50px;
-  margin-left: 500px;
+  display: block;
 }
 
 .join-now-btn:hover {
