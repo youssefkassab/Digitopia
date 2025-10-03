@@ -274,7 +274,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Markdown from "markdown-to-jsx";
 import { v4 as uuidv4 } from "uuid";
-import "./AIPage.css";
+import "./AIpage.css";
 
 export default function AIChatPage() {
   const [currentUser, setCurrentUser] = useState(null);
