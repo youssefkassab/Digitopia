@@ -89,7 +89,7 @@ if (config.NODE_ENV !== 'production') {
 
 //main api
 // Middleware to set proper headers for game content
-app.use(['/games'], (req, res, next) => {
+app.use('/games', (req, res, next) => {
   // Set CSP headers to allow game content
   res.setHeader('Content-Security-Policy',
     "default-src 'self'; " +
