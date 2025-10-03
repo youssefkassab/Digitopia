@@ -34,7 +34,7 @@ const Signup = () => {
   const passwordStrengthLabels = t("signup.passwordStrength", {
     returnObjects: true,
   });
-  const loginLinkText = t("signup.loginLink");
+  // const loginLinkText = t("signup.loginLink");
 
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -468,12 +468,12 @@ const Signup = () => {
               )}
             </div>
           </form>
-
           <p className="login-link">
-            {loginLinkText.replace("Login here", "")}
-            <Link to="/login" className="LoginLink">
-              Login here
-            </Link>
+          {t("signup.loginLink").split(/[|]/)[0]}
+          {" "}
+          <Link to="/login" className="LoginLink">
+            {t("signup.loginLink").split(/[|]/)[1]}
+          </Link>
           </p>
         </div>
       </motion.div>

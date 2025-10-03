@@ -23,7 +23,7 @@
       "createAccount": "Create Account",
       "creating": "Creating..."
     },
-    "loginLink": "Already have an account? Login here",
+    "loginLink": "Already have an account?| Login here",
     "errors": {
       "fullNameWords": "Your full name must have 4 words.",
       "fullNameLetters": "Name should only contain alphabetic characters.",
@@ -67,7 +67,7 @@
       "loginFailed": "Login failed. Please try again."
     },
     "links": {
-      "signup": "Don’t have an account? Sign up here"
+      "signup": "Don’t have an account?| Sign up here"
     }
   },
   "posterSlider": {
