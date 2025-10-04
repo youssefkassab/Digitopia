@@ -45,17 +45,17 @@ module.exports = {
       },
       sentAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW"),
+        defaultValue: Sequelize.literal('(NOW())'),
       },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.fn("NOW"),
+        defaultValue: Sequelize.literal('(NOW())'),
       },
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.fn("NOW"),
+        defaultValue: Sequelize.literal('(NOW())'),
       },
     });
   },
