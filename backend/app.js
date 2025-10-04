@@ -38,14 +38,24 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Custom CSP configuration for API access
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "connect-src": ["'self'", "https://hemex.ai"],
+      "connect-src": [
+        "'self'",
+        "https://hemex.ai",
+        "http://localhost:3001",
+        "https://3lm-quest.hemex.ai"
+      ],
+      "frame-ancestors": ["'self'", "https://3lm-quest.hemex.ai"],
     },
   },
+  crossOriginEmbedderPolicy: false, // Disable if causing issues
 }));
+
 app.use(hpp());
 app.use(compression());
 app.use(express.json({ limit: '1mb' }));
@@ -70,48 +80,7 @@ app.use((req, res, next) => {
   
   next();
 });
-// Import Sequelize models to trigger DB sync and logging
-require('./db/models');
 
-// Swagger UI disabled in production
-if (config.NODE_ENV !== 'production') {
-  try {
-    const swaggerUi = require('swagger-ui-express');
-    const YAML = require('yamljs');
-    const swaggerPath = path.join(__dirname, 'Swagger', 'openapi.yaml');
-    const swaggerDocument = YAML.load(swaggerPath);
-    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-    logger.info('Swagger UI enabled at /docs');
-  } catch (e) {
-    logger.warn('Swagger UI not enabled. Install swagger-ui-express and yamljs to enable.');
-  }
-}
-
-//main api
-// Middleware to set proper headers for game content
-app.use('/games', (req, res, next) => {
-  // Set CSP headers to allow game content
-  res.setHeader('Content-Security-Policy',
-    "default-src 'self'; " +
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
-    "style-src 'self' 'unsafe-inline'; " +
-    "img-src 'self' data: https:; " +
-    "connect-src 'self' https://hemex.ai; " +
-    "font-src 'self'; " +
-    "object-src 'none'; " +
-    "media-src 'self'; " +
-    "frame-src 'self';"
-  );
-
-  // Set other security headers
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'ALLOWALL');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-
-  next();
-});
-
-// Serve static files from public directory
 app.use('/games', express.static(path.join(__dirname, 'public/games')));
 app.use('/img', express.static(path.join(__dirname, 'public/img')));
 
