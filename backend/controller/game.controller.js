@@ -1,5 +1,6 @@
 const { Game } = require('../db/models');
 const path = require('path');
+const logger = require('../utils/logger');
 
 const add = (req, res) => {
   try {
@@ -23,6 +24,7 @@ const add = (req, res) => {
     if (!req.body.name) {
       return res.status(400).json({ error: 'Game name is required' });
     }
+
     // Create game using Sequelize model
     Game.create({
       name: req.body.name,
@@ -118,7 +120,7 @@ const update = (req, res) => {
           // Old path is now just filename, so construct full path for deletion
           const oldImgFile = path.join(__dirname, '../public/img', oldImgPath);
           deletePromises.push(
-            fs.unlink(oldImgFile).catch(err => console.log('Failed to delete old image:', err.message))
+            fs.unlink(oldImgFile).catch(err => logger.warn('Failed to delete old image:', { error: err.message }))
           );
         }
 
@@ -126,7 +128,7 @@ const update = (req, res) => {
           // Old path is now just filename, so construct full path for deletion
           const oldGameFile = path.join(__dirname, '../public/games', oldGamePath);
           deletePromises.push(
-            fs.unlink(oldGameFile).catch(err => console.log('Failed to delete old game:', err.message))
+            fs.unlink(oldGameFile).catch(err => logger.warn('Failed to delete old game:', { error: err.message }))
           );
         }
 

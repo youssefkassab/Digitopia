@@ -5,7 +5,12 @@ module.exports = (sequelize, DataTypes) => {
   class Course extends Model {
     static associate(models) {
       // A course belongs to one teacher (user)
-      Course.belongsTo(models.User, { foreignKey: 'teacher_id', as: 'teacher' });
+      Course.belongsTo(models.User, {
+        foreignKey: 'teacher_id',
+        as: 'teacher',
+        onDelete: 'SET NULL', // Keep courses if teacher is deleted
+        onUpdate: 'CASCADE'
+      });
 
       // Many-to-Many: courses <-> users (students)
       Course.belongsToMany(models.User, {
@@ -36,10 +41,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     description: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     price: {
-      type: DataTypes.DECIMAL(10, 2)
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+      defaultValue: 0.00
     },
     date: {
       type: DataTypes.DATEONLY,
@@ -50,12 +58,39 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     teacher_id: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: true, // Allow courses without assigned teachers initially
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+    },
+    max_students: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 30 // Reasonable default for course capacity
+    },
+    status: {
+      type: DataTypes.ENUM('active', 'inactive', 'completed'),
+      allowNull: false,
+      defaultValue: 'active'
     }
   }, {
     sequelize,
     modelName: 'Course',
-    tableName: 'courses'
+    tableName: 'courses',
+    timestamps: true,
+    indexes: [
+      {
+        fields: ['teacher_id'], // Optimize queries by teacher
+      },
+      {
+        fields: ['date', 'time'], // Optimize scheduling queries
+      },
+      {
+        fields: ['status'], // Optimize active course queries
+      }
+    ]
   });
 
   return Course;

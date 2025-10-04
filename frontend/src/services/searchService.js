@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SEARCH_BASE_URL = "http://localhost:3000"; // backend base URL (no /api prefix)
+const SEARCH_BASE_URL = "http://localhost:3001"; // backend base URL (no /api prefix)
 
 /**
  * Sends a search query to the backend search route.

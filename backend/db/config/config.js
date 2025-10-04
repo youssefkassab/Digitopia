@@ -1,12 +1,16 @@
-const config = require('../../config/config');
+'use strict';
+
+// CRITICAL FIX: This loads environment variables from your .env file 
+// directly into the process.env object, making them accessible to the CLI.
+require('dotenv').config();
 
 module.exports = {
   "development": {
-    "username": config.DB_USER || "root",
-    "password": config.DB_PASSWORD || "",
-    "database": config.DB_NAME || "digitopia",
-    "host": config.DB_HOST || "localhost",
-    "dialect": "mysql",
+    "username": process.env.DB_USER ,
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.DB_NAME,
+    "host": process.env.DB_HOST || "localhost",
+    "dialect": "mysql", // Essential property that must be defined
     "timezone": "+02:00",
     "dialectOptions": {
       "charset": "utf8mb4"
@@ -17,10 +21,10 @@ module.exports = {
     }
   },
   "test": {
-    "username": config.DB_USER || "root",
-    "password": config.DB_PASSWORD || "",
-    "database": config.DB_NAME || "digitopia",
-    "host": config.DB_HOST || "localhost",
+    "username": process.env.DB_USER ,
+    "password": process.env.DB_PASSWORD ,
+    "database": process.env.DB_NAME ,
+    "host": process.env.DB_HOST || "localhost",
     "dialect": "mysql",
     "timezone": "+02:00",
     "dialectOptions": {
@@ -32,10 +36,10 @@ module.exports = {
     }
   },
   "production": {
-    "username": config.DB_USER || "root",
-    "password": config.DB_PASSWORD || "",
-    "database": config.DB_NAME || "digitopia",
-    "host": config.DB_HOST || "localhost",
+    "username": process.env.DB_USER || process.env.DB_USER ,
+    "password": process.env.DB_PASSWORD || process.env.DB_PASSWORD,
+    "database": process.env.DB_NAME ,
+    "host": process.env.DB_HOST || "localhost",
     "dialect": "mysql",
     "timezone": "+02:00",
     "dialectOptions": {
@@ -46,4 +50,4 @@ module.exports = {
       "collate": "utf8mb4_unicode_ci"
     }
   }
-}
+};

@@ -1,6 +1,7 @@
 const { generateEmbedding } = require("../utils/embedding");
 const { connectDB } = require("../utils/db");
 const { AI_DB_NAME, AI_COLLECTION_NAME } = require("../config/config");
+const logger = require("../utils/logger");
 
 async function searchContent(question, grade, subject, cumulative = false) {
   const { collection } = await connectDB(AI_DB_NAME, AI_COLLECTION_NAME);
@@ -12,11 +13,13 @@ async function searchContent(question, grade, subject, cumulative = false) {
     !Array.isArray(queryEmbedding) ||
     queryEmbedding.length !== 3072
   ) {
-    console.warn(
+    logger.warn(
       `Warning: queryEmbedding is invalid (expected 3072 dimensions, got ${queryEmbedding?.length || 0}). AI will still receive the question.`
     );
     return [];
   }
+
+  logger.info("queryEmbedding length:", queryEmbedding.length);
 
   // build match filter (grade required)
   const matchFilter = {};
@@ -63,6 +66,8 @@ async function searchContent(question, grade, subject, cumulative = false) {
 
   const results = await collection.aggregate(pipeline).toArray();
 
+
+  logger.info("search results:", { count: results.length });
   return results;
 }
 
@@ -92,7 +97,7 @@ async function search(req, res) {
 
     res.json(results);
   } catch (err) {
-    console.error("Error in search:", err);
+    logger.error("Error in search:", { error: err.message, stack: err.stack });
     res.status(500).json({ error: err.message });
   }
 }

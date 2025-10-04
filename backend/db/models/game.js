@@ -4,8 +4,7 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Game extends Model {
     static associate(models) {
-      // Add associations here when needed
-      // For example, if games should be associated with courses:
+      // Games can be associated with courses if needed
       // Game.belongsTo(models.Course, { foreignKey: 'course_id' });
     }
   }
@@ -18,37 +17,47 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: false,
+      unique: true // Game names should be unique
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: false
     },
     grade: {
       type: DataTypes.STRING(50),
-      allowNull: true
+      allowNull: false
     },
     unit: {
-      type: DataTypes.STRING(100),
-      allowNull: true
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     lesson: {
       type: DataTypes.STRING(100),
-      allowNull: true
+      allowNull: false
     },
     img: {
       type: DataTypes.STRING(500),
-      allowNull: true
+      allowNull: false
     },
     gameurl: {
       type: DataTypes.STRING(500),
-      allowNull: true
+      allowNull: false,
+      unique: true // Each game should have unique URL
     }
   }, {
     sequelize,
     modelName: 'Game',
     tableName: 'games',
-    timestamps: true
+    timestamps: true,
+    indexes: [
+      {
+        fields: ['grade', 'unit'], // Optimize queries by grade and unit
+      },
+      {
+        fields: ['name'], // Optimize searches by game name
+      }
+    ]
   });
 
   return Game;

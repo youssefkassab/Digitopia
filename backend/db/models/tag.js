@@ -31,12 +31,23 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING(100),
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        notEmpty: true,
+        len: [2, 100]
+      }
     }
   }, {
     sequelize,
     modelName: 'Tag',
-    tableName: 'tags'
+    tableName: 'tags',
+    timestamps: true,
+    indexes: [
+      {
+        fields: ['name'], // Optimize searches by tag name
+        unique: true
+      }
+    ]
   });
 
   return Tag;

@@ -5,7 +5,7 @@ import { Mail, Send, Trash2, User, Shield, Check, X } from "lucide-react";
 import TextType from "../assets/Animations/TextType";
 import { useTranslation } from "react-i18next";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
 const ContactUs = () => {
   const { t } = useTranslation();

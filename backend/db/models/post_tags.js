@@ -2,35 +2,61 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Post_Tags extends Model {}
+  class PostTags extends Model {
+    static associate(models) {
+      // Junction table - relationships defined in Post and Tag models
+    }
+  }
 
-  Post_Tags.init({
+  PostTags.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    postId: {
+    post_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'posts',
         key: 'id'
       },
-      onDelete: 'CASCADE'
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     },
-    tagId: {
+    tag_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'tags',
         key: 'id'
       },
-      onDelete: 'CASCADE'
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
-    modelName: 'Post_Tags',
-    tableName: 'post_tags'
+    modelName: 'PostTags',
+    tableName: 'post_tags',
+    timestamps: true,
+    indexes: [
+      {
+        fields: ['post_id', 'tag_id'],
+        unique: true // Prevent duplicate tag assignments
+      },
+      {
+        fields: ['tag_id'], // Optimize queries by tag
+      },
+      {
+        fields: ['post_id'], // Optimize queries by post
+      }
+    ]
   });
 
-  return Post_Tags;
+  return PostTags;
 };

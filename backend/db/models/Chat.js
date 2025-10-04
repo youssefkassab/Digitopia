@@ -9,46 +9,55 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
-      unique: false,
+      unique: true, // Each conversation should have unique chatId
     },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Users",
+        model: "users",
         key: "id",
       },
     },
     title: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    text: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING(255),
       allowNull: true,
     },
     subject: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: true,
     },
     role: {
       type: DataTypes.ENUM("user", "model"),
-      allowNull: true,
+      allowNull: false, // Required field for conversation flow
+    },
+    text: {
+      type: DataTypes.TEXT("long"), // Use long text for AI responses
+      allowNull: false,
     },
     used_tokens: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       defaultValue: 0,
     },
     sentAt: {
       type: DataTypes.DATE,
+      allowNull: false,
       defaultValue: DataTypes.NOW,
     },
   }, {
     sequelize,
     modelName: 'Chat',
     tableName: 'chats',
-    timestamps: false
+    timestamps: true, // Enable automatic timestamps
+    indexes: [
+      {
+        fields: ['chatId', 'userId'], // Optimize queries by conversation
+      },
+      {
+        fields: ['userId', 'sentAt'], // Optimize queries by user and time
+      }
+    ]
   });
 
   Chat.associate = (models) => {

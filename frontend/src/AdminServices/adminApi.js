@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// Use Vite env or fallback to localhost
-const API_URL =
-  import.meta.env.VITE_ADMIN_API_URL || "http://localhost:3000/api";
+// Use Vite env or fallback to production/localhost
+const API_URL = import.meta.env.VITE_ADMIN_API_URL || 
+  (import.meta.env.PROD ? "https://3lm-quest.hemex.ai/api" : "http://localhost:3001/api");
 
 const adminApi = axios.create({
   baseURL: API_URL,
