@@ -39,36 +39,40 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Custom CSP configuration for API access
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "connect-src": [
-        "'self'",
-        "https://hemex.ai",
-        "http://localhost:3001",
-        "https://3lm-quest.hemex.ai"
-      ],
-      "frame-ancestors": ["'self'", "https://3lm-quest.hemex.ai"],
-    },
-  },
-  crossOriginEmbedderPolicy: false, // Disable if causing issues
-}));
+// Middleware to set proper headers for game content
+app.use('/games', (req, res, next) => {
+  // Set CSP headers to allow game content
+  res.setHeader('Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdnjs.cloudflare.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+    "img-src 'self' data: https: blob:; " +
+    "connect-src 'self' https://hemex.ai http://localhost:3001 https://3lm-quest.hemex.ai wss: ws:; " +
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+    "object-src 'none'; " +
+    "media-src 'self' data: blob:; " +
+    "frame-src 'self' https://3lm-quest.hemex.ai https://www.youtube.com https://player.vimeo.com; " +
+    "worker-src 'self' blob:; " +
+    "child-src 'self' blob:;"
+  );
 
-app.use(hpp());
-app.use(compression());
-app.use(express.json({ limit: '1mb' }));
+  // Set other security headers - fix conflicting X-Frame-Options
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN'); // Use SAMEORIGIN instead of ALLOWALL
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+
+  next();
+});
 
 // Request logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
-  
+
   // Log response after it's sent
   res.on('finish', () => {
     const duration = Date.now() - start;
     const logMessage = `${req.method} ${req.originalUrl} ${res.statusCode} - ${duration}ms`;
-    
+
     if (res.statusCode >= 500) {
       logger.error(logMessage);
     } else if (res.statusCode >= 400) {
@@ -77,7 +81,7 @@ app.use((req, res, next) => {
       logger.info(logMessage);
     }
   });
-  
+
   next();
 });
 
