@@ -22,12 +22,12 @@ module.exports = {
       message_date: {
         type: Sequelize.DATEONLY,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_DATE')
+        defaultValue: Sequelize.literal('CURDATE()')
       },
       message_time: {
         type: Sequelize.TIME,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIME')
+        defaultValue: Sequelize.literal('CURTIME()')
       },
       seen: {
         type: Sequelize.BOOLEAN,
