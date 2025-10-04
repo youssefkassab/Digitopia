@@ -30,7 +30,7 @@ app.set('trust proxy', 1);
 // CORS configuration - use environment variable or default to localhost for development
 const corsOrigins = config.CORS_ORIGIN 
   ? config.CORS_ORIGIN.split(',').map(origin => origin.trim())
-  : ["http://localhost:5173", "http://localhost:3000"];
+  : ["http://localhost:5173", "http://localhost:3000", "https://hemex.ai", "https://www.hemex.ai"];
 
 app.use(cors({
   origin: corsOrigins,
@@ -42,7 +42,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "connect-src": ["'self'", "https://hemex.ai:3001"],
+      "connect-src": ["'self'", "https://hemex.ai"],
     },
   },
 }));
@@ -96,7 +96,7 @@ app.use('/games', (req, res, next) => {
     "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
     "style-src 'self' 'unsafe-inline'; " +
     "img-src 'self' data: https:; " +
-    "connect-src 'self' https://hemex.ai:3001; " +
+    "connect-src 'self' https://hemex.ai; " +
     "font-src 'self'; " +
     "object-src 'none'; " +
     "media-src 'self'; " +
