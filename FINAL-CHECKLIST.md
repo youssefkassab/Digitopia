@@ -3,7 +3,7 @@
 ## 🎯 Quick Status
 
 **Project**: Digitopia  
-**Target**: cPanel (hemmx.org)  
+**Target**: cPanel (hemex.ai)  
 **Status**: ✅ Ready for Upload  
 
 ---
@@ -76,7 +76,7 @@ Your current `.env` has line breaks. Use the clean version:
 ```env
 JWT_SECRET="djdjdksdkvhd2654fkdvjkf66bgl26ff23fj"
 Ai_api="AIzaSyDYqzdUEkU3la7TSahvAnuBmD32olM-eaw"
-DB_HOST="hemmx.org"
+DB_HOST="hemex.ai"
 DB_USER="hemmxorg_edudevexerts"
 DB_PASSWORD="@# IIUWHiiiiIIIIIlllIIll YTfwty763DKNBJHBS09987584 &@(^$^#%#$2 3uihskjQU8385ESjgvhgxvt #@"
 DB_NAME="hemmxorg_3lm-Quest"
@@ -88,7 +88,7 @@ AI_COLLECTION_NAME="curriculum"
 REPLACE_AI_DB="false"
 GOOGLE_API_KEY="AIzaSyDYqzdUEkU3la7TSahvAnuBmD32olM-eaw"
 MONGO_URI="mongodb+srv://ai_3lm_quest:curriculum@cluster0.hrzbmww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-CORS_ORIGIN="https://hemmx.org,https://www.hemmx.org"
+CORS_ORIGIN="https://hemex.ai,https://www.hemex.ai"
 LOG_LEVEL="info"
 ```
 
@@ -151,8 +151,8 @@ Your current `.env` has line breaks in the middle of values. This will cause err
 
 ### CORS Configuration
 Added `CORS_ORIGIN` to support your domain:
-- `https://hemmx.org`
-- `https://www.hemmx.org`
+- `https://hemex.ai`
+- `https://www.hemex.ai`
 
 ### Port Configuration
 - Default: 3000

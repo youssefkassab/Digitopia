@@ -2,7 +2,7 @@
 
 ## 🎯 Quick Overview
 
-- **Domain**: hemmx.ai
+- **Domain**: hemex.ai
 - **Method**: Git Clone
 - **Backend Port**: 3001
 - **Frontend**: Served by backend at `/`
@@ -13,9 +13,9 @@
 
 ### Code Changes
 - [x] Backend port changed to 3001
-- [x] Frontend API URL: `https://hemmx.ai:3001/api`
+- [x] Frontend API URL: `https://hemex.ai:3001/api`
 - [x] Backend serves frontend from `/` route
-- [x] CORS configured for hemmx.ai
+- [x] CORS configured for hemex.ai
 - [x] Production logging enabled
 - [x] All console.log replaced with logger
 
@@ -59,7 +59,7 @@ pm2 save
 ```
 
 ### 3. Configure CloudPanel
-- Add Node.js site for hemmx.ai
+- Add Node.js site for hemex.ai
 - Port: 3001
 - App root: `/backend`
 - Install SSL certificate
@@ -69,7 +69,7 @@ pm2 save
 ## 🌐 How It Works
 
 ```
-User visits https://hemmx.ai
+User visits https://hemex.ai
          ↓
     Nginx (CloudPanel)
          ↓
@@ -86,13 +86,13 @@ User visits https://hemmx.ai
 ## ✅ After Deployment - Test These
 
 ### Frontend
-- [ ] https://hemmx.ai - Shows React app
-- [ ] https://hemmx.ai/about - Routing works
+- [ ] https://hemex.ai - Shows React app
+- [ ] https://hemex.ai/about - Routing works
 - [ ] No 404 on page refresh
 
 ### API
-- [ ] https://hemmx.ai:3001/api/users
-- [ ] https://hemmx.ai:3001/api/courses
+- [ ] https://hemex.ai:3001/api/users
+- [ ] https://hemex.ai:3001/api/courses
 - [ ] No CORS errors
 
 ### Logs
@@ -106,7 +106,7 @@ User visits https://hemmx.ai
 
 ```bash
 # On server
-cd /home/hemmxai/htdocs/hemmx.ai
+cd /home/hemmxai/htdocs/hemex.ai
 git pull origin main
 cd backend && npm install --production
 cd ../frontend && npm run build
@@ -128,7 +128,7 @@ pm2 restart digitopia
 Your project is configured for:
 - ✅ CloudPanel deployment
 - ✅ Git clone method
-- ✅ hemmx.ai domain
+- ✅ hemex.ai domain
 - ✅ Port 3001
 - ✅ Single server setup
 - ✅ Production optimized

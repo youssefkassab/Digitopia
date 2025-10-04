@@ -50,7 +50,7 @@
 ```env
 JWT_SECRET="djdjdksdkvhd2654fkdvjkf66bgl26ff23fj"
 Ai_api="AIzaSyDYqzdUEkU3la7TSahvAnuBmD32olM-eaw"
-DB_HOST="hemmx.org"
+DB_HOST="hemex.ai"
 DB_USER="hemmxorg_edudevexerts"
 DB_PASSWORD="@# IIUWHiiiiIIIIIlllIIll YTfwty763DKNBJHBS09987584 &@(^$^#%#$2 3uihskjQU8385ESjgvhgxvt #@"
 DB_NAME="hemmxorg_3lm-Quest"
@@ -62,7 +62,7 @@ AI_COLLECTION_NAME="curriculum"
 REPLACE_AI_DB="false"
 GOOGLE_API_KEY="AIzaSyDYqzdUEkU3la7TSahvAnuBmD32olM-eaw"
 MONGO_URI="mongodb+srv://ai_3lm_quest:curriculum@cluster0.hrzbmww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-CORS_ORIGIN="https://hemmx.org,https://www.hemmx.org"
+CORS_ORIGIN="https://hemex.ai,https://www.hemex.ai"
 LOG_LEVEL="info"
 ```
 
@@ -105,7 +105,7 @@ npm run migrate
 
 #### Option A: Subdomain (Recommended)
 1. In cPanel → **Subdomains**
-2. Create: `api.hemmx.org`
+2. Create: `api.hemex.ai`
 3. Point to: `/home/username/public_html/digitopia/backend`
 4. Node.js app will handle requests
 
@@ -124,8 +124,8 @@ RewriteRule ^api/(.*)$ http://localhost:3000/$1 [P,L]
 1. **Check application status** in Setup Node.js App
 2. **Test endpoints**:
    ```
-   https://api.hemmx.org/api/users
-   https://api.hemmx.org/api/courses
+   https://api.hemex.ai/api/users
+   https://api.hemex.ai/api/courses
    ```
 3. **Check logs**:
    - In cPanel File Manager: `backend/logs/combined.log`
@@ -155,7 +155,7 @@ RewriteRule ^api/(.*)$ http://localhost:3000/$1 [P,L]
 
 ### CORS errors?
 1. Verify CORS_ORIGIN in `.env` matches your frontend URL
-2. Include both `https://hemmx.org` and `https://www.hemmx.org`
+2. Include both `https://hemex.ai` and `https://www.hemex.ai`
 3. Restart application after changes
 
 ### Port conflicts?
@@ -261,9 +261,9 @@ du -sh *
 
 ## ✅ Your Configuration
 
-**Domain**: hemmx.org  
+**Domain**: hemex.ai  
 **Database**: hemmxorg_3lm-Quest  
-**Database Host**: hemmx.org  
+**Database Host**: hemex.ai  
 **MongoDB**: Atlas Cluster  
 **Node.js**: Production mode  
 **Port**: 3000 (or cPanel assigned)  

@@ -42,7 +42,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "connect-src": ["'self'", "https://hemmx.ai:3001"],
+      "connect-src": ["'self'", "https://hemex.ai:3001"],
     },
   },
 }));
@@ -96,7 +96,7 @@ app.use('/games', (req, res, next) => {
     "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
     "style-src 'self' 'unsafe-inline'; " +
     "img-src 'self' data: https:; " +
-    "connect-src 'self' https://hemmx.ai:3001; " +
+    "connect-src 'self' https://hemex.ai:3001; " +
     "font-src 'self'; " +
     "object-src 'none'; " +
     "media-src 'self'; " +

@@ -43,7 +43,7 @@
 2. Go to **Sites** → **Add Site**
 3. Select **Node.js**
 4. Configure:
-   - **Domain**: hemmx.ai
+   - **Domain**: hemex.ai
    - **Node.js Version**: 18.x or higher
    - **App Port**: 3001
    - **App Root**: `/backend`
@@ -57,7 +57,7 @@
 
 2. Navigate to site directory:
    ```bash
-   cd /home/hemmxai/htdocs/hemmx.ai
+   cd /home/hemexai/htdocs/hemex.ai
    ```
 
 3. Clone your repository:
@@ -79,7 +79,7 @@
    ```env
    JWT_SECRET="djdjdksdkvhd2654fkdvjkf66bgl26ff23fj"
    Ai_api="AIzaSyDYqzdUEkU3la7TSahvAnuBmD32olM-eaw"
-   DB_HOST="hemmx.org"
+   DB_HOST="hemex.ai"
    DB_USER="hemmxorg_edudevexerts"
    DB_PASSWORD="@# IIUWHiiiiIIIIIlllIIll YTfwty763DKNBJHBS09987584 &@(^$^#%#$2 3uihskjQU8385ESjgvhgxvt #@"
    DB_NAME="hemmxorg_3lm-Quest"
@@ -91,7 +91,7 @@
    REPLACE_AI_DB="false"
    GOOGLE_API_KEY="AIzaSyDYqzdUEkU3la7TSahvAnuBmD32olM-eaw"
    MONGO_URI="mongodb+srv://ai_3lm_quest:curriculum@cluster0.hrzbmww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-   CORS_ORIGIN="https://hemmx.ai,https://www.hemmx.ai"
+   CORS_ORIGIN="https://hemex.ai,https://www.hemex.ai"
    LOG_LEVEL="info"
    ```
 
@@ -103,20 +103,20 @@
 
 1. **Install backend dependencies**:
    ```bash
-   cd /home/hemmxai/htdocs/hemmx.ai/backend
+   cd /home/hemexai/htdocs/hemex.ai/backend
    npm install --production
    ```
 
 2. **Build frontend**:
    ```bash
-   cd /home/hemmxai/htdocs/hemmx.ai/frontend
+   cd /home/hemexai/htdocs/hemex.ai/frontend
    npm install
    npm run build
    ```
 
 3. **Run database migrations**:
    ```bash
-   cd /home/hemmxai/htdocs/hemmx.ai/backend
+   cd /home/hemexai/htdocs/hemex.ai/backend
    npm run migrate
    ```
 
@@ -143,7 +143,7 @@ pm2 startup
 1. In CloudPanel → Your Site
 2. Go to **SSL/TLS**
 3. Click **Install Let's Encrypt Certificate**
-4. Select: `hemmx.ai` and `www.hemmx.ai`
+4. Select: `hemex.ai` and `www.hemex.ai`
 5. Click **Install**
 
 ---
@@ -206,7 +206,7 @@ pm2 restart digitopia
    - API routes: `/api/*`, `/ask`, `/search`, etc.
    - Static files: `/games`, `/img`
    - **Frontend**: All other routes (`/`, `/about`, etc.)
-3. **Nginx proxies** `https://hemmx.ai` → `http://localhost:3001`
+3. **Nginx proxies** `https://hemex.ai` → `http://localhost:3001`
 4. **Single domain** serves both frontend and backend!
 
 ---
@@ -216,13 +216,13 @@ pm2 restart digitopia
 After deployment, test:
 
 ### Frontend
-- [ ] `https://hemmx.ai` - Shows React app
-- [ ] `https://hemmx.ai/about` - React routing works
+- [ ] `https://hemex.ai` - Shows React app
+- [ ] `https://hemex.ai/about` - React routing works
 - [ ] No 404 errors on refresh
 
 ### API
-- [ ] `https://hemmx.ai:3001/api/users` - Returns data
-- [ ] `https://hemmx.ai:3001/api/courses` - Returns data
+- [ ] `https://hemex.ai:3001/api/users` - Returns data
+- [ ] `https://hemex.ai:3001/api/courses` - Returns data
 - [ ] CORS working (no errors in browser console)
 
 ### Logs
@@ -298,7 +298,7 @@ pm2 status
 - [x] SSL certificate installed
 - [x] `.env` not in Git
 - [x] Strong JWT_SECRET
-- [x] CORS restricted to hemmx.ai
+- [x] CORS restricted to hemex.ai
 - [x] Error details hidden in production
 - [x] Helmet security headers enabled
 - [x] Rate limiting enabled
@@ -339,16 +339,16 @@ pm2 status
 ## 🎯 Summary
 
 ✅ **Single Server Setup**:
-- One domain: `hemmx.ai`
+- One domain: `hemex.ai`
 - One port: `3001`
 - Backend serves API + Frontend
 - Easy to deploy via Git
 - Easy to update
 
 ✅ **What's Configured**:
-- Frontend points to `https://hemmx.ai:3001/api`
+- Frontend points to `https://hemex.ai:3001/api`
 - Backend serves frontend from `/`
-- CORS allows `hemmx.ai`
+- CORS allows `hemex.ai`
 - Logging to files
 - Production optimized
 
