@@ -320,7 +320,7 @@ export default function AIChatPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:3000/api/users/userChats?userId=${userId}`,
+        `http://localhost:3001/api/users/userChats?userId=${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -378,7 +378,7 @@ export default function AIChatPage() {
     abortControllerRef.current = new AbortController();
 
     try {
-      const response = await fetch("http://localhost:3000/ask", {
+      const response = await fetch("http://localhost:3001/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: abortControllerRef.current.signal,
