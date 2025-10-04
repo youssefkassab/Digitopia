@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Use production URL or fallback to localhost for development
 const API_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.PROD ? "https://hemex.ai/api" : "http://localhost:3001/api");
+  (import.meta.env.PROD ? "https://3lm-quest.hemex.ai/api" : "http://localhost:3001/api");
 
 const api = axios.create({
   baseURL: API_URL,
