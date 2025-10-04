@@ -1,8 +1,31 @@
 import axios from "axios";
 
-// Use production URL or fallback to localhost for development
-const API_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.PROD ? "https://3lm-quest.hemex.ai/api" : "http://localhost:3001/api");
+// Dynamic API URL determination
+const getApiUrl = () => {
+  // First, try environment variable
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+
+  // Then check if we're in production mode
+  if (import.meta.env.MODE === 'production' || import.meta.env.PROD) {
+    return "https://3lm-quest.hemex.ai/api";
+  }
+
+  // For development, use localhost
+  if (typeof window !== 'undefined') {
+    // If running in browser, use relative path or same origin
+    const currentOrigin = window.location.origin;
+    if (currentOrigin.includes('localhost') || currentOrigin.includes('127.0.0.1')) {
+      return `${currentOrigin}/api`;
+    }
+  }
+
+  // Fallback to localhost for development
+  return "http://localhost:3001/api";
+};
+
+const API_URL = getApiUrl();
 
 const api = axios.create({
   baseURL: API_URL,
