@@ -275,6 +275,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Markdown from "markdown-to-jsx";
 import { v4 as uuidv4 } from "uuid";
 import { useTranslation } from "react-i18next";
+import api from "../services/api"; // Import centralized API
 import "./AIpage.css";
 
 
@@ -321,24 +322,13 @@ export default function AIChatPage() {
 
   const fetchUserChats = async (userId) => {
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(
-        `http://localhost:3001/api/users/userChats?userId=${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (res.ok) {
-        const chats = await res.json();
-        setChatHistory(chats);
-        if (chats.length > 0) {
-          setActiveChat(chats[0]);
-          setMessages(chats[0].messages || []);
-        }
-      } else console.error("Failed to fetch chats", res.status);
+      const response = await api.get(`/users/userChats?userId=${userId}`);
+      const chats = response.data;
+      setChatHistory(chats);
+      if (chats.length > 0) {
+        setActiveChat(chats[0]);
+        setMessages(chats[0].messages || []);
+      }
     } catch (err) {
       console.error("Error fetching chats:", err);
     }
@@ -381,7 +371,7 @@ export default function AIChatPage() {
     abortControllerRef.current = new AbortController();
 
     try {
-      const response = await fetch("http://localhost:3001/ask", {
+      const response = await fetch(`${api.defaults.baseURL}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: abortControllerRef.current.signal,
