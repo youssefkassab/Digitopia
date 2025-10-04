@@ -58,16 +58,16 @@ db.Sequelize = Sequelize;
 
 
 // Only sync in non-production for developer convenience
-if ((configenv.NODE_ENV || 'development') !== 'production') {
-  logger.info('Starting database sync (sequelize.sync) in non-production...');
-  sequelize.sync()
-    .then(() => {
-      logger.info('Database & tables synced successfully!');
-      console.log('Database & tables synced successfully!');
-    })
-    .catch((err) => {
-      logger.error('Error syncing database:', { error: err.message, stack: err.stack });
-    });
-}
+//if ((configenv.NODE_ENV || 'development') !== 'production') {
+//  logger.info('Starting database sync (sequelize.sync) in non-production...');
+//  sequelize.sync()
+//    .then(() => {
+//      logger.info('Database & tables synced successfully!');
+//      console.log('Database & tables synced successfully!');
+//    })
+//    .catch((err) => {
+//      logger.error('Error syncing database:', { error: err.message, stack: err.stack });
+//    });
+//}
 
 module.exports = db;
