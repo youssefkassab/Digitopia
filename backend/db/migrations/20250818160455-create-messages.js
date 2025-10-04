@@ -8,35 +8,41 @@ module.exports = {
         primaryKey: true
       },
       sender: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING(100),
         allowNull: false
       },
       receiver: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING(100),
         allowNull: false
       },
-      title: {
-        type: Sequelize.STRING(255),
+      content: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
-      description: {
-        type: Sequelize.TEXT
-      },
-      date: {
+      message_date: {
         type: Sequelize.DATEONLY,
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_DATE')
       },
-      time: {
+      message_time: {
         type: Sequelize.TIME,
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIME')
+      },
+      seen: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       },
       createdAt: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()')
       },
       updatedAt: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()')
       }
     });
   },
