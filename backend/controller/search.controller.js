@@ -66,8 +66,8 @@ async function searchContent(question, grade, subject, cumulative = false) {
 
   const results = await collection.aggregate(pipeline).toArray();
 
-  logger.info("search results:", { count: results.length });
 
+  logger.info("search results:", { count: results.length });
   return results;
 }
 

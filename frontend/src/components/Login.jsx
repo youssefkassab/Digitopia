@@ -184,8 +184,8 @@ const Login = () => {
           </form>
 
           <p className="LoginLink">
-            {t("login.links.signup").split("?")[0]}?{" "}
-            <Link to="/signup">{t("login.links.signup").split("? ")[1]}</Link>
+            {t("login.links.signup").split(/[|]/)[0]}{" "}
+            <Link to="/signup">{t("login.links.signup").split(/[|]/)[1]}</Link>
           </p>
         </div>
       </motion.div>

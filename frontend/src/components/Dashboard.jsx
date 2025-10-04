@@ -189,14 +189,12 @@ const Dashboard = () => {
         >
           <h2>{t("dashboard.profileInfo")}</h2>
           <p>
-            <strong>
-              {t("dashboard.accountCreated") || "Account Created"}:
-            </strong>{" "}
-            {new Date(user.created_at).toLocaleString()}
+            <strong>{t("dashboard.accountCreated") || "Account Created"}:</strong>{" "}
+            {user?.createdAt ? new Date(user.createdAt).toLocaleString() : "N/A"}
           </p>
           <p>
             <strong>{t("dashboard.lastUpdated") || "Last Updated"}:</strong>{" "}
-            {new Date(user.updated_at).toLocaleString()}
+            {user?.updatedAt ? new Date(user.updatedAt).toLocaleString() : "N/A"}
           </p>
         </motion.div>
       </motion.div>
