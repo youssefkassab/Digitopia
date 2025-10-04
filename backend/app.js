@@ -95,19 +95,17 @@ app.use('/api/courses',courseRoutes);
 app.use('/api/messages',messageRoutes);
 app.use('/api/admin',adminRoutes);
 app.use('/api/game',gameRoutes);
-app.use("/ask", askRoutes);
-app.use("/search", searchRoutes);
-app.use("/genrateStructure", structureRoutes);
-app.use("/uploadFile", uploadRoutes);
-app.use("/embedding", embeddingRoutes);
+app.use('/api/ask', askRoutes);
+app.use('/api/search', searchRoutes);
+app.use('/api/genrateStructure', structureRoutes);
+app.use('/api/uploadFile', uploadRoutes);
+app.use('/api/embedding', embeddingRoutes);
 
 
 // Serve frontend for all non-API routes (SPA support)
 app.get('*', (req, res, next) => {
   // Skip if it's an API route or static file route
-  if (req.path.startsWith('/api') || req.path.startsWith('/ask') ||
-      req.path.startsWith('/search') || req.path.startsWith('/genrateStructure') ||
-      req.path.startsWith('/uploadFile') || req.path.startsWith('/embedding') ||
+  if (req.path.startsWith('/api') ||
       req.path.startsWith('/games') || req.path.startsWith('/img')) {
     return next();
   }
