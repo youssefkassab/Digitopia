@@ -151,6 +151,7 @@ app.get('*', (req, res, next) => {
   });
 });
 
+
 // 404 handler for API routes
 app.use((req, res) => {
   logger.logBadRequest(req, new Error('Route not found'), 404);
