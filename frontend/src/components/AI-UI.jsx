@@ -271,14 +271,21 @@
 //   );
 // }
 
-import React, { useState, useEffect, useRef } from "react";
-import Markdown from "markdown-to-jsx";
-import { v4 as uuidv4 } from "uuid";
-import "./AIpage.css";
+// Easy switching between localhost and production
+// Change this to switch between environments:
+// const USE_PRODUCTION = false; // localhost
+// const USE_PRODUCTION = true;  // hemex.ai
+
+const USE_PRODUCTION = false; // Set to true for hemex.ai, false for localhost
+
+const API_BASE_URL = USE_PRODUCTION
+  ? "https://hemex.ai:3001"
+  : "http://localhost:3001";
 
 export default function AIChatPage() {
   const [currentUser, setCurrentUser] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [showScrollDown, setShowScrollDown] = useState(false); // ← Nouveau
   const [chatHistory, setChatHistory] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
   const [editingChatId, setEditingChatId] = useState(null);
@@ -294,7 +301,6 @@ export default function AIChatPage() {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
   );
-  const [showScrollDown, setShowScrollDown] = useState(false); // ← الجديد
 
   useEffect(() => {
     const observer = new MutationObserver(() => {
@@ -320,7 +326,7 @@ export default function AIChatPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:3001/api/users/userChats?userId=${userId}`,
+        `${API_BASE_URL}/api/users/userChats?userId=${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -378,7 +384,7 @@ export default function AIChatPage() {
     abortControllerRef.current = new AbortController();
 
     try {
-      const response = await fetch("http://localhost:3001/ask", {
+      const response = await fetch(`${API_BASE_URL}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: abortControllerRef.current.signal,
