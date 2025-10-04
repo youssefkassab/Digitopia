@@ -18,8 +18,6 @@ async function searchContent(question, grade, subject, cumulative = false) {
     return [];
   }
 
-  console.log("queryEmbedding length:", queryEmbedding.length);
-
   // build match filter (grade required)
   const matchFilter = {};
   if (cumulative) {
@@ -64,8 +62,6 @@ async function searchContent(question, grade, subject, cumulative = false) {
   ];
 
   const results = await collection.aggregate(pipeline).toArray();
-
-  console.log("search results:", results);
 
   return results;
 }

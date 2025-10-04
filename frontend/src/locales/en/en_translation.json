@@ -23,7 +23,7 @@
       "createAccount": "Create Account",
       "creating": "Creating..."
     },
-    "loginLink": "Already have an account? Login here",
+    "loginLink": "Already have an account?| Login here",
     "errors": {
       "fullNameWords": "Your full name must have 4 words.",
       "fullNameLetters": "Name should only contain alphabetic characters.",
@@ -64,11 +64,10 @@
     },
     "errors": {
       "invalidStep": "Invalid {{field}}",
-      "fixErrors": "Please fix the errors before logging in.",
       "loginFailed": "Login failed. Please try again."
     },
     "links": {
-      "signup": "Don’t have an account? Sign up here"
+      "signup": "Don’t have an account?| Sign up here"
     }
   },
   "posterSlider": {
@@ -191,7 +190,7 @@
     }
   },
   "contactUs": {
-    "pageTitle": "Contact Us | 3lm Quest",
+    "pageTitle": "Support | 3lm Quest",
     "heading": "Need Help? Chat with Our Support",
     "chat": {
       "supportChat": "Support Chat",
@@ -487,5 +486,10 @@
     "messages": "Messages",
     "toggleDarkMode": "Toggle dark mode",
     "hiAdmin": "Hi, {{name}}"
+  },
+  "Ai": {
+    "into": "Welcome to Questro ✨",
+    "login": "Register Now to start your AI-powered learning adventure!",
+    "register": "🚀 Register Now"
   }
 }

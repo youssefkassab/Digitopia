@@ -144,10 +144,9 @@ function truncateQuestion(question, maxLength = 1000) {
   return question;
 }
 
-// ✅ Fetch last 5 messages across all chats
-const getLastMessages = async (userId, limit = 5) => {
+const getLastMessages = async (userId, chatId, limit = 5) => {
   return await Chat.findAll({
-    where: { userId },
+    where: { userId, chatId },
     order: [['sentAt', 'DESC']],
     limit
   });
@@ -161,6 +160,7 @@ async function ask(req, res) {
     if (!grade?.trim()) return res.status(400).json({ error: "Invalid grade" });
     if (!chatId) return res.status(400).json({ error: "Missing chatId" });
     if (!userId) return res.status(400).json({ error: "Missing userId" });
+    if (!subject?.trim()) return res.status(400).json({ error: "Invalid subject" });
 
     cumulative = cumulative === true || cumulative === "true";
     question = truncateQuestion(question, 1000);
@@ -176,9 +176,8 @@ async function ask(req, res) {
       { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
     ];
 
-    // ✅ Get last 5 messages across all chats for context
     let history = await getLastMessages(userId, 5);
-    history = history.reverse(); // chronological order
+    history = history.reverse();
 
     const contents = history.map(h => ({
       role: h.role,
@@ -187,7 +186,15 @@ async function ask(req, res) {
 
     const results = await searchContent(question, grade, subject, cumulative);
     const context = results.map(r => r.chunks).join("\n");
-    const prompt = generatePrompt(context, question);
+    const getName = async (userId) => {
+      const user = await User.findOne({
+        where: { id: userId },
+        attributes: ['name']
+      });
+      return user?.name;
+    };
+    let userN = await getName(userId);
+    const prompt = generatePrompt(context, question, subject, userN);
 
     // Save user question
     await Chat.create({
