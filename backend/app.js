@@ -22,28 +22,16 @@ const logger = require('./utils/logger');
 
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
-// Removed conflicting bodyParser.json() and fileUpload() middleware
-
 
 app.set('trust proxy', 1);
 
 // CORS configuration - use environment variable or default to localhost for development
-const corsOrigins = config.CORS_ORIGIN 
+const corsOrigins = config.CORS_ORIGIN
   ? config.CORS_ORIGIN.split(',').map(origin => origin.trim())
   : ["http://localhost:5173", "http://localhost:3000", "https://3lm-quest.hemex.ai", "https://hemex.ai", "https://www.hemex.ai"];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-
-    const allowedOrigins = corsOrigins;
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: corsOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
