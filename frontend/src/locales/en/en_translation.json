@@ -486,5 +486,10 @@
     "messages": "Messages",
     "toggleDarkMode": "Toggle dark mode",
     "hiAdmin": "Hi, {{name}}"
+  },
+  "Ai": {
+    "into": "Welcome to Questro ✨",
+    "login": "Register Now to start your AI-powered learning adventure!",
+    "register": "🚀 Register Now"
   }
 }

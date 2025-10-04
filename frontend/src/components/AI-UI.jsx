@@ -274,9 +274,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import Markdown from "markdown-to-jsx";
 import { v4 as uuidv4 } from "uuid";
+import { useTranslation } from "react-i18next";
 import "./AIPage.css";
 
 export default function AIChatPage() {
+  const { t } = useTranslation();
   const [currentUser, setCurrentUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
@@ -393,6 +395,12 @@ export default function AIChatPage() {
       });
 
       if (!response.body) throw new Error("No stream found");
+
+      if (response.status === 429) {
+        alert("Rate limit reached. Please wait.");
+        setIsLoading(false);
+        return;
+      }
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
@@ -519,7 +527,7 @@ export default function AIChatPage() {
             animation: "float 3s ease-in-out infinite",
           }}
         >
-          Welcome to Questro ✨
+          {t("Ai.into")}
         </h2>
         <p
           style={{
@@ -529,7 +537,7 @@ export default function AIChatPage() {
             maxWidth: "500px",
           }}
         >
-          Register Now to start your AI-powered learning adventure!
+          {t("Ai.login")}
         </p>
         <button
           onClick={() => (window.location.href = "/signup")}
@@ -556,7 +564,7 @@ export default function AIChatPage() {
               "0 0 15px rgba(59, 130, 246, 0.6)";
           }}
         >
-          🚀 Register Now
+          {t("Ai.register")}
         </button>
 
         <style>{`
