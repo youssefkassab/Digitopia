@@ -33,24 +33,89 @@ fs
   });
 
 // Define associations consistently
-const { User, Course, Post, Tag, Game } = db;
+const { User, Course, Post, Tag, Game, Chat, Message } = db;
 
-// User <-> Course (teacher)
+// User associations
 if (User && Course) {
-  User.hasMany(Course, { foreignKey: 'teacher_id' });
-  Course.belongsTo(User, { foreignKey: 'teacher_id' });
+  User.hasMany(Course, {
+    foreignKey: 'teacher_id',
+    as: 'teachingCourses',
+    onDelete: 'SET NULL'
+  });
+  Course.belongsTo(User, {
+    foreignKey: 'teacher_id',
+    as: 'teacher',
+    onDelete: 'SET NULL'
+  });
 }
 
-// Course <-> Tag via courses_tags join table
+if (User && Chat) {
+  User.hasMany(Chat, {
+    foreignKey: 'userId',
+    as: 'chats',
+    onDelete: 'CASCADE'
+  });
+  Chat.belongsTo(User, {
+    foreignKey: 'userId',
+    as: 'user',
+    onDelete: 'CASCADE'
+  });
+}
+
+// Course associations
 if (Course && Tag) {
-  Course.belongsToMany(Tag, { through: 'courses_tags', foreignKey: 'course_id', otherKey: 'tag_id' });
-  Tag.belongsToMany(Course, { through: 'courses_tags', foreignKey: 'tag_id', otherKey: 'course_id' });
+  Course.belongsToMany(Tag, {
+    through: 'courses_tags',
+    foreignKey: 'course_id',
+    otherKey: 'tag_id',
+    as: 'tags'
+  });
+  Tag.belongsToMany(Course, {
+    through: 'courses_tags',
+    foreignKey: 'tag_id',
+    otherKey: 'course_id',
+    as: 'courses'
+  });
 }
 
-// Post <-> Tag via post_tags join table
+// Post associations
 if (Post && Tag) {
-  Post.belongsToMany(Tag, { through: 'post_tags', foreignKey: 'postId', otherKey: 'tagId' });
-  Tag.belongsToMany(Post, { through: 'post_tags', foreignKey: 'tagId', otherKey: 'postId' });
+  Post.belongsToMany(Tag, {
+    through: 'post_tags',
+    foreignKey: 'post_id',
+    otherKey: 'tag_id',
+    as: 'tags'
+  });
+  Tag.belongsToMany(Post, {
+    through: 'post_tags',
+    foreignKey: 'tag_id',
+    otherKey: 'post_id',
+    as: 'posts'
+  });
+}
+
+if (Post && User) {
+  Post.belongsTo(User, {
+    foreignKey: 'sender',
+    as: 'author',
+    onDelete: 'CASCADE'
+  });
+}
+
+// Many-to-Many: users <-> courses (students)
+if (User && Course) {
+  User.belongsToMany(Course, {
+    through: 'course_users',
+    foreignKey: 'user_id',
+    otherKey: 'course_id',
+    as: 'enrolledCourses'
+  });
+  Course.belongsToMany(User, {
+    through: 'course_users',
+    foreignKey: 'course_id',
+    otherKey: 'user_id',
+    as: 'students'
+  });
 }
 
 db.sequelize = sequelize;
