@@ -163,7 +163,7 @@ const Navbar = () => {
           {[
             { to: "/classroom", label: t("navbar.links.classroom") },
             { to: "/courses", label: t("navbar.links.courses") },
-            { to: "/games", label: t("navbar.links.games") },
+            { to: "/Games", label: t("navbar.links.games") },
             { to: "/community", label: t("navbar.links.community") },
             { to: "/about", label: t("navbar.links.about") },
             { to: "/support", label: t("navbar.links.support") },
