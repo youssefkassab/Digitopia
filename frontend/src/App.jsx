@@ -61,7 +61,7 @@ function AppRoutes() {
         />
         <Route path="/Courses" element={<Courses />} />
         <Route path="/Community" element={<Community />} />
-        <Route path="/Games" element={<Games />} />
+        <Route path="/games" element={<Games />} />
         <Route path="/About" element={<AboutUs />} />
         <Route path="/support" element={<ContactUs />} />
         <Route path="/Dashboard" element={<Dashboard />} />
