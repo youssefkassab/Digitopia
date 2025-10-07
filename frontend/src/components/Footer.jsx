@@ -12,7 +12,10 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <footer
+      data-nosnippet
+      className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200"
+    >
       <div className="footer-wrapper max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Language Section */}
         <div className="footer-card space-y-3">

@@ -35,11 +35,48 @@ function AppRoutes() {
           element={
             <>
               <Helmet>
-                <title>Home | 3lm Quest</title>
+                <title>3lm Quest | AI-Powered Interactive Learning Platform</title>
                 <meta
                   name="description"
-                  content="Welcome to the homepage of 3lm Quest"
+                  content="Master any subject with 3lm Quest — the AI-driven platform revolutionizing Egypt’s education through smart, personalized, and interactive learning experiences."
                 />
+                <link rel="canonical" href="https://3lm-quest.hemex.ai" />
+                <meta property="og:url" content="https://3lm-quest.hemex.ai" />
+                <meta property="twitter:url" content="https://3lm-quest.hemex.ai" />
+                <meta property="og:title" content="3lm Quest — The Future of AI-Powered Education" />
+                <meta
+                  property="og:description"
+                  content="Discover 3lm Quest: the next-generation AI learning platform offering personalized lessons, smart quizzes, and immersive simulations for a smarter way to learn."
+                />
+                <script type="application/ld+json">
+                  {`
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "Organization",
+                      "name": "3lm Quest",
+                      "url": "https://3lm-quest.hemex.ai",
+                      "logo": "https://www.3lmquest.com/assets/logo.png",
+                      "description": "Master any subject with 3lm Quest — the AI-driven platform revolutionizing Egypt’s education through smart, personalized, and interactive learning experiences.",
+                      "foundingDate": "2025",
+                      "founders": [
+                        {
+                          "@type": "Person",
+                          "name": "Youssef Kassab"
+                        }
+                      ],
+                      "sameAs": [
+                        "https://www.facebook.com/3lmQuest",
+                        "https://www.linkedin.com/company/3lmQuest",
+                        "https://twitter.com/3lmQuest"
+                      ],
+                      "contactPoint": {
+                        "@type": "ContactPoint",
+                        "contactType": "customer support",
+                        "email": "support@3lmquest.com"
+                      }
+                    }
+                  `}
+                </script>
               </Helmet>
               <PosterSlider />
               <Banner1 />
