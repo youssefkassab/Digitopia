@@ -38,16 +38,31 @@ function AppRoutes() {
                 <title>3lm Quest | AI-Powered Interactive Learning Platform</title>
                 <meta
                   name="description"
-                  content="Master any subject with 3lm Quest — the AI-driven platform revolutionizing Egypt’s education through smart, personalized, and interactive learning experiences."
+                  content="Master any subject with 3lm Quest — the AI-driven platform revolutionizing Egypt's education through smart, personalized, and interactive learning experiences."
                 />
+                <meta name="keywords" content="AI education, interactive learning, Egypt education, personalized learning, smart quizzes, educational technology, e-learning platform" />
+                <meta name="author" content="3lm Quest Team" />
+                <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+                <meta name="theme-color" content="#2563eb" />
                 <link rel="canonical" href="https://3lm-quest.hemex.ai" />
                 <meta property="og:url" content="https://3lm-quest.hemex.ai" />
+                <meta property="og:type" content="website" />
+                <meta property="og:site_name" content="3lm Quest" />
+                <meta property="og:image" content="/src/assets/3lm-Quest-logo.png" />
                 <meta property="twitter:url" content="https://3lm-quest.hemex.ai" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content="/src/assets/3lm-Quest-logo.png" />
                 <meta property="og:title" content="3lm Quest — The Future of AI-Powered Education" />
                 <meta
                   property="og:description"
                   content="Discover 3lm Quest: the next-generation AI learning platform offering personalized lessons, smart quizzes, and immersive simulations for a smarter way to learn."
                 />
+                <link rel="icon" type="image/x-icon" href="/src/assets/favicon/favicon.ico" />
+                <link rel="icon" type="image/png" sizes="48x48" href="/src/assets/favicon/favicon-48x48.png" />
+                <link rel="icon" type="image/png" sizes="32x32" href="/src/assets/favicon/favicon-32x32.png" />
+                <link rel="icon" type="image/png" sizes="16x16" href="/src/assets/favicon/favicon-16x16.png" />
+                <link rel="apple-touch-icon" href="/src/assets/favicon/apple-touch-icon.png" />
+                <link rel="manifest" href="/src/assets/manifest.json" />
                 <script type="application/ld+json">
                   {`
                     {
@@ -74,6 +89,16 @@ function AppRoutes() {
                         "contactType": "customer support",
                         "email": "support@3lmquest.com"
                       }
+                    }
+                  `}
+                </script>
+                <script type="application/ld+json">
+                  {`
+                    {
+                      "@context": "http://schema.org",
+                      "@type": "WebSite",
+                      "name": "3lm Quest",
+                      "url": "https://3lm-quest.hemex.ai/"
                     }
                   `}
                 </script>
