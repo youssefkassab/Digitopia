@@ -355,7 +355,9 @@ export default function AIChatPage() {
   const handleSend = async () => {
     setInput("");
     if (!input.trim() || isLoading || !currentUser || !activeChat) return;
-
+    if (chatHistory.length ===0){
+      handleNewChat();
+    }
     const userMessage = { sender: "user", text: input };
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);

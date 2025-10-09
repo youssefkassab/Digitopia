@@ -44,19 +44,24 @@ function AppRoutes() {
                 <meta name="author" content="3lm Quest Team" />
                 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
                 <meta name="theme-color" content="#2563eb" />
-                <link rel="canonical" href="https://3lm-quest.hemex.ai" />
-                <meta property="og:url" content="https://3lm-quest.hemex.ai" />
+                <meta name="language" content="en" />
+                <link rel="canonical" href="https://3lm-quest.hemex.ai/" />
+                <meta property="og:url" content="https://3lm-quest.hemex.ai/" />
                 <meta property="og:type" content="website" />
                 <meta property="og:site_name" content="3lm Quest" />
-                <meta property="og:image" content="/src/assets/3lm-Quest-logo.png" />
-                <meta property="twitter:url" content="https://3lm-quest.hemex.ai" />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:image" content="/src/assets/3lm-Quest-logo.png" />
+                <meta property="og:image" content="https://3lm-quest.hemex.ai/src/assets/3lm-Quest-logo.png" />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
                 <meta property="og:title" content="3lm Quest — The Future of AI-Powered Education" />
                 <meta
                   property="og:description"
                   content="Discover 3lm Quest: the next-generation AI learning platform offering personalized lessons, smart quizzes, and immersive simulations for a smarter way to learn."
                 />
+                <meta property="twitter:url" content="https://3lm-quest.hemex.ai/" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content="https://3lm-quest.hemex.ai/src/assets/3lm-Quest-logo.png" />
+                <meta name="twitter:title" content="3lm Quest — The Future of AI-Powered Education" />
+                <meta name="twitter:description" content="Discover 3lm Quest: the next-generation AI learning platform offering personalized lessons, smart quizzes, and immersive simulations for a smarter way to learn." />
                 <link rel="icon" type="image/x-icon" href="/src/assets/favicon/favicon.ico" />
                 <link rel="icon" type="image/png" sizes="48x48" href="/src/assets/favicon/favicon-48x48.png" />
                 <link rel="icon" type="image/png" sizes="32x32" href="/src/assets/favicon/favicon-32x32.png" />
@@ -70,7 +75,7 @@ function AppRoutes() {
                       "@type": "Organization",
                       "name": "3lm Quest",
                       "url": "https://3lm-quest.hemex.ai",
-                      "logo": "https://www.3lmquest.com/assets/logo.png",
+                      "logo": "https://3lm-quest.hemex.ai/src/assets/3lm-Quest-logo.png",
                       "description": "Master any subject with 3lm Quest — the AI-driven platform revolutionizing Egypt’s education through smart, personalized, and interactive learning experiences.",
                       "foundingDate": "2025",
                       "founders": [
