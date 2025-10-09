@@ -76,7 +76,7 @@ function AppRoutes() {
                       "@type": "Organization",
                       "name": "3lm Quest",
                       "url": "https://3lm-quest.hemex.ai",
-                      "logo": "https://3lm-quest.hemex.ai/src/assets/3lm-Quest-logo.png",
+                      "logo": "https://3lm-quest.hemex.ai/favicon/3lm-Quest-logo.png",
                       "description": "Master any subject with 3lm Quest — the AI-driven platform revolutionizing Egypt’s education through smart, personalized, and interactive learning experiences.",
                       "foundingDate": "2025",
                       "founders": [
