@@ -49,7 +49,7 @@ function AppRoutes() {
                 <meta property="og:url" content="https://3lm-quest.hemex.ai/" />
                 <meta property="og:type" content="website" />
                 <meta property="og:site_name" content="3lm Quest" />
-                <meta property="og:image" content="https://3lm-quest.hemex.ai/favicon/3lm-Quest-logo.png" />
+                <meta property="og:image" content="https://3lm-quest.hemex.ai/3lm-Quest-logo.png" />
                 <meta property="og:image:width" content="1200" />
                 <meta property="og:image:height" content="630" />
                 <meta property="og:title" content="3lm Quest — The Future of AI-Powered Education" />
@@ -59,14 +59,14 @@ function AppRoutes() {
                 />
                 <meta property="twitter:url" content="https://3lm-quest.hemex.ai/" />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:image" content="https://3lm-quest.hemex.ai/favicon/3lm-Quest-logo.png" />
+                <meta name="twitter:image" content="https://3lm-quest.hemex.ai/3lm-Quest-logo.png" />
                 <meta name="twitter:title" content="3lm Quest — The Future of AI-Powered Education" />
                 <meta name="twitter:description" content="Discover 3lm Quest: the next-generation AI learning platform offering personalized lessons, smart quizzes, and immersive simulations for a smarter way to learn." />
-                <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
-                <link rel="icon" type="image/png" sizes="48x48" href="/favicon/favicon-48x48.png" />
-                <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
-                <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
-                <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+                <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+                <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+                <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+                <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                 <link rel="manifest" href="/src/assets/manifest.json" />
                 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
                 <script type="application/ld+json">
@@ -76,7 +76,7 @@ function AppRoutes() {
                       "@type": "Organization",
                       "name": "3lm Quest",
                       "url": "https://3lm-quest.hemex.ai",
-                      "logo": "https://3lm-quest.hemex.ai/favicon/3lm-Quest-logo.png",
+                      "logo": "https://3lm-quest.hemex.ai/3lm-Quest-logo.png",
                       "description": "Master any subject with 3lm Quest — the AI-driven platform revolutionizing Egypt’s education through smart, personalized, and interactive learning experiences.",
                       "foundingDate": "2025",
                       "founders": [
