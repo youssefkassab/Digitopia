@@ -11,47 +11,10 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>3lm Quest</title>
-    <script>
-      (function () {
-        var basePath = "/Digitopia";
-        var l = window.location;
-        if (l.search && l.search[1] === "/") {
-          var decoded = l.search
-            .slice(1)
-            .replace(/~and~/g, "&");
-          window.history.replaceState(
-            null,
-            null,
-            basePath + decoded + l.hash
-          );
-        }
-        var normalizePath = function (url) {
-          if (typeof url !== "string") return url;
-          if (url === "/") return basePath + "/";
-          if (url.startsWith("/") && !url.startsWith(basePath + "/")) {
-            return basePath + url;
-          }
-          return url;
-        };
-        var wrapHistoryMethod = function (name) {
-          var original = window.history[name];
-          window.history[name] = function (state, title, url) {
-            return original.call(
-              window.history,
-              state,
-              title,
-              normalizePath(url)
-            );
-          };
-        };
-        wrapHistoryMethod("pushState");
-        wrapHistoryMethod("replaceState");
-      })();
-    </script>
-    <script type="module" crossorigin src="/Digitopia/assets/index-CPmTtEKX.js"></script>
-    <link rel="stylesheet" crossorigin href="/Digitopia/assets/index-BooPdB0c.css">
+    <script type="module" crossorigin src="/Digitopia/assets/index-CqNJ_Tn_.js"></script>
+    <link rel="stylesheet" crossorigin href="/Digitopia/assets/index-Y8r3mdqq.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
   </body>
 </html>

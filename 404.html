@@ -2,35 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/ico"
+      href="/Digitopia/assets/3lm_Quest_Ico-1bkIlNVf.ico"
+      width="2500px"
+      height="2500"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>3lm Quest</title>
-    <script>
-      (function () {
-        var pathSegmentsToKeep = 1;
-        var l = window.location;
-        var redirectTarget =
-          l.protocol +
-          "//" +
-          l.hostname +
-          (l.port ? ":" + l.port : "") +
-          l.pathname
-            .split("/")
-            .slice(0, 1 + pathSegmentsToKeep)
-            .join("/") +
-          "/?/" +
-          l.pathname
-            .slice(1)
-            .split("/")
-            .slice(pathSegmentsToKeep)
-            .join("/")
-            .replace(/&/g, "~and~") +
-          (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
-          l.hash;
-        l.replace(redirectTarget);
-      })();
-    </script>
+    <script type="module" crossorigin src="/Digitopia/assets/index-CqNJ_Tn_.js"></script>
+    <link rel="stylesheet" crossorigin href="/Digitopia/assets/index-Y8r3mdqq.css">
   </head>
   <body>
-    <p>Redirecting...</p>
+    <div id="root"></div>
   </body>
 </html>
