@@ -2,97 +2,56 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/ico"
+      href="/Digitopia/assets/3lm_Quest_Ico-1bkIlNVf.ico"
+      width="2500px"
+      height="2500"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3lm Quest Demo Showcase</title>
-    <style>
-      :root { color-scheme: dark; }
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0b1220;
-        color: #e5e7eb;
-      }
-      .container {
-        max-width: 980px;
-        margin: 0 auto;
-        padding: 28px 20px 40px;
-      }
-      .badge {
-        display: inline-block;
-        background: #7c3aed;
-        color: #fff;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        border-radius: 999px;
-        padding: 8px 12px;
-      }
-      h1 {
-        margin: 14px 0 8px;
-        font-size: 34px;
-      }
-      p {
-        margin: 0 0 16px;
-        color: #cbd5e1;
-      }
-      .note {
-        background: #1e293b;
-        border: 1px solid #334155;
-        border-radius: 10px;
-        padding: 12px 14px;
-        margin: 18px 0 26px;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 14px;
-      }
-      .card {
-        background: #111827;
-        border: 1px solid #273244;
-        border-radius: 12px;
-        padding: 16px;
-      }
-      .card h3 {
-        margin: 0 0 8px;
-        font-size: 18px;
-      }
-      .card a {
-        display: inline-block;
-        margin-top: 8px;
-        color: #a5b4fc;
-        text-decoration: none;
-        font-weight: 700;
-      }
-      .card a:hover { text-decoration: underline; }
-    </style>
+    <title>3lm Quest</title>
+    <script>
+      (function () {
+        var basePath = "/Digitopia";
+        var l = window.location;
+        if (l.search && l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .replace(/~and~/g, "&");
+          window.history.replaceState(
+            null,
+            null,
+            basePath + decoded + l.hash
+          );
+        }
+        var normalizePath = function (url) {
+          if (typeof url !== "string") return url;
+          if (url === "/") return basePath + "/";
+          if (url.startsWith("/") && !url.startsWith(basePath + "/")) {
+            return basePath + url;
+          }
+          return url;
+        };
+        var wrapHistoryMethod = function (name) {
+          var original = window.history[name];
+          window.history[name] = function (state, title, url) {
+            return original.call(
+              window.history,
+              state,
+              title,
+              normalizePath(url)
+            );
+          };
+        };
+        wrapHistoryMethod("pushState");
+        wrapHistoryMethod("replaceState");
+      })();
+    </script>
+    <script type="module" crossorigin src="/Digitopia/assets/index-CPmTtEKX.js"></script>
+    <link rel="stylesheet" crossorigin href="/Digitopia/assets/index-BooPdB0c.css">
   </head>
   <body>
-    <main class="container">
-      <span class="badge">DEMO BUILD</span>
-      <h1>3lm Quest - Games Showcase</h1>
-      <p>This page is a lightweight public showcase and does not run the full main project.</p>
-      <div class="note">
-        <strong>Demo note:</strong> This deployment only includes selected game demos for preview.
-      </div>
-
-      <section class="grid">
-        <article class="card">
-          <h3>Bending Light (EN)</h3>
-          <p>Interactive educational game demo.</p>
-          <a href="./frontend/games/bending-light_en.html">Open game</a>
-        </article>
-        <article class="card">
-          <h3>Game URL Demo 1</h3>
-          <p>Standalone test/demo game page.</p>
-          <a href="./frontend/games/gameurl-1759134554916-192948575.html">Open game</a>
-        </article>
-        <article class="card">
-          <h3>Game URL Demo 2</h3>
-          <p>Standalone test/demo game page.</p>
-          <a href="./frontend/games/gameurl-1759134953192-911196863.html">Open game</a>
-        </article>
-      </section>
-    </main>
+    <div id="root"></div>
   </body>
 </html>

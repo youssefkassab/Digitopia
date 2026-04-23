@@ -3,10 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3lm Quest Demo Showcase</title>
-    <meta http-equiv="refresh" content="0; url=/Digitopia/" />
+    <title>3lm Quest</title>
+    <script>
+      (function () {
+        var pathSegmentsToKeep = 1;
+        var l = window.location;
+        var redirectTarget =
+          l.protocol +
+          "//" +
+          l.hostname +
+          (l.port ? ":" + l.port : "") +
+          l.pathname
+            .split("/")
+            .slice(0, 1 + pathSegmentsToKeep)
+            .join("/") +
+          "/?/" +
+          l.pathname
+            .slice(1)
+            .split("/")
+            .slice(pathSegmentsToKeep)
+            .join("/")
+            .replace(/&/g, "~and~") +
+          (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+          l.hash;
+        l.replace(redirectTarget);
+      })();
+    </script>
   </head>
   <body>
-    <p>Page not found. Redirecting to demo showcase...</p>
+    <p>Redirecting...</p>
   </body>
 </html>
