@@ -37,27 +37,43 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
-// Middleware to set proper headers for game content
-app.use('/games', (req, res, next) => {
-  // Set CSP headers to allow game content
+// Global CSP middleware to allow frontend and API access
+app.use((req, res, next) => {
   res.setHeader('Content-Security-Policy',
     "default-src 'self'; " +
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdnjs.cloudflare.com; " +
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
     "img-src 'self' data: https: blob:; " +
-    "connect-src 'self' https://hemex.ai http://localhost:3001 https://3lm-quest.hemex.ai wss: ws:; " +
-    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+    "connect-src 'self' https://hemex.ai http://localhost:3001 https://3lm-quest.hemex.ai https://digitopia-d781.onrender.com https://cdn.jsdelivr.net wss: ws:; " +
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
     "object-src 'none'; " +
     "media-src 'self' data: blob:; " +
     "frame-src 'self' https://3lm-quest.hemex.ai https://www.youtube.com https://player.vimeo.com; " +
     "worker-src 'self' blob:; " +
     "child-src 'self' blob:;"
   );
-
-  // Set other security headers - fix conflicting X-Frame-Options
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'SAMEORIGIN'); // Use SAMEORIGIN instead of ALLOWALL
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('X-XSS-Protection', '1; mode=block');
+  next();
+});
+
+// Middleware to set proper headers for game content (more permissive)
+app.use('/games', (req, res, next) => {
+  // Game-specific CSP - can be more permissive if needed
+  res.setHeader('Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
+    "img-src 'self' data: https: blob:; " +
+    "connect-src 'self' https://hemex.ai http://localhost:3001 https://3lm-quest.hemex.ai https://digitopia-d781.onrender.com https://cdn.jsdelivr.net wss: ws:; " +
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
+    "object-src 'none'; " +
+    "media-src 'self' data: blob:; " +
+    "frame-src 'self' https://3lm-quest.hemex.ai https://www.youtube.com https://player.vimeo.com; " +
+    "worker-src 'self' blob:; " +
+    "child-src 'self' blob:;"
+  );
 
   next();
 });
