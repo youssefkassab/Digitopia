@@ -1,0 +1,180 @@
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const userRoutes = require('./router/user.router');
+const courseRoutes = require('./router/course.router');
+const messageRoutes = require('./router/message.router');
+const adminRoutes = require('./router/admin.router');
+const askRoutes = require("./router/ask.router");
+const searchRoutes = require("./router/search.router");
+const structureRoutes = require("./router/genrateStructure.router");
+const uploadRoutes = require("./router/uploadFile.router");
+const embeddingRoutes = require("./router/embedding.router");
+const gameRoutes = require("./router/game.router");
+const config = require('./config/config');
+const PORT = config.PORT;
+const helmet = require('helmet');
+const compression = require('compression');
+const hpp = require('hpp');
+const path = require('path');
+const logger = require('./utils/logger');
+
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true }));
+
+app.set('trust proxy', 1);
+
+// CORS configuration - use environment variable or default to localhost for development
+const corsOrigins = config.CORS_ORIGIN
+  ? config.CORS_ORIGIN.split(',').map(origin => origin.trim())
+  : ["http://localhost:5173", "http://localhost:3000", "https://3lm-quest.hemex.ai", "https://hemex.ai", "https://www.hemex.ai"];
+
+app.use(cors({
+  origin: corsOrigins,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+
+// Middleware to set proper headers for game content
+app.use('/games', (req, res, next) => {
+  // Set CSP headers to allow game content
+  res.setHeader('Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdnjs.cloudflare.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+    "img-src 'self' data: https: blob:; " +
+    "connect-src 'self' https://hemex.ai http://localhost:3001 https://3lm-quest.hemex.ai wss: ws:; " +
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+    "object-src 'none'; " +
+    "media-src 'self' data: blob:; " +
+    "frame-src 'self' https://3lm-quest.hemex.ai https://www.youtube.com https://player.vimeo.com; " +
+    "worker-src 'self' blob:; " +
+    "child-src 'self' blob:;"
+  );
+
+  // Set other security headers - fix conflicting X-Frame-Options
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN'); // Use SAMEORIGIN instead of ALLOWALL
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+
+  next();
+});
+
+// Request logging middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+
+  // Log response after it's sent
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    const logMessage = `${req.method} ${req.originalUrl} ${res.statusCode} - ${duration}ms`;
+
+    if (res.statusCode >= 500) {
+      logger.error(logMessage);
+    } else if (res.statusCode >= 400) {
+      logger.warn(logMessage);
+    } else {
+      logger.info(logMessage);
+    }
+  });
+
+  next();
+});
+
+app.use('/games', express.static(path.join(__dirname, 'public/games')));
+app.use('/img', express.static(path.join(__dirname, 'public/img')));
+
+// Serve frontend static files (after build)
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// API routes
+app.use('/api/users',userRoutes);
+app.use('/api/courses',courseRoutes);
+app.use('/api/messages',messageRoutes);
+app.use('/api/admin',adminRoutes);
+app.use('/api/game',gameRoutes);
+app.use('/api/ask', askRoutes);
+app.use('/api/search', searchRoutes);
+app.use('/api/genrateStructure', structureRoutes);
+app.use('/api/uploadFile', uploadRoutes);
+app.use('/api/embedding', embeddingRoutes);
+
+
+// Serve frontend for all non-API routes (SPA support)
+app.get('*', (req, res, next) => {
+  // Skip if it's an API route or static file route
+  if (req.path.startsWith('/api') ||
+      req.path.startsWith('/games') || req.path.startsWith('/img')) {
+    return next();
+  }
+
+  // Serve index.html for all other routes (React Router support)
+  const indexPath = path.join(__dirname, '../frontend/dist/index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      logger.error('Error serving index.html:', { error: err.message });
+      res.status(404).json({ error: 'Frontend not found. Please build the frontend first.' });
+    }
+  });
+});
+
+
+// 404 handler for API routes
+app.use((req, res) => {
+  logger.logBadRequest(req, new Error('Route not found'), 404);
+  res.status(404).json({ error: 'Not found' });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  const statusCode = err.status || err.statusCode || 500;
+  
+  // Log bad requests (4xx errors) with full details
+  if (statusCode >= 400 && statusCode < 500) {
+    logger.logBadRequest(req, err, statusCode);
+  } 
+  // Log server errors (5xx errors) with full details
+  else {
+    logger.logError(req, err, statusCode);
+  }
+  
+  // Send error response
+  const errorResponse = {
+    error: err.message || 'Internal server error',
+    ...(config.NODE_ENV !== 'production' && { stack: err.stack })
+  };
+  
+  res.status(statusCode).json(errorResponse);
+});
+
+// Handle unhandled rejections and exceptions at process level
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('Unhandled Rejection at:', { promise, reason });
+});
+
+process.on('uncaughtException', (error) => {
+  logger.error('Uncaught Exception:', { error: error.message, stack: error.stack });
+  process.exit(1);
+});
+
+const server = app.listen(PORT, () => {
+  logger.info(`Server is running on port ${PORT} in ${config.NODE_ENV} mode`);
+}).on('error', (err) => {
+  console.error('Failed to start server:', err);
+});
+
+// Handle unhandled rejections
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled rejection:', err);
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+  // Gracefully shutdown
+  server.close(() => {
+    process.exit(1);
+  });
+});

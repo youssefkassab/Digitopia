@@ -1,0 +1,15 @@
+const path = require('path');
+
+module.exports = {
+  // 💡 CRITICAL FIX: Point the CLI to your custom config file
+  'config': path.resolve(__dirname, 'db', 'config', 'config.js'),
+
+  // Tell the CLI where to find your migrations
+  'migrations-path': path.resolve(__dirname, 'db', 'migrations'),
+
+  // Tell the CLI where to find your models (if applicable)
+  'models-path': path.resolve(__dirname, 'db', 'models'),
+
+  // Tell the CLI where to find your seeders (if applicable)
+  'seeders-path': path.resolve(__dirname, 'db', 'seeders')
+};

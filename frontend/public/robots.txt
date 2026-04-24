@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://3lm-quest.hemex.ai/sitemap.xml
+
+# Crawl-delay (optional, in seconds)
+# Crawl-delay: 1
+
+# Block access to sensitive areas (if any)
+Disallow: /admin/
+Disallow: /private/
+
+# Allow access to CSS, JS, and image files
+Allow: /src/
+Allow: *.css
+Allow: *.js
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.ico
