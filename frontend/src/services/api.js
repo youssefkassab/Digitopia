@@ -7,18 +7,29 @@ const getApiUrl = () => {
     return import.meta.env.VITE_API_URL;
   }
 
-  // Then check if we're in production mode
-  if (import.meta.env.MODE === 'production' || import.meta.env.PROD) {
-    return "https://3lm-quest.hemex.ai/api";
-  }
-
-  // For development, use localhost
+  // Check if running in browser
   if (typeof window !== 'undefined') {
-    // If running in browser, use relative path or same origin
     const currentOrigin = window.location.origin;
+    
+    // If on Render, use the same origin for API
+    if (currentOrigin.includes('onrender.com')) {
+      return `${currentOrigin}/api`;
+    }
+    
+    // If running on localhost or 127.0.0.1 in development
     if (currentOrigin.includes('localhost') || currentOrigin.includes('127.0.0.1')) {
       return `${currentOrigin}/api`;
     }
+    
+    // If on production domain hemex.ai
+    if (currentOrigin.includes('hemex.ai')) {
+      return `${currentOrigin}/api`;
+    }
+  }
+
+  // Fallback for production
+  if (import.meta.env.MODE === 'production' || import.meta.env.PROD) {
+    return "https://3lm-quest.hemex.ai/api";
   }
 
   // Fallback to localhost for development
