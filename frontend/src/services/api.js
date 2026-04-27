@@ -27,13 +27,8 @@ const getApiUrl = () => {
     }
   }
 
-  // Fallback for production
-  if (import.meta.env.MODE === 'production' || import.meta.env.PROD) {
-    return "https://3lm-quest.hemex.ai/api";
-  }
-
-  // Fallback to localhost for development
-  return "http://localhost:3001/api";
+  // Fallback: use relative URL based on current origin
+  return `${currentOrigin}/api`;
 };
 
 const API_URL = getApiUrl();

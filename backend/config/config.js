@@ -18,6 +18,7 @@ const MONGO_URI = process.env.MONGO_URI;
 const AI_DB_NAME = process.env.AI_DB_NAME;
 const AI_COLLECTION_NAME = process.env.AI_COLLECTION_NAME;
 const REPLACE_AI_DB = process.env.REPLACE_AI_DB === 'true' || false;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://alm-quest.onrender.com';
 
 module.exports = {
   JWT_SECRET,
@@ -33,5 +34,6 @@ module.exports = {
   MONGO_URI,
   AI_DB_NAME,
   AI_COLLECTION_NAME,
-  REPLACE_AI_DB
+  REPLACE_AI_DB,
+  FRONTEND_URL
 };

@@ -44,7 +44,7 @@ app.use((req, res, next) => {
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
     "img-src 'self' data: https: blob:; " +
-    "connect-src 'self' https://hemex.ai http://localhost:3001 https://3lm-quest.hemex.ai https://alm-quest.onrender.com https://cdn.jsdelivr.net wss: ws:; " +
+    "connect-src 'self' https://hemex.ai http://localhost:3001 https://3lm-quest.hemex.ai " + config.FRONTEND_URL + " https://cdn.jsdelivr.net wss: ws:; " +
     "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
     "object-src 'none'; " +
     "media-src 'self' data: blob:; " +
@@ -66,7 +66,7 @@ app.use('/games', (req, res, next) => {
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
     "img-src 'self' data: https: blob:; " +
-    "connect-src 'self' https://hemex.ai http://localhost:3001 https://3lm-quest.hemex.ai https://alm-quest.onrender.com https://cdn.jsdelivr.net wss: ws:; " +
+    "connect-src 'self' https://hemex.ai http://localhost:3001 https://3lm-quest.hemex.ai " + config.FRONTEND_URL + " https://cdn.jsdelivr.net wss: ws:; " +
     "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; " +
     "object-src 'none'; " +
     "media-src 'self' data: blob:; " +
